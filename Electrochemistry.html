@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrochemistry </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%);
+            color: #1e3a8a;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #2563eb;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #c7d2fe;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.08);
+            border-color: #a5b4fc;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #1e3a8a;
+            padding-left: 14px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #2563eb;
+            background: #eef2ff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #1e3a8a;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(30, 58, 138, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #1e3a8a, #2563eb);
+            color: #eef2ff;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #1e3a8a;
+            display: none;
+            background: #eef2ff;
+            padding: 16px 22px;
+            border-left: 6px solid #2563eb;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Electrochemistry</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 high-quality Electrochemistry MCQs (FSC Part 1, Chapter 12)
+    const electrochemistryMCQs = [
+        { q: "The branch of chemistry that deals with the relationship between electrical energy and chemical changes is called:", options: ["Thermochemistry", "Electrochemistry", "Chemical kinetics", "Quantum chemistry"], exp: "Electrochemistry studies the interconversion of electrical and chemical energy.", correct: "B" },
+        { q: "A device that converts chemical energy into electrical energy is called:", options: ["Electrolytic cell", "Galvanic cell", "Voltmeter", "Resistor"], exp: "Galvanic (voltaic) cell produces electricity from spontaneous redox reactions.", correct: "B" },
+        { q: "In an electrochemical cell, oxidation occurs at:", options: ["Anode", "Cathode", "Salt bridge", "Both electrodes"], exp: "Oxidation always takes place at the anode (loss of electrons).", correct: "A" },
+        { q: "The standard hydrogen electrode (SHE) is assigned a potential of:", options: ["0 V", "1 V", "-1 V", "0.5 V"], exp: "SHE is the reference electrode with standard reduction potential = 0.00 V.", correct: "A" },
+        { q: "The cell potential (E°cell) is calculated as:", options: ["E°cathode - E°anode", "E°anode - E°cathode", "E°cathode + E°anode", "E°cathode × E°anode"], exp: "E°cell = E°reduction (cathode) - E°reduction (anode).", correct: "A" },
+        { q: "Which of the following is the strongest reducing agent?", options: ["Li", "Na", "K", "Cs"], exp: "Cs has the most negative reduction potential, making it the strongest reducing agent.", correct: "D" },
+        { q: "The Nernst equation relates cell potential to:", options: ["Temperature", "Concentration", "Pressure", "Both A and B"], exp: "Nernst equation: E = E° - (RT/nF) ln Q, depends on concentration and temperature.", correct: "D" },
+        { q: "In the Daniell cell, the salt bridge is used to:", options: ["Generate electricity", "Complete the circuit and maintain neutrality", "Prevent oxidation", "Increase voltage"], exp: "Salt bridge allows ion flow, completes circuit, and prevents charge buildup.", correct: "B" },
+        { q: "The process of coating a metal with another metal using electrolysis is called:", options: ["Galvanization", "Electroplating", "Rusting", "Anodizing"], exp: "Electroplating deposits a metal layer on a cathode using electrolysis.", correct: "B" },
+        { q: "Faraday's first law states that the mass of substance deposited is proportional to:", options: ["Voltage", "Current", "Time", "Both B and C"], exp: "Mass ∝ charge (Q = I × t), so proportional to current and time.", correct: "D" },
+        { q: "One Faraday of electricity is equal to:", options: ["96500 C", "96500 J", "96500 V", "96500 A"], exp: "1 Faraday = 96500 coulombs = charge of 1 mole of electrons.", correct: "A" },
+        { q: "The electrolysis of aqueous NaCl produces at anode:", options: ["Na", "H₂", "Cl₂", "O₂"], exp: "Chloride ions are oxidized to chlorine gas at anode: 2Cl⁻ → Cl₂ + 2e⁻.", correct: "C" },
+        { q: "In a galvanic cell, the electrode with higher reduction potential acts as:", options: ["Anode", "Cathode", "Salt bridge", "Electrolyte"], exp: "Higher reduction potential means greater tendency to gain electrons, so it is the cathode.", correct: "B" },
+        { q: "The spontaneous direction of a redox reaction is indicated by:", options: ["Positive E°cell", "Negative E°cell", "Zero E°cell", "ΔG = 0"], exp: "Positive E°cell means ΔG = -nFE°cell is negative, so reaction is spontaneous.", correct: "A" },
+        { q: "Which of the following is used as a reference electrode?", options: ["Copper electrode", "Zinc electrode", "Calomel electrode", "Platinum electrode"], exp: "Calomel electrode (Hg/Hg₂Cl₂) is a common reference electrode.", correct: "C" },
+        { q: "The number of Faradays required to deposit one mole of Al from Al³⁺ is:", options: ["1", "2", "3", "4"], exp: "Al³⁺ + 3e⁻ → Al, so 3 moles of electrons = 3 Faradays.", correct: "C" },
+        { q: "Corrosion of iron is an example of:", options: ["Electrolysis", "Galvanic cell formation", "Electroplating", "Anodizing"], exp: "Rusting involves electrochemical cells where iron acts as anode and oxidizes.", correct: "B" },
+        { q: "The relationship between Gibbs free energy and cell potential is:", options: ["ΔG = -nFE", "ΔG = nFE", "ΔG = -nF/E", "ΔG = nF/E"], exp: "ΔG = -nFE, where n = number of electrons, F = Faraday constant.", correct: "A" },
+        { q: "Which of the following is a secondary cell (rechargeable)?", options: ["Dry cell", "Lead-acid battery", "Fuel cell", "Both A and B"], exp: "Lead-acid battery is rechargeable; dry cell (primary) is not.", correct: "B" },
+        { q: "The standard reduction potential of Zn²⁺/Zn is -0.76 V. This means:", options: ["Zn is easily reduced", "Zn is a good oxidizing agent", "Zn is a good reducing agent", "Zn²⁺ is easily reduced"], exp: "Negative reduction potential means Zn readily loses electrons, making it a good reducing agent.", correct: "C" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...electrochemistryMCQs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

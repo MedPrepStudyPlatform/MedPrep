@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · Block-K · Pharmacology</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5fafd;
+            color: #15304c;
+            line-height: 1.5;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #f5fafd;
+            padding-top: 5px;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .main-header {
+            background: #0a2c48;
+            color: white;
+            width: 100%;
+            padding: 20px 0;
+            box-shadow: 0 12px 28px -10px rgba(10, 44, 72, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-wrapper {
+            background: white;
+            padding: 8px 28px;
+            border-radius: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #1ecbe1;
+            transition: transform 0.2s ease;
+        }
+
+        .logo-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-img {
+            height: 65px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .pill-nav {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 16px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(30, 203, 225, 0.5);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pill-nav span {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: white;
+            letter-spacing: 0.3px;
+        }
+
+        .pill-nav i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        .score-panel {
+            background: white;
+            border-radius: 60px;
+            padding: 16px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 18px -6px #b5d9f0;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .score-panel.hidden-panel {
+            display: none;
+        }
+
+        .score-title {
+            font-family: 'Outfit', sans-serif;
+            color: #0a2c48;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .score-value {
+            background: #0a2c48;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 40px;
+            padding: 12px 20px;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #0a2c48;
+            font-size: 0.9rem;
+        }
+
+        .progress-fill {
+            height: 10px;
+            background: #1ecbe1;
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-bg {
+            flex-grow: 1;
+            background: #e1f0fa;
+            border-radius: 20px;
+            height: 10px;
+            min-width: 100px;
+        }
+
+        /* MCQ Card Styles */
+        .mcq-card {
+            background: white;
+            border-radius: 24px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #cde1f0;
+            box-shadow: 0 6px 14px -6px #aac9e2;
+            transition: all 0.2s ease;
+        }
+
+        .mcq-card:hover {
+            box-shadow: 0 10px 20px -8px #aac9e2;
+        }
+
+        .mcq-card.correct-ans {
+            border-left: 8px solid #10b981;
+            background: #f0fdf4;
+        }
+
+        .mcq-card.wrong-ans {
+            border-left: 8px solid #f44336;
+            background: #fff3f5;
+        }
+
+        .mcq-card.unanswered-ans {
+            border-left: 8px solid #ff9800;
+            background: #fff8e7;
+        }
+
+        .q-num {
+            font-weight: 700;
+            color: #0a2c48;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 18px;
+            color: #1a3a5a;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .option {
+            background: #f1f9ff;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: 1px solid #c3dcf2;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .option:hover {
+            background: #d7ecfd;
+            border-color: #1ecbe1;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1ecbe1;
+            color: #0a2c48;
+            border-color: #0a2c48;
+            font-weight: 600;
+        }
+
+        .option.correct-option {
+            background: #10b981;
+            color: white;
+            border-color: #0e6e4a;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .option.wrong-option {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+            pointer-events: none;
+        }
+
+        .explanation-box {
+            margin-top: 20px;
+            background: #f4f9ff;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #0a2c48;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .explanation-box.show {
+            display: block;
+        }
+
+        .exp-title {
+            font-weight: 700;
+            color: #0a2c48;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0 50px;
+        }
+
+        .primary-btn {
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            background: #0a2c48;
+            color: white;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .primary-btn:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+            transform: scale(1.02);
+        }
+
+        .primary-btn.disabled-btn,
+        .primary-btn:disabled {
+            background: #9aaebf;
+            color: #f0f4f8;
+            cursor: not-allowed;
+            transform: none;
+            pointer-events: none;
+        }
+
+        .main-footer {
+            background: #0a2c48;
+            color: #ffffffcc;
+            text-align: center;
+            padding: 24px 20px;
+            margin-top: 30px;
+            border-top: 1px solid #1ecbe1;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            .header-inner { padding: 0 15px; flex-direction: column; text-align: center; }
+            .logo-wrapper { padding: 6px 20px; }
+            .logo-img { height: 50px; }
+            .pill-nav { padding: 5px 12px; gap: 6px; }
+            .pill-nav span { font-size: 0.75rem; }
+            .score-panel { padding: 14px 18px; flex-direction: column; text-align: center; border-radius: 30px; }
+            .score-title { font-size: 1rem; justify-content: center; }
+            .score-value { font-size: 1rem; padding: 5px 16px; }
+            .options { gap: 10px; }
+            .option { padding: 10px 16px; font-size: 0.85rem; }
+            .question-text { font-size: 0.95rem; }
+            .mcq-card { padding: 18px; }
+            .primary-btn { padding: 12px 28px; font-size: 0.9rem; }
+            .progress-bar { flex-direction: column; text-align: center; }
+            .progress-bg { width: 100%; min-width: auto; }
+            .main-footer { padding: 20px 16px; font-size: 0.75rem; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 12px; }
+            .header-inner { padding: 0 12px; }
+            .logo-wrapper { padding: 5px 16px; }
+            .logo-img { height: 42px; }
+            .mcq-card { padding: 15px; border-radius: 20px; }
+            .question-text { font-size: 0.9rem; }
+            .option { padding: 8px 14px; font-size: 0.8rem; }
+            .explanation-box { padding: 12px 15px; font-size: 0.85rem; }
+            .score-value { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-inner">
+        <div class="logo-wrapper">
+            <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+        </div>
+        <div class="pill-nav">
+            <span><i class="fas fa-file-alt"></i>Block-K</span>
+            <span><i class="fas fa-capsules"></i>Pharmacology</span>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div id="scorePanelContainer" class="score-panel hidden-panel"></div>
+
+    <div class="progress-sticky">
+        <div class="progress-bar">
+            <span class="progress-text" id="progressText">0/100 Answered</span>
+            <div class="progress-bg">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <span class="progress-text" id="scorePreview"></span>
+        </div>
+    </div>
+
+    <div id="mcqContent">
+        
+		
+		
+		
+		
+		
+	
+	<!-- QUESTION 1 -->
+<div class="mcq-card" data-id="1" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q1</div>
+    <div class="question-text">A 45-year-old man with a history of alcohol use disorder presents with confusion, ataxia, and nystagmus. He has been eating poorly for several months. The emergency physician suspects Wernicke encephalopathy. Which vitamin deficiency is responsible for this condition, and what is the correct immediate parenteral treatment to prevent progression to Korsakoff syndrome?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Niacin deficiency; intravenous niacin 100 mg</div>
+        <div class="option" data-opt="1">B. Cobalamin deficiency; intramuscular cobalamin 1000 mcg</div>
+        <div class="option" data-opt="2">C. Thiamine deficiency; intravenous thiamine 500 mg</div>
+        <div class="option" data-opt="3">D. Pyridoxine deficiency; oral pyridoxine 50 mg</div>
+        <div class="option" data-opt="4">E. Riboflavin deficiency; intravenous riboflavin 50 mg</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Wernicke encephalopathy results from thiamine (vitamin B1) deficiency, most commonly in alcohol use disorder. Intravenous thiamine 500 mg three times daily for 3-5 days must be administered BEFORE any glucose to prevent progression to Korsakoff syndrome.
+    </div>
+</div>
+
+<!-- QUESTION 2 -->
+<div class="mcq-card" data-id="2" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q2</div>
+    <div class="question-text">A 58-year-old man with Parkinson's disease has been taking levodopa/carbidopa for 6 years. He now reports that his medication provides relief from rigidity and bradykinesia for only 2 hours instead of the previous 4-5 hours. His symptoms return predictably before the next dose is due. This wearing-off phenomenon is becoming disabling. Which pharmacologic strategy would most effectively address this complication without worsening his peak-dose dyskinesias?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Add entacapone to his existing regimen</div>
+        <div class="option" data-opt="1">B. Increase each levodopa dose by 50 percent</div>
+        <div class="option" data-opt="2">C. Switch to ropinirole monotherapy</div>
+        <div class="option" data-opt="3">D. Add benztropine to reduce tremor</div>
+        <div class="option" data-opt="4">E. Discontinue carbidopa component</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Entacapone is a peripheral COMT inhibitor that extends levodopa plasma half-life by preventing conversion to 3-OMD. Unlike increasing levodopa dose which raises peak concentration and worsens dyskinesias, entacapone prolongs duration without increasing peak levels.
+    </div>
+</div>
+
+<!-- QUESTION 3 -->
+<div class="mcq-card" data-id="3" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q3</div>
+    <div class="question-text">Which of the following best describes the mechanism of action of benzodiazepines at the GABAA receptor? Benzodiazepines are widely prescribed for anxiety disorders, insomnia, and seizure disorders due to their favorable safety profile compared to barbiturates. Understanding this mechanism explains why flumazenil can rapidly reverse their effects and why they have a wider therapeutic index.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Direct opening of chloride channels independent of GABA</div>
+        <div class="option" data-opt="1">B. Antagonism of NMDA receptors in the cortex and hippocampus</div>
+        <div class="option" data-opt="2">C. Inhibition of voltage-gated calcium channels in thalamus</div>
+        <div class="option" data-opt="3">D. Activation of alpha-2 adrenergic receptors in brainstem</div>
+        <div class="option" data-opt="4">E. Positive allosteric modulation increasing channel opening frequency</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Benzodiazepines are positive allosteric modulators that bind at the alpha-gamma subunit interface of GABAA receptors, increasing GABA's affinity and enhancing the frequency of chloride channel opening. Flumazenil is a competitive antagonist that rapidly reverses benzodiazepine effects.
+    </div>
+</div>
+
+<!-- QUESTION 4 -->
+<div class="mcq-card" data-id="4" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q4</div>
+    <div class="question-text">A 35-year-old woman with chronic migraine has been suffering from headaches on 15 days per month for the past year. She has failed prophylactic trials of propranolol, topiramate, and amitriptyline due to either inefficacy or intolerable side effects. Her neurologist decides to start her on a monoclonal antibody targeting the CGRP pathway for migraine prevention. Which medication works by binding directly to the CGRP ligand rather than the receptor, and what is its route of administration?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Erenumab; subcutaneous injection monthly</div>
+        <div class="option" data-opt="1">B. Galcanezumab; subcutaneous injection monthly</div>
+        <div class="option" data-opt="2">C. Ubrogepant; oral tablet as needed</div>
+        <div class="option" data-opt="3">D. Rimegepant; oral tablet as needed</div>
+        <div class="option" data-opt="4">E. Sumatriptan; subcutaneous injection as needed</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Galcanezumab is a monoclonal antibody that binds directly to the CGRP ligand, preventing receptor activation. Erenumab targets the CGRP receptor instead. Both are administered subcutaneously monthly for migraine prevention, while gepants are oral agents for acute treatment.
+    </div>
+</div>
+
+<!-- QUESTION 5 -->
+<div class="mcq-card" data-id="5" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q5</div>
+    <div class="question-text">A 62-year-old man with essential tremor has been prescribed propranolol for symptom control. He has a known history of mild intermittent asthma but reports that his asthma is well-controlled with occasional use of his rescue inhaler. His primary care physician is concerned about the safety of propranolol given his asthma history. Which statement regarding the use of propranolol in this patient is most accurate?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Propranolol is safe at low doses for essential tremor in asthmatics</div>
+        <div class="option" data-opt="1">B. Propranolol can be used with concurrent beta-2 agonist therapy</div>
+        <div class="option" data-opt="2">C. Propranolol is safe with long-acting formulation only</div>
+        <div class="option" data-opt="3">D. Propranolol is contraindicated; use cardioselective beta-blocker instead</div>
+        <div class="option" data-opt="4">E. Propranolol requires baseline spirometry before use</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Propranolol is a non-selective beta-blocker that blocks beta-2 receptors, causing bronchoconstriction. It is absolutely contraindicated in asthma regardless of severity. For essential tremor in asthmatics, cardioselective beta-1 blockers like metoprolol or atenolol are preferred alternatives.
+    </div>
+</div>
+
+<!-- QUESTION 6 -->
+<div class="mcq-card" data-id="6" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q6</div>
+    <div class="question-text">A 45-year-old woman with major depressive disorder has failed trials of fluoxetine and venlafaxine. Her psychiatrist prescribes phenelzine, an irreversible MAOI. Three weeks into treatment, she presents with severe occipital headache, palpitations, and blood pressure of 210/115 mmHg after eating aged cheese at a party. What is the mechanism of this reaction, and why does it occur specifically with this class of antidepressants?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Serotonin syndrome from excessive 5-HT2A receptor activation</div>
+        <div class="option" data-opt="1">B. Anticholinergic toxicity from muscarinic receptor blockade in the gut</div>
+        <div class="option" data-opt="2">C. Dopamine supersensitivity from prolonged D2 receptor blockade</div>
+        <div class="option" data-opt="3">D. Idiosyncratic vasculitis from drug-induced immune complex deposition</div>
+        <div class="option" data-opt="4">E. Hypertensive crisis from tyramine-induced norepinephrine release due to MAO-A inhibition</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        MAOIs inhibit gut MAO-A, preventing dietary tyramine breakdown. Absorbed tyramine enters adrenergic neurons and displaces norepinephrine from vesicles, causing massive sympathetic release and hypertensive crisis. This reaction is specific to MAOIs because SSRIs and SNRIs do not affect MAO enzymes.
+    </div>
+</div>
+
+<!-- QUESTION 7 -->
+<div class="mcq-card" data-id="7" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q7</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of tricyclic antidepressants (TCAs) and a significant adverse effect that limits their use as first-line agents? TCAs were developed before SSRIs and remain effective for treatment-resistant depression. However, they have a different side effect profile due to their receptor affinities.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Selective serotonin reuptake inhibition; causes sexual dysfunction</div>
+        <div class="option" data-opt="1">B. Reversible MAO-A inhibition; causes hypertensive crisis</div>
+        <div class="option" data-opt="2">C. Non-selective norepinephrine and serotonin reuptake inhibition; causes cardiotoxicity</div>
+        <div class="option" data-opt="3">D. Selective norepinephrine reuptake inhibition; causes insomnia</div>
+        <div class="option" data-opt="4">E. Dual dopamine and norepinephrine reuptake inhibition; causes psychosis</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        TCAs non-selectively inhibit both norepinephrine and serotonin reuptake transporters. Their significant adverse effects include cardiotoxicity from sodium channel blockade, anticholinergic effects, and alpha-1 blockade, which make SSRIs first-line despite comparable efficacy.
+    </div>
+</div>
+
+<!-- QUESTION 8 -->
+<div class="mcq-card" data-id="8" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q8</div>
+    <div class="question-text">A 68-year-old man with chronic insomnia has been taking zolpidem 10 mg nightly for the past 2 years. Due to perceived tolerance, his physician recently increased his dose to 12.5 mg extended-release. One morning, his wife reports that he got out of bed around 2 AM, dressed himself, drove his car to a convenience store, and had a minor accident. He has absolutely no memory of this event. Which property of zolpidem explains this serious adverse effect?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Selective alpha-1 GABAA receptor binding causing complex sleep behaviors</div>
+        <div class="option" data-opt="1">B. Barbiturate-like withdrawal causing excitation and confusion</div>
+        <div class="option" data-opt="2">C. Anticholinergic activity leading to delirium and amnesia</div>
+        <div class="option" data-opt="3">D. Melatonin receptor antagonism disrupting normal sleep architecture</div>
+        <div class="option" data-opt="4">E. Orexin receptor activation promoting inappropriate wakefulness</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Zolpidem selectively binds to GABAA receptors containing the alpha-1 subunit. At higher doses, it can cause complex sleep-related behaviors including sleepwalking, sleep-driving, and amnesia by inducing a dissociated state where wakefulness and sleep coexist. Immediate discontinuation is required.
+    </div>
+</div>
+
+<!-- QUESTION 9 -->
+<div class="mcq-card" data-id="9" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q9</div>
+    <div class="question-text">A 28-year-old woman with generalized tonic-clonic seizures is started on carbamazepine. She also takes oral contraceptive pills for contraception. Which of the following correctly describes the mechanism of action of carbamazepine, and what is a clinically significant drug interaction that prescribers must watch for when adding this medication?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Enhances GABA activity; inhibits CYP450 enzymes and increases contraceptive levels</div>
+        <div class="option" data-opt="1">B. Blocks T-type calcium channels; causes no significant drug interactions</div>
+        <div class="option" data-opt="2">C. Enhances chloride channel opening; inhibits glucuronidation of contraceptives</div>
+        <div class="option" data-opt="3">D. Blocks voltage-gated sodium channels; induces CYP450 enzymes reducing contraceptive efficacy</div>
+        <div class="option" data-opt="4">E. Blocks AMPA receptors; induces UDP-glucuronosyltransferase</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Carbamazepine blocks voltage-gated sodium channels and is a potent inducer of CYP3A4, CYP2C9, and CYP2C19. This induction reduces levels of oral contraceptives, warfarin, and many other drugs, requiring dose adjustments or alternative contraception methods.
+    </div>
+</div>
+
+<!-- QUESTION 10 -->
+<div class="mcq-card" data-id="10" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q10</div>
+    <div class="question-text">A 55-year-old man with Parkinson's disease has been on levodopa/carbidopa for 5 years. He now develops new-onset confusion, hallucinations, and nightmares. His neurologist suspects drug-induced psychosis. Which medication is most appropriate to treat psychosis in a Parkinson's disease patient, and what property makes it preferred over typical antipsychotics like haloperidol?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Risperidone; high D2 affinity with better efficacy for psychosis</div>
+        <div class="option" data-opt="1">B. Quetiapine; minimal D2 receptor blockade and no worsening of parkinsonism</div>
+        <div class="option" data-opt="2">C. Olanzapine; dual D2/5-HT2 blockade with metabolic benefits</div>
+        <div class="option" data-opt="3">D. Haloperidol; potent D2 antagonist with minimal sedation</div>
+        <div class="option" data-opt="4">E. Aripiprazole; partial D2 agonist with mood stabilization</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Quetiapine and clozapine are preferred for Parkinson's disease psychosis because they have minimal D2 receptor occupancy at therapeutic doses, thus not worsening motor symptoms. Typical antipsychotics block D2 receptors and can severely worsen parkinsonism.
+    </div>
+</div>
+	
+	
+	
+	
+	
+	
+	<!-- QUESTION 11 -->
+<div class="mcq-card" data-id="11" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q11</div>
+    <div class="question-text">A 35-year-old woman with obsessive-compulsive disorder has been taking fluoxetine 80 mg daily for the past 14 weeks with minimal improvement. She continues to spend 3-4 hours each day performing compulsive handwashing and checking behaviors. Her psychiatrist determines she has treatment-resistant OCD. Which augmentation strategy has the strongest evidence base for treatment-resistant OCD when added to an SSRI?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Adding propranolol to reduce autonomic symptoms</div>
+        <div class="option" data-opt="1">B. Adding benztropine to reduce anticholinergic side effects</div>
+        <div class="option" data-opt="2">C. Adding lithium carbonate for mood stabilization</div>
+        <div class="option" data-opt="3">D. Adding buspirone as an adjunctive anxiolytic</div>
+        <div class="option" data-opt="4">E. Adding aripiprazole as an atypical antipsychotic</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        For treatment-resistant OCD after adequate SSRI trials, augmentation with atypical antipsychotics, especially aripiprazole and risperidone, has the strongest evidence. These agents modulate dopaminergic transmission in cortico-striato-thalamo-cortical circuits.
+    </div>
+</div>
+
+<!-- QUESTION 12 -->
+<div class="mcq-card" data-id="12" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q12</div>
+    <div class="question-text">A 30-year-old woman with newly diagnosed focal epilepsy is started on lamotrigine as monotherapy. Her physician emphasizes the importance of slow dose titration over 6-8 weeks and warns her to report any rash immediately. Which of the following is the most serious adverse effect that this slow titration is designed to prevent, and what is the mechanism of this adverse effect?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Hepatotoxicity; reactive metabolite formation causing liver necrosis</div>
+        <div class="option" data-opt="1">B. Aplastic anemia; immune-mediated bone marrow suppression</div>
+        <div class="option" data-opt="2">C. Stevens-Johnson syndrome; immune-mediated type IV hypersensitivity reaction</div>
+        <div class="option" data-opt="3">D. Pancreatitis; free radical generation causing acinar cell damage</div>
+        <div class="option" data-opt="4">E. Nephritis; interstitial inflammation from drug deposition</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Lamotrigine is associated with Stevens-Johnson syndrome and toxic epidermal necrolysis in approximately 0.3-0.8 percent of patients, primarily during the first 2-8 weeks. Slow titration significantly reduces this risk, which is immune-mediated rather than dose-dependent.
+    </div>
+</div>
+
+<!-- QUESTION 13 -->
+<div class="mcq-card" data-id="13" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q13</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which valproate produces its anti-epileptic effects? Valproate is a broad-spectrum anti-epileptic drug effective against multiple seizure types including generalized tonic-clonic, absence, and myoclonic seizures. Understanding its multiple mechanisms explains its broad clinical utility and also its significant adverse effect profile.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. GABA transaminase inhibition, sodium channel blockade, and T-type calcium channel reduction</div>
+        <div class="option" data-opt="1">B. Selective sodium channel blockade only, similar to phenytoin</div>
+        <div class="option" data-opt="2">C. Selective T-type calcium channel blockade only, similar to ethosuximide</div>
+        <div class="option" data-opt="3">D. Selective AMPA receptor antagonism with no other mechanisms</div>
+        <div class="option" data-opt="4">E. Carbonic anhydrase inhibition only, similar to topiramate</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Valproate has multiple mechanisms including GABA transaminase inhibition (increasing brain GABA), voltage-gated sodium channel blockade, and T-type calcium channel reduction. This broad mechanism explains its efficacy across many seizure types.
+    </div>
+</div>
+
+<!-- QUESTION 14 -->
+<div class="mcq-card" data-id="14" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q14</div>
+    <div class="question-text">A 25-year-old woman with epilepsy is pregnant and concerned about the teratogenic effects of her anti-epileptic medication. Her neurologist discusses the risks of different anti-epileptic drugs and recommends switching to a safer alternative. Which anti-epileptic drug is associated with the highest risk of neural tube defects when used during the first trimester of pregnancy, and what is the recommended preventive measure?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Phenytoin causes fetal hydantoin syndrome; avoid in first trimester</div>
+        <div class="option" data-opt="1">B. Carbamazepine causes facial clefts; use only in second trimester</div>
+        <div class="option" data-opt="2">C. Lamotrigine causes cardiac defects; add vitamin K supplementation</div>
+        <div class="option" data-opt="3">D. Valproate causes neural tube defects; avoid in women of childbearing potential</div>
+        <div class="option" data-opt="4">E. Levetiracetam causes developmental delay; requires monthly monitoring</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Valproate has the highest teratogenic risk among anti-epileptic drugs, with neural tube defects occurring in 1-2 percent of exposed fetuses. Women of childbearing potential should avoid valproate unless no alternative exists. High-dose folic acid is recommended but does not eliminate the risk.
+    </div>
+</div>
+
+<!-- QUESTION 15 -->
+<div class="mcq-card" data-id="15" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q15</div>
+    <div class="question-text">A 60-year-old man with Parkinson's disease is started on selegiline as adjunctive therapy to levodopa/carbidopa. His cardiologist had previously prescribed a low-dose SSRI for mild depression. Which of the following correctly describes the mechanism of action of selegiline, and what is a potentially dangerous drug interaction that requires careful patient counseling?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. COMT inhibitor causing decreased levodopa metabolism; risk of dyskinesias</div>
+        <div class="option" data-opt="1">B. MAO-B inhibitor causing increased dopamine availability; risk of serotonin syndrome with SSRIs</div>
+        <div class="option" data-opt="2">C. Dopamine agonist directly stimulating D2 receptors; risk of impulse control disorders</div>
+        <div class="option" data-opt="3">D. NMDA antagonist reducing glutamate excitotoxicity; risk of hallucinations</div>
+        <div class="option" data-opt="4">E. Anticholinergic agent reducing relative cholinergic excess; risk of confusion</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Selegiline is a selective, irreversible MAO-B inhibitor that increases dopamine availability. At standard doses, MAO-B selectivity is maintained, but at higher doses or in susceptible individuals, MAO-A inhibition can occur, causing serotonin syndrome when combined with SSRIs.
+    </div>
+</div>
+
+<!-- QUESTION 16 -->
+<div class="mcq-card" data-id="16" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q16</div>
+    <div class="question-text">A 52-year-old woman with major depressive disorder has failed three SSRIs and one SNRI. Her psychiatrist prescribes a tricyclic antidepressant. She asks how this medication differs from the SSRIs she has taken before. Which statement correctly describes a key pharmacological difference between TCAs and SSRIs, and what adverse effect is more common with TCAs due to this difference?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. TCAs block only serotonin; SSRIs block norepinephrine; SSRIs cause more sedation</div>
+        <div class="option" data-opt="1">B. TCAs are reversible MAO inhibitors; SSRIs are irreversible; TCAs cause hypertensive crisis</div>
+        <div class="option" data-opt="2">C. TCAs block dopamine receptors; SSRIs block serotonin; TCAs cause more weight gain</div>
+        <div class="option" data-opt="3">D. TCAs have no withdrawal symptoms; SSRIs cause severe discontinuation syndrome</div>
+        <div class="option" data-opt="4">E. TCAs block histamine and muscarinic receptors; SSRIs do not; TCAs cause more dry mouth and constipation</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        TCAs have significant affinity for histamine H1 receptors, muscarinic M1 receptors, and alpha-1 adrenergic receptors, causing sedation, dry mouth, constipation, urinary retention, and orthostatic hypotension. SSRIs lack these receptor affinities, explaining their improved side effect profile.
+    </div>
+</div>
+
+<!-- QUESTION 17 -->
+<div class="mcq-card" data-id="17" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q17</div>
+    <div class="question-text">A 22-year-old medical student experiences severe test anxiety with tachycardia, sweating, and trembling. His physician prescribes propranolol to be taken before exams. Which of the following best describes the mechanism by which propranolol reduces the peripheral manifestations of performance anxiety, and why does it not significantly affect the cognitive symptoms of anxiety?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Propranolol is a peripheral beta-blocker that poorly crosses the blood-brain barrier, so central cognitive symptoms remain unaffected</div>
+        <div class="option" data-opt="1">B. Propranolol is a central GABAA agonist that crosses the blood-brain barrier and causes sedation as its primary effect</div>
+        <div class="option" data-opt="2">C. Propranolol is a 5-HT1A partial agonist that reduces serotonin release in the amygdala to treat anxiety</div>
+        <div class="option" data-opt="3">D. Propranolol is an alpha-2 agonist that reduces sympathetic outflow from the brainstem and causes sedation</div>
+        <div class="option" data-opt="4">E. Propranolol is a dopamine antagonist that blocks reward pathways and reduces motivation</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Propranolol is a lipophilic non-selective beta-blocker, but its central effects at low doses are minimal. It reduces performance anxiety symptoms by blocking peripheral beta-2 receptors on cardiac and vascular smooth muscle, without significantly affecting psychological symptoms of anxiety.
+    </div>
+</div>
+
+<!-- QUESTION 18 -->
+<div class="mcq-card" data-id="18" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q18</div>
+    <div class="question-text">A 40-year-old woman with chronic migraine is prescribed topiramate for prevention. After 4 weeks, she reports tingling in her fingers and around her mouth, weight loss of 5 kg, and difficulty finding words. Her neurologist explains that these are expected adverse effects. Which of the following correctly describes the mechanism responsible for the paresthesias caused by topiramate?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Voltage-gated sodium channel blockade reduces neuronal excitability in peripheral nerves</div>
+        <div class="option" data-opt="1">B. GABA potentiation causes peripheral nerve hyperpolarization and altered sensation</div>
+        <div class="option" data-opt="2">C. Carbonic anhydrase inhibition causes mild metabolic acidosis and altered nerve excitability</div>
+        <div class="option" data-opt="3">D. AMPA receptor antagonism reduces glutamate transmission in peripheral sensory neurons</div>
+        <div class="option" data-opt="4">E. Calcium channel blockade impairs neurotransmitter release at neuromuscular junctions</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Topiramate is a carbonic anhydrase inhibitor, causing mild metabolic acidosis that alters neuronal membrane excitability and produces paresthesias of the extremities and perioral region. This adverse effect is dose-dependent and often resolves with continued therapy.
+    </div>
+</div>
+
+<!-- QUESTION 19 -->
+<div class="mcq-card" data-id="19" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q19</div>
+    <div class="question-text">A 58-year-old man with seizures is on phenytoin and develops nystagmus, ataxia, and slurred speech. His phenytoin level is 32 mcg/mL, well above the therapeutic range of 10-20 mcg/mL. His dose was only increased by 25 percent one week ago. Which of the following correctly describes the pharmacokinetic property of phenytoin that led to this toxicity despite a modest dose increase?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. First-order kinetics requiring dose reduction of 50 percent</div>
+        <div class="option" data-opt="1">B. Enterohepatic recirculation requiring activated charcoal administration</div>
+        <div class="option" data-opt="2">C. High protein binding requiring IV albumin for drug displacement</div>
+        <div class="option" data-opt="3">D. Zero-order kinetics where small dose increases cause disproportionate level rises</div>
+        <div class="option" data-opt="4">E. Renal reabsorption requiring IV fluids to enhance elimination</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Phenytoin exhibits zero-order kinetics because CYP2C9 and CYP2C19 enzymes saturate within therapeutic range. Small dose increases cause disproportionately large rises in plasma concentration, leading to toxicity. Management requires holding the dose until levels decrease into therapeutic range.
+    </div>
+</div>
+
+<!-- QUESTION 20 -->
+<div class="mcq-card" data-id="20" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q20</div>
+    <div class="question-text">A 35-year-old man with chronic neuropathic pain is prescribed gabapentin. He asks his pharmacist how this medication works differently from opioids or NSAIDs. Which of the following best describes the mechanism of action of gabapentin in treating neuropathic pain?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Blocks voltage-gated sodium channels to prevent action potential generation</div>
+        <div class="option" data-opt="1">B. Binds to alpha-2-delta subunit of voltage-gated calcium channels to reduce neurotransmitter release</div>
+        <div class="option" data-opt="2">C. Activates GABAB receptors to increase inhibitory tone in the spinal cord</div>
+        <div class="option" data-opt="3">D. Antagonizes NMDA receptors to reduce glutamate excitotoxicity</div>
+        <div class="option" data-opt="4">E. Inhibits COX-2 to reduce prostaglandin synthesis in the central nervous system</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Gabapentin binds to the alpha-2-delta subunit of voltage-gated calcium channels in the dorsal horn of the spinal cord, reducing calcium influx into presynaptic terminals and decreasing release of excitatory neurotransmitters involved in neuropathic pain.
+    </div>
+</div>
+
+<!-- QUESTION 21 -->
+<div class="mcq-card" data-id="21" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q21</div>
+    <div class="question-text">A 62-year-old man with Parkinson's disease experiences severe motor fluctuations including unpredictable on-off phenomena. His neurologist prescribes apomorphine as a rescue therapy. Which of the following correctly describes the administration route and clinical use of apomorphine, and what premedication is required before its use to prevent severe nausea and vomiting?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Subcutaneous injection for acute off-periods; requires pretreatment with trimethobenzamide or domperidone</div>
+        <div class="option" data-opt="1">B. Oral tablet taken daily for maintenance; requires pretreatment with ondansetron</div>
+        <div class="option" data-opt="2">C. Intravenous infusion for continuous delivery; requires cardiac monitoring and pretreatment with metoclopramide</div>
+        <div class="option" data-opt="3">D. Transdermal patch for once-weekly dosing; requires no premedication</div>
+        <div class="option" data-opt="4">E. Intranasal spray for rapid onset; requires pretreatment with prochlorperazine</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Apomorphine is a potent non-ergoline dopamine agonist administered subcutaneously for acute rescue of unpredictable off-periods. Severe nausea and vomiting are common due to D2 agonism in the chemoreceptor trigger zone, requiring pretreatment with trimethobenzamide or domperidone starting 3 days before first use.
+    </div>
+</div>
+
+<!-- QUESTION 22 -->
+<div class="mcq-card" data-id="22" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q22</div>
+    <div class="question-text">A 28-year-old woman with absence seizures is started on ethosuximide. She asks her neurologist how this medication works differently from other anti-epileptic drugs. Which of the following correctly describes the mechanism of action of ethosuximide, and why is it specifically effective for absence seizures rather than generalized tonic-clonic seizures?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Enhances GABA-A receptor activity; effective for all seizure types including absence</div>
+        <div class="option" data-opt="1">B. Blocks voltage-gated sodium channels; only effective for tonic-clonic seizures</div>
+        <div class="option" data-opt="2">C. Blocks AMPA and kainate receptors; ineffective for absence seizures</div>
+        <div class="option" data-opt="3">D. Inhibits carbonic anhydrase; alters neuronal pH to suppress spike-and-wave activity</div>
+        <div class="option" data-opt="4">E. Blocks T-type calcium channels in thalamic relay neurons; prevents spike-and-wave discharges</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Ethosuximide selectively blocks T-type calcium channels in thalamic relay neurons, which are responsible for generating the spike-and-wave discharges characteristic of absence seizures. It is ineffective for tonic-clonic or focal seizures because those involve sodium channel-mediated rapid firing.
+    </div>
+</div>
+
+<!-- QUESTION 23 -->
+<div class="mcq-card" data-id="23" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q23</div>
+    <div class="question-text">A 45-year-old woman with chronic migraine is prescribed sumatriptan for acute attack treatment. She has a history of hypertension controlled on lisinopril and mild intermittent asthma. She asks her pharmacist about potential risks. Which of the following is an absolute contraindication to sumatriptan use, and what is the mechanism that explains this contraindication?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Asthma; 5-HT1B agonism causes bronchoconstriction via beta-2 receptor blockade</div>
+        <div class="option" data-opt="1">B. Liver disease; sumatriptan undergoes extensive first-pass metabolism causing hepatotoxicity</div>
+        <div class="option" data-opt="2">C. Uncontrolled hypertension; 5-HT1B agonism causes coronary and cerebral vasoconstriction</div>
+        <div class="option" data-opt="3">D. Pregnancy; sumatriptan is teratogenic in the first trimester</div>
+        <div class="option" data-opt="4">E. Kidney disease; sumatriptan is excreted unchanged and accumulates causing toxicity</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Sumatriptan is a 5-HT1B and 5-HT1D receptor agonist. 5-HT1B agonism causes vasoconstriction of cerebral and coronary arteries. Uncontrolled hypertension, coronary artery disease, and history of myocardial infarction are absolute contraindications due to risk of vasospasm and ischemia.
+    </div>
+</div>
+
+<!-- QUESTION 24 -->
+<div class="mcq-card" data-id="24" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q24</div>
+    <div class="question-text">A 55-year-old man with alcohol use disorder is admitted for detoxification. He has a history of multiple withdrawal seizures. His physician prescribes a benzodiazepine for seizure prophylaxis during withdrawal. Which property of benzodiazepines makes them preferred over barbiturates for alcohol withdrawal seizure prophylaxis, and what is the mechanism of action of the specific antidote flumazenil?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Benzodiazepines directly open chloride channels; flumazenil is a partial inverse agonist</div>
+        <div class="option" data-opt="1">B. Benzodiazepines have a wider therapeutic index; flumazenil is a competitive antagonist at GABAA receptors</div>
+        <div class="option" data-opt="2">C. Benzodiazepines have no respiratory depression; flumazenil is an NMDA receptor antagonist</div>
+        <div class="option" data-opt="3">D. Benzodiazepines are renally excreted; flumazenil is a barbiturate analogue</div>
+        <div class="option" data-opt="4">E. Benzodiazepines have no abuse potential; flumazenil is a serotonin receptor agonist</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Benzodiazepines are preferred over barbiturates because they have a wider therapeutic index and are safer in overdose. Flumazenil is a competitive GABAA receptor antagonist that rapidly reverses benzodiazepine effects, unlike barbiturates which have no specific antidote.
+    </div>
+</div>
+
+<!-- QUESTION 25 -->
+<div class="mcq-card" data-id="25" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q25</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which local anesthetics like lidocaine produce neural blockade? Local anesthetics are used for infiltration, nerve blocks, and spinal anesthesia. They are often combined with epinephrine to prolong their duration of action. Understanding their mechanism helps explain why they are less effective in infected or acidic tissues.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Block voltage-gated potassium channels from the extracellular side</div>
+        <div class="option" data-opt="1">B. Enhance GABAA receptor activity in the spinal cord</div>
+        <div class="option" data-opt="2">C. Block voltage-gated calcium channels at presynaptic terminals</div>
+        <div class="option" data-opt="3">D. Block voltage-gated sodium channels from the intracellular side after crossing the membrane in uncharged form</div>
+        <div class="option" data-opt="4">E. Antagonize NMDA receptors in the dorsal horn of the spinal cord</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Local anesthetics in their uncharged base form cross the nerve membrane, then become charged and bind to the intracellular portion of voltage-gated sodium channels, preventing depolarization. They work poorly in infected or acidic tissues because more drug remains ionized and cannot penetrate the membrane.
+    </div>
+</div>
+
+<!-- QUESTION 26 -->
+<div class="mcq-card" data-id="26" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q26</div>
+    <div class="question-text">A 68-year-old man with Parkinson's disease has been on levodopa/carbidopa for 7 years. He now experiences disabling peak-dose dyskinesias that affect his face and limbs approximately 90 minutes after each dose. His levodopa dose is already relatively low. Which medication is FDA-approved specifically for levodopa-induced dyskinesia, and what is its primary mechanism of action?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Entacapone; COMT inhibition reducing levodopa peak concentrations</div>
+        <div class="option" data-opt="1">B. Selegiline; MAO-B inhibition increasing dopamine availability</div>
+        <div class="option" data-opt="2">C. Ropinirole; direct D2 receptor agonism replacing levodopa</div>
+        <div class="option" data-opt="3">D. Benztropine; muscarinic receptor blockade reducing tremor</div>
+        <div class="option" data-opt="4">E. Amantadine; NMDA receptor antagonism in the striatum</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Amantadine is the only medication specifically FDA-approved for levodopa-induced dyskinesia. It is a non-competitive NMDA receptor antagonist that reduces glutamatergic overactivity in the striatum, which contributes to dyskinesia pathophysiology.
+    </div>
+</div>
+
+<!-- QUESTION 27 -->
+<div class="mcq-card" data-id="27" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q27</div>
+    <div class="question-text">A 30-year-old man with a history of opioid use disorder presents to a medication-assisted treatment clinic seeking help. His provider explains the options for long-term management, including methadone and buprenorphine. Which statement correctly differentiates buprenorphine from methadone in terms of its pharmacological properties and clinical advantages for office-based treatment?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Buprenorphine is a partial mu agonist with a ceiling effect on respiratory depression, allowing office-based prescribing</div>
+        <div class="option" data-opt="1">B. Buprenorphine is a full mu agonist with no ceiling effect, requiring daily witnessed dosing</div>
+        <div class="option" data-opt="2">C. Buprenorphine has no withdrawal syndrome upon discontinuation, unlike methadone</div>
+        <div class="option" data-opt="3">D. Buprenorphine is only available orally, while methadone is only available as an injectable</div>
+        <div class="option" data-opt="4">E. Buprenorphine has higher abuse potential than methadone due to faster onset</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Buprenorphine is a partial mu-opioid receptor agonist with a ceiling effect on respiratory depression and euphoria, making it safer in overdose and allowing office-based prescribing. Methadone is a full mu agonist with no ceiling effect, requiring specialized federally-regulated clinics.
+    </div>
+</div>
+
+<!-- QUESTION 28 -->
+<div class="mcq-card" data-id="28" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q28</div>
+    <div class="question-text">A 45-year-old woman is scheduled for a minor surgical procedure and receives lidocaine with epinephrine for local anesthesia. Her dentist explains that epinephrine is added to prolong the anesthetic effect. Which of the following correctly describes the mechanism by which epinephrine extends the duration of lidocaine, and what is an additional benefit of adding epinephrine?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Epinephrine causes vasodilation increasing lidocaine absorption; also reduces bleeding</div>
+        <div class="option" data-opt="1">B. Epinephrine directly blocks sodium channels adding anesthetic effect; also provides analgesia</div>
+        <div class="option" data-opt="2">C. Epinephrine causes vasoconstriction reducing systemic absorption; also provides hemostasis</div>
+        <div class="option" data-opt="3">D. Epinephrine binds to lidocaine preventing tissue metabolism; also reduces inflammation</div>
+        <div class="option" data-opt="4">E. Epinephrine increases nerve penetration of lidocaine; also reduces post-operative pain</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Epinephrine is an alpha-1 adrenergic agonist that causes potent local vasoconstriction, reducing systemic absorption of lidocaine and prolonging its duration. Reduced absorption lowers peak plasma levels, decreasing the risk of systemic toxicity, and epinephrine also provides hemostasis at the surgical site.
+    </div>
+</div>
+
+<!-- QUESTION 29 -->
+<div class="mcq-card" data-id="29" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q29</div>
+    <div class="question-text">A 55-year-old man is scheduled for elective knee replacement surgery. The anesthesiologist plans to use propofol for induction of general anesthesia. Which of the following best describes the mechanism of action of propofol, and what is its major advantage over barbiturates for induction in ambulatory surgery?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. NMDA receptor antagonist; causes less respiratory depression than barbiturates</div>
+        <div class="option" data-opt="1">B. Alpha-2 adrenergic agonist; provides both sedation and analgesia during surgery</div>
+        <div class="option" data-opt="2">C. Dopamine D2 receptor antagonist; has antiemetic properties and slow recovery</div>
+        <div class="option" data-opt="3">D. Positive allosteric GABAA modulator; rapid onset and offset with quick awakening</div>
+        <div class="option" data-opt="4">E. Voltage-gated calcium channel blocker; provides myocardial protection during surgery</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Propofol is a positive allosteric modulator of GABAA receptors. Its major advantage is ultra-short duration due to rapid redistribution and metabolism, allowing quick awakening even after prolonged infusion, making it ideal for ambulatory surgery where rapid recovery is desired.
+    </div>
+</div>
+
+<!-- QUESTION 30 -->
+<div class="mcq-card" data-id="30" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q30</div>
+    <div class="question-text">A 48-year-old woman with restless legs syndrome is started on pramipexole. She asks her neurologist how this medication works. Which of the following best describes the mechanism of action of pramipexole, and what is a significant adverse effect associated with dopamine agonists that patients should be warned about before starting therapy?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. COMT inhibitor increasing levodopa half-life; causes orange-brown urine discoloration</div>
+        <div class="option" data-opt="1">B. D2 and D3 dopamine receptor agonist; causes impulse control disorders including pathological gambling</div>
+        <div class="option" data-opt="2">C. MAO-B inhibitor preventing dopamine breakdown; causes serotonin syndrome with SSRIs</div>
+        <div class="option" data-opt="3">D. Anticholinergic agent reducing relative cholinergic excess; causes dry mouth and constipation</div>
+        <div class="option" data-opt="4">E. NMDA antagonist reducing glutamate excitotoxicity; causes confusion and hallucinations</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Pramipexole is a non-ergoline dopamine agonist with high selectivity for D2 and D3 receptors. A significant adverse effect unique to dopamine agonists is impulse control disorders, occurring in 5-15 percent of patients. These behaviors may resolve upon dose reduction or discontinuation.
+    </div>
+</div>
+	
+	
+	
+<!-- QUESTION 31 -->
+<div class="mcq-card" data-id="31" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q31</div>
+    <div class="question-text">A 65-year-old man with Parkinson's disease has been on levodopa/carbidopa for 8 years. He now experiences wearing-off phenomenon and peak-dose dyskinesias. His neurologist considers adding a COMT inhibitor. Which of the following correctly describes the mechanism of entacapone, and what is the expected clinical benefit of adding this medication to his regimen?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Inhibits peripheral COMT, extending levodopa half-life and reducing off-time without worsening dyskinesias</div>
+        <div class="option" data-opt="1">B. Inhibits MAO-B, increasing dopamine availability and reducing both off-time and dyskinesias</div>
+        <div class="option" data-opt="2">C. Blocks muscarinic receptors, reducing tremor and improving motor fluctuations</div>
+        <div class="option" data-opt="3">D. Activates dopamine D2 receptors directly, replacing levodopa and eliminating dyskinesias</div>
+        <div class="option" data-opt="4">E. Inhibits NMDA receptors, reducing dyskinesias but worsening off-time</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Entacapone is a peripheral COMT inhibitor that prevents conversion of levodopa to 3-OMD, extending levodopa plasma half-life. This reduces daily off-time by 1-2 hours without increasing peak levodopa concentration, thus not worsening dyskinesias.
+    </div>
+</div>
+
+<!-- QUESTION 32 -->
+<div class="mcq-card" data-id="32" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q32</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which baclofen produces its muscle relaxant effects? Baclofen is used to treat spasticity associated with spinal cord injury, multiple sclerosis, and cerebral palsy. It is structurally similar to GABA but has a different mechanism of action than benzodiazepines. Understanding this mechanism helps explain why intrathecal administration is sometimes preferred.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. GABAA receptor positive allosteric modulation increasing chloride channel opening</div>
+        <div class="option" data-opt="1">B. Alpha-2 adrenergic receptor agonist reducing sympathetic outflow from the brainstem</div>
+        <div class="option" data-opt="2">C. Direct muscle fiber depolarization blocking at the neuromuscular junction</div>
+        <div class="option" data-opt="3">D. GABAB receptor agonist reducing excitatory neurotransmitter release in the spinal cord</div>
+        <div class="option" data-opt="4">E. Voltage-gated sodium channel blockade preventing action potential propagation</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Baclofen is a selective GABAB receptor agonist. Activation of presynaptic GABAB receptors in the spinal cord reduces calcium influx, decreasing release of excitatory neurotransmitters from primary afferent terminals, thus reducing spasticity.
+    </div>
+</div>
+
+<!-- QUESTION 33 -->
+<div class="mcq-card" data-id="33" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q33</div>
+    <div class="question-text">A 45-year-old woman with partial epilepsy is started on carbamazepine. After 6 weeks of therapy, her seizures are well-controlled, but she reports feeling dizzy and having double vision, especially about 2 hours after taking her medication. Her serum carbamazepine level is 10 mcg/mL, which is within the therapeutic range of 4-12 mcg/mL. Which of the following best explains her dose-dependent adverse effects?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Idiosyncratic reaction requiring immediate discontinuation of carbamazepine</div>
+        <div class="option" data-opt="1">B. Accumulation of a toxic epoxide metabolite that requires switching to oxcarbazepine</div>
+        <div class="option" data-opt="2">C. Drug interaction with another medication that is increasing carbamazepine levels</div>
+        <div class="option" data-opt="3">D. Autoinduction phase causing fluctuations in drug levels that will stabilize in 2 weeks</div>
+        <div class="option" data-opt="4">E. Peak concentration toxicity; dividing the total daily dose into smaller more frequent doses may help</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Carbamazepine-induced dizziness, diplopia, and ataxia correlate with peak plasma concentrations rather than trough levels. Dividing the total daily dose into smaller, more frequent doses reduces peak concentrations and may alleviate these symptoms without reducing total daily dose.
+    </div>
+</div>
+
+<!-- QUESTION 34 -->
+<div class="mcq-card" data-id="34" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q34</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which pregabalin produces its therapeutic effects in neuropathic pain and fibromyalgia? Pregabalin is structurally related to gabapentin but has more predictable pharmacokinetics. It is also approved for partial seizures and generalized anxiety disorder. Understanding this mechanism explains the need for dose adjustment in renal impairment.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Blocks voltage-gated sodium channels in their inactivated state</div>
+        <div class="option" data-opt="1">B. Binds to the alpha-2-delta subunit of voltage-gated calcium channels, reducing neurotransmitter release</div>
+        <div class="option" data-opt="2">C. Enhances GABAA receptor activity by increasing the frequency of chloride channel opening</div>
+        <div class="option" data-opt="3">D. Inhibits norepinephrine and serotonin reuptake in descending pain pathways</div>
+        <div class="option" data-opt="4">E. Antagonizes NMDA receptors, reducing glutamate-mediated excitotoxicity</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Pregabalin binds to the alpha-2-delta subunit of voltage-gated calcium channels with higher affinity than gabapentin, reducing calcium influx into presynaptic neurons and decreasing release of excitatory neurotransmitters involved in central sensitization and hyperalgesia.
+    </div>
+</div>
+
+<!-- QUESTION 35 -->
+<div class="mcq-card" data-id="35" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q35</div>
+    <div class="question-text">A 50-year-old man with major depressive disorder and comorbid generalized anxiety disorder has failed fluoxetine and duloxetine. His psychiatrist prescribes vortioxetine, a newer antidepressant. He asks how this medication differs from the SSRIs he has taken before. Which of the following correctly describes a unique mechanism of vortioxetine that distinguishes it from traditional SSRIs?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Selective serotonin reuptake inhibition with no other receptor activity</div>
+        <div class="option" data-opt="1">B. Norepinephrine and dopamine reuptake inhibition without serotonergic effects</div>
+        <div class="option" data-opt="2">C. Serotonin reuptake inhibition plus 5-HT1A agonism and 5-HT3 antagonism</div>
+        <div class="option" data-opt="3">D. Reversible MAO-A inhibition combined with serotonin reuptake inhibition</div>
+        <div class="option" data-opt="4">E. Selective norepinephrine reuptake inhibition with 5-HT2C antagonism</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Vortioxetine has multimodal activity: it inhibits the serotonin transporter like SSRIs but also acts as a 5-HT1A receptor agonist, 5-HT1B receptor partial agonist, and 5-HT3 and 5-HT7 receptor antagonist. This may provide benefits for cognitive symptoms and causes less sexual dysfunction.
+    </div>
+</div>
+
+<!-- QUESTION 36 -->
+<div class="mcq-card" data-id="36" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q36</div>
+    <div class="question-text">A 28-year-old woman with new-onset focal epilepsy is started on levetiracetam. She asks her neurologist how this medication works and what side effects she should watch for. Which of the following correctly describes the mechanism of action of levetiracetam, and what is a unique pharmacokinetic advantage of this medication compared to older anti-epileptic drugs?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Blocks voltage-gated sodium channels; no significant drug interactions but requires liver monitoring</div>
+        <div class="option" data-opt="1">B. Enhances GABA synthesis; requires regular monitoring of liver function tests</div>
+        <div class="option" data-opt="2">C. Blocks T-type calcium channels; causes weight gain and requires renal adjustment</div>
+        <div class="option" data-opt="3">D. Inhibits carbonic anhydrase; causes kidney stones and paresthesias</div>
+        <div class="option" data-opt="4">E. Binds to synaptic vesicle protein SV2A; minimal hepatic metabolism and no significant drug interactions</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Levetiracetam binds to synaptic vesicle protein SV2A, modulating neurotransmitter release. A major advantage is that it is primarily excreted unchanged in urine with minimal hepatic metabolism, resulting in no significant drug interactions. Behavioral changes including irritability and aggression occur in 5-10 percent of patients.
+    </div>
+</div>
+
+<!-- QUESTION 37 -->
+<div class="mcq-card" data-id="37" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q37</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which monoamine oxidase inhibitors produce their antidepressant effects? MAOIs are considered third-line agents for depression due to their adverse effect profile and dietary restrictions. However, they remain important for treatment-resistant depression and atypical depression characterized by reversed vegetative features.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Selective serotonin reuptake inhibition with no effect on norepinephrine or dopamine</div>
+        <div class="option" data-opt="1">B. Irreversible inhibition of MAO-A and MAO-B, increasing serotonin, norepinephrine, and dopamine</div>
+        <div class="option" data-opt="2">C. Selective norepinephrine reuptake inhibition with mild dopaminergic effects</div>
+        <div class="option" data-opt="3">D. Dopamine D2 receptor antagonism with serotonergic modulation</div>
+        <div class="option" data-opt="4">E. NMDA receptor antagonism with rapid onset of antidepressant effects</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        MAOIs irreversibly inhibit MAO-A, which metabolizes serotonin and norepinephrine, and MAO-B, which metabolizes dopamine. This broad mechanism increases all three monoamines and may explain their efficacy in atypical depression and treatment-resistant cases.
+    </div>
+</div>
+
+<!-- QUESTION 38 -->
+<div class="mcq-card" data-id="38" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q38</div>
+    <div class="question-text">A 35-year-old woman with chronic tension-type headache is prescribed amitriptyline for prevention. She asks her physician how an antidepressant helps her headaches. Which of the following best explains the mechanism of amitriptyline in tension-type headache prophylaxis, and what is an important difference between the doses used for depression versus headache prevention?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Selective serotonin reuptake inhibition; headache doses are twice depression doses</div>
+        <div class="option" data-opt="1">B. Dopamine D2 receptor blockade; headache doses are similar to depression doses</div>
+        <div class="option" data-opt="2">C. Norepinephrine and serotonin reuptake inhibition plus muscarinic blockade; headache doses are lower than depression doses</div>
+        <div class="option" data-opt="3">D. GABA potentiation with sedative effects; doses are weight-based with no relation to depression dosing</div>
+        <div class="option" data-opt="4">E. Calcium channel blockade; doses are titrated to blood pressure response</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Amitriptyline inhibits both serotonin and norepinephrine reuptake. For tension-type headache prophylaxis, doses of 10-75 mg nightly are significantly lower than depression doses of 150-300 mg daily. The medication is taken at bedtime to utilize its sedative effect.
+    </div>
+</div>
+
+<!-- QUESTION 39 -->
+<div class="mcq-card" data-id="39" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q39</div>
+    <div class="question-text">A 72-year-old man with Parkinson's disease is started on rasagiline as adjunctive therapy. He asks his neurologist how this new medication works differently from his levodopa. Which of the following correctly describes the mechanism of action of rasagiline, and what is a significant drug interaction that patients must be warned about?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. COMT inhibitor; interacts with warfarin requiring INR monitoring</div>
+        <div class="option" data-opt="1">B. Dopamine agonist; causes impulse control disorders requiring patient counseling</div>
+        <div class="option" data-opt="2">C. NMDA antagonist; requires renal dose adjustment and monitoring for confusion</div>
+        <div class="option" data-opt="3">D. MAO-B inhibitor; avoid SSRIs and meperidine due to risk of serotonin syndrome</div>
+        <div class="option" data-opt="4">E. Anticholinergic agent; causes urinary retention and constipation in elderly patients</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Rasagiline is a selective, irreversible MAO-B inhibitor that increases dopamine availability. At standard Parkinson's doses, MAO-B selectivity is maintained, but patients should avoid SSRIs, SNRIs, and meperidine due to potential serotonin syndrome. Unlike non-selective MAOIs, tyramine restriction is not required at standard doses.
+    </div>
+</div>
+
+<!-- QUESTION 40 -->
+<div class="mcq-card" data-id="40" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q40</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which zonisamide produces its anti-epileptic effects? Zonisamide is a broad-spectrum anti-epileptic drug used as adjunctive therapy for partial and generalized seizures. It is structurally related to sulfonamides and shares some adverse effects with topiramate. Understanding its multiple mechanisms explains its efficacy across different seizure types.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Blocks voltage-gated sodium channels and T-type calcium channels; weakly inhibits carbonic anhydrase</div>
+        <div class="option" data-opt="1">B. Enhances GABA synthesis and blocks AMPA receptors with no carbonic anhydrase effects</div>
+        <div class="option" data-opt="2">C. Selectively blocks T-type calcium channels only, similar to ethosuximide</div>
+        <div class="option" data-opt="3">D. Binds to synaptic vesicle protein SV2A, similar to levetiracetam</div>
+        <div class="option" data-opt="4">E. Selectively blocks voltage-gated sodium channels with no other mechanisms</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Zonisamide has multiple mechanisms including voltage-gated sodium channel blockade, T-type calcium channel blockade, and weak carbonic anhydrase inhibition. This broad mechanism explains its efficacy in both partial and generalized seizures. Due to sulfonamide structure, caution is advised in patients with sulfa allergy.
+    </div>
+</div>
+
+<!-- QUESTION 41 -->
+<div class="mcq-card" data-id="41" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q41</div>
+    <div class="question-text">A 65-year-old man with Parkinson's disease has been on levodopa/carbidopa for 9 years. He now experiences severe off-periods with freezing of gait and falls. His neurologist considers adding a dopamine agonist. Which of the following is a non-ergot dopamine agonist commonly used as adjunctive therapy, and what is a significant adverse effect unique to dopamine agonists that patients should be warned about?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Bromocriptine; causes cardiac valve fibrosis and pulmonary fibrosis</div>
+        <div class="option" data-opt="1">B. Entacapone; causes orange-brown urine discoloration and dyskinesias</div>
+        <div class="option" data-opt="2">C. Pramipexole; causes impulse control disorders including pathological gambling and hypersexuality</div>
+        <div class="option" data-opt="3">D. Selegiline; causes hypertensive crisis with tyramine-rich foods</div>
+        <div class="option" data-opt="4">E. Amantadine; causes livedo reticularis and confusion in elderly patients</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Pramipexole is a non-ergoline dopamine agonist. A significant adverse effect unique to dopamine agonists is impulse control disorders, occurring in 5-15 percent of patients, including pathological gambling, hypersexuality, compulsive shopping, and binge eating. These may resolve upon dose reduction or discontinuation.
+    </div>
+</div>
+
+<!-- QUESTION 42 -->
+<div class="mcq-card" data-id="42" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q42</div>
+    <div class="question-text">A 42-year-old woman with trigeminal neuralgia has failed carbamazepine due to severe hyponatremia and dizziness. Her neurologist prescribes oxcarbazepine. She asks how this medication is different from carbamazepine and whether she will have the same side effects. Which of the following correctly describes a key pharmacological difference between oxcarbazepine and carbamazepine?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Oxcarbazepine does not block sodium channels and is ineffective for trigeminal neuralgia</div>
+        <div class="option" data-opt="1">B. Oxcarbazepine has no active metabolite and requires no dose adjustment in renal failure</div>
+        <div class="option" data-opt="2">C. Oxcarbazepine is more potent and requires lower doses, causing fewer side effects</div>
+        <div class="option" data-opt="3">D. Oxcarbazepine does not form the toxic epoxide metabolite and is a weaker CYP450 inducer</div>
+        <div class="option" data-opt="4">E. Oxcarbazepine has 100 percent oral bioavailability and no food interactions</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Oxcarbazepine does not form the toxic epoxide metabolite that contributes to carbamazepine's adverse effects and is a weaker CYP450 inducer, resulting in fewer drug interactions. However, cross-hypersensitivity occurs in approximately 25-30 percent of patients with carbamazepine allergy.
+    </div>
+</div>
+
+<!-- QUESTION 43 -->
+<div class="mcq-card" data-id="43" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q43</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which clonidine produces its antihypertensive and sedative effects? Clonidine is a centrally acting alpha-2 adrenergic agonist used for hypertension, ADHD, and management of opioid withdrawal. Understanding its mechanism helps explain its adverse effects including rebound hypertension upon abrupt discontinuation.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Alpha-1 adrenergic receptor blockade causing vasodilation and reflex tachycardia</div>
+        <div class="option" data-opt="1">B. Beta-1 adrenergic receptor blockade reducing cardiac output and heart rate</div>
+        <div class="option" data-opt="2">C. Calcium channel blockade in vascular smooth muscle causing vasodilation</div>
+        <div class="option" data-opt="3">D. Angiotensin-converting enzyme inhibition reducing angiotensin II formation</div>
+        <div class="option" data-opt="4">E. Alpha-2 adrenergic receptor agonism reducing sympathetic outflow from the brainstem</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Clonidine stimulates presynaptic alpha-2 receptors in the nucleus tractus solitarius and locus coeruleus, reducing sympathetic outflow from the brainstem. This decreases peripheral vascular resistance and heart rate. Abrupt discontinuation can cause rebound hypertension due to upregulation of alpha-2 receptors.
+    </div>
+</div>
+
+<!-- QUESTION 44 -->
+<div class="mcq-card" data-id="44" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q44</div>
+    <div class="question-text">A 35-year-old man with generalized anxiety disorder has been taking buspirone for 3 weeks. He returns to his physician and reports that he feels no improvement and is frustrated because the medication is not working like the benzodiazepine he took previously. Which of the following correctly explains the delayed onset of buspirone and how it differs pharmacologically from benzodiazepines?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Buspirone requires 8-12 weeks of therapy; benzodiazepines work in 1-2 weeks</div>
+        <div class="option" data-opt="1">B. Buspirone is a 5-HT1A partial agonist requiring 2-4 weeks for autoreceptor desensitization; benzodiazepines are direct GABAA modulators with immediate effect</div>
+        <div class="option" data-opt="2">C. Buspirone must be dosed four times daily; once-daily dosing is ineffective for anxiety</div>
+        <div class="option" data-opt="3">D. Buspirone is ineffective in patients who have previously taken benzodiazepines</div>
+        <div class="option" data-opt="4">E. Buspirone requires titration to 60 mg daily; lower doses have no therapeutic effect</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Buspirone is a partial 5-HT1A agonist. Its delayed onset results from time required for desensitization of presynaptic 5-HT1A autoreceptors. Unlike benzodiazepines which have immediate anxiolytic effect, buspirone has no immediate effect, no sedative properties, no abuse potential, and no withdrawal syndrome.
+    </div>
+</div>
+
+<!-- QUESTION 45 -->
+<div class="mcq-card" data-id="45" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q45</div>
+    <div class="question-text">A 58-year-old man with chronic neuropathic pain from spinal cord injury has failed gabapentin and duloxetine. His pain specialist prescribes pregabalin. He asks how this medication differs from gabapentin and why his doctor is trying it after gabapentin failed. Which of the following correctly describes a pharmacokinetic advantage of pregabalin over gabapentin?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Pregabalin has no CNS adverse effects and can be used at higher doses</div>
+        <div class="option" data-opt="1">B. Pregabalin does not require renal dose adjustment and has no drug interactions</div>
+        <div class="option" data-opt="2">C. Pregabalin has linear and more predictable bioavailability regardless of dose</div>
+        <div class="option" data-opt="3">D. Pregabalin works immediately while gabapentin requires 6 weeks for effect</div>
+        <div class="option" data-opt="4">E. Pregabalin has no weight gain or peripheral edema compared to gabapentin</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Pregabalin has linear pharmacokinetics with 90 percent bioavailability across all doses, whereas gabapentin has saturable intestinal absorption with decreasing bioavailability at higher doses. This provides more predictable dose-response relationships and twice-daily dosing compared to three times daily for gabapentin.
+    </div>
+</div>
+
+<!-- QUESTION 46 -->
+<div class="mcq-card" data-id="46" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q46</div>
+    <div class="question-text">A 28-year-old woman with migraines with aura is prescribed sumatriptan for acute treatment. She has a history of mild asthma but no cardiovascular disease. Her friend told her that migraine medications can cause heart problems. Which of the following correctly explains the contraindications to triptan therapy, and why is this patient not at risk based on her medical history?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Triptans cause coronary vasospasm via 5-HT1B receptors; contraindicated in coronary artery disease, not asthma</div>
+        <div class="option" data-opt="1">B. Triptans cause bronchospasm via 5-HT2 receptors; contraindicated in all patients with asthma</div>
+        <div class="option" data-opt="2">C. Triptans cause bradycardia and heart block; contraindicated in patients with conduction abnormalities</div>
+        <div class="option" data-opt="3">D. Triptans cause QT prolongation and torsades de pointes; all patients need ECG before use</div>
+        <div class="option" data-opt="4">E. Triptans cause hypertension and stroke; contraindicated in all patients with any cardiovascular risk factor</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Triptans are 5-HT1B and 5-HT1D receptor agonists. 5-HT1B agonism causes coronary artery vasoconstriction, making coronary artery disease and uncontrolled hypertension absolute contraindications. Asthma is not a contraindication because 5-HT1B receptors are not significantly expressed on bronchial smooth muscle.
+    </div>
+</div>
+
+<!-- QUESTION 47 -->
+<div class="mcq-card" data-id="47" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q47</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which memantine produces its therapeutic effects in Alzheimer's disease? Memantine is approved for moderate-to-severe Alzheimer's disease, often used in combination with donepezil. Unlike cholinesterase inhibitors, memantine works through a different mechanism that explains its adverse effect profile.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Reversible acetylcholinesterase inhibition increasing acetylcholine levels</div>
+        <div class="option" data-opt="1">B. Irreversible butyrylcholinesterase inhibition with neuroprotective effects</div>
+        <div class="option" data-opt="2">C. Dopamine D2 receptor agonist improving cognitive function in the frontal lobe</div>
+        <div class="option" data-opt="3">D. Non-competitive NMDA receptor antagonist reducing glutamate-mediated excitotoxicity</div>
+        <div class="option" data-opt="4">E. Serotonin 5-HT1A partial agonist with anxiolytic and cognitive benefits</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Memantine is a non-competitive, low-to-moderate affinity NMDA receptor antagonist. It blocks pathological glutamate activation while preserving normal physiological neurotransmission. Unlike cholinesterase inhibitors, it does not cause gastrointestinal side effects. Common adverse effects include dizziness, headache, and confusion.
+    </div>
+</div>
+
+<!-- QUESTION 48 -->
+<div class="mcq-card" data-id="48" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q48</div>
+    <div class="question-text">A 25-year-old man with severe traumatic brain injury develops increased intracranial pressure refractory to mannitol. His neurosurgeon considers starting barbiturate coma therapy. Which of the following correctly describes the mechanism by which barbiturates reduce elevated ICP, and what is the major risk of this therapy that requires intensive monitoring?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Barbiturates cause osmotic diuresis; risk of electrolyte imbalance and kidney failure</div>
+        <div class="option" data-opt="1">B. Barbiturates are potent vasodilators; risk of cerebral hyperemia and worsening ICP</div>
+        <div class="option" data-opt="2">C. Barbiturates reduce cerebral metabolic rate and cerebral blood flow; risk of hypotension and immunosuppression</div>
+        <div class="option" data-opt="3">D. Barbiturates block sodium channels in the brain; risk of cardiac arrhythmias and heart block</div>
+        <div class="option" data-opt="4">E. Barbiturates enhance GABA causing respiratory depression; risk of prolonged mechanical ventilation only</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Barbiturates reduce intracranial pressure by suppressing cerebral electrical activity, reducing cerebral metabolic rate, and decreasing cerebral blood flow. However, barbiturate coma causes significant systemic adverse effects including hypotension, immunosuppression, prolonged mechanical ventilation, and ileus, requiring intensive monitoring.
+    </div>
+</div>
+
+<!-- QUESTION 49 -->
+<div class="mcq-card" data-id="49" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q49</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which rituximab produces its therapeutic effects in autoimmune neurological disorders such as neuromyelitis optica and myasthenia gravis? Rituximab is a monoclonal antibody originally developed for B-cell lymphomas but now used increasingly in autoimmune neurological conditions.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Blocks TNF-alpha, reducing systemic inflammation in the central nervous system</div>
+        <div class="option" data-opt="1">B. Blocks IL-6 receptors, reducing the acute phase response and neuroinflammation</div>
+        <div class="option" data-opt="2">C. Inhibits complement C5, preventing membrane attack complex formation on neurons</div>
+        <div class="option" data-opt="3">D. Blocks CD3 on T-cells, inducing immunosuppression and T-cell apoptosis</div>
+        <div class="option" data-opt="4">E. Depletes CD20-positive B-cells, reducing autoantibody production by B-cell precursors</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Rituximab binds to CD20 on pre-B-cells and mature B-cells, inducing B-cell depletion through ADCC, CDC, and apoptosis. By depleting CD20-positive B-cells, it reduces production of autoantibodies. Clinical response typically requires 2-3 months due to the time needed for pathogenic autoantibody clearance.
+    </div>
+</div>
+
+<!-- QUESTION 50 -->
+<div class="mcq-card" data-id="50" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q50</div>
+    <div class="question-text">A 55-year-old man with cirrhosis and large esophageal varices presents with acute hematemesis. Emergent endoscopy confirms active bleeding from esophageal varices. His blood pressure is 85/55 mmHg and heart rate is 125 bpm. Which two interventions are considered first-line for acute variceal hemorrhage, and what is the mechanism of action of the pharmacologic agent used?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Octreotide and endoscopic band ligation; octreotide causes splanchnic vasoconstriction and reduces portal pressure</div>
+        <div class="option" data-opt="1">B. Propranolol and balloon tamponade; propranolol reduces portal pressure through beta-blockade</div>
+        <div class="option" data-opt="2">C. Vasopressin and endoscopic sclerotherapy; vasopressin causes coronary vasoconstriction</div>
+        <div class="option" data-opt="3">D. Terlipressin and TIPS; terlipressin is a vasopressin analogue with fewer cardiac side effects</div>
+        <div class="option" data-opt="4">E. Tranexamic acid and band ligation; tranexamic acid promotes clotting by inhibiting fibrinolysis</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Octreotide is a somatostatin analogue that causes splanchnic vasoconstriction and reduces portal pressure by inhibiting release of vasodilatory hormones. Endoscopic variceal band ligation is the mechanical intervention of choice. Octreotide is preferred over vasopressin due to better safety profile without cardiac or mesenteric ischemia.
+    </div>
+</div>	
+	
+	
+	
+	
+	<!-- QUESTION 51 -->
+<div class="mcq-card" data-id="51" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q51</div>
+    <div class="question-text">A 45-year-old man with chronic hepatitis B infection is being considered for antiviral therapy. His physician explains the different drug classes available for treatment. Which of the following correctly describes the mechanism of action of entecavir, a first-line agent for chronic hepatitis B, and what is an advantage of this medication over older nucleoside analogues?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Non-nucleoside reverse transcriptase inhibitor that binds to reverse transcriptase; low barrier to resistance</div>
+        <div class="option" data-opt="1">B. Protease inhibitor that prevents viral polyprotein cleavage; requires boosting with ritonavir</div>
+        <div class="option" data-opt="2">C. Nucleoside analogue that inhibits hepatitis B virus polymerase; high barrier to resistance and potent viral suppression</div>
+        <div class="option" data-opt="3">D. Immune modulator that enhances T-cell responses against HBV-infected hepatocytes</div>
+        <div class="option" data-opt="4">E. Entry inhibitor that blocks viral attachment to the NTCP receptor on hepatocytes</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Entecavir is a nucleoside analogue that inhibits HBV polymerase, blocking viral DNA replication. It has a high barrier to resistance and provides potent viral suppression, making it a first-line agent for chronic hepatitis B with long-term safety data.
+    </div>
+</div>
+
+<!-- QUESTION 52 -->
+<div class="mcq-card" data-id="52" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q52</div>
+    <div class="question-text">A 60-year-old woman with chronic hepatitis C genotype 1a is started on a direct-acting antiviral regimen containing sofosbuvir and velpatasvir. She asks how these medications work to cure her infection. Which of the following correctly describes the mechanism of action of sofosbuvir, and what important drug interaction must be checked before starting therapy?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Protease inhibitor that blocks NS3/4A; interacts with statins causing myopathy</div>
+        <div class="option" data-opt="1">B. NS5A inhibitor that blocks viral replication complex formation; no significant drug interactions</div>
+        <div class="option" data-opt="2">C. NS5B non-nucleoside inhibitor that allosterically blocks RNA polymerase; interacts with warfarin</div>
+        <div class="option" data-opt="3">D. Immune modulator that enhances interferon signaling; contraindicated in decompensated cirrhosis</div>
+        <div class="option" data-opt="4">E. Nucleotide analogue NS5B polymerase inhibitor; interacts with amiodarone causing severe bradycardia</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Sofosbuvir is a nucleotide analogue that inhibits the HCV NS5B RNA-dependent RNA polymerase. A serious drug interaction exists with amiodarone, causing symptomatic bradycardia and heart block, requiring cardiac monitoring if coadministration cannot be avoided.
+    </div>
+</div>
+
+<!-- QUESTION 53 -->
+<div class="mcq-card" data-id="53" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q53</div>
+    <div class="question-text">Which of the following correctly describes the pharmacological basis for using lactulose in the treatment of hepatic encephalopathy? Lactulose is a non-absorbable disaccharide that is a mainstay of therapy for both acute and chronic hepatic encephalopathy. Understanding its mechanism helps explain its adverse effect profile and the goal of therapy.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Acidification of the colon traps ammonia as ammonium ion, reducing systemic absorption</div>
+        <div class="option" data-opt="1">B. Direct binding of ammonia in the gut lumen preventing absorption into portal circulation</div>
+        <div class="option" data-opt="2">C. Inhibition of gut bacterial urease enzyme, preventing ammonia production from urea</div>
+        <div class="option" data-opt="3">D. Enhancement of hepatic ammonia metabolism through upregulation of the urea cycle</div>
+        <div class="option" data-opt="4">E. Osmotic diarrhea that mechanically flushes bacteria and ammonia from the colon</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Lactulose is metabolized by colonic bacteria to lactic and acetic acids, acidifying the colon. This converts ammonia (NH3) to ammonium ion (NH4+), which is poorly absorbed and trapped in the gut lumen. The goal is to produce 2-3 soft stools daily.
+    </div>
+</div>
+
+<!-- QUESTION 54 -->
+<div class="mcq-card" data-id="54" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q54</div>
+    <div class="question-text">A 35-year-old man with ulcerative colitis has failed mesalamine therapy and is now starting infliximab, a TNF-alpha inhibitor. He asks how this biologic medication works to treat his inflammatory bowel disease. Which of the following correctly describes the mechanism of action of infliximab in IBD, and what serious adverse effect requires screening before initiation?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Binds to integrins on lymphocytes preventing gut homing; screen for progressive multifocal leukoencephalopathy</div>
+        <div class="option" data-opt="1">B. Neutralizes TNF-alpha reducing intestinal inflammation; screen for latent tuberculosis before starting</div>
+        <div class="option" data-opt="2">C. Blocks IL-12 and IL-23 signaling in T-cells; screen for hepatitis B reactivation</div>
+        <div class="option" data-opt="3">D. Inhibits JAK-STAT signaling pathway; screen for venous thromboembolism risk</div>
+        <div class="option" data-opt="4">E. Depletes CD20-positive B-cells reducing autoantibody production; screen for hypogammaglobulinemia</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Infliximab is a chimeric monoclonal antibody that neutralizes TNF-alpha, reducing intestinal inflammation. Before initiation, all patients must be screened for latent tuberculosis with PPD or IGRA, as TNF-alpha inhibitors increase the risk of reactivation of latent TB.
+    </div>
+</div>
+
+<!-- QUESTION 55 -->
+<div class="mcq-card" data-id="55" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q55</div>
+    <div class="question-text">A 28-year-old woman with irritable bowel syndrome with diarrhea as the predominant symptom has failed dietary modifications and antispasmodics. Her gastroenterologist prescribes alosetron, a 5-HT3 receptor antagonist. She asks how this medication works. Which of the following correctly describes the mechanism of alosetron, and what is the most serious adverse effect that requires monitoring?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. 5-HT4 receptor agonist that increases gut motility; causes cardiac arrhythmias</div>
+        <div class="option" data-opt="1">B. Muscarinic receptor antagonist that reduces intestinal spasm; causes urinary retention</div>
+        <div class="option" data-opt="2">C. Peripheral kappa-opioid receptor agonist that reduces visceral pain; causes constipation</div>
+        <div class="option" data-opt="3">D. 5-HT3 receptor antagonist that reduces visceral hypersensitivity and slows colonic transit; risk of ischemic colitis</div>
+        <div class="option" data-opt="4">E. Calcium channel blocker that relaxes smooth muscle; causes hypotension and reflex tachycardia</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Alosetron is a selective 5-HT3 receptor antagonist that reduces visceral hypersensitivity and slows colonic transit. It is approved only for severe IBS-D in women who have failed conventional therapy due to the risk of ischemic colitis and severe constipation, requiring a risk management program.
+    </div>
+</div>
+
+<!-- QUESTION 56 -->
+<div class="mcq-card" data-id="56" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q56</div>
+    <div class="question-text">A 65-year-old man with Parkinson's disease has been stable on levodopa/carbidopa for 4 years. He now develops new-onset psychosis with visual hallucinations. His neurologist wants to add an antipsychotic that will not worsen his motor symptoms. Which antipsychotic is preferred in Parkinson's disease psychosis, and what is the required monitoring for the most effective agent?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Haloperidol; monitor for QT prolongation and extrapyramidal symptoms</div>
+        <div class="option" data-opt="1">B. Risperidone; monitor for metabolic syndrome and weight gain</div>
+        <div class="option" data-opt="2">C. Olanzapine; monitor for sedation and anticholinergic effects</div>
+        <div class="option" data-opt="3">D. Aripiprazole; monitor for impulse control disorders and akathisia</div>
+        <div class="option" data-opt="4">E. Quetiapine or clozapine; clozapine requires CBC monitoring for agranulocytosis</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Quetiapine and clozapine are preferred for Parkinson's disease psychosis because they have minimal D2 receptor occupancy. Clozapine is most effective but requires weekly to biweekly CBC monitoring for agranulocytosis. Quetiapine is used first-line due to better safety profile.
+    </div>
+</div>
+
+<!-- QUESTION 57 -->
+<div class="mcq-card" data-id="57" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q57</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of antiemetic agents used in chemotherapy-induced nausea and vomiting? A 50-year-old woman receiving highly emetogenic chemotherapy for breast cancer experiences severe acute nausea despite prophylaxis. Her oncologist explains the different receptor targets for antiemetic therapy.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Serotonin receptor antagonists block 5-HT3 receptors in the gut and chemoreceptor trigger zone; most effective for acute CINV</div>
+        <div class="option" data-opt="1">B. Neurokinin-1 receptor antagonists block substance P in the vomiting center; most effective for acute CINV</div>
+        <div class="option" data-opt="2">C. Dopamine D2 receptor antagonists block the chemoreceptor trigger zone; first-line for highly emetogenic chemotherapy</div>
+        <div class="option" data-opt="3">D. Cannabinoids activate CB1 receptors in the vomiting center; preferred for delayed CINV</div>
+        <div class="option" data-opt="4">E. Benzodiazepines enhance GABA activity; used as monotherapy for severe CINV</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        5-HT3 receptor antagonists like ondansetron block serotonin receptors in the gut and chemoreceptor trigger zone. They are most effective for acute chemotherapy-induced nausea and vomiting. For highly emetogenic regimens, combination with NK-1 antagonists and dexamethasone is standard.
+    </div>
+</div>
+
+<!-- QUESTION 58 -->
+<div class="mcq-card" data-id="58" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q58</div>
+    <div class="question-text">A 42-year-old man with peptic ulcer disease tests positive for Helicobacter pylori on urea breath test. His physician plans to prescribe triple therapy for eradication. Which of the following regimens is a standard first-line triple therapy for H. pylori eradication, and what is the recommended duration of treatment?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Amoxicillin, clarithromycin, and bismuth subsalicylate for 7 days</div>
+        <div class="option" data-opt="1">B. Metronidazole, tetracycline, and omeprazole for 10 days</div>
+        <div class="option" data-opt="2">C. Amoxicillin, clarithromycin, and a proton pump inhibitor for 14 days</div>
+        <div class="option" data-opt="3">D. Levofloxacin, amoxicillin, and a proton pump inhibitor for 7 days</div>
+        <div class="option" data-opt="4">E. Metronidazole, clarithromycin, and ranitidine bismuth citrate for 10 days</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Standard first-line triple therapy for H. pylori consists of a proton pump inhibitor, amoxicillin, and clarithromycin for 14 days. Due to increasing clarithromycin resistance, bismuth quadruple therapy or levofloxacin-based regimens may be used as alternative first-line or second-line therapy.
+    </div>
+</div>
+
+<!-- QUESTION 59 -->
+<div class="mcq-card" data-id="59" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q59</div>
+    <div class="question-text">A 55-year-old woman with chronic constipation has tried lifestyle modifications and fiber supplementation without adequate relief. Her physician prescribes linaclotide, a guanylate cyclase-C agonist. Which of the following correctly describes the mechanism of action of linaclotide, and what is the most common adverse effect that patients should be warned about?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. 5-HT4 receptor agonist increasing gut motility; causes cardiac arrhythmias at high doses</div>
+        <div class="option" data-opt="1">B. Guanylate cyclase-C agonist increasing cyclic GMP; causes diarrhea which is usually dose-related</div>
+        <div class="option" data-opt="2">C. Chloride channel activator increasing intestinal fluid secretion; causes abdominal pain and bloating</div>
+        <div class="option" data-opt="3">D. Mu-opioid receptor antagonist reducing opioid-induced constipation; causes withdrawal symptoms</div>
+        <div class="option" data-opt="4">E. Osmotic laxative drawing water into the intestinal lumen; causes electrolyte imbalances with prolonged use</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Linaclotide is a guanylate cyclase-C agonist that increases intracellular and extracellular cyclic GMP, stimulating chloride and bicarbonate secretion into the intestinal lumen. Diarrhea is the most common adverse effect and is dose-related, often limiting dose escalation.
+    </div>
+</div>
+
+<!-- QUESTION 60 -->
+<div class="mcq-card" data-id="60" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q60</div>
+    <div class="question-text">Which of the following correctly describes the pharmacological basis for the drug interaction between omeprazole and clopidogrel? A 68-year-old man with a recent coronary stent is prescribed clopidogrel for secondary prevention. He also has GERD and is started on omeprazole by his primary care physician. His cardiologist expresses concern about this combination.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Omeprazole increases clopidogrel absorption, causing bleeding risk</div>
+        <div class="option" data-opt="1">B. Omeprazole displaces clopidogrel from protein binding, increasing free drug levels</div>
+        <div class="option" data-opt="2">C. Omeprazole induces CYP3A4, increasing clopidogrel metabolism and reducing efficacy</div>
+        <div class="option" data-opt="3">D. Omeprazole inhibits CYP2C19, which converts clopidogrel to its active metabolite, reducing antiplatelet effect</div>
+        <div class="option" data-opt="4">E. Omeprazole competes with clopidogrel for P-glycoprotein transport, reducing absorption</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Clopidogrel is a prodrug that requires activation by CYP2C19. Omeprazole is a potent CYP2C19 inhibitor, reducing conversion of clopidogrel to its active metabolite and potentially decreasing antiplatelet efficacy. If a PPI is needed, pantoprazole or rabeprazole are preferred as they have less CYP2C19 inhibition.
+    </div>
+</div>
+
+<!-- QUESTION 61 -->
+<div class="mcq-card" data-id="61" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q61</div>
+    <div class="question-text">A 30-year-old man with amebic liver abscess is being treated with metronidazole. He asks his physician how this medication works and what precautions he should take while on therapy. Which of the following correctly describes the mechanism of action of metronidazole against Entamoeba histolytica, and what important interaction requires patient counseling?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Inhibits cell wall synthesis in trophozoites; causes nephrotoxicity with NSAIDs</div>
+        <div class="option" data-opt="1">B. Blocks folate synthesis in amebae; causes megaloblastic anemia with prolonged use</div>
+        <div class="option" data-opt="2">C. Depolarizes the parasite cell membrane; causes neurotoxicity with cimetidine</div>
+        <div class="option" data-opt="3">D. Inhibits protein synthesis in the parasite; causes tendonitis with fluoroquinolones</div>
+        <div class="option" data-opt="4">E. Forms reactive nitro radicals causing DNA damage; causes disulfiram-like reaction with alcohol</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Metronidazole enters the parasite and is reduced by ferredoxin, forming reactive nitro radicals that damage DNA. Patients must be counseled to avoid alcohol during and for 48 hours after treatment due to a disulfiram-like reaction causing nausea, vomiting, flushing, and tachycardia.
+    </div>
+</div>
+
+<!-- QUESTION 62 -->
+<div class="mcq-card" data-id="62" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q62</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of proton pump inhibitors in the treatment of peptic ulcer disease and GERD? PPIs are considered the most potent gastric acid suppressants available. Understanding their pharmacology helps explain why they are most effective when taken before meals and why they have a delayed onset of action.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Irreversible inhibition of the H+, K+-ATPase (proton pump) in gastric parietal cells</div>
+        <div class="option" data-opt="1">B. Reversible competitive antagonism of histamine H2 receptors on parietal cells</div>
+        <div class="option" data-opt="2">C. Antagonism of gastrin receptors on enterochromaffin-like cells</div>
+        <div class="option" data-opt="3">D. Coating of the gastric mucosa forming a protective barrier against acid</div>
+        <div class="option" data-opt="4">E. Neutralization of gastric acid through direct chemical buffering</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        PPIs irreversibly bind to the H+, K+-ATPase enzyme, the final common pathway for gastric acid secretion. They are prodrugs that require activation in the acidic environment of the parietal cell canaliculus, so they work best when taken 30-60 minutes before a meal when pumps are active.
+    </div>
+</div>
+
+<!-- QUESTION 63 -->
+<div class="mcq-card" data-id="63" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q63</div>
+    <div class="question-text">A 25-year-old woman with a history of recurrent C. difficile infection is being treated with oral vancomycin. She asks how this medication works against the bacteria without being absorbed systemically. Which of the following correctly describes the mechanism of action of vancomycin against C. difficile in the gut?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Inhibits bacterial protein synthesis by binding to the 30S ribosomal subunit</div>
+        <div class="option" data-opt="1">B. Disrupts bacterial cell membrane integrity causing leakage of cellular contents</div>
+        <div class="option" data-opt="2">C. Inhibits bacterial cell wall synthesis by binding to D-alanyl-D-alanine precursors</div>
+        <div class="option" data-opt="3">D. Inhibits bacterial DNA gyrase and topoisomerase IV preventing replication</div>
+        <div class="option" data-opt="4">E. Inhibits bacterial folate synthesis by competing with para-aminobenzoic acid</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Vancomycin is a glycopeptide antibiotic that binds to the D-alanyl-D-alanine terminus of cell wall precursors, preventing transpeptidation and cross-linking. Oral vancomycin is not absorbed systemically, achieving high concentrations in the gut lumen specifically for treating C. difficile infection.
+    </div>
+</div>
+
+<!-- QUESTION 64 -->
+<div class="mcq-card" data-id="64" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q64</div>
+    <div class="question-text">A 70-year-old man with chronic constipation is started on lubiprostone. He asks his pharmacist how this medication works differently from other laxatives he has used. Which of the following correctly describes the mechanism of action of lubiprostone, and what is an important contraindication for its use?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. 5-HT4 receptor agonist that increases gut motility; contraindicated in bowel obstruction</div>
+        <div class="option" data-opt="1">B. Guanylate cyclase-C agonist increasing intestinal fluid secretion; contraindicated in children under 6 years</div>
+        <div class="option" data-opt="2">C. Osmotic laxative drawing water into the intestinal lumen; contraindicated in renal impairment</div>
+        <div class="option" data-opt="3">D. Chloride channel activator increasing intestinal fluid secretion; contraindicated in mechanical gastrointestinal obstruction</div>
+        <div class="option" data-opt="4">E. Peripheral mu-opioid receptor antagonist; contraindicated in patients taking opioid analgesics</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Lubiprostone is a chloride channel activator that acts on type-2 chloride channels in the intestinal epithelium, increasing chloride and fluid secretion. It is contraindicated in patients with mechanical gastrointestinal obstruction. Nausea is the most common adverse effect.
+    </div>
+</div>
+
+<!-- QUESTION 65 -->
+<div class="mcq-card" data-id="65" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q65</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which sucralfate promotes healing of peptic ulcers? A 45-year-old man with a newly diagnosed duodenal ulcer is prescribed sucralfate. He asks his physician how this medication works since it is not an acid suppressant like the PPIs his friend takes.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Irreversibly inhibits the H+, K+-ATPase in gastric parietal cells</div>
+        <div class="option" data-opt="1">B. Forms a viscous adhesive barrier that binds to ulcerated mucosa, protecting it from acid and pepsin</div>
+        <div class="option" data-opt="2">C. Neutralizes gastric acid through direct chemical buffering</div>
+        <div class="option" data-opt="3">D. Stimulates mucosal prostaglandin synthesis and increases mucus and bicarbonate secretion</div>
+        <div class="option" data-opt="4">E. Antagonizes histamine H2 receptors, reducing basal and stimulated acid secretion</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Sucralfate is a basic aluminum salt of sucrose octasulfate that polymerizes in the acidic environment of the stomach to form a viscous, gel-like barrier that adheres to ulcerated mucosa. This physical barrier protects the ulcer from acid, pepsin, and bile salts.
+    </div>
+</div>
+
+<!-- QUESTION 66 -->
+<div class="mcq-card" data-id="66" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q66</div>
+    <div class="question-text">A 38-year-old woman with Crohn's disease involving the terminal ileum is started on budesonide, a locally acting corticosteroid. She asks how this steroid differs from prednisone that her friend took for asthma. Which of the following correctly describes the pharmacological advantage of budesonide over systemic corticosteroids for IBD?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Budesonide is a mineralocorticoid with less immunosuppressive effect</div>
+        <div class="option" data-opt="1">B. Budesonide has no adrenal suppression and can be stopped abruptly</div>
+        <div class="option" data-opt="2">C. Budesonide undergoes extensive first-pass metabolism in the liver, reducing systemic bioavailability and side effects</div>
+        <div class="option" data-opt="3">D. Budesonide selectively targets only Th1-mediated inflammation leaving other immune pathways intact</div>
+        <div class="option" data-opt="4">E. Budesonide is a prodrug that is activated only in inflamed intestinal tissue</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Budesonide is a potent glucocorticoid with high first-pass metabolism in the liver (approximately 90 percent). When formulated for ileal release, it delivers high concentrations to inflamed tissue while minimizing systemic absorption and corticosteroid-related adverse effects.
+    </div>
+</div>
+
+<!-- QUESTION 67 -->
+<div class="mcq-card" data-id="67" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q67</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of mesalamine (5-aminosalicylic acid) in the treatment of inflammatory bowel disease? Mesalamine is a first-line agent for mild to moderate ulcerative colitis and Crohn's colitis. Understanding its mechanism helps explain why it is effective when applied topically to the intestinal mucosa.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Systemic immunosuppression through T-cell inhibition after absorption</div>
+        <div class="option" data-opt="1">B. TNF-alpha neutralization in the intestinal lamina propria</div>
+        <div class="option" data-opt="2">C. Corticosteroid receptor activation with anti-inflammatory effects</div>
+        <div class="option" data-opt="3">D. Local inhibition of prostaglandin and leukotriene synthesis through PPAR-gamma activation and NF-kappaB blockade</div>
+        <div class="option" data-opt="4">E. Antibacterial activity against enteric pathogens that trigger IBD flares</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Mesalamine acts locally on the intestinal mucosa through multiple mechanisms including inhibition of cyclooxygenase and lipoxygenase pathways, activation of PPAR-gamma receptors, and inhibition of NF-kappaB, reducing production of pro-inflammatory cytokines.
+    </div>
+</div>
+
+<!-- QUESTION 68 -->
+<div class="mcq-card" data-id="68" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q68</div>
+    <div class="question-text">A 32-year-old woman with opioid-induced constipation due to chronic pain management has failed conventional laxatives. Her pain specialist prescribes methylnaltrexone, a peripherally acting mu-opioid receptor antagonist. Which of the following correctly describes the pharmacological advantage of methylnaltrexone over other opioid antagonists?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. It crosses the blood-brain barrier to reverse central opioid effects including analgesia</div>
+        <div class="option" data-opt="1">B. It does not cross the blood-brain barrier, reversing constipation without affecting analgesia or precipitating withdrawal</div>
+        <div class="option" data-opt="2">C. It is a partial mu agonist that provides some analgesia while reducing constipation</div>
+        <div class="option" data-opt="3">D. It is only active after oral administration and has no parenteral formulation</div>
+        <div class="option" data-opt="4">E. It selectively targets delta-opioid receptors which do not mediate analgesia</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Methylnaltrexone is a quaternary ammonium compound that does not cross the blood-brain barrier. It selectively blocks peripheral mu-opioid receptors in the gut, reversing opioid-induced constipation without affecting central analgesia or precipitating withdrawal symptoms.
+    </div>
+</div>
+
+<!-- QUESTION 69 -->
+<div class="mcq-card" data-id="69" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q69</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of octreotide in the management of variceal hemorrhage? A 55-year-old man with cirrhosis presents with acute esophageal variceal bleeding. He is started on an octreotide infusion. Understanding its mechanism helps explain why it is preferred over vasopressin in this setting.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Inhibits release of vasodilatory hormones including glucagon and VIP, causing splanchnic vasoconstriction and reducing portal pressure</div>
+        <div class="option" data-opt="1">B. Directly stimulates splanchnic alpha-1 receptors causing vasoconstriction and reducing portal inflow</div>
+        <div class="option" data-opt="2">C. Blocks beta-2 receptors in the splanchnic circulation, reducing cardiac output and portal pressure</div>
+        <div class="option" data-opt="3">D. Inhibits angiotensin-converting enzyme, reducing angiotensin II-mediated vasoconstriction</div>
+        <div class="option" data-opt="4">E. Blocks calcium channels in vascular smooth muscle, causing vasodilation and reducing portal pressure</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Octreotide is a somatostatin analogue that inhibits the release of vasodilatory hormones such as glucagon and vasoactive intestinal peptide. This reduces splanchnic blood flow and portal pressure. Octreotide has a better safety profile than vasopressin, which can cause cardiac and mesenteric ischemia.
+    </div>
+</div>
+
+<!-- QUESTION 70 -->
+<div class="mcq-card" data-id="70" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q70</div>
+    <div class="question-text">A 60-year-old woman with chronic hepatitis C genotype 3 infection is being treated with sofosbuvir and velpatasvir. She has a history of end-stage renal disease on hemodialysis. Which of the following statements about the use of direct-acting antivirals in patients with renal impairment is most accurate, and what monitoring is required?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. All DAAs are contraindicated in patients with CrCl less than 30 mL/min</div>
+        <div class="option" data-opt="1">B. Sofosbuvir is primarily hepatically metabolized and requires no renal dose adjustment in any patient</div>
+        <div class="option" data-opt="2">C. Sofosbuvir accumulates in renal impairment; certain regimens can be used but require careful monitoring</div>
+        <div class="option" data-opt="3">D. Renal impairment has no effect on DAA clearance; no dose adjustment is ever needed</div>
+        <div class="option" data-opt="4">E. All patients with renal impairment require ribavirin instead of sofosbuvir-based regimens</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Sofosbuvir and its metabolite are renally excreted and accumulate in patients with severe renal impairment. However, certain DAA regimens including sofosbuvir-based therapies have been shown to be safe and effective in patients with advanced CKD and those on dialysis, though careful monitoring is recommended.
+    </div>
+</div>
+	
+	
+	
+	
+	
+	<!-- QUESTION 71 -->
+<div class="mcq-card" data-id="71" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q71</div>
+    <div class="question-text">A 45-year-old man with chronic hepatitis B infection has been on tenofovir disoproxil fumarate for 2 years. He now presents with a serum creatinine of 1.8 mg/dL and a urine dipstick showing 2+ protein. His physician suspects tenofovir-induced nephrotoxicity. Which of the following correctly describes the mechanism of tenofovir nephrotoxicity, and what alternative agent should be considered?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Proximal tubular secretion causing Fanconi syndrome; switch to lamivudine monotherapy</div>
+        <div class="option" data-opt="1">B. Interstitial nephritis from hypersensitivity reaction; switch to entecavir only after renal biopsy</div>
+        <div class="option" data-opt="2">C. Glomerular deposition of drug-antibody complexes; no alternative agent is available for HBV</div>
+        <div class="option" data-opt="3">D. Mitochondrial toxicity in proximal tubular cells causing Fanconi syndrome; switch to tenofovir alafenamide</div>
+        <div class="option" data-opt="4">E. Tubulointerstitial fibrosis from chronic inflammation; requires permanent discontinuation of all HBV therapy</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Tenofovir disoproxil fumarate causes proximal tubular toxicity due to mitochondrial dysfunction, leading to Fanconi syndrome with proteinuria, glycosuria, and phosphaturia. Tenofovir alafenamide has a more favorable renal safety profile due to targeted delivery to hepatocytes with lower plasma levels.
+    </div>
+</div>
+
+<!-- QUESTION 72 -->
+<div class="mcq-card" data-id="72" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q72</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of ondansetron as an antiemetic agent? A 28-year-old woman receiving cisplatin chemotherapy experiences severe nausea and vomiting. She is given ondansetron before her next cycle. Understanding the pharmacology of this drug helps explain why it is particularly effective for chemotherapy-induced nausea and vomiting.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Selective 5-HT3 receptor antagonism in the gut and chemoreceptor trigger zone, blocking serotonin-mediated emesis</div>
+        <div class="option" data-opt="1">B. Dopamine D2 receptor antagonism in the chemoreceptor trigger zone, blocking dopaminergic emetic signals</div>
+        <div class="option" data-opt="2">C. Neurokinin-1 receptor antagonism preventing substance P from activating the vomiting center</div>
+        <div class="option" data-opt="3">D. Cannabinoid CB1 receptor activation in the vomiting center, reducing emetic drive</div>
+        <div class="option" data-opt="4">E. Histamine H1 receptor antagonism in the vomiting center, blocking histaminergic emetic signals</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Ondansetron is a selective 5-HT3 receptor antagonist. Chemotherapy releases serotonin from enterochromaffin cells in the gut, which activates 5-HT3 receptors on vagal afferents and the chemoreceptor trigger zone. Ondansetron blocks this pathway and is most effective for acute CINV.
+    </div>
+</div>
+
+<!-- QUESTION 73 -->
+<div class="mcq-card" data-id="73" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q73</div>
+    <div class="question-text">A 35-year-old man with traveler's diarrhea is prescribed azithromycin. He has a history of penicillin allergy. He asks his pharmacist how this antibiotic works to treat his gastrointestinal infection. Which of the following correctly describes the mechanism of action of azithromycin against bacterial pathogens causing diarrheal illness?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Inhibits bacterial cell wall synthesis by binding to penicillin-binding proteins</div>
+        <div class="option" data-opt="1">B. Inhibits bacterial DNA gyrase and topoisomerase IV, preventing DNA replication</div>
+        <div class="option" data-opt="2">C. Disrupts bacterial cell membrane integrity causing leakage of cellular contents</div>
+        <div class="option" data-opt="3">D. Inhibits bacterial folate synthesis by competing with para-aminobenzoic acid</div>
+        <div class="option" data-opt="4">E. Binds to the 50S ribosomal subunit, inhibiting bacterial protein synthesis</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Azithromycin is a macrolide antibiotic that binds reversibly to the 50S ribosomal subunit, preventing translocation of peptides and inhibiting bacterial protein synthesis. It has a long half-life allowing once-daily dosing and is a common alternative for penicillin-allergic patients.
+    </div>
+</div>
+
+<!-- QUESTION 74 -->
+<div class="mcq-card" data-id="74" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q74</div>
+    <div class="question-text">A 55-year-old woman with chronic constipation and irritable bowel syndrome with constipation as the predominant symptom is started on tegaserod. Her physician explains that this medication was previously withdrawn from the market but is now available with restrictions. Which of the following correctly describes the mechanism of tegaserod and the adverse effect that led to its market withdrawal?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. 5-HT3 receptor antagonist; caused ischemic colitis in susceptible patients</div>
+        <div class="option" data-opt="1">B. 5-HT4 receptor agonist; associated with increased risk of cardiovascular ischemic events</div>
+        <div class="option" data-opt="2">C. Guanylate cyclase-C agonist; caused severe diarrhea requiring hospitalization</div>
+        <div class="option" data-opt="3">D. Chloride channel activator; caused electrolyte imbalances in elderly patients</div>
+        <div class="option" data-opt="4">E. Mu-opioid receptor antagonist; precipitated opioid withdrawal in pain patients</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Tegaserod is a 5-HT4 receptor agonist that enhances gastrointestinal motility. It was withdrawn due to a small but statistically significant increased risk of cardiovascular ischemic events including heart attack and stroke. It is now available only through a restricted program for women with IBS-C under 65 without cardiovascular risk factors.
+    </div>
+</div>
+
+<!-- QUESTION 75 -->
+<div class="mcq-card" data-id="75" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q75</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of bismuth subsalicylate in the treatment of diarrhea? A 22-year-old traveler develops acute watery diarrhea and takes bismuth subsalicylate for symptom relief. He asks how this over-the-counter medication works to reduce his symptoms.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Absorbs water and toxins through its clay-like structure, reducing stool frequency</div>
+        <div class="option" data-opt="1">B. Slows intestinal transit through mu-opioid receptor activation in the gut</div>
+        <div class="option" data-opt="2">C. Multiple mechanisms: anti-secretory, antimicrobial, anti-inflammatory, and adsorbent effects</div>
+        <div class="option" data-opt="3">D. Inhibits prostaglandin synthesis in the intestinal mucosa through COX-2 selective blockade</div>
+        <div class="option" data-opt="4">E. Blocks 5-HT3 receptors in the gut, reducing serotonin-mediated fluid secretion</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Bismuth subsalicylate has multiple mechanisms: the bismuth component has antimicrobial and adsorbent effects, binding toxins and bacteria; the salicylate component has anti-inflammatory and anti-secretory effects. It is effective for traveler's diarrhea but should not be used in patients with aspirin allergy.
+    </div>
+</div>
+
+<!-- QUESTION 76 -->
+<div class="mcq-card" data-id="76" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q76</div>
+    <div class="question-text">A 48-year-old man with hereditary hemochromatosis develops cirrhosis and is found to have a small hepatocellular carcinoma. His oncologist discusses treatment options including sorafenib, a tyrosine kinase inhibitor. Which of the following correctly describes the mechanism of action of sorafenib in hepatocellular carcinoma?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Monoclonal antibody that blocks VEGF receptors, inhibiting tumor angiogenesis</div>
+        <div class="option" data-opt="1">B. Immune checkpoint inhibitor that activates T-cells against tumor cells</div>
+        <div class="option" data-opt="2">C. Cytotoxic chemotherapy that intercalates DNA and inhibits topoisomerase II</div>
+        <div class="option" data-opt="3">D. Multi-kinase inhibitor targeting Raf kinase, VEGF receptor, and PDGF receptor</div>
+        <div class="option" data-opt="4">E. Proteasome inhibitor that prevents degradation of pro-apoptotic factors</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Sorafenib is a multi-kinase inhibitor that targets Raf kinase in the MAPK pathway and several receptor tyrosine kinases including VEGFR and PDGFR. By inhibiting both tumor cell proliferation and angiogenesis, it provides survival benefit in advanced hepatocellular carcinoma.
+    </div>
+</div>
+
+<!-- QUESTION 77 -->
+<div class="mcq-card" data-id="77" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q77</div>
+    <div class="question-text">A 30-year-old woman with severe nausea and vomiting of pregnancy is prescribed doxylamine-pyridoxine combination. She asks how this medication works and whether it is safe for her baby. Which of the following correctly describes the mechanism of this antiemetic combination, and what is its FDA pregnancy category?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Doxylamine is an H1 antihistamine; pyridoxine is vitamin B6; FDA category A for pregnancy</div>
+        <div class="option" data-opt="1">B. Doxylamine is a D2 receptor antagonist; pyridoxine is a dopamine agonist; FDA category C</div>
+        <div class="option" data-opt="2">C. Doxylamine is a 5-HT3 antagonist; pyridoxine is a neurokinin-1 antagonist; FDA category B</div>
+        <div class="option" data-opt="3">D. Doxylamine is a muscarinic antagonist; pyridoxine is a carbonic anhydrase inhibitor; FDA category D</div>
+        <div class="option" data-opt="4">E. Doxylamine is a GABAA agonist; pyridoxine is a serotonin precursor; FDA category X</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Doxylamine is an ethanolamine H1 antihistamine, and pyridoxine is vitamin B6. This combination is FDA pregnancy category A for nausea and vomiting of pregnancy, with extensive safety data from multiple randomized controlled trials showing no increased risk of fetal malformations.
+    </div>
+</div>
+
+<!-- QUESTION 78 -->
+<div class="mcq-card" data-id="78" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q78</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which misoprostol protects the gastric mucosa and why it is contraindicated in pregnant women? A 65-year-old woman with rheumatoid arthritis requires long-term NSAID therapy and is prescribed misoprostol for gastric ulcer prophylaxis. She has a history of peptic ulcer disease.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. H2 receptor antagonist reducing acid secretion; contraindicated due to fetal growth restriction</div>
+        <div class="option" data-opt="1">B. Proton pump inhibitor blocking final common pathway of acid secretion; contraindicated due to hepatotoxicity</div>
+        <div class="option" data-opt="2">C. Antacid neutralizing gastric acid; contraindicated due to electrolyte imbalances in fetus</div>
+        <div class="option" data-opt="3">D. Mucosal coating agent forming protective barrier; contraindicated due to fetal bone marrow suppression</div>
+        <div class="option" data-opt="4">E. Prostaglandin E1 analogue increasing mucus and bicarbonate secretion; contraindicated due to abortifacient properties</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Misoprostol is a synthetic prostaglandin E1 analogue that increases gastric mucus and bicarbonate secretion, improves mucosal blood flow, and enhances mucosal repair. It is contraindicated in pregnancy because it stimulates uterine contractions and can cause abortion, uterine rupture, or fetal demise.
+    </div>
+</div>
+
+<!-- QUESTION 79 -->
+<div class="mcq-card" data-id="79" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q79</div>
+    <div class="question-text">A 25-year-old medical student develops nausea while studying for board examinations. His friend recommends meclizine, an over-the-counter antiemetic. Which of the following correctly describes the mechanism of action of meclizine, and what is its primary clinical indication?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. 5-HT3 receptor antagonist; primarily used for chemotherapy-induced nausea</div>
+        <div class="option" data-opt="1">B. D2 receptor antagonist; primarily used for postoperative nausea and vomiting</div>
+        <div class="option" data-opt="2">C. H1 antihistamine with anticholinergic properties; primarily used for motion sickness</div>
+        <div class="option" data-opt="3">D. Neurokinin-1 receptor antagonist; primarily used for delayed CINV</div>
+        <div class="option" data-opt="4">E. Cannabinoid CB1 receptor agonist; primarily used for appetite stimulation</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Meclizine is an H1 antihistamine that also has anticholinergic properties. It acts on the vestibular system and the chemoreceptor trigger zone to prevent motion sickness. Its primary indication is prevention and treatment of nausea, vomiting, and dizziness associated with motion sickness.
+    </div>
+</div>
+
+<!-- QUESTION 80 -->
+<div class="mcq-card" data-id="80" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q80</div>
+    <div class="question-text">A 50-year-old man with alcoholic cirrhosis presents with ascites and is started on spironolactone. He asks how this medication will help reduce his abdominal fluid. Which of the following correctly describes the mechanism of action of spironolactone in the management of ascites in patients with cirrhosis?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Loop diuretic that inhibits the Na-K-2Cl cotransporter in the thick ascending limb</div>
+        <div class="option" data-opt="1">B. Aldosterone antagonist that blocks sodium reabsorption in the collecting duct, reducing sodium retention</div>
+        <div class="option" data-opt="2">C. Thiazide diuretic that inhibits the Na-Cl cotransporter in the distal convoluted tubule</div>
+        <div class="option" data-opt="3">D. Carbonic anhydrase inhibitor that reduces bicarbonate reabsorption in the proximal tubule</div>
+        <div class="option" data-opt="4">E. Osmotic diuretic that draws water into the renal tubule by increasing tubular fluid osmolarity</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        In cirrhosis, hyperaldosteronism contributes to sodium and water retention. Spironolactone is a competitive aldosterone antagonist that blocks sodium reabsorption in the collecting duct. It is preferred over loop diuretics as first-line therapy for ascites because it directly targets the pathophysiologic mechanism of sodium retention.
+    </div>
+</div>
+
+<!-- QUESTION 81 -->
+<div class="mcq-card" data-id="81" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q81</div>
+    <div class="question-text">A 42-year-old woman with chronic hepatitis B is started on pegylated interferon alfa-2a. She asks how this medication works differently from the oral antivirals like entecavir. Which of the following correctly describes the mechanism of action of pegylated interferon in chronic hepatitis B?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Directly inhibits HBV polymerase, preventing viral DNA replication</div>
+        <div class="option" data-opt="1">B. Blocks viral entry into hepatocytes by binding to the NTCP receptor</div>
+        <div class="option" data-opt="2">C. Inhibits HBV capsid assembly, preventing virion formation</div>
+        <div class="option" data-opt="3">D. Immunomodulator that enhances host antiviral immune responses including NK cells and T-cells</div>
+        <div class="option" data-opt="4">E. Oligonucleotide that binds to HBV mRNA and prevents translation</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Pegylated interferon alfa-2a is an immunomodulator rather than a direct antiviral. It enhances host immune responses including natural killer cell activity, promotes CD8+ T-cell responses against infected hepatocytes, and induces antiviral proteins through JAK-STAT signaling, potentially leading to HBsAg loss.
+    </div>
+</div>
+
+<!-- QUESTION 82 -->
+<div class="mcq-card" data-id="82" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q82</div>
+    <div class="question-text">Which of the following correctly describes the mechanism by which diphenoxylate, an opioid antidiarrheal agent, produces its antidiarrheal effects? A 35-year-old man with chronic diarrhea from irritable bowel syndrome is prescribed diphenoxylate with atropine. He asks how this combination works to reduce his diarrhea.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Activates peripheral mu-opioid receptors in the gut, decreasing peristalsis and increasing transit time</div>
+        <div class="option" data-opt="1">B. Blocks 5-HT3 receptors in the gut, reducing serotonin-mediated fluid secretion</div>
+        <div class="option" data-opt="2">C. Adsorbs bacterial toxins and water, forming a protective coating on intestinal mucosa</div>
+        <div class="option" data-opt="3">D. Inhibits intestinal chloride channels, reducing fluid secretion into the gut lumen</div>
+        <div class="option" data-opt="4">E. Antibacterial agent that eradicates enteric pathogens causing diarrhea</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Diphenoxylate is a synthetic opioid that activates peripheral mu-opioid receptors in the gut, decreasing circular and longitudinal muscle tone, reducing peristalsis, and increasing intestinal transit time, allowing more water absorption. Atropine is added at subtherapeutic doses to discourage abuse.
+    </div>
+</div>
+
+<!-- QUESTION 83 -->
+<div class="mcq-card" data-id="83" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q83</div>
+    <div class="question-text">A 60-year-old man with non-alcoholic steatohepatitis with bridging fibrosis is started on vitamin E therapy. He asks his hepatologist how vitamin E helps his liver disease. Which of the following correctly describes the mechanism of action of vitamin E in non-alcoholic steatohepatitis?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Insulin sensitizer that reduces hepatic fat accumulation</div>
+        <div class="option" data-opt="1">B. Farnesoid X receptor agonist that reduces bile acid synthesis</div>
+        <div class="option" data-opt="2">C. Antioxidant that reduces oxidative stress and lipid peroxidation in hepatocytes</div>
+        <div class="option" data-opt="3">D. Peroxisome proliferator-activated receptor agonist that improves fatty acid oxidation</div>
+        <div class="option" data-opt="4">E. Caspase inhibitor that prevents hepatocyte apoptosis</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Vitamin E is a potent antioxidant that reduces oxidative stress and lipid peroxidation, which are key pathogenic mechanisms in non-alcoholic steatohepatitis. In clinical trials, vitamin E 800 IU daily improved liver histology in non-diabetic patients with NASH, but it has not shown benefit in patients with diabetes.
+    </div>
+</div>
+
+<!-- QUESTION 84 -->
+<div class="mcq-card" data-id="84" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q84</div>
+    <div class="question-text">A 28-year-old woman with autoimmune hepatitis is started on prednisone. She asks how corticosteroids help her liver condition. Which of the following correctly describes the mechanism of action of glucocorticoids in autoimmune hepatitis, and what are the major long-term adverse effects that require monitoring?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Block TNF-alpha production; monitor for hepatotoxicity and renal impairment</div>
+        <div class="option" data-opt="1">B. Suppress transcription of pro-inflammatory cytokines and inhibit T-cell activation; monitor for osteoporosis, diabetes, and cataracts</div>
+        <div class="option" data-opt="2">C. Induce apoptosis of autoreactive B-cells; monitor for hypogammaglobulinemia and infection</div>
+        <div class="option" data-opt="3">D. Block IL-6 receptors on hepatocytes; monitor for dyslipidemia and injection site reactions</div>
+        <div class="option" data-opt="4">E. Inhibit calcineurin and prevent T-cell activation; monitor for nephrotoxicity and hypertension</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Glucocorticoids bind to cytoplasmic receptors that translocate to the nucleus and suppress transcription of pro-inflammatory cytokines (IL-1, IL-2, TNF-alpha, IFN-gamma). Long-term use requires monitoring for osteoporosis, diabetes, cataracts, hypertension, and adrenal suppression.
+    </div>
+</div>
+
+<!-- QUESTION 85 -->
+<div class="mcq-card" data-id="85" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q85</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of rifaximin in the prevention of hepatic encephalopathy? A 55-year-old man with cirrhosis has had two episodes of overt hepatic encephalopathy in the past 6 months. His hepatologist prescribes rifaximin for secondary prophylaxis.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Non-absorbable disaccharide that acidifies the colon and traps ammonia</div>
+        <div class="option" data-opt="1">B. Zinc supplement that enhances urea cycle enzyme activity in the liver</div>
+        <div class="option" data-opt="2">C. Branched-chain amino acid that reduces aromatic amino acid influx into the brain</div>
+        <div class="option" data-opt="3">D. Laxative that mechanically flushes ammonia-producing bacteria from the colon</div>
+        <div class="option" data-opt="4">E. Non-absorbable antibiotic that suppresses ammonia-producing gut bacteria, particularly urease-positive species</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Rifaximin is a non-absorbable rifamycin derivative that acts locally in the gut to suppress ammonia-producing bacteria. It reduces the risk of recurrent hepatic encephalopathy by decreasing gut-derived ammonia and other neurotoxins. Unlike lactulose, it does not cause diarrhea or electrolyte imbalances.
+    </div>
+</div>
+
+<!-- QUESTION 86 -->
+<div class="mcq-card" data-id="86" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q86</div>
+    <div class="question-text">A 45-year-old woman with primary biliary cholangitis is started on ursodeoxycholic acid. She asks how this medication works to slow the progression of her liver disease. Which of the following correctly describes the mechanism of action of ursodeoxycholic acid in primary biliary cholangitis?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Glucocorticoid that suppresses autoimmune destruction of bile ducts</div>
+        <div class="option" data-opt="1">B. Bile acid sequestrant that binds toxic bile acids in the intestine</div>
+        <div class="option" data-opt="2">C. Hydrophilic bile acid that displaces toxic hydrophobic bile acids, reducing cholangiocyte injury</div>
+        <div class="option" data-opt="3">D. Fibrate that activates PPAR-alpha and reduces bile acid synthesis</div>
+        <div class="option" data-opt="4">E. Immunomodulator that blocks T-cell infiltration into portal tracts</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Ursodeoxycholic acid is a hydrophilic bile acid that replaces the toxic hydrophobic bile acids (such as chenodeoxycholic acid) in the bile acid pool. It reduces cholangiocyte injury and inflammation, improves bile flow, and slows disease progression in primary biliary cholangitis.
+    </div>
+</div>
+
+<!-- QUESTION 87 -->
+<div class="mcq-card" data-id="87" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q87</div>
+    <div class="question-text">A 32-year-old man with ulcerative colitis is started on vedolizumab, a gut-selective biologic agent. He asks how this medication works differently from the TNF-alpha inhibitors like infliximab. Which of the following correctly describes the mechanism of action of vedolizumab in inflammatory bowel disease?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Monoclonal antibody that binds to alpha-4-beta-7 integrin, preventing lymphocyte homing to the gut</div>
+        <div class="option" data-opt="1">B. Anti-TNF-alpha antibody that neutralizes TNF in the systemic circulation and gut</div>
+        <div class="option" data-opt="2">C. JAK inhibitor that blocks intracellular signaling of multiple cytokines</div>
+        <div class="option" data-opt="3">D. IL-12 and IL-23 antagonist that inhibits Th1 and Th17 differentiation</div>
+        <div class="option" data-opt="4">E. Sphingosine-1-phosphate receptor modulator that retains lymphocytes in lymph nodes</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Vedolizumab is a gut-selective monoclonal antibody that binds to alpha-4-beta-7 integrin, blocking its interaction with MAdCAM-1 on gut endothelium. This prevents lymphocyte trafficking specifically to the gastrointestinal tract without causing systemic immunosuppression.
+    </div>
+</div>
+
+<!-- QUESTION 88 -->
+<div class="mcq-card" data-id="88" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q88</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of loperamide, a commonly used antidiarrheal agent? A 28-year-old woman with acute traveler's diarrhea takes loperamide to control her symptoms before a long flight. She asks how this medication works and whether it is safe.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. 5-HT3 receptor antagonist reducing serotonin-mediated fluid secretion</div>
+        <div class="option" data-opt="1">B. Non-absorbable antibiotic that eradicates enteric pathogens</div>
+        <div class="option" data-opt="2">C. Bismuth-containing compound with adsorbent and antimicrobial effects</div>
+        <div class="option" data-opt="3">D. Peripheral mu-opioid receptor agonist that decreases peristalsis and increases anal sphincter tone</div>
+        <div class="option" data-opt="4">E. Chloride channel blocker that reduces intestinal fluid secretion</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Loperamide is a synthetic opioid that activates peripheral mu-opioid receptors in the gut. It does not cross the blood-brain barrier significantly, so it lacks central opioid effects. It decreases peristalsis, increases transit time, and enhances anal sphincter tone, allowing more water absorption.
+    </div>
+</div>
+
+<!-- QUESTION 89 -->
+<div class="mcq-card" data-id="89" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q89</div>
+    <div class="question-text">A 40-year-old woman with Wilson's disease is started on D-penicillamine. She asks how this medication works to remove excess copper from her body. Which of the following correctly describes the mechanism of action of D-penicillamine in Wilson's disease, and what are the major adverse effects that require monitoring?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Zinc salt that blocks intestinal copper absorption by inducing metallothionein</div>
+        <div class="option" data-opt="1">B. Copper binder that forms a stable complex in the blood, but does not increase urinary excretion</div>
+        <div class="option" data-opt="2">C. Antioxidant that prevents copper-induced oxidative damage to hepatocytes</div>
+        <div class="option" data-opt="3">D. Tetrathiomolybdate that complexes copper with protein in the gut and blood</div>
+        <div class="option" data-opt="4">E. Chelating agent that binds copper and promotes urinary excretion; monitor for bone marrow suppression, proteinuria, and lupus-like reactions</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        D-penicillamine is a chelating agent that binds copper and promotes its excretion in urine. Major adverse effects include bone marrow suppression (requiring CBC monitoring), proteinuria (requiring urinalysis), and autoimmune reactions including lupus-like syndrome. Trientine is an alternative chelator with better tolerability.
+    </div>
+</div>
+
+<!-- QUESTION 90 -->
+<div class="mcq-card" data-id="90" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q90</div>
+    <div class="question-text">A 55-year-old man with hepatocellular carcinoma is being considered for immunotherapy with atezolizumab in combination with bevacizumab. He asks how these medications work to treat his liver cancer. Which of the following correctly describes the mechanism of action of atezolizumab?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Monoclonal antibody that blocks PD-L1, preventing tumor-induced T-cell inactivation</div>
+        <div class="option" data-opt="1">B. Monoclonal antibody that blocks VEGF, inhibiting tumor angiogenesis</div>
+        <div class="option" data-opt="2">C. Multi-kinase inhibitor targeting Raf and VEGFR, blocking tumor proliferation</div>
+        <div class="option" data-opt="3">D. CTLA-4 inhibitor that enhances T-cell activation in lymph nodes</div>
+        <div class="option" data-opt="4">E. Oncolytic virus that selectively replicates in and destroys cancer cells</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Atezolizumab is a humanized monoclonal antibody that blocks PD-L1, the ligand for PD-1. By preventing PD-L1 on tumor cells from binding to PD-1 on T-cells, it restores T-cell-mediated antitumor immunity. In combination with bevacizumab (anti-VEGF antibody), it is first-line therapy for advanced HCC.
+    </div>
+</div>
+	
+	
+	
+	
+	<!-- QUESTION 91 -->
+<div class="mcq-card" data-id="91" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q91</div>
+    <div class="question-text">A 45-year-old man with acute pancreatitis is admitted to the hospital. His physician explains that the mainstay of treatment is supportive care, but certain medications are used to manage complications. Which of the following correctly describes the role of octreotide in the management of acute pancreatitis, and what is the evidence for its use?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Octreotide is first-line therapy for all patients with acute pancreatitis to reduce pancreatic enzyme secretion</div>
+        <div class="option" data-opt="1">B. Octreotide is used to prevent post-ERCP pancreatitis but has no role in established acute pancreatitis</div>
+        <div class="option" data-opt="2">C. Octreotide may be used in pancreatic fistulas and pseudocysts, but routine use in acute pancreatitis is not recommended due to lack of proven benefit</div>
+        <div class="option" data-opt="3">D. Octreotide is the drug of choice for pain management in acute pancreatitis due to its splanchnic vasoconstrictor effects</div>
+        <div class="option" data-opt="4">E. Octreotide is combined with proton pump inhibitors to reduce gastric acid-induced pancreatic stimulation</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Octreotide inhibits pancreatic enzyme secretion, but clinical trials have not shown benefit in reducing morbidity or mortality in acute pancreatitis. It may be useful for complications like pancreatic fistulas or pseudocysts, but routine use in acute pancreatitis is not recommended by guidelines.
+    </div>
+</div>
+
+<!-- QUESTION 92 -->
+<div class="mcq-card" data-id="92" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q92</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of metoclopramide as a prokinetic and antiemetic agent? A 55-year-old diabetic patient with gastroparesis is prescribed metoclopramide to improve gastric emptying. She asks how this medication works to relieve her symptoms of early satiety and nausea.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. 5-HT3 receptor antagonist that blocks emetic signals in the gut and chemoreceptor trigger zone</div>
+        <div class="option" data-opt="1">B. H1 antihistamine that blocks histaminergic input to the vomiting center</div>
+        <div class="option" data-opt="2">C. Neurokinin-1 receptor antagonist that prevents substance P from activating the vomiting center</div>
+        <div class="option" data-opt="3">D. 5-HT4 receptor agonist that enhances gastric emptying without affecting the chemoreceptor trigger zone</div>
+        <div class="option" data-opt="4">E. D2 receptor antagonist with additional 5-HT4 agonist activity; increases gastric emptying and has antiemetic effects</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Metoclopramide has dual mechanisms: D2 receptor antagonism in the chemoreceptor trigger zone provides antiemetic effects, while 5-HT4 receptor agonism enhances gastric emptying by increasing antral contractions and relaxing the pylorus. Long-term use is limited by risk of tardive dyskinesia.
+    </div>
+</div>
+
+<!-- QUESTION 93 -->
+<div class="mcq-card" data-id="93" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q93</div>
+    <div class="question-text">A 38-year-old woman with Crohn's disease and a history of recurrent fistulas is started on ustekinumab. She asks how this biologic medication works differently from the anti-TNF agents she has taken previously. Which of the following correctly describes the mechanism of action of ustekinumab in inflammatory bowel disease?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Monoclonal antibody that blocks the p40 subunit shared by IL-12 and IL-23, inhibiting Th1 and Th17 pathways</div>
+        <div class="option" data-opt="1">B. Anti-integrin antibody that prevents lymphocyte homing to the gastrointestinal tract</div>
+        <div class="option" data-opt="2">C. JAK inhibitor that blocks intracellular signaling of multiple cytokines involved in IBD pathogenesis</div>
+        <div class="option" data-opt="3">D. Sphingosine-1-phosphate receptor modulator that retains lymphocytes in lymph nodes</div>
+        <div class="option" data-opt="4">E. Anti-TNF antibody that neutralizes TNF-alpha in the gut and systemic circulation</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Ustekinumab is a monoclonal antibody that binds the p40 subunit common to both IL-12 and IL-23. By blocking these cytokines, it inhibits Th1 and Th17 differentiation, which are key pathogenic pathways in Crohn's disease. It is effective in anti-TNF refractory patients.
+    </div>
+</div>
+
+<!-- QUESTION 94 -->
+<div class="mcq-card" data-id="94" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q94</div>
+    <div class="question-text">A 60-year-old man with cirrhosis and hepatic encephalopathy is prescribed lactulose. He reports that he is taking it regularly but is having only one bowel movement every other day. His mental status remains altered. What is the therapeutic goal of lactulose therapy, and what adjustment should be made?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Goal is one formed stool daily; the current regimen is adequate and no change is needed</div>
+        <div class="option" data-opt="1">B. Goal is 2-3 soft stools daily; the dose should be increased until this is achieved</div>
+        <div class="option" data-opt="2">C. Goal is complete bowel evacuation daily; add a stimulant laxative to enhance effect</div>
+        <div class="option" data-opt="3">D. Goal is 4-5 loose stools daily; add rifaximin to achieve therapeutic target</div>
+        <div class="option" data-opt="4">E. Goal is normalization of ammonia levels regardless of stool frequency; check ammonia level first</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        The therapeutic goal of lactulose in hepatic encephalopathy is to produce 2-3 soft stools daily. This ensures adequate acidification of the colon to trap ammonia. The dose should be titrated upward until this goal is achieved, starting from 15-30 mL twice daily.
+    </div>
+</div>
+
+<!-- QUESTION 95 -->
+<div class="mcq-card" data-id="95" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q95</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of zinc acetate in the management of Wilson's disease? A 25-year-old woman with Wilson's disease is maintained on zinc acetate after initial chelation therapy. She asks why she needs to continue this medication long-term.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Chelates copper and promotes urinary excretion, reducing total body copper burden</div>
+        <div class="option" data-opt="1">B. Binds copper in the blood and prevents its uptake into hepatocytes and neurons</div>
+        <div class="option" data-opt="2">C. Antioxidant that prevents copper-induced oxidative damage to cellular membranes</div>
+        <div class="option" data-opt="3">D. Induces metallothionein in enterocytes, which binds copper and prevents its absorption from the gut</div>
+        <div class="option" data-opt="4">E. Inhibits copper-dependent enzymes, reducing copper toxicity at the cellular level</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Zinc acetate induces synthesis of metallothionein in intestinal epithelial cells. Metallothionein binds copper with high affinity, preventing its absorption into the portal circulation. Copper is then shed when enterocytes are sloughed. Zinc is used for maintenance therapy after initial decoppering with chelators.
+    </div>
+</div>
+
+<!-- QUESTION 96 -->
+<div class="mcq-card" data-id="96" data-correct="2">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q96</div>
+    <div class="question-text">A 50-year-old woman with chronic pancreatitis and exocrine pancreatic insufficiency is started on pancreatic enzyme replacement therapy with lipase, protease, and amylase. She asks how she should take this medication for maximum effectiveness. Which of the following correctly describes the optimal administration of pancreatic enzyme supplements?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Take all capsules once daily in the morning with a full glass of water</div>
+        <div class="option" data-opt="1">B. Take capsules with each meal but swallow them whole without regard to timing</div>
+        <div class="option" data-opt="2">C. Take capsules immediately before or during meals; enteric-coated preparations should not be crushed or chewed</div>
+        <div class="option" data-opt="3">D. Take capsules on an empty stomach 1 hour before meals to prevent inactivation by gastric acid</div>
+        <div class="option" data-opt="4">E. Take capsules at bedtime to allow overnight digestion of pancreatic secretions</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Pancreatic enzyme supplements should be taken immediately before or during meals to ensure they mix with food. Enteric-coated preparations protect enzymes from gastric acid and should not be crushed or chewed. The dose should be titrated based on symptom response.
+    </div>
+</div>
+
+<!-- QUESTION 97 -->
+<div class="mcq-card" data-id="97" data-correct="4">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q97</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of antiemetic neurokinin-1 receptor antagonists such as aprepitant? A 45-year-old woman receiving highly emetogenic chemotherapy for ovarian cancer experiences delayed nausea despite ondansetron and dexamethasone. Her oncologist adds aprepitant to her regimen.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Blocks 5-HT3 receptors in the gut and chemoreceptor trigger zone</div>
+        <div class="option" data-opt="1">B. Antagonizes dopamine D2 receptors in the chemoreceptor trigger zone</div>
+        <div class="option" data-opt="2">C. Enhances GABA activity in the vomiting center, reducing emetic drive</div>
+        <div class="option" data-opt="3">D. Blocks histamine H1 receptors in the vestibular system, preventing motion-induced emesis</div>
+        <div class="option" data-opt="4">E. Blocks substance P at neurokinin-1 receptors in the vomiting center, particularly effective for delayed chemotherapy-induced nausea</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Aprepitant is a neurokinin-1 receptor antagonist that blocks substance P, a key neurotransmitter in the vomiting center. It is particularly effective for delayed chemotherapy-induced nausea and vomiting, which is less responsive to 5-HT3 antagonists alone. It is a moderate CYP3A4 inhibitor.
+    </div>
+</div>
+
+<!-- QUESTION 98 -->
+<div class="mcq-card" data-id="98" data-correct="1">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q98</div>
+    <div class="question-text">A 35-year-old man with acetylsalicylic acid overdose presents with metabolic acidosis and respiratory alkalosis. He is started on intravenous sodium bicarbonate. Which of the following correctly describes the mechanism by which sodium bicarbonate reduces toxicity in salicylate poisoning?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Directly binds to salicylate in the blood, forming an inactive complex excreted in urine</div>
+        <div class="option" data-opt="1">B. Alkalinizes the urine, trapping salicylate in its ionized form and enhancing renal excretion</div>
+        <div class="option" data-opt="2">C. Increases hepatic metabolism of salicylate through CYP450 enzyme induction</div>
+        <div class="option" data-opt="3">D. Competes with salicylate for protein binding, reducing free drug concentration</div>
+        <div class="option" data-opt="4">E. Corrects metabolic acidosis and improves tissue perfusion, but does not affect salicylate elimination</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Salicylate is a weak acid that is non-ionized and reabsorbed in acidic urine. Alkalinizing the urine with sodium bicarbonate increases the ionized form, which is trapped in the renal tubule and excreted. The goal urine pH is 7.5-8.0. Hemodialysis is used for severe toxicity.
+    </div>
+</div>
+
+<!-- QUESTION 99 -->
+<div class="mcq-card" data-id="99" data-correct="0">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q99</div>
+    <div class="question-text">A 28-year-old woman with acetylsalicylic acid-induced asthma is being evaluated for treatment of her chronic rhinosinusitis. She has nasal polyps and requires surgery. Which of the following correctly describes the mechanism of acetylsalicylic acid-exacerbated respiratory disease, and what medication is used for desensitization?</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. COX-1 inhibition shunts arachidonic acid to the 5-lipoxygenase pathway, increasing leukotriene production; aspirin desensitization followed by daily aspirin therapy</div>
+        <div class="option" data-opt="1">B. Direct mast cell degranulation through IgE-mediated mechanism; omalizumab is used for desensitization</div>
+        <div class="option" data-opt="2">C. Inhibition of prostaglandin E2 leads to unopposed bronchoconstriction; montelukast is used for desensitization</div>
+        <div class="option" data-opt="3">D. T-cell mediated delayed hypersensitivity reaction requiring avoidance of all NSAIDs</div>
+        <div class="option" data-opt="4">E. Complement activation leading to anaphylactoid reactions; epinephrine is used for desensitization</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        In aspirin-exacerbated respiratory disease, COX-1 inhibition shunts arachidonic acid metabolism toward the 5-lipoxygenase pathway, increasing cysteinyl leukotriene production. Aspirin desensitization followed by daily aspirin therapy can improve respiratory symptoms and reduce nasal polyp burden.
+    </div>
+</div>
+
+<!-- QUESTION 100 -->
+<div class="mcq-card" data-id="100" data-correct="3">
+    <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q100</div>
+    <div class="question-text">Which of the following correctly describes the mechanism of action of N-acetylcysteine in the treatment of acetaminophen (paracetamol) overdose? A 22-year-old woman is brought to the emergency department 6 hours after ingesting 25 grams of acetaminophen with suicidal intent. She is started on intravenous N-acetylcysteine.</div>
+    <div class="options">
+        <div class="option" data-opt="0">A. Directly binds to acetaminophen in the gut, preventing absorption and enterohepatic recirculation</div>
+        <div class="option" data-opt="1">B. Alkalinizes the urine, trapping acetaminophen metabolites and enhancing renal excretion</div>
+        <div class="option" data-opt="2">C. Induces CYP2E1, accelerating metabolism of acetaminophen to non-toxic metabolites</div>
+        <div class="option" data-opt="3">D. Replenishes glutathione stores and directly neutralizes the reactive metabolite NAPQI</div>
+        <div class="option" data-opt="4">E. Competes with acetaminophen for protein binding, reducing free drug concentration in the blood</div>
+    </div>
+    <div class="explanation-box">
+        <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+        Acetaminophen is metabolized by CYP2E1 to a toxic intermediate, NAPQI, which is normally detoxified by glutathione. N-acetylcysteine replenishes glutathione stores and directly neutralizes NAPQI. It is most effective when given within 8-10 hours of ingestion. The FDA-approved protocol uses a 21-hour intravenous infusion.
+    </div>
+</div>
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    </div>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <i class=""></i> © MedPrep · All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+    // =========================================================================
+    // RENDERING ENGINE - DO NOT EDIT BELOW THIS LINE
+    // =========================================================================
+
+    let mcqCards = [];
+    let userAnswers = [];
+    let submitted = false;
+    let totalQuestions = 0;
+
+    function initializeFromHTML() {
+        const cards = document.querySelectorAll('#mcqContent .mcq-card');
+        totalQuestions = cards.length;
+        
+        if (totalQuestions === 0) {
+            document.getElementById('progressText').innerHTML = `0/0 Answered`;
+            document.getElementById('progressFill').style.width = '0%';
+            return;
+        }
+        
+        userAnswers = new Array(totalQuestions).fill(null);
+        
+        cards.forEach((card, idx) => {
+            const options = card.querySelectorAll('.option');
+            options.forEach(opt => {
+                opt.addEventListener('click', (e) => {
+                    if (submitted) return;
+                    const parentCard = opt.closest('.mcq-card');
+                    const cardIdx = Array.from(parentCard.parentElement.children).indexOf(parentCard);
+                    const optValue = parseInt(opt.dataset.opt);
+                    
+                    // Remove selected class from all options in this card
+                    parentCard.querySelectorAll('.option').forEach(o => {
+                        o.classList.remove('selected');
+                    });
+                    
+                    opt.classList.add('selected');
+                    userAnswers[cardIdx] = optValue;
+                    updateProgress();
+                });
+            });
+        });
+        
+        updateProgress();
+    }
+    
+    function updateProgress() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        const percentage = totalQuestions ? (answered / totalQuestions) * 100 : 0;
+        document.getElementById('progressText').innerHTML = `${answered}/${totalQuestions} Answered`;
+        document.getElementById('progressFill').style.width = percentage + '%';
+    }
+    
+    function renderScorePanel(correctCount = null) {
+        const container = document.getElementById('scorePanelContainer');
+        if (!submitted) {
+            container.classList.add('hidden-panel');
+            container.innerHTML = '';
+        } else {
+            const score = correctCount !== null ? correctCount : 0;
+            container.classList.remove('hidden-panel');
+            container.innerHTML = `
+                <div class="score-title"><i class="fas fa-chart-simple"></i> Score</div>
+                <div class="score-value">${score}/${totalQuestions}</div>
+            `;
+        }
+    }
+    
+    function submitMCQs() {
+        if (submitted) return;
+        submitted = true;
+        
+        let correctCount = 0;
+        const cards = document.querySelectorAll('#mcqContent .mcq-card');
+        
+        cards.forEach((card, idx) => {
+            const correctAnswer = parseInt(card.dataset.correct);
+            const selectedAnswer = userAnswers[idx];
+            
+            // Add appropriate class to card
+            if (selectedAnswer === null) {
+                card.classList.add('unanswered-ans');
+            } else if (selectedAnswer === correctAnswer) {
+                card.classList.add('correct-ans');
+                correctCount++;
+            } else {
+                card.classList.add('wrong-ans');
+            }
+            
+            // Mark correct and wrong options
+            const options = card.querySelectorAll('.option');
+            options.forEach((opt, optIdx) => {
+                if (optIdx === correctAnswer) {
+                    opt.classList.add('correct-option');
+                } else if (selectedAnswer === optIdx && selectedAnswer !== correctAnswer) {
+                    opt.classList.add('wrong-option');
+                }
+                opt.style.cursor = 'default';
+            });
+            
+            // Show explanation
+            const explanation = card.querySelector('.explanation-box');
+            if (explanation) {
+                explanation.classList.add('show');
+            }
+        });
+        
+        renderScorePanel(correctCount);
+        updateProgress();
+        
+        // Disable submit button if it exists
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.innerHTML = '<i class=""></i> Submitted';
+            submitBtn.classList.add('disabled-btn');
+            submitBtn.disabled = true;
+        }
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Add submit button after all content
+    function addSubmitButton() {
+        const mcqContainer = document.getElementById('mcqContent');
+        const submitWrapper = document.createElement('div');
+        submitWrapper.className = 'submit-wrapper';
+        submitWrapper.innerHTML = '<button id="submitBtn" class="primary-btn"><i class=""></i> Submit</button>';
+        mcqContainer.appendChild(submitWrapper);
+        
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.onclick = submitMCQs;
+        }
+    }
+    
+    window.onload = function() {
+        initializeFromHTML();
+        addSubmitButton();
+        renderScorePanel();
+    };
+</script>
+</body>
+</html>

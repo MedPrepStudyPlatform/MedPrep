@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carboxylic Acids | FSC Chemistry MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fffbeb 0%, #fef3c7 100%);
+            color: #b45309;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #ea580c;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #c2410c, #ea580c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #fed7aa;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(234, 88, 12, 0.08);
+            border-color: #fdba74;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #9a3412;
+            padding-left: 14px;
+            border-left: 4px solid #ea580c;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #ea580c;
+            background: #fffbeb;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #c2410c;
+            color: white;
+            border-color: #c2410c;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #ea580c;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(234, 88, 12, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #c2410c;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(194, 65, 12, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #9a3412, #c2410c);
+            color: #fffbeb;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #9a3412;
+            display: none;
+            background: #fffbeb;
+            padding: 16px 22px;
+            border-left: 6px solid #ea580c;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Carboxylic Acids</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual, high-difficulty Carboxylic Acids MCQs (FSC Part 2, Chapter 12)
+    // CORRECTED VERSION - all answers verified
+    const carboxylicAcidsMcqs = [
+        { q: "Which of the following carboxylic acids has the highest pKa value (least acidic)?", options: ["Formic acid", "Acetic acid", "Propanoic acid", "Butanoic acid"], exp: "pKa is inversely related to acidity. As alkyl chain length increases, +I effect increases slightly, decreasing acidity. Butanoic acid has the highest pKa (least acidic).", correct: "D" },
+        { q: "The product formed when acetic acid is treated with P₂O₅ (phosphorus pentoxide) is:", options: ["Acetic anhydride", "Acetyl chloride", "Acetamide", "Acetone"], exp: "P₂O₅ is a strong dehydrating agent. Two molecules of acetic acid lose water to form acetic anhydride (CH₃CO-O-COCH₃).", correct: "A" },
+        { q: "Which of the following is the correct order of acidity of halogenated acetic acids?", options: ["CH₃COOH > CH₂ClCOOH > CHCl₂COOH > CCl₃COOH", "CCl₃COOH > CHCl₂COOH > CH₂ClCOOH > CH₃COOH", "CH₂ClCOOH > CHCl₂COOH > CCl₃COOH > CH₃COOH", "CH₃COOH > CCl₃COOH > CHCl₂COOH > CH₂ClCOOH"], exp: "Electron withdrawing halogens increase acidity by stabilizing the carboxylate ion. More Cl atoms increase -I effect, making the acid stronger. Order: CCl₃COOH > CHCl₂COOH > CH₂ClCOOH > CH₃COOH.", correct: "B" },
+        { q: "The reaction of benzoic acid with SOCl₂ (thionyl chloride) gives:", options: ["Benzoyl chloride", "Benzyl chloride", "Chlorobenzene", "Benzaldehyde"], exp: "SOCl₂ converts carboxylic acids to acyl chlorides. Benzoic acid gives benzoyl chloride (C₆H₅COCl).", correct: "A" },
+        { q: "The Hell-Volhard-Zelinsky (HVZ) reaction is used for the alpha-halogenation of:", options: ["Aromatic carboxylic acids", "Aldehydes", "Carboxylic acids having alpha-hydrogen", "Alcohols"], exp: "The HVZ reaction involves α-bromination of carboxylic acids using Br₂ in presence of catalytic PBr₃. It requires an alpha-hydrogen atom.", correct: "C" },
+        { q: "The reduction of carboxylic acid with LiAlH₄ gives:", options: ["Aldehyde", "Primary alcohol", "Secondary alcohol", "Alkane"], exp: "LiAlH₄ is a strong reducing agent that reduces carboxylic acids directly to primary alcohols.", correct: "B" },
+        { q: "Which of the following statements about carboxylic acids is incorrect?", options: ["They form dimers via hydrogen bonding in non-polar solvents", "Lower carboxylic acids are soluble in water", "Formic acid gives a positive iodoform test", "Acetic acid on reduction with LiAlH₄ gives ethanol"], correct: "C", exp: "Formic acid does NOT give a positive iodoform test because it lacks the CH₃CO- group or CH₃CH(OH)- group required for the iodoform reaction. Formic acid DOES give Tollen's test (silver mirror) due to its aldehyde group." },
+        { q: "The product formed when acetic acid is heated with ammonia is:", options: ["Acetamide", "Acetonitrile", "Ammonium acetate", "Methylamine"], exp: "Acetic acid reacts with ammonia to form ammonium acetate. Upon heating, ammonium acetate dehydrates to form acetamide (CH₃CONH₂).", correct: "A" },
+        { q: "Which of the following is the strongest acid?", options: ["Benzoic acid", "o-Nitrobenzoic acid", "m-Nitrobenzoic acid", "p-Nitrobenzoic acid"], exp: "Nitro group is electron withdrawing and increases acidity. Ortho-nitrobenzoic acid is strongest due to ortho effect (steric inhibition of resonance + field effect).", correct: "B" },
+        { q: "The decarboxylation of sodium benzoate with soda lime (NaOH + CaO) gives:", options: ["Benzene", "Toluene", "Benzoic acid", "Phenol"], exp: "Decarboxylation of sodium salt of aromatic carboxylic acid with soda lime gives benzene (C₆H₆).", correct: "A" },
+        { q: "The reaction of formic acid with concentrated H₂SO₄ produces:", options: ["CO", "CO₂", "H₂O", "Methanol"], exp: "Formic acid (HCOOH) is dehydrated by concentrated H₂SO₄ to carbon monoxide (CO) and water. HCOOH → CO + H₂O.", correct: "A" },
+        { q: "Which of the following reagents can be used to distinguish between formic acid and acetic acid?", options: ["NaHCO₃ solution", "Tollen's reagent", "Blue litmus paper", "NaOH solution"], exp: "Formic acid has an aldehyde group and reduces Tollen's reagent (silver mirror), while acetic acid does not. So Tollen's reagent distinguishes them.", correct: "B" },
+        { q: "The IUPAC name of the compound (CH₃)₂CH-CH₂-COOH is:", options: ["3-Methylbutanoic acid", "2-Methylbutanoic acid", "Isopentanoic acid", "4-Methylbutanoic acid"], exp: "Longest chain containing -COOH is 4 carbons (butanoic acid). Methyl group is on carbon 3. Name: 3-methylbutanoic acid.", correct: "A" },
+        { q: "Which of the following sequences correctly converts benzoic acid to benzaldehyde?", options: ["(1) SOCl₂, (2) H₂/Pd-BaSO₄", "(1) LiAlH₄, (2) PCC", "(1) PCl₅, (2) LiAlH₄", "(1) NaBH₄, (2) H₂O"], correct: "A", exp: "Benzoic acid is first converted to benzoyl chloride using SOCl₂, then reduced with Rosenmund catalyst (H₂/Pd-BaSO₄) to benzaldehyde." },
+        { q: "The product formed when succinic acid (butanedioic acid) is heated is:", options: ["Succinic anhydride", "Maleic acid", "Fumaric acid", "Acetic acid"], exp: "Succinic acid (HOOC-CH₂-CH₂-COOH) upon heating undergoes intramolecular dehydration to form succinic anhydride.", correct: "A" },
+        { q: "Which of the following is the correct order of boiling points of carboxylic acids?", options: ["Formic acid > Acetic acid > Propanoic acid > Butanoic acid", "Butanoic acid > Propanoic acid > Acetic acid > Formic acid", "Acetic acid > Propanoic acid > Butanoic acid > Formic acid", "All have similar boiling points"], exp: "Boiling points increase with increasing molecular mass due to stronger London dispersion forces. Order: Butanoic > Propanoic > Acetic > Formic.", correct: "B" },
+        { q: "The reaction of acetic acid with PCl₃ gives:", options: ["Acetyl chloride", "Acetic anhydride", "Chloroacetic acid", "Acetaldehyde"], exp: "PCl₃ reacts with carboxylic acids to form acyl chlorides. 3CH₃COOH + PCl₃ → 3CH₃COCl + H₃PO₃.", correct: "A" },
+        { q: "The hybridisation of carbon atom in the carboxyl group (-COOH) is:", options: ["sp", "sp²", "sp³", "sp³d"], exp: "The carbonyl carbon in carboxylic acid is sp² hybridized (trigonal planar, bond angle ~120°).", correct: "B" },
+        { q: "Which of the following is not a method for the preparation of carboxylic acids?", options: ["Oxidation of primary alcohols", "Hydrolysis of nitriles", "Oxidation of tertiary alcohols", "Carbonation of Grignard reagent"], exp: "Tertiary alcohols have no hydrogen on the carbon bearing -OH, so they cannot be oxidized to carboxylic acids. They undergo dehydration or cleavage.", correct: "C" },
+        { q: "The product of the reaction of propanoic acid with Br₂ in presence of red phosphorus (HVZ reaction) is:", options: ["2-Bromopropanoic acid", "3-Bromopropanoic acid", "Propionyl bromide", "Bromoethane"], exp: "The Hell-Volhard-Zelinsky reaction gives α-bromination. Propanoic acid (CH₃CH₂COOH) gives 2-bromopropanoic acid (CH₃CHBrCOOH).", correct: "A" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...carboxylicAcidsMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

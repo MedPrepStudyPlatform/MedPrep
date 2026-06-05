@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT English Preparation Session · Weekly Test </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+        .score-detail {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> English Preparation Session</span>
+       
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';">Score</h2>
+        <div id="final-score">0 / 50</div>
+        <div class="score-detail">
+            <span><i class="fas fa-hourglass-half"></i> Tenses: <span id="tense-score">0</span>/10</span>
+            <span><i class="fas fa-check-double"></i> SVA: <span id="sva-score">0</span>/10</span>
+            <span><i class="fas fa-puzzle-piece"></i> Pronoun: <span id="pronoun-score">0</span>/10</span>
+            <span><i class="fas fa-exchange-alt"></i> Voice: <span id="voice-score">0</span>/10</span>
+            <span><i class="fas fa-comment-dots"></i> Narration: <span id="narration-score">0</span>/10</span>
+        </div>
+       
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class=""></i> Weekly Test</h3>
+        <div class="syllabus-grid">
+            
+        </div>
+
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> MedPrep </span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// ENGLISH REVISION QUIZ - 50 MCQs (April 26)
+// 10 Tenses | 10 Subject-Verb Agreement | 10 Pronoun-Antecedent | 10 Active/Passive Voice | 10 Direct/Indirect Speech
+// ✅ EACH QUESTION: ONE correct answer · Explanation matches the key
+// --------------------------------------------------------------
+const quizData = [];
+
+// ==================== TENSES (10) ====================
+const tenses = [
+    {q: "She ___ to school every day.", a: "B", choices: ["go", "goes", "going", "went"], e: "Present simple for habitual action; third person singular 'she' takes 'goes'."},
+    {q: "Look! The children ___ in the garden.", a: "C", choices: ["play", "plays", "are playing", "have played"], e: "Present continuous for action happening right now (Look! indicates ongoing action)."},
+    {q: "I ___ this movie three times already.", a: "D", choices: ["see", "saw", "am seeing", "have seen"], e: "Present perfect for past experience without specific time; 'already' signals completed action."},
+    {q: "Yesterday, he ___ to the market.", a: "A", choices: ["went", "goes", "has gone", "had gone"], e: "Past simple for completed action at specific past time (yesterday)."},
+    {q: "When I arrived, the meeting ___ already ___ .", a: "C", choices: ["has / started", "was / starting", "had / started", "did / start"], e: "Past perfect (had started) for action completed before another past action (arrived)."},
+    {q: "By the time you arrive, I ___ dinner for two hours.", a: "C", choices: ["cook", "will cook", "will have been cooking", "am cooking"], e: "Future perfect continuous emphasizes duration of action before another future event."},
+    {q: "I ___ him for ages. When did you last see him?", a: "A", choices: ["haven't seen", "didn't see", "hadn't seen", "wasn't seeing"], e: "Present perfect (haven't seen) for indefinite past time up to present."},
+    {q: "If she had taken the medicine, she ___ better now.", a: "C", choices: ["feels", "would feel", "would feel", "would have felt"], e: "Mixed conditional: past condition (had taken) + present result (would feel)."},
+    {q: "She ___ French for five years.", a: "B", choices: ["learns", "has been learning", "learned", "is learning"], e: "Present perfect continuous emphasizes duration (for five years) and ongoing nature."},
+    {q: "This time tomorrow, I ___ on the beach.", a: "C", choices: ["lie", "will lie", "will be lying", "am lying"], e: "Future continuous for action in progress at a specific future time (this time tomorrow)."}
+];
+tenses.forEach(item => quizData.push(item));
+
+// ==================== SUBJECT-VERB AGREEMENT (10) ====================
+const sva = [
+    {q: "The dog ___ barking loudly every night.", a: "A", choices: ["is", "are", "were", "have been"], e: "Singular subject 'dog' takes singular verb 'is'."},
+    {q: "The students ___ preparing for their final exams.", a: "B", choices: ["is", "are", "was", "has been"], e: "Plural subject 'students' takes plural verb 'are'."},
+    {q: "Either the manager or the employees ___ responsible for the error.", a: "C", choices: ["is", "was", "are", "has been"], e: "With 'either/or', verb agrees with nearer subject 'employees' (plural → 'are')."},
+    {q: "Neither the teacher nor the student ___ present in the class.", a: "A", choices: ["was", "were", "are", "have been"], e: "With 'neither/nor', verb agrees with nearer subject 'student' (singular → 'was')."},
+    {q: "The news ___ shocking to everyone.", a: "C", choices: ["are", "were", "is", "have been"], e: "'News' is singular uncountable noun → singular verb 'is'."},
+    {q: "Mathematics ___ my favorite subject.", a: "A", choices: ["is", "are", "were", "have been"], e: "Subject names ending in 'ics' (mathematics, physics) are singular."},
+    {q: "Each of the players ___ given a medal.", a: "C", choices: ["were", "are", "was", "have been"], e: "'Each' is singular → singular verb 'was'."},
+    {q: "The number of unemployed people ___ increased recently.", a: "C", choices: ["have", "are", "has", "were"], e: "'The number of' is singular → singular verb 'has'."},
+    {q: "Bread and butter ___ my favorite breakfast.", a: "C", choices: ["are", "were", "is", "have been"], e: "Compound subject acting as single unit → singular verb 'is'."},
+    {q: "Everybody ___ to be appreciated.", a: "B", choices: ["like", "likes", "are liking", "have liked"], e: "Indefinite pronoun 'everybody' is always singular → 'likes'."}
+];
+sva.forEach(item => quizData.push(item));
+
+// ==================== PRONOUN-ANTECEDENT AGREEMENT (10) ====================
+const pronoun = [
+    {q: "Each of the students must submit ___ assignment by Friday.", a: "C", choices: ["their", "our", "his or her", "your"], e: "Singular indefinite pronoun 'each' takes singular pronoun 'his or her'."},
+    {q: "The jury finally reached ___ verdict after three days.", a: "B", choices: ["their", "its", "our", "your"], e: "Collective noun 'jury' acting as single unit takes singular pronoun 'its'."},
+    {q: "Neither Ahmed nor his friends brought ___ own lunch.", a: "A", choices: ["their", "his", "our", "your"], e: "With 'neither/nor', pronoun agrees with nearer antecedent 'friends' (plural → 'their')."},
+    {q: "Everyone in the class should bring ___ own textbook.", a: "C", choices: ["their", "our", "his or her", "your"], e: "Indefinite pronoun 'everyone' is singular; formal English uses 'his or her'."},
+    {q: "The committee members expressed ___ opinions strongly.", a: "D", choices: ["its", "his", "her", "their"], e: "Plural 'members' takes plural pronoun 'their'."},
+    {q: "Someone left ___ umbrella in the hallway.", a: "A", choices: ["his or her", "their", "our", "your"], e: "Indefinite 'someone' is singular; 'his or her' is correct formal usage."},
+    {q: "The United Nations approved ___ resolution yesterday.", a: "C", choices: ["their", "our", "its", "your"], e: "Organization name (singular entity) → 'its'."},
+    {q: "Anybody can succeed if ___ tries hard enough.", a: "D", choices: ["they", "we", "you", "he or she"], e: "Indefinite 'anybody' is singular → 'he or she'."},
+    {q: "One should always be careful about ___ health.", a: "D", choices: ["their", "your", "our", "one's"], e: "Pronoun should be consistent: 'one' → 'one's'."},
+    {q: "Identify the error: 'When Ali met Ahmed, he was very happy.'", a: "D", choices: ["When", "met", "was", "Ambiguous pronoun reference"], e: "Unclear whether 'he' refers to Ali or Ahmed → ambiguous reference."}
+];
+pronoun.forEach(item => quizData.push(item));
+
+// ==================== ACTIVE & PASSIVE VOICE (10) ====================
+const voice = [
+    {q: "Change to passive: 'The chef prepares delicious meals.'", a: "B", choices: ["Delicious meals prepare by chef", "Delicious meals are prepared by the chef", "Delicious meals were prepared", "Delicious meals is prepared"], e: "Present simple passive: am/is/are + past participle."},
+    {q: "Change to passive: 'Shakespeare wrote Hamlet.'", a: "A", choices: ["Hamlet was written by Shakespeare.", "Hamlet is written by Shakespeare.", "Hamlet were written by Shakespeare.", "Hamlet was wrote by Shakespeare."], e: "Past simple passive: was/were + past participle → 'was written'."},
+    {q: "Change to passive: 'Someone has stolen my wallet.'", a: "C", choices: ["My wallet is stolen.", "My wallet was stolen.", "My wallet has been stolen.", "My wallet had been stolen."], e: "Present perfect passive: has/have + been + past participle → 'has been stolen'."},
+    {q: "Change to passive: 'They can solve the problem.'", a: "C", choices: ["The problem can solve.", "The problem could be solved.", "The problem can be solved.", "The problem is solved."], e: "Modal passive: modal + be + past participle → 'can be solved'."},
+    {q: "Change to passive: 'They are repairing my car.'", a: "D", choices: ["My car is repaired.", "My car was repaired.", "My car has been repaired.", "My car is being repaired."], e: "Present continuous passive: am/is/are + being + past participle → 'is being repaired'."},
+    {q: "Change to passive: 'You must complete the form.'", a: "B", choices: ["The form is completed.", "The form must be completed.", "The form must completed.", "The form has been completed."], e: "Modal passive: modal + be + past participle → 'must be completed'."},
+    {q: "Change to passive: 'Did they invite you?'", a: "D", choices: ["Were you invite?", "Was you invited?", "Are you invited?", "Were you invited?"], e: "Past simple interrogative passive: was/were + subject + past participle → 'Were you invited?'"},
+    {q: "Change to passive: 'Open the window.'", a: "C", choices: ["The window is opened.", "The window was opened.", "Let the window be opened.", "The window should open."], e: "Imperative passive: Let + object + be + past participle → 'Let the window be opened.'"},
+    {q: "Change to passive: 'She gave me a gift.' (use 'I' as subject)", a: "B", choices: ["A gift was given to me.", "I was given a gift.", "I am given a gift.", "I have given a gift."], e: "With two objects, indirect object can become subject: 'I was given a gift'."},
+    {q: "Identify the error: 'The letter was wrote by her.'", a: "B", choices: ["The letter", "wrote", "by her", "No error"], e: "Past participle of 'write' is 'written', not 'wrote'. Correct: 'was written'."}
+];
+voice.forEach(item => quizData.push(item));
+
+// ==================== DIRECT & INDIRECT SPEECH (10) ====================
+const narration = [
+    {q: "Convert to indirect: He said, 'I am going to the market.'", a: "B", choices: ["He said that he is going to the market.", "He said that he was going to the market.", "He said that I was going to the market.", "He said that he will go to the market."], e: "Present continuous changes to past continuous in reported speech."},
+    {q: "Convert to indirect: She asked, 'Do you like coffee?'", a: "B", choices: ["She asked if I like coffee.", "She asked if I liked coffee.", "She asked that I like coffee.", "She asked do I like coffee."], e: "Yes/no question: use 'if/whether', present simple changes to past simple."},
+    {q: "Convert to indirect: He asked, 'Where do you live?'", a: "D", choices: ["He asked where do I live.", "He asked where I live.", "He asked where did I live.", "He asked where I lived."], e: "Wh- question: wh- word retained, subject-verb order changed, past tense."},
+    {q: "Convert to indirect: He said, 'Close the door.'", a: "C", choices: ["He said to close the door.", "He told that close the door.", "He told me to close the door.", "He said that close the door."], e: "Imperative: reporting verb 'told/ordered' + to + infinitive."},
+    {q: "Convert to direct: He told me that he had finished his work.", a: "A", choices: ["He said, 'I have finished my work.'", "He said, 'I had finished my work.'", "He said, 'He has finished his work.'", "He said, 'I finished my work.'"], e: "Past perfect in indirect becomes present perfect in direct."},
+    {q: "Convert to indirect: The teacher said, 'The Earth revolves around the Sun.'", a: "D", choices: ["The teacher said that the Earth revolved around the Sun.", "The teacher said that the Earth is revolving around the Sun.", "The teacher said that the Earth was revolving around the Sun.", "The teacher said that the Earth revolves around the Sun."], e: "Universal truth: tense does NOT change in indirect speech."},
+    {q: "Convert to indirect: He said, 'Please lend me your pen.'", a: "B", choices: ["He said to lend him my pen.", "He requested me to lend him my pen.", "He asked that I lend him my pen.", "He told me to lend my pen."], e: "Imperative/request: 'requested + to + infinitive' is appropriate."},
+    {q: "Convert to indirect: She asked, 'Will you help me?'", a: "C", choices: ["She asked if I will help her.", "She asked that I would help her.", "She asked if I would help her.", "She asked me to help her."], e: "Future 'will' changes to 'would' in indirect question; 'if' is used for yes/no questions."},
+    {q: "Convert to indirect: He said, 'I will meet you here tomorrow.'", a: "D", choices: ["He said that he will meet me here tomorrow.", "He said that he would meet me there the next day.", "He said that he would meet me here tomorrow.", "He said that he would meet me there the next day."], e: "'Will' → 'would', 'here' → 'there', 'tomorrow' → 'the next day'."},
+    {q: "Identify the error: 'She said that she will come to the party.'", a: "C", choices: ["She said", "that", "will come", "the party"], e: "Past tense reporting verb ('said') requires tense change 'will' → 'would'."}
+];
+narration.forEach(item => quizData.push(item));
+
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let tenseScore = 0, svaScore = 0, pronounScore = 0, voiceScore = 0, narrationScore = 0;
+    
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                if (i < 10) tenseScore++;
+                else if (i < 20) svaScore++;
+                else if (i < 30) pronounScore++;
+                else if (i < 40) voiceScore++;
+                else narrationScore++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    const totalScore = tenseScore + svaScore + pronounScore + voiceScore + narrationScore;
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${totalScore} / 50`;
+    document.getElementById('tense-score').innerText = tenseScore;
+    document.getElementById('sva-score').innerText = svaScore;
+    document.getElementById('pronoun-score').innerText = pronounScore;
+    document.getElementById('voice-score').innerText = voiceScore;
+    document.getElementById('narration-score').innerText = narrationScore;
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

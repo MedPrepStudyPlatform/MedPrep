@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotational & Circular Motion | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fef2f2 0%, #fee2e2 100%);
+            color: #991b1b;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #dc2626;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #b91c1c, #dc2626);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #fecaca;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(220, 38, 38, 0.08);
+            border-color: #fca5a5;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #991b1b;
+            padding-left: 14px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #dc2626;
+            background: #fef2f2;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #b91c1c;
+            color: white;
+            border-color: #b91c1c;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(220, 38, 38, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(185, 28, 28, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #991b1b, #b91c1c);
+            color: #fef2f2;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #991b1b;
+            display: none;
+            background: #fef2f2;
+            padding: 16px 22px;
+            border-left: 6px solid #dc2626;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #f97316 !important;
+            background: #ffedd5 !important;
+            color: #9a3412 !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Rotational & Circular Motion</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Rotational & Circular Motion MCQs (Physics FSC Part 1, Chapter 5)
+    const rotationalMcqs = [
+        { q: "A body moves in a circular path of radius 2 m with a constant speed of 4 m/s. Its centripetal acceleration is:", options: ["2 m/s²", "4 m/s²", "8 m/s²", "16 m/s²"], exp: "Centripetal acceleration a_c = v²/r = (4)²/2 = 16/2 = 8 m/s².", correct: "C" },
+        { q: "The angular velocity of a particle moving in a circle of radius 0.5 m with a linear speed of 5 m/s is:", options: ["2.5 rad/s", "5 rad/s", "10 rad/s", "25 rad/s"], exp: "ω = v/r = 5/0.5 = 10 rad/s.", correct: "C" },
+        { q: "A wheel rotates through 200 radians in 10 seconds starting from rest. Its angular acceleration is:", options: ["2 rad/s²", "4 rad/s²", "6 rad/s²", "8 rad/s²"], exp: "θ = ω₀t + ½αt² → 200 = 0 + ½ × α × 100 → 200 = 50α → α = 4 rad/s².", correct: "B" },
+        { q: "The moment of inertia of a solid sphere about its diameter is:", options: ["⅖ MR²", "⅔ MR²", "MR²", "½ MR²"], exp: "The moment of inertia of a solid sphere about its diameter is (2/5)MR².", correct: "A" },
+        { q: "A stone tied to a string is whirled in a horizontal circle. If the string breaks, the stone will move:", options: ["Radially outward", "Tangentially", "Towards the center", "In a spiral path"], exp: "Due to inertia, the stone continues in the direction of its instantaneous velocity (tangential) when the centripetal force is removed.", correct: "B" },
+        { q: "The centripetal force required for a car of mass 800 kg to take a turn of radius 50 m at a speed of 10 m/s is:", options: ["800 N", "1600 N", "3200 N", "6400 N"], exp: "F_c = mv²/r = 800 × (10)²/50 = 800 × 100/50 = 800 × 2 = 1600 N.", correct: "B" },
+        { q: "A body of mass 2 kg is rotating in a circle of radius 1 m with an angular speed of 3 rad/s. The centripetal force acting on it is:", options: ["6 N", "12 N", "18 N", "24 N"], exp: "F = mω²r = 2 × (3)² × 1 = 2 × 9 = 18 N.", correct: "C" },
+        { q: "The angular momentum of a body rotating with angular velocity ω and moment of inertia I is:", options: ["I/ω", "Iω", "Iω²", "½ Iω²"], exp: "Angular momentum L = Iω.", correct: "B" },
+        { q: "A disc and a ring have the same mass and radius. Which has a larger moment of inertia about its axis?", options: ["Disc", "Ring", "Both equal", "Depends on material"], exp: "Moment of inertia of ring = MR², disc = ½ MR². Ring has larger moment of inertia.", correct: "B" },
+        { q: "A particle moves in a circle of radius 2 m with constant angular acceleration of 2 rad/s². If it starts from rest, the angular displacement after 3 seconds is:", options: ["6 rad", "9 rad", "12 rad", "18 rad"], exp: "θ = ω₀t + ½αt² = 0 + ½ × 2 × 9 = 9 rad.", correct: "B" },
+        { q: "The banking of roads is done to provide:", options: ["Centripetal force", "Centrifugal force", "Frictional force", "Gravitational force"], exp: "Banking provides the necessary centripetal force by resolving the normal reaction, reducing reliance on friction.", correct: "A" },
+        { q: "A cyclist moving on a circular track of radius 40 m completes half a revolution in 20 seconds. His angular speed is:", options: ["0.157 rad/s", "0.314 rad/s", "0.628 rad/s", "0.785 rad/s"], exp: "Half revolution = π radians. ω = θ/t = π/20 = 3.14/20 = 0.157 rad/s.", correct: "A" },
+        { q: "The torque required to produce an angular acceleration of 2 rad/s² in a body of moment of inertia 5 kg m² is:", options: ["2.5 Nm", "5 Nm", "10 Nm", "15 Nm"], exp: "Torque τ = Iα = 5 × 2 = 10 Nm.", correct: "C" },
+        { q: "A satellite orbits the Earth in a circular path. The force providing the centripetal acceleration is:", options: ["Gravitational force", "Electrostatic force", "Magnetic force", "Nuclear force"], exp: "The gravitational force between Earth and satellite provides the necessary centripetal force.", correct: "A" },
+        { q: "The angular velocity of the second's hand of a clock is:", options: ["π/30 rad/s", "π/60 rad/s", "π/15 rad/s", "π/120 rad/s"], exp: "Second's hand completes 1 revolution (2π rad) in 60 seconds. ω = 2π/60 = π/30 rad/s.", correct: "A" },
+        { q: "A body is rotating with angular velocity ω. If its moment of inertia is halved while keeping angular momentum constant, the new angular velocity becomes:", options: ["ω/2", "ω", "2ω", "4ω"], exp: "L = Iω = constant. If I' = I/2, then ω' = L/I' = L/(I/2) = 2L/I = 2ω.", correct: "C" },
+        { q: "The direction of centripetal acceleration is always:", options: ["Tangential", "Radially outward", "Radially inward", "Perpendicular to plane"], exp: "Centripetal acceleration is directed towards the center of the circle (radially inward).", correct: "C" },
+        { q: "A flywheel of moment of inertia 2 kg m² is rotating at 10 rad/s. The rotational kinetic energy is:", options: ["50 J", "100 J", "200 J", "400 J"], exp: "KE_rot = ½ Iω² = ½ × 2 × (10)² = 1 × 100 = 100 J.", correct: "B" },
+        { q: "The radius of curvature of a curved road is 100 m. The maximum speed for a car to safely negotiate the curve with a coefficient of friction 0.5 is (g = 10 m/s²):", options: ["10√5 m/s", "20√5 m/s", "10√2 m/s", "20√2 m/s"], exp: "v_max = √(μrg) = √(0.5 × 100 × 10) = √500 = 10√5 m/s.", correct: "A" },
+        { q: "A particle is moving in a circle with constant speed. Its acceleration is:", options: ["Zero", "Constant in magnitude but changing direction", "Constant in both magnitude and direction", "Variable in magnitude"], exp: "Centripetal acceleration has constant magnitude (v²/r) but direction always changes (towards center).", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...rotationalMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

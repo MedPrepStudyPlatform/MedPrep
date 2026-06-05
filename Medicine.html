@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · Block-J · Medicine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5fafd;
+            color: #15304c;
+            line-height: 1.5;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #f5fafd;
+            padding-top: 5px;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .main-header {
+            background: #0a2c48;
+            color: white;
+            width: 100%;
+            padding: 20px 0;
+            box-shadow: 0 12px 28px -10px rgba(10, 44, 72, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-wrapper {
+            background: white;
+            padding: 8px 28px;
+            border-radius: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #1ecbe1;
+            transition: transform 0.2s ease;
+        }
+
+        .logo-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-img {
+            height: 65px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .pill-nav {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 16px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(30, 203, 225, 0.5);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pill-nav span {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: white;
+            letter-spacing: 0.3px;
+        }
+
+        .pill-nav i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        .score-panel {
+            background: white;
+            border-radius: 60px;
+            padding: 16px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 18px -6px #b5d9f0;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .score-panel.hidden-panel {
+            display: none;
+        }
+
+        .score-title {
+            font-family: 'Outfit', sans-serif;
+            color: #0a2c48;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .score-value {
+            background: #0a2c48;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 40px;
+            padding: 12px 20px;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #0a2c48;
+            font-size: 0.9rem;
+        }
+
+        .progress-fill {
+            height: 10px;
+            background: #1ecbe1;
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-bg {
+            flex-grow: 1;
+            background: #e1f0fa;
+            border-radius: 20px;
+            height: 10px;
+            min-width: 100px;
+        }
+
+        .mcq-card {
+            background: white;
+            border-radius: 24px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #cde1f0;
+            box-shadow: 0 6px 14px -6px #aac9e2;
+            transition: all 0.2s ease;
+        }
+
+        .mcq-card:hover {
+            box-shadow: 0 10px 20px -8px #aac9e2;
+        }
+
+        .mcq-card.correct-ans {
+            border-left: 8px solid #10b981;
+            background: #f0fdf4;
+        }
+
+        .mcq-card.wrong-ans {
+            border-left: 8px solid #f44336;
+            background: #fff3f5;
+        }
+
+        .mcq-card.unanswered-ans {
+            border-left: 8px solid #ff9800;
+            background: #fff8e7;
+        }
+
+        .q-num {
+            font-weight: 700;
+            color: #0a2c48;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 18px;
+            color: #1a3a5a;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .option {
+            background: #f1f9ff;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: 1px solid #c3dcf2;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .option:hover {
+            background: #d7ecfd;
+            border-color: #1ecbe1;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1ecbe1;
+            color: #0a2c48;
+            border-color: #0a2c48;
+            font-weight: 600;
+        }
+
+        .option.correct-option {
+            background: #10b981;
+            color: white;
+            border-color: #0e6e4a;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .option.wrong-option {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+            pointer-events: none;
+        }
+
+        .explanation-box {
+            margin-top: 20px;
+            background: #f4f9ff;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #0a2c48;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .explanation-box.show {
+            display: block;
+        }
+
+        .exp-title {
+            font-weight: 700;
+            color: #0a2c48;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0 50px;
+        }
+
+        .primary-btn {
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            background: #0a2c48;
+            color: white;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .primary-btn:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+            transform: scale(1.02);
+        }
+
+        .primary-btn.disabled-btn,
+        .primary-btn:disabled {
+            background: #9aaebf;
+            color: #f0f4f8;
+            cursor: not-allowed;
+            transform: none;
+            pointer-events: none;
+        }
+
+        .main-footer {
+            background: #0a2c48;
+            color: #ffffffcc;
+            text-align: center;
+            padding: 24px 20px;
+            margin-top: 30px;
+            border-top: 1px solid #1ecbe1;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            .header-inner { padding: 0 15px; flex-direction: column; text-align: center; }
+            .logo-wrapper { padding: 6px 20px; }
+            .logo-img { height: 50px; }
+            .pill-nav { padding: 5px 12px; gap: 6px; }
+            .pill-nav span { font-size: 0.75rem; }
+            .score-panel { padding: 14px 18px; flex-direction: column; text-align: center; border-radius: 30px; }
+            .score-title { font-size: 1rem; justify-content: center; }
+            .score-value { font-size: 1rem; padding: 5px 16px; }
+            .options { gap: 10px; }
+            .option { padding: 10px 16px; font-size: 0.85rem; }
+            .question-text { font-size: 0.95rem; }
+            .mcq-card { padding: 18px; }
+            .primary-btn { padding: 12px 28px; font-size: 0.9rem; }
+            .progress-bar { flex-direction: column; text-align: center; }
+            .progress-bg { width: 100%; min-width: auto; }
+            .main-footer { padding: 20px 16px; font-size: 0.75rem; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 12px; }
+            .header-inner { padding: 0 12px; }
+            .logo-wrapper { padding: 5px 16px; }
+            .logo-img { height: 42px; }
+            .mcq-card { padding: 15px; border-radius: 20px; }
+            .question-text { font-size: 0.9rem; }
+            .option { padding: 8px 14px; font-size: 0.8rem; }
+            .explanation-box { padding: 12px 15px; font-size: 0.85rem; }
+            .score-value { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-inner">
+        <div class="logo-wrapper">
+            <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+        </div>
+        <div class="pill-nav">
+            <span><i class="fas fa-stethoscope"></i> Block-J</span>
+            <span><i class="fas fa-file-alt"></i> Medicine</span>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div id="scorePanelContainer" class="score-panel hidden-panel"></div>
+
+    <div class="progress-sticky">
+        <div class="progress-bar">
+            <span class="progress-text" id="progressText">0/100 Answered</span>
+            <div class="progress-bg">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <span class="progress-text" id="scorePreview"></span>
+        </div>
+    </div>
+
+    <div id="mcqContent"></div>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <i class=""></i> © MedPrep · All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+    
+
+    const questions = [
+        
+    {
+        "id": 1,
+        "question": "A 65-year-old man with hypertension and diabetes presents with sudden-onset right-sided weakness and inability to speak. His symptoms began 2 hours ago. NIHSS score is 14. Non-contrast CT head shows no hemorrhage but subtle loss of gray-white matter differentiation in the left middle cerebral artery territory. Which of the following is the most appropriate next step in management?",
+        "options": [
+            "Aspirin 325 mg orally",
+            "IV alteplase (tPA) 0.9 mg/kg",
+            "Clopidogrel 300 mg loading dose",
+            "Heparin infusion",
+            "Carotid endarterectomy"
+        ],
+        "correct": 1,
+        "explanation": "IV alteplase (tPA) is indicated for acute ischemic stroke within 3-4.5 hours of symptom onset after exclusion of hemorrhage on CT. This patient presents within 3 hours and has no contraindications. tPA improves functional outcomes by 30% despite a 6% risk of symptomatic hemorrhage. Aspirin is delayed 24 hours after tPA. Heparin is not beneficial in acute ischemic stroke."
+    },
+    {
+        "id": 2,
+        "question": "Which of the following correctly describes the difference between a transient ischemic attack (TIA) and an ischemic stroke? A 70-year-old woman experiences sudden-onset left arm weakness and facial droop that completely resolves within 30 minutes. She has a history of atrial fibrillation. Her symptoms do not recur. She asks her physician what happened and whether she needs further evaluation.",
+        "options": [
+            "TIA causes permanent tissue damage visible on MRI; stroke does not",
+            "TIA symptoms resolve within 24 hours without infarction; stroke causes permanent neurological deficit with infarction",
+            "TIA is caused by hemorrhage; stroke is caused by thrombosis",
+            "TIA only affects the posterior circulation; stroke affects anterior circulation",
+            "TIA requires anticoagulation; stroke requires antiplatelet therapy only"
+        ],
+        "correct": 1,
+        "explanation": "TIA is defined as transient neurological deficit due to focal brain ischemia without acute infarction (normal DWI MRI). Symptoms typically last <1 hour. Stroke causes permanent infarction with irreversible tissue damage. Both require urgent evaluation to prevent recurrence. This patient with atrial fibrillation requires anticoagulation for secondary prevention regardless of TIA or stroke."
+    },
+    {
+        "id": 3,
+        "question": "A 45-year-old man presents with new-onset generalized tonic-clonic seizure witnessed by his family. He has no prior history of seizures. He reports a recent head injury from a fall 2 weeks ago. Neurological examination is normal. Non-contrast CT head shows no acute abnormality. EEG shows intermittent epileptiform discharges in the left temporal region. Which of the following is the most appropriate next step?",
+        "options": [
+            "Start levetiracetam immediately",
+            "Reassure and observe without treatment",
+            "Start phenytoin loading dose",
+            "Perform lumbar puncture",
+            "Start carbamazepine"
+        ],
+        "correct": 1,
+        "explanation": "After a first unprovoked seizure, treatment is not routinely started unless there are risk factors for recurrence. Risk factors for recurrence include abnormal EEG, abnormal neuroimaging, prior brain injury (including remote head injury), and nocturnal seizure. This patient has EEG abnormalities, so starting an anti-epileptic drug (levetiracetam or lamotrigine) is appropriate. Patients with low recurrence risk can be observed. Post-traumatic seizure from recent head injury is provoked, not unprovoked."
+    },
+    {
+        "id": 4,
+        "question": "A 30-year-old woman presents with acute-onset ascending weakness over 3 days. She initially noticed tingling in her feet, followed by difficulty walking, and now has weakness in her hands. Examination shows symmetric proximal and distal weakness, areflexia, and no sensory level. Lumbar puncture shows elevated protein (120 mg/dL) with normal cell count (albuminocytologic dissociation). Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Guillain-Barré syndrome",
+            "Transverse myelitis",
+            "Myasthenia gravis",
+            "Polymyositis"
+        ],
+        "correct": 1,
+        "explanation": "Guillain-Barré syndrome (GBS) presents with rapidly progressive ascending symmetric weakness, areflexia, and albuminocytologic dissociation (elevated CSF protein with normal white count). It is typically post-infectious (Campylobacter jejuni, CMV, EBV, Zika). IV immunoglobulin or plasma exchange is first-line treatment. Respiratory function must be monitored (vital capacity). Multiple sclerosis shows sensory level and relapsing-remitting course. Myasthenia gravis has fatigable weakness and normal reflexes."
+    },
+    {
+        "id": 5,
+        "question": "A 55-year-old man presents with acute onset of the worst headache of his life, described as a thunderclap. He also has nausea, photophobia, and neck stiffness. CT head without contrast shows hyperdense blood in the basal cisterns. Which of the following is the most common cause of this condition, and what is the most important immediate intervention?",
+        "options": [
+            "Hypertension; blood pressure control",
+            "Saccular (berry) aneurysm; neurosurgical consultation for aneurysm clipping or coiling",
+            "Arteriovenous malformation; radiation therapy",
+            "Amyloid angiopathy; supportive care",
+            "Trauma; observation"
+        ],
+        "correct": 1,
+        "explanation": "Subarachnoid hemorrhage most commonly results from rupture of a saccular (berry) aneurysm. Immediate management includes neurosurgical consultation, blood pressure control (avoid hypotension and severe hypertension), and prevention of rebleeding with early aneurysm occlusion (coiling or clipping). Nimodipine (calcium channel blocker) reduces delayed cerebral ischemia from vasospasm. CT is 98% sensitive within 6 hours; if negative, lumbar puncture for xanthochromia is performed."
+    },
+    {
+        "id": 6,
+        "question": "Which of the following best describes the clinical features of status epilepticus? A 35-year-old woman with known epilepsy presents to the emergency department with continuous generalized tonic-clonic seizure activity lasting 25 minutes. She has not regained consciousness between seizures. Her husband reports she missed her morning dose of lamotrigine. Understanding the definition and management of this neurologic emergency is critical for preventing permanent brain injury.",
+        "options": [
+            "Any seizure lasting more than 2 minutes",
+            "Continuous seizure activity lasting more than 5 minutes or two or more seizures without full recovery of consciousness",
+            "More than three seizures in 24 hours regardless of duration",
+            "Seizure activity that stops spontaneously but recurs within 1 hour",
+            "Any seizure requiring hospitalization"
+        ],
+        "correct": 1,
+        "explanation": "Status epilepticus is defined as continuous seizure activity lasting more than 5 minutes or two or more seizures without return to baseline consciousness. It is a medical emergency requiring immediate treatment. First-line: IV benzodiazepines (lorazepam 0.1 mg/kg or diazepam). Second-line: IV fosphenytoin, levetiracetam, or valproate. Refractory status requires continuous EEG monitoring and anesthetic agents (propofol, midazolam, pentobarbital). Prolonged seizures cause excitotoxicity and neuronal death."
+    },
+    {
+        "id": 7,
+        "question": "A 25-year-old woman presents with acute-onset right eye pain and vision loss that worsens with eye movement. She also reports numbness and tingling in her left arm and leg that resolved after 2 weeks. MRI brain shows multiple T2 hyperintense lesions in the periventricular white matter, including one enhancing lesion in the optic nerve. Lumbar puncture shows oligoclonal bands in CSF not present in serum. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Neuromyelitis optica",
+            "Multiple sclerosis",
+            "Acute disseminated encephalomyelitis",
+            "Systemic lupus erythematosus",
+            "Sarcoidosis"
+        ],
+        "correct": 1,
+        "explanation": "Multiple sclerosis (MS) is diagnosed based on dissemination in space (multiple CNS lesions) and time (new symptoms or MRI activity). This patient has optic neuritis (painful vision loss worse with eye movement) and prior sensory symptoms. Oligoclonal bands in CSF (absent in serum) support MS diagnosis. McDonald criteria require at least 2 clinical attacks or 1 attack with MRI evidence of dissemination. Neuromyelitis optica (NMO) typically shows longitudinally extensive transverse myelitis and anti-AQP4 antibodies."
+    },
+    {
+        "id": 8,
+        "question": "A 72-year-old man with hypertension and atrial fibrillation presents with sudden-onset left-sided weakness and neglect. He is outside the window for thrombolysis. CT head is negative for hemorrhage. Which of the following antiplatelet or anticoagulant regimens is most appropriate for secondary prevention of ischemic stroke in this patient?",
+        "options": [
+            "Aspirin monotherapy 325 mg daily",
+            "Clopidogrel monotherapy 75 mg daily",
+            "Aspirin plus dipyridamole combination",
+            "Apixaban or warfarin (direct oral anticoagulant)",
+            "Aspirin plus clopidogrel dual therapy"
+        ],
+        "correct": 3,
+        "explanation": "This patient has atrial fibrillation (AF), which requires anticoagulation for secondary stroke prevention (not antiplatelet therapy). DOACs (apixaban, rivaroxaban, edoxaban, dabigatran) are preferred over warfarin for non-valvular AF due to lower bleeding risk, fewer drug interactions, and no need for INR monitoring. CHA2DS2-VASc score guides anticoagulation decision. For AF patients with recent stroke, anticoagulation is typically started 1-14 days after stroke depending on infarct size and bleeding risk."
+    },
+    {
+        "id": 9,
+        "question": "A 28-year-old woman presents with episodic palpitations, anxiety, and tremors. She reports a 10-pound weight loss over 2 months despite increased appetite. She also notices heat intolerance and difficulty sleeping. Examination reveals fine tremor, hyperreflexia, and a diffuse, painless goiter. Which of the following is the most likely diagnosis and what is the pathognomonic finding?",
+        "options": [
+            "Hashimoto thyroiditis; anti-TPO antibodies",
+            "Graves disease; TSH receptor antibodies",
+            "Subacute thyroiditis; elevated ESR",
+            "Toxic multinodular goiter; hot nodules on scan",
+            "Thyroid storm; fever and altered mental status"
+        ],
+        "correct": 1,
+        "explanation": "Graves disease is the most common cause of hyperthyroidism, caused by TSH receptor antibodies (TRAb) that stimulate the thyroid. Findings include diffuse goiter, ophthalmopathy (exophthalmos, lid lag), and pretibial myxedema. This patient does not have eye findings but has classic hyperthyroid symptoms with diffuse goiter. Radioactive iodine uptake is diffusely increased. Treatment options include methimazole, radioactive iodine ablation, or thyroidectomy. Beta-blockers control adrenergic symptoms (tremor, palpitations)."
+    },
+    {
+        "id": 10,
+        "question": "A 55-year-old woman presents with progressive difficulty climbing stairs, lifting objects, and swallowing over 6 months. She reports double vision and drooping eyelids that worsen as the day progresses. Examination shows ptosis, ophthalmoparesis, proximal muscle weakness that fatigues with repetition, and normal reflexes. Edrophonium test is positive. Which of the following is the most appropriate first-line treatment?",
+        "options": [
+            "Prednisolone monotherapy",
+            "Pyridostigmine (acetylcholinesterase inhibitor)",
+            "IV immunoglobulin",
+            "Plasma exchange",
+            "Rituximab"
+        ],
+        "correct": 1,
+        "explanation": "Myasthenia gravis is an autoimmune disorder with antibodies against acetylcholine receptors (AChR) or MuSK at the neuromuscular junction. Pyridostigmine is first-line symptomatic treatment, increasing acetylcholine availability at the synapse. For moderate to severe disease, immunosuppression (prednisolone, azathioprine, mycophenolate) is added. Thymectomy is indicated for patients under 60 with AChR antibodies and thymoma or non-thymomatous generalized disease. Edrophonium (short-acting acetylcholinesterase inhibitor) temporarily improves weakness, supporting diagnosis. IVIG and plasma exchange are used for myasthenic crisis or before surgery."
+    },
+	
+	
+	
+	
+
+    {
+        "id": 11,
+        "question": "A 45-year-old man presents with fever, severe headache, neck stiffness, and photophobia for 2 days. He appears ill and lethargic. Lumbar puncture reveals cloudy CSF with 5000 WBC/mm³ (90% neutrophils), low glucose (20 mg/dL), and elevated protein (200 mg/dL). Gram stain shows Gram-positive diplococci. Which of the following is the most appropriate empiric antibiotic regimen for this patient?",
+        "options": [
+            "Ceftriaxone plus vancomycin",
+            "Ampicillin plus gentamicin",
+            "Meropenem alone",
+            "Ciprofloxacin plus metronidazole",
+            "Doxycycline plus rifampin"
+        ],
+        "correct": 0,
+        "explanation": "This patient has acute bacterial meningitis with CSF findings: neutrophilic pleocytosis, low glucose, high protein, and Gram-positive diplococci (Streptococcus pneumoniae). Empiric therapy for community-acquired meningitis is ceftriaxone (or cefotaxime) plus vancomycin (to cover resistant S. pneumoniae). Dexamethasone should be given before or with first antibiotic dose to reduce mortality and neurologic sequelae, especially for S. pneumoniae. Ampicillin is added for Listeria in patients >50, immunocompromised, or neonates."
+    },
+    {
+        "id": 12,
+        "question": "Which of the following correctly describes the clinical presentation of tuberculous meningitis? A 35-year-old immunocompromised man presents with subacute onset of headache, low-grade fever, and confusion over 2 weeks. He has no neck stiffness initially. CSF shows lymphocytic pleocytosis (200 WBC/mm³), elevated protein (150 mg/dL), and low glucose (35 mg/dL). Acid-fast bacilli stain is negative. He develops cranial nerve VI palsy and hydrocephalus. Understanding the typical presentation of tuberculous meningitis is essential for early diagnosis and treatment.",
+        "options": [
+            "Acute onset with high fever and rapid progression to coma",
+            "Subacute onset with basilar meningeal enhancement, cranial nerve palsies, and hydrocephalus",
+            "Relapsing-remitting course with optic neuritis and transverse myelitis",
+            "Chronic progressive dementia with ataxia and urinary incontinence",
+            "Sudden thunderclap headache with blood in subarachnoid space"
+        ],
+        "correct": 1,
+        "explanation": "Tuberculous meningitis has a subacute course (weeks) with basilar meningeal involvement, causing cranial nerve palsies (especially VI, III, VII) and hydrocephalus (due to exudate obstructing CSF flow). CSF shows lymphocytic pleocytosis, elevated protein, and low glucose. Diagnosis is confirmed by CSF PCR for Mycobacterium tuberculosis or positive culture (takes weeks). Empiric therapy: isoniazid, rifampin, pyrazinamide, ethambutol, plus corticosteroids. Without treatment, mortality approaches 100%. Patients with HIV have higher mortality and more atypical presentations."
+    },
+    {
+        "id": 13,
+        "question": "A 60-year-old man with atrial fibrillation presents with sudden-onset left-sided weakness and neglect. He is outside the window for thrombolysis. CT head is negative for hemorrhage. Which of the following is the most appropriate antiplatelet or anticoagulant regimen for secondary prevention of ischemic stroke in this patient?",
+        "options": [
+            "Aspirin 325 mg daily",
+            "Clopidogrel 75 mg daily",
+            "Aspirin plus dipyridamole",
+            "Apixaban (direct oral anticoagulant)",
+            "Aspirin plus clopidogrel"
+        ],
+        "correct": 3,
+        "explanation": "Atrial fibrillation (AF) causes cardioembolic strokes, requiring anticoagulation for secondary prevention (not antiplatelet therapy). DOACs (apixaban, rivaroxaban, edoxaban, dabigatran) are preferred over warfarin for non-valvular AF due to lower intracranial bleeding risk and no INR monitoring. Anticoagulation is typically started 1-14 days after stroke depending on infarct size and bleeding risk (small infarct: earlier; large hemorrhagic transformation: delay). CHA2DS2-VASc score (this patient has ≥2 points) mandates anticoagulation."
+    },
+    {
+        "id": 14,
+        "question": "A 25-year-old woman presents with acute-onset bilateral leg weakness and urinary retention. She reports a viral illness 1 week ago with fever and cough. Examination shows lower extremity weakness (4/5), bilateral Babinski signs, and a sensory level at T10. MRI spine shows T2 hyperintensity and swelling of the thoracic spinal cord. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Transverse myelitis",
+            "Guillain-Barré syndrome",
+            "Spinal cord compression from tumor",
+            "Amyotrophic lateral sclerosis"
+        ],
+        "correct": 1,
+        "explanation": "Transverse myelitis presents with acute or subacute spinal cord dysfunction (weakness, sensory level, autonomic dysfunction including urinary retention). It is often post-infectious (viral or post-vaccination) or associated with autoimmune diseases (lupus, neuromyelitis optica). MRI shows T2 hyperintensity and cord swelling (acute). CSF shows lymphocytic pleocytosis and elevated protein. Treatment is high-dose IV methylprednisolone. Unlike MS, transverse myelitis is monophasic (unless recurrent). Neuromyelitis optica (NMO) shows longitudinally extensive transverse myelitis (>3 vertebral segments) with anti-AQP4 antibodies."
+    },
+    {
+        "id": 15,
+        "question": "A 28-year-old woman presents with episodic palpitations, anxiety, tremors, and weight loss. She also notices bulging eyes and a feeling of fullness in her neck. Examination reveals proptosis, lid lag, a diffuse goiter with bruit, and fine tremors. Which of the following is the most appropriate first-line treatment for this condition?",
+        "options": [
+            "Radioactive iodine ablation",
+            "Methimazole (thionamide)",
+            "Propranolol monotherapy",
+            "Thyroidectomy",
+            "Prednisolone"
+        ],
+        "correct": 1,
+        "explanation": "This patient has Graves disease (diffuse goiter, ophthalmopathy, hyperthyroid symptoms). Methimazole is first-line treatment in non-pregnant patients, inhibiting thyroid peroxidase and reducing thyroid hormone synthesis. It typically takes 4-8 weeks for euthyroidism. Propranolol controls adrenergic symptoms (tremor, palpitations, anxiety) until methimazole works. Radioactive iodine is definitive but can worsen ophthalmopathy and is used after methimazole failure or relapse. Thyroidectomy is for large goiter, suspicious nodule, or patient preference. Methimazole is preferred over propylthiouracil (except first trimester of pregnancy)."
+    },
+    {
+        "id": 16,
+        "question": "Which of the following best describes the clinical features of absence seizures (petit mal)? A 7-year-old girl is noted by her teacher to have brief staring spells lasting 10 seconds during which she stops talking and does not respond. She then resumes normal activity without confusion. These episodes occur multiple times per day. Her mother reports that she has not had any convulsive movements or loss of consciousness. Understanding the typical presentation of absence seizures is important for diagnosis and treatment selection.",
+        "options": [
+            "Sudden falls without warning (drop attacks)",
+            "Brief staring spells with impaired consciousness and rapid return to baseline without post-ictal confusion",
+            "Focal motor jerking of one limb without impaired awareness",
+            "Generalized tonic-clonic movements followed by prolonged confusion",
+            "Sudden brief muscle jerks involving both arms"
+        ],
+        "correct": 1,
+        "explanation": "Absence seizures (typical absence) present with brief (5-15 seconds) staring spells with impaired consciousness, no post-ictal confusion, and prompt return to baseline. They occur many times daily. Hyperventilation provokes seizures on EEG (3 Hz spike-and-wave). Ethosuximide or valproate is first-line. Absence seizures occur in children (age 4-12) and often remit by adulthood. Unlike complex partial seizures (focal impaired awareness), absence seizures have no aura or automatisms. Atypical absence seizures have slower onset and longer duration, often with developmental delay."
+    },
+    {
+        "id": 17,
+        "question": "A 55-year-old woman presents with progressive difficulty walking, imbalance, and slurred speech over 1 year. Examination reveals scanning dysarthria, intention tremor, nystagmus, and ataxic gait. Family history is positive for similar symptoms in her father. MRI shows atrophy of the cerebellum and brainstem. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Parkinson's disease",
+            "Spinocerebellar ataxia",
+            "Multiple sclerosis",
+            "Normal pressure hydrocephalus",
+            "Vascular dementia"
+        ],
+        "correct": 1,
+        "explanation": "Spinocerebellar ataxias (SCAs) are autosomal dominant disorders with progressive cerebellar ataxia (gait, dysarthria, limb ataxia, nystagmus), often with brainstem involvement. More than 40 genetic types (SCA1-40) with trinucleotide repeat expansions. MRI shows cerebellar and brainstem atrophy. Unlike multiple sclerosis, SCAs have no relapses or white matter lesions. Unlike Parkinson's, no tremor at rest. No specific treatment; symptomatic therapy (speech, physical therapy). Friedreich ataxia is autosomal recessive with cardiomyopathy and diabetes, caused by GAA repeat in FXN gene (frataxin)."
+    },
+    {
+        "id": 18,
+        "question": "A 65-year-old man with a history of hypertension and hyperlipidemia presents with sudden-onset right-sided weakness and aphasia. CT head is normal. He presents 5 hours after symptom onset. Which of the following is the most appropriate next step in management?",
+        "options": [
+            "IV alteplase (tPA)",
+            "CT angiography and perfusion imaging",
+            "Aspirin 325 mg daily",
+            "Heparin infusion",
+            "Carotid ultrasound"
+        ],
+        "correct": 1,
+        "explanation": "This patient presents within 4.5-hour window for tPA, but the exact time is 5 hours (beyond standard window). In selected patients (wake-up stroke or unknown onset), advanced imaging (CT perfusion or MRI DWI-FLAIR mismatch) can identify salvageable penumbra, allowing thrombolysis up to 9 hours (WAKE-UP, EXTEND trials) or thrombectomy with large vessel occlusion up to 24 hours (DAWN, DEFUSE-3). This patient needs CTA to assess for large vessel occlusion (LVO) for thrombectomy. Aspirin is given if no reperfusion therapy. Heparin is not indicated for acute ischemic stroke."
+    },
+    {
+        "id": 19,
+        "question": "A 30-year-old HIV-positive man presents with subacute onset of headache, confusion, and focal seizures over 3 weeks. CD4 count is 50 cells/mm³. MRI shows multiple ring-enhancing lesions in the basal ganglia and corticomedullary junction. Toxoplasma IgG is positive. Which of the following is the most appropriate next step?",
+        "options": [
+            "Brain biopsy",
+            "Empiric treatment for toxoplasmosis (pyrimethamine plus sulfadiazine)",
+            "Start highly active antiretroviral therapy (HAART) only",
+            "Radiation therapy",
+            "Corticosteroids alone"
+        ],
+        "correct": 1,
+        "explanation": "In HIV patients with CD4 <100 and multiple ring-enhancing lesions, toxoplasmosis is the most likely diagnosis. Empiric treatment for toxoplasmosis (pyrimethamine plus sulfadiazine or clindamycin) is started, with clinical and radiologic improvement expected in 7-14 days. Brain biopsy is reserved for patients who do not improve or have atypical features. HAART is started but may cause immune reconstitution inflammatory syndrome (IRIS). Primary CNS lymphoma (EBV-associated) is the main differential; it typically shows periventricular lesions and may respond to steroids. Toxoplasma IgG positive supports diagnosis."
+    },
+    {
+        "id": 20,
+        "question": "A 35-year-old woman presents with acute-onset right eye vision loss that is painless. She has a history of multiple previous episodes of numbness and weakness in different body parts that resolved over several weeks. MRI brain shows multiple periventricular T2 hyperintense lesions, including an enhancing lesion in the right optic nerve. Lumbar puncture shows oligoclonal bands in CSF. Which of the following is the most appropriate first-line disease-modifying therapy?",
+        "options": [
+            "IV methylprednisolone for acute attack",
+            "Interferon-beta or glatiramer acetate",
+            "Rituximab",
+            "Natalizumab",
+            "Fingolimod"
+        ],
+        "correct": 1,
+        "explanation": "This patient has relapsing-remitting multiple sclerosis (RRMS). First-line disease-modifying therapies (DMTs) include injectables (interferon-beta, glatiramer acetate), oral agents (fingolimod, dimethyl fumarate, teriflunomide), or monoclonal antibodies (natalizumab, ocrelizumab, ofatumumab). Choice depends on disease activity, patient preference, and safety profile. For acute optic neuritis (painless vision loss in MS patient, unlike painful in typical optic neuritis), high-dose IV methylprednisolone is used for acute attack to accelerate recovery. Glatiramer acetate and interferons are first-line for mild-to-moderate RRMS, while natalizumab and anti-CD20 agents (rituximab, ocrelizumab) are for highly active disease. Corticosteroids do not alter long-term disability, only speed recovery."
+    },
+	
+	
+	
+	
+    {
+        "id": 21,
+        "question": "A 68-year-old man presents with progressive difficulty walking, slowness of movement, and a resting tremor in his right hand for 2 years. He also reports constipation and a decreased sense of smell. Examination reveals masked facies, cogwheel rigidity, bradykinesia, and a pill-rolling tremor at rest. Which of the following is the most appropriate first-line pharmacologic treatment for motor symptoms?",
+        "options": [
+            "Pramipexole (dopamine agonist)",
+            "Levodopa/carbidopa",
+            "Selegiline (MAO-B inhibitor)",
+            "Amantadine",
+            "Benztropine (anticholinergic)"
+        ],
+        "correct": 1,
+        "explanation": "Levodopa/carbidopa is the most effective symptomatic treatment for Parkinson's disease, particularly for bradykinesia and rigidity. It is first-line for patients with significant functional impairment or older onset (like this patient). Dopamine agonists (pramipexole, ropinirole) may be used initially in younger patients to delay levodopa-related motor complications (dyskinesias, wearing-off). MAO-B inhibitors (selegiline, rasagiline) provide mild symptomatic benefit and are used as adjuncts. Amantadine treats levodopa-induced dyskinesias. Anticholinergics (benztropine) primarily treat tremor but have significant cognitive side effects in elderly."
+    },
+    {
+        "id": 22,
+        "question": "Which of the following best describes the clinical presentation of myasthenia gravis? A 45-year-old woman presents with fluctuating ptosis and diplopia that worsens as the day progresses and improves with rest. She also has difficulty chewing and swallowing, especially late in the day. Examination shows fatigable weakness of extraocular muscles, with normal reflexes and sensation. Edrophonium test produces transient improvement. Understanding the hallmark features of myasthenia gravis is essential for diagnosis.",
+        "options": [
+            "Ascending weakness with areflexia and albuminocytologic dissociation",
+            "Fluctuating fatigable weakness, especially ocular and bulbar muscles, with improvement after rest",
+            "Proximal muscle weakness with elevated creatine kinase and muscle biopsy showing inflammation",
+            "Fixed weakness with hyperreflexia and extensor plantar responses",
+            "Symmetric distal weakness with sensory loss and absent reflexes"
+        ],
+        "correct": 1,
+        "explanation": "Myasthenia gravis (MG) presents with fatigable weakness (worsens with activity, improves with rest), typically affecting extraocular muscles (ptosis, diplopia), bulbar muscles (dysarthria, dysphagia, chewing difficulty), and proximal limb muscles. Reflexes and sensation are normal. Acetylcholine receptor (AChR) antibodies are positive in 80-90% of generalized MG. Edrophonium (short-acting acetylcholinesterase inhibitor) temporarily improves weakness. Treatment includes pyridostigmine (symptomatic), corticosteroids/immunosuppressants, and thymectomy (if AChR-positive and age <60). Myasthenic crisis (respiratory failure) requires IVIG or plasma exchange."
+    },
+    {
+        "id": 23,
+        "question": "A 72-year-old woman presents with progressive memory loss, difficulty finding words, and getting lost in familiar places over 2 years. She has no motor symptoms. Mini-Mental State Examination score is 18/30 (impaired recall, orientation, and visuospatial function). MRI brain shows generalized cortical atrophy with prominent medial temporal lobe involvement. Which of the following is the most appropriate diagnosis and first-line pharmacologic treatment?",
+        "options": [
+            "Frontotemporal dementia; antidepressants",
+            "Alzheimer's disease; cholinesterase inhibitor (donepezil, rivastigmine, or galantamine)",
+            "Dementia with Lewy bodies; memantine",
+            "Vascular dementia; antiplatelet agents",
+            "Normal pressure hydrocephalus; ventriculoperitoneal shunt"
+        ],
+        "correct": 1,
+        "explanation": "Alzheimer's disease (AD) is the most common cause of dementia, presenting with progressive episodic memory impairment, visuospatial deficits, and eventually aphasia, apraxia, agnosia. Hippocampal atrophy on MRI is characteristic. Cholinesterase inhibitors (donepezil, rivastigmine, galantamine) are first-line for mild-to-moderate AD, improving symptoms temporarily but not altering disease progression. Memantine is added for moderate-to-severe AD or used alone if intolerant to cholinesterase inhibitors. AD pathology shows neurofibrillary tangles (tau) and amyloid plaques. Frontotemporal dementia presents with behavioral changes or language impairment earlier. Dementia with Lewy bodies has visual hallucinations, parkinsonism, and fluctuating cognition."
+    },
+    {
+        "id": 24,
+        "question": "A 25-year-old man presents with acute-onset fever, severe headache, neck stiffness, and photophobia. He appears toxic and has a petechial rash on his trunk and extremities. Lumbar puncture reveals cloudy CSF with 8000 WBC/mm³ (95% neutrophils), low glucose, and elevated protein. Gram stain shows Gram-negative diplococci. Which of the following is the most likely organism and appropriate antibiotic regimen?",
+        "options": [
+            "Streptococcus pneumoniae; ceftriaxone plus vancomycin",
+            "Neisseria meningitidis; ceftriaxone",
+            "Haemophilus influenzae type b; ampicillin",
+            "Listeria monocytogenes; ampicillin plus gentamicin",
+            "Staphylococcus aureus; vancomycin plus rifampin"
+        ],
+        "correct": 1,
+        "explanation": "Neisseria meningitidis (meningococcus) causes bacterial meningitis with characteristic petechial or purpuric rash and rapid progression. CSF shows Gram-negative diplococci. Empiric therapy is ceftriaxone or cefotaxime. Prophylaxis for close contacts (household, daycare, direct exposure to oral secretions) is rifampin, ciprofloxacin, or ceftriaxone. Vaccines available for serogroups A, B, C, W, Y. Unlike S. pneumoniae (Gram-positive diplococci), meningococcus does not require vancomycin. Listeria monocytogenes is Gram-positive rod, occurs in elderly, immunocompromised, or neonates."
+    },
+    {
+        "id": 25,
+        "question": "A 55-year-old man with a history of hypertension presents with sudden-onset difficulty speaking and right-sided numbness. His symptoms resolve completely within 20 minutes. He has had two similar episodes in the past week. CT head is normal. Which of the following is the most appropriate next step to evaluate his risk of future stroke?",
+        "options": [
+            "Carotid duplex ultrasound",
+            "Echocardiogram",
+            "EEG",
+            "Lumbar puncture",
+            "CT angiography of head"
+        ],
+        "correct": 0,
+        "explanation": "This patient has recurrent transient ischemic attacks (TIAs) with language and sensory symptoms (likely left hemisphere). In patients with anterior circulation TIA, carotid stenosis is a major cause. Carotid duplex ultrasound is noninvasive and first-line to detect >50% stenosis. If significant stenosis (50-99%), revascularization (carotid endarterectomy or stenting) reduces future stroke risk. Echocardiogram is for embolic sources (atrial fibrillation, valvular disease, PFO). TIA requires urgent evaluation (ABCD2 score predicts stroke risk; this patient with recurrent events in past week has high risk). Aspirin or clopidogrel and statin are initiated immediately."
+    },
+    {
+        "id": 26,
+        "question": "Which of the following best describes the clinical features of viral encephalitis? A 45-year-old man presents with fever, headache, confusion, and personality changes over 3 days. He has a seizure. Examination shows disorientation, aphasia, and focal neurologic deficits. MRI brain shows T2 hyperintensity in the right temporal lobe. CSF shows lymphocytic pleocytosis (200 WBC/mm³), elevated protein, normal glucose, and negative Gram stain. PCR is positive for HSV. Understanding the typical presentation of viral encephalitis helps guide empiric therapy.",
+        "options": [
+            "Acute onset with stiff neck and rapid improvement with antibiotics",
+            "Subacute onset with cranial nerve palsies and hydrocephalus",
+            "Acute onset with altered mental status, seizures, focal deficits (temporal lobe), and fever",
+            "Chronic progressive dementia with ataxia and myoclonus",
+            "Relapsing-remitting episodes of optic neuritis and transverse myelitis"
+        ],
+        "correct": 2,
+        "explanation": "Herpes simplex virus (HSV) encephalitis is the most common cause of sporadic viral encephalitis. It presents with acute fever, headache, altered mental status, seizures, and focal neurologic deficits. MRI shows temporal lobe involvement (T2/FLAIR hyperintensity, often unilateral). CSF shows lymphocytic pleocytosis, elevated protein, normal glucose, and may have red blood cells. PCR for HSV DNA in CSF is diagnostic. Empiric treatment is IV acyclovir. Without treatment, mortality is >70%; with treatment, mortality is 20-30% but survivors often have residual deficits (memory impairment, personality changes). Arboviruses (West Nile, St. Louis, La Crosse, Eastern equine) also cause encephalitis with different seasonal and geographic patterns."
+    },
+    {
+        "id": 27,
+        "question": "A 70-year-old man presents with sudden-onset left-sided weakness and neglect. He is outside the window for thrombolysis. CT head shows an acute infarct in the right middle cerebral artery territory. Which of the following antiplatelet regimens is most appropriate for secondary prevention?",
+        "options": [
+            "Aspirin 81 mg daily",
+            "Clopidogrel 75 mg daily",
+            "Aspirin plus dipyridamole",
+            "Aspirin plus clopidogrel dual therapy for 21 days",
+            "Warfarin"
+        ],
+        "correct": 3,
+        "explanation": "For minor non-cardioembolic ischemic stroke (NIHSS ≤3) or high-risk TIA, dual antiplatelet therapy (DAPT) with aspirin plus clopidogrel for 21 days reduces early recurrent stroke risk (POINT and CHANCE trials). After 21 days, monotherapy (aspirin or clopidogrel) is continued. This patient has an acute infarct (not minor, NIHSS likely >3), so DAPT is not indicated; single antiplatelet (aspirin or clopidogrel) is used. If patient had atrial fibrillation, anticoagulation (apixaban, warfarin) would be used. Aspirin 81-325 mg daily is standard monotherapy; clopidogrel is alternative. Aspirin plus extended-release dipyridamole (Aggrenox) is another option but has poorer tolerability."
+    },
+    {
+        "id": 28,
+        "question": "A 35-year-old woman presents with acute-onset bilateral leg weakness and urinary retention. She reports a viral illness with fever and cough 10 days ago. Examination shows lower extremity weakness (4/5), bilateral Babinski signs, sensory level at T8, and decreased rectal tone. MRI spine shows T2 hyperintensity and swelling of the thoracic cord from T4 to T10. CSF shows lymphocytic pleocytosis. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Transverse myelitis",
+            "Guillain-Barré syndrome",
+            "Spinal cord compression",
+            "Poliomyelitis"
+        ],
+        "correct": 1,
+        "explanation": "Acute transverse myelitis presents with rapidly progressive (hours to days) bilateral spinal cord dysfunction: weakness (paraparesis/quadriparesis), sensory level, and autonomic changes (urinary retention, constipation). It is often post-infectious (viral, post-vaccination) or associated with autoimmune diseases (lupus, neuromyelitis optica). MRI shows cord swelling and T2 hyperintensity extending over multiple segments. CSF shows lymphocytic pleocytosis and elevated protein. Treatment is high-dose IV methylprednisolone. NMO (anti-AQP4 antibodies) causes longitudinally extensive transverse myelitis (>3 segments) and is treated with plasma exchange, rituximab, IVIG. Unlike multiple sclerosis (relapsing, brain lesions, oligoclonal bands), transverse myelitis is monophasic in most cases."
+    },
+    {
+        "id": 29,
+        "question": "A 62-year-old woman presents with progressive memory loss and difficulty performing familiar tasks over 3 years. She has no tremor or rigidity. She becomes lost while driving home. MRI shows generalized cerebral atrophy with hippocampal involvement. Which of the following pathologic findings is characteristic of this condition?",
+        "options": [
+            "Lewy bodies (alpha-synuclein inclusions)",
+            "Neurofibrillary tangles (tau) and amyloid plaques",
+            "TDP-43 inclusions in frontal and temporal lobes",
+            "Prion protein deposition with spongiform change",
+            "Huntingtin inclusions in caudate nucleus"
+        ],
+        "correct": 1,
+        "explanation": "Alzheimer's disease (AD) is characterized by extracellular amyloid-beta plaques (senile plaques) and intracellular neurofibrillary tangles (hyperphosphorylated tau protein) in the hippocampus and cortex. Plaques are composed of amyloid-beta derived from amyloid precursor protein (APP). Tangles correlate better with cognitive decline. Genetics: APOE epsilon4 increases risk; early onset AD may have APP, PSEN1, or PSEN2 mutations. Lewy bodies are in Parkinson's disease and dementia with Lewy bodies. TDP-43 inclusions are in frontotemporal lobar degeneration and ALS. Prion disease (CJD) shows spongiform change. Huntington's disease shows caudate atrophy with huntingtin inclusions."
+    },
+    {
+        "id": 30,
+        "question": "A 55-year-old man with a history of hypertension and hyperlipidemia presents with sudden-onset right-sided weakness and aphasia. He last known well was 3 hours ago. CT head is normal. BP is 185/100 mmHg. Which of the following is the most appropriate blood pressure management before administering IV alteplase (tPA)?",
+        "options": [
+            "Do not treat; tPA can be given with BP up to 220/120",
+            "Lower BP to <185/110 using IV labetalol or nicardipine before tPA",
+            "Lower BP to <140/90 using IV nitroprusside",
+            "Hold tPA and treat BP with oral antihypertensives",
+            "Proceed with tPA regardless of BP"
+        ],
+        "correct": 1,
+        "explanation": "Before IV tPA for acute ischemic stroke, BP must be lowered to <185/110 mmHg to reduce risk of symptomatic intracerebral hemorrhage. If BP >185/110, IV labetalol (10-20 mg) or nicardipine infusion (5 mg/hr, titrate) is used. If BP cannot be lowered to target, tPA is withheld. After tPA, BP is maintained <180/105 for 24 hours. For patients not receiving tPA, BP is not lowered unless >220/120 or other indications (aortic dissection, MI, hypertensive encephalopathy). This patient (BP 185/100) is at the threshold; labetalol should be given to achieve <185/110, then tPA administered. Extremely high BP before tPA increases hemorrhage risk."
+    },
+	
+	
+	
+	
+    {
+        "id": 31,
+        "question": "A 28-year-old woman presents with acute-onset right eye pain and vision loss that worsens with eye movement. She has no other neurological symptoms. Ophthalmologic examination reveals decreased visual acuity and relative afferent pupillary defect (RAPD) in the right eye. MRI brain shows a single enhancing lesion in the right optic nerve without other white matter lesions. Which of the following is the most appropriate next step?",
+        "options": [
+            "Start high-dose IV methylprednisolone for acute optic neuritis",
+            "Start disease-modifying therapy for multiple sclerosis",
+            "Observe without treatment as most cases resolve spontaneously",
+            "Perform lumbar puncture to check for oligoclonal bands",
+            "Start oral prednisone alone"
+        ],
+        "correct": 0,
+        "explanation": "Acute optic neuritis is treated with high-dose IV methylprednisolone (1 gram daily for 3-5 days) followed by oral prednisone taper to accelerate visual recovery. Oral prednisone alone is not recommended (increases recurrence risk). This patient presents with isolated optic neuritis without prior CNS symptoms (clinically isolated syndrome, CIS). About 50% of patients with CIS develop multiple sclerosis within 10-15 years. LP for oligoclonal bands helps stratify MS risk but is not urgent before treatment. Disease-modifying therapy for MS is considered after confirmation of dissemination in time and space, not for first episode of optic neuritis alone (unless high-risk MRI shows asymptomatic lesions)."
+    },
+    {
+        "id": 32,
+        "question": "Which of the following best describes the clinical features of normal pressure hydrocephalus (NPH)? A 70-year-old man presents with progressive gait difficulty (magnetic gait, feet stuck to floor), urinary incontinence, and cognitive decline over 6 months. He has no history of head trauma or meningitis. MRI shows ventriculomegaly out of proportion to cortical atrophy with evidence of trans-ependymal flow. Understanding the classic triad of NPH is essential for diagnosis as it is potentially treatable with shunting.",
+        "options": [
+            "Headache, papilledema, and sixth nerve palsy",
+            "Gait apraxia, urinary incontinence, and dementia (wet, wacky, wobbly)",
+            "Resting tremor, bradykinesia, and rigidity",
+            "Postural tremor, cogwheeling, and masked facies",
+            "Ataxia, nystagmus, and scanning dysarthria"
+        ],
+        "correct": 1,
+        "explanation": "Normal pressure hydrocephalus (NPH) presents with the classic triad: gait apraxia (magnetic gait, wide-based, difficulty lifting feet, improves temporarily after CSF removal), urinary incontinence (often later), and cognitive decline (subcortical dementia, impaired executive function, slow processing). Imaging shows large ventricles out of proportion to sulcal atrophy (Evan's ratio >0.3). Diagnosis is supported by improvement after lumbar puncture (large volume tap of 30-50 mL). Treatment is ventriculoperitoneal shunting. Unlike Alzheimer's disease (hippocampal atrophy, cortical thinning), NPH has no significant cortical atrophy. Trans-ependymal flow around ventricles indicates acute or subacute hydrocephalus."
+    },
+    {
+        "id": 33,
+        "question": "A 35-year-old man presents with subacute onset of progressive weakness in both legs, erectile dysfunction, and urinary retention over 2 weeks. Examination shows lower extremity weakness (4/5), hyperreflexia, Babinski signs, and sensory level at T10. MRI spine shows T2 hyperintensity in the thoracic spinal cord but no cord swelling. He has no brain lesions on MRI. CSF shows oligoclonal bands. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Transverse myelitis",
+            "Multiple sclerosis presenting as partial myelitis",
+            "Neuromyelitis optica spectrum disorder",
+            "Spinal cord infarction",
+            "Vitamin B12 deficiency (subacute combined degeneration)"
+        ],
+        "correct": 1,
+        "explanation": "Multiple sclerosis (MS) can present with myelitis as the first manifestation (clinically isolated syndrome). Partial myelitis (incomplete cord involvement, asymmetric symptoms) is more common in MS. Complete transverse myelitis (bilateral symmetric, sensory level, autonomic involvement) is more typical of post-infectious or NMO-related myelitis. CSF oligoclonal bands (absent in serum) support MS diagnosis. NMO typically shows longitudinally extensive transverse myelitis (>3 vertebral segments) with anti-AQP4 antibodies. Spinal cord infarction has acute onset (seconds to minutes) with anterior cord syndrome. B12 deficiency (subacute combined degeneration) presents with dorsal column loss (impaired vibration/proprioception) and spastic paraparesis with slower onset."
+    },
+    {
+        "id": 34,
+        "question": "A 45-year-old woman with known myasthenia gravis presents to the emergency department with sudden-onset difficulty breathing, increased secretions, and inability to maintain oxygen saturation. She appears anxious and is using accessory muscles. Vital capacity is 12 mL/kg (predicted 50). Edrophonium test worsens symptoms. Which of the following is the most likely diagnosis and appropriate next step?",
+        "options": [
+            "Myasthenic crisis; intubation and IVIG or plasma exchange",
+            "Cholinergic crisis; atropine and stop pyridostigmine",
+            "Aspiration pneumonia; antibiotics",
+            "Stroke; CT head",
+            "Pulmonary embolism; CTA chest"
+        ],
+        "correct": 1,
+        "explanation": "This patient has worsening after edrophonium (acetylcholinesterase inhibitor), indicating cholinergic crisis due to excessive acetylcholine. Cholinergic crisis presents with muscarinic effects (increased salivation, lacrimation, diarrhea, bradycardia), nicotinic effects (muscle fasciculations, weakness, cramping), and respiratory depression. Treatment: stop pyridostigmine (AChE inhibitor), give atropine (anticholinergic) for muscarinic symptoms, and respiratory support (intubation if needed). Myasthenic crisis (true disease exacerbation) improves with edrophonium and requires IVIG or plasma exchange. Differentiating cholinergic vs myasthenic crisis is critical because treatment is opposite. This patient's history of MG on pyridostigmine with worsening after edrophonium points to cholinergic excess."
+    },
+    {
+        "id": 35,
+        "question": "A 50-year-old man presents with progressive difficulty initiating movement, resting tremor, rigidity, and postural instability over 3 years. He also has constipation, anosmia, and REM sleep behavior disorder (acting out dreams). Examination shows masked facies, cogwheel rigidity, bradykinesia, and pill-rolling tremor at rest. Levodopa/carbidopa significantly improves his symptoms. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple system atrophy",
+            "Progressive supranuclear palsy",
+            "Parkinson's disease",
+            "Dementia with Lewy bodies",
+            "Essential tremor"
+        ],
+        "correct": 2,
+        "explanation": "Parkinson's disease (PD) is diagnosed clinically with bradykinesia plus resting tremor, rigidity, or postural instability. Unilateral onset, good response to levodopa, and presence of non-motor features (anosmia, constipation, RBD) support PD. Essential tremor is action tremor (not resting) with no other parkinsonian signs. Multiple system atrophy (MSA) has poor levodopa response, autonomic failure (early), and cerebellar or parkinsonian features. Progressive supranuclear palsy (PSP) has vertical gaze palsy, early falls, axial rigidity, and poor response to levodopa. Dementia with Lewy bodies (DLB) has dementia within 1 year of motor symptoms (one-year rule) with visual hallucinations and fluctuating cognition. PD dementia (PDD) has dementia after ≥1 year of established PD."
+    },
+    {
+        "id": 36,
+        "question": "Which of the following best describes the clinical features of Wernicke encephalopathy? A 55-year-old man with alcohol use disorder presents with acute confusion, ataxia, and nystagmus. He has bilateral ophthalmoplegia with lateral gaze paresis. His family reports poor oral intake for weeks. He is diagnosed with Wernicke encephalopathy. Understanding the classic triad and treatment is essential to prevent progression to Korsakoff syndrome.",
+        "options": [
+            "Confusion, ophthalmoplegia, and ataxia",
+            "Dementia, polyneuropathy, and megaloblastic anemia",
+            "Myoclonus, startle, and cortical blindness",
+            "Apathy, anterograde amnesia, and confabulation",
+            "Resting tremor, rigidity, and bradykinesia"
+        ],
+        "correct": 0,
+        "explanation": "Wernicke encephalopathy presents with the classic triad: confusion (altered mental status), ophthalmoplegia (nystagmus, lateral gaze palsy, cranial nerve VI or III palsy), and ataxia (gait and truncal ataxia). Caused by thiamine (B1) deficiency, most common in alcohol use disorder but also occurs in hyperemesis gravidarum, bariatric surgery, starvation, and malabsorption. Treatment is IV thiamine 500 mg three times daily for 3-5 days. Critical to give thiamine BEFORE glucose, as glucose loading can precipitate acute Wernicke. Untreated, up to 80% progress to Korsakoff syndrome (irreversible anterograde amnesia, confabulation, apathy). MRI shows T2 hyperintensity in periaqueductal gray, mammillary bodies, thalamus (mediodorsal nucleus), and cerebellum."
+    },
+    {
+        "id": 37,
+        "question": "A 30-year-old woman presents with acute-onset left-sided weakness and headache. She is 32 weeks pregnant. Blood pressure is 180/110 mmHg and urine dipstick shows 3+ protein. CT head shows a right frontal intraparenchymal hemorrhage. Which of the following is the most likely cause of this hemorrhage?",
+        "options": [
+            "Ruptured arteriovenous malformation",
+            "Hypertensive hemorrhage related to preeclampsia/eclampsia",
+            "Cerebral venous sinus thrombosis",
+            "Amyloid angiopathy",
+            "Mycotic aneurysm"
+        ],
+        "correct": 1,
+        "explanation": "This patient has preeclampsia (hypertension, proteinuria) with seizures (eclampsia) or severe blood pressure elevation can cause intracerebral hemorrhage (lobar or deep). Hypertensive hemorrhage in pregnancy is a leading cause of maternal mortality. Treatment includes magnesium sulfate for seizure prophylaxis and blood pressure control (IV labetalol, hydralazine, or nicardipine). Delivery is definitive treatment for preeclampsia/eclampsia. Arteriovenous malformation is possible in young patients but less common than eclampsia-related hemorrhage in this context. Cerebral venous sinus thrombosis presents with headache, seizure, focal deficits but not typically hypertensive urgency. Amyloid angiopathy causes lobar hemorrhage in elderly, not young pregnant woman. Mycotic aneurysm from infective endocarditis would have fever, heart murmur, and positive blood cultures."
+    },
+    {
+        "id": 38,
+        "question": "A 65-year-old man with a history of hypertension presents with sudden-onset vertigo, dysarthria, and right-sided ataxia. He also reports diplopia. Examination shows right internuclear ophthalmoplegia (INO) with impaired adduction of the right eye and nystagmus in the left eye. Which of the following is the most likely location of the stroke?",
+        "options": [
+            "Left middle cerebral artery",
+            "Right medial longitudinal fasciculus (MLF)",
+            "Right cerebellar hemisphere",
+            "Left pontine tegmentum",
+            "Left anterior cerebral artery"
+        ],
+        "correct": 3,
+        "explanation": "Right internuclear ophthalmoplegia (INO) with impaired adduction right eye (ipsilateral) and nystagmus of abducting left eye indicates lesion in the right medial longitudinal fasciculus (MLF). MLF coordinates conjugate horizontal gaze by connecting cranial nerve VI nucleus (pons) to contralateral cranial nerve III nucleus (midbrain). INO with other brainstem signs (vertigo, dysarthria, ataxia) localizes to the pontine tegmentum. This patient's MLF is on the right side. Causes: multiple sclerosis (younger patients, bilateral INO) and ischemic stroke (older patients, unilateral INO). Cerebellar stroke causes ataxia but not INO. MCA stroke causes contralateral weakness, aphasia/neglect. PCA stroke causes visual field cut."
+    },
+    {
+        "id": 39,
+        "question": "A 55-year-old woman presents with progressive weakness in both legs, erectile dysfunction, and urinary incontinence over 3 months. Examination shows lower extremity weakness (4/5), hyperreflexia, Babinski signs, and impaired vibration and proprioception in both legs. There is no sensory level. MRI spine shows T2 hyperintensity in the posterior columns and lateral corticospinal tracts of the cervical and thoracic cord. Vitamin B12 level is low. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Subacute combined degeneration",
+            "Amyotrophic lateral sclerosis",
+            "Tabes dorsalis (neurosyphilis)",
+            "Friedreich's ataxia"
+        ],
+        "correct": 1,
+        "explanation": "Subacute combined degeneration (SCD) results from vitamin B12 deficiency (pernicious anemia, malabsorption, veganism, nitrous oxide abuse). It causes degeneration of posterior columns (loss of vibration/proprioception, sensory ataxia) and lateral corticospinal tracts (spasticity, hyperreflexia, Babinski signs), and peripheral neuropathy. MRI shows T2 hyperintensity in posterior and lateral columns (inverted V sign on axial). Treatment is IM B12 replacement. Multiple sclerosis shows relapsing-remitting course, optic neuritis, and separates lesions on MRI. ALS has both upper motor neuron (UMN) and lower motor neuron (LMN) signs (fasciculations, atrophy) without sensory loss. Tabes dorsalis (tertiary syphilis) affects only dorsal columns and dorsal roots. Friedreich's ataxia (autosomal recessive, GAA expansion) presents in young patients with ataxia, cardiomyopathy, diabetes."
+    },
+    {
+        "id": 40,
+        "question": "A 28-year-old woman presents with acute-onset double vision that worsens with fatigue. She also reports drooping of her right eyelid that is worse at the end of the day. Examination reveals ptosis, ophthalmoparesis, and fatigable weakness of the eyelids with repeated upgaze. She has no respiratory distress. Which of the following diagnostic tests is most likely to confirm the diagnosis?",
+        "options": [
+            "MRI brain",
+            "Serum acetylcholine receptor (AChR) antibodies",
+            "Edrophonium (Tensilon) test",
+            "Repetitive nerve stimulation",
+            "Lumbar puncture for oligoclonal bands"
+        ],
+        "correct": 1,
+        "explanation": "Myasthenia gravis (MG) diagnosis is confirmed by serum acetylcholine receptor (AChR) antibodies (positive in 80-90% of generalized MG, 50% of ocular MG). If negative, MuSK antibodies (in AChR-negative) or LRP4 antibodies may be tested. Edrophonium test (short-acting acetylcholinesterase inhibitor) is less sensitive and specific; it can cause bradycardia (atropine ready). Repetitive nerve stimulation (RNS) shows decremental response at low frequency. Single fiber EMG (SFEMG) is most sensitive (>95%) for MG. All antibody-negative patients may undergo SFEMG. MRI brain is normal in MG (no CNS involvement). Thymoma is evaluated by chest CT (associated in 10% of AChR-positive MG). Treatment for ocular symptoms: pyridostigmine. Generalized MG: add immunosuppression (prednisone, azathioprine, mycophenolate). Thymectomy improves outcomes in AChR-positive generalized MG (MGTX trial)."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 41,
+        "question": "A 65-year-old man with a history of hypertension presents with sudden-onset vertigo, dysarthria, and left-sided ataxia. He also has left-sided facial numbness and right-sided body numbness (crossed findings). MRI shows a small infarct in the left lateral medulla. Which artery is most likely occluded, and what is this syndrome called?",
+        "options": [
+            "Anterior inferior cerebellar artery (AICA); lateral pontine syndrome",
+            "Posterior inferior cerebellar artery (PICA); lateral medullary (Wallenberg) syndrome",
+            "Superior cerebellar artery (SCA); superior cerebellar syndrome",
+            "Anterior spinal artery; medial medullary syndrome",
+            "Basilar artery; locked-in syndrome"
+        ],
+        "correct": 1,
+        "explanation": "Lateral medullary syndrome (Wallenberg syndrome) results from occlusion of the posterior inferior cerebellar artery (PICA) or vertebral artery. Classic findings: ipsilateral facial numbness (descending trigeminal tract), contralateral body numbness (spinothalamic tract), ipsilateral Horner syndrome (sympathetic tract), dysphagia/hoarseness (nucleus ambiguus), vertigo/nystagmus (vestibular nuclei), and ipsilateral ataxia (inferior cerebellar peduncle). Crossed sensory loss (ipsilateral face, contralateral body) is key. Treatment includes antiplatelets for secondary prevention. This syndrome has good prognosis for functional recovery despite dramatic presentation."
+    },
+    {
+        "id": 42,
+        "question": "Which of the following best describes the clinical features of subarachnoid hemorrhage? A 55-year-old woman presents with sudden-onset thunderclap headache described as the worst headache of her life. She has nausea, vomiting, and neck stiffness. CT head shows hyperdense blood in the basal cisterns. She has no focal neurological deficits. Understanding the typical presentation and complications of subarachnoid hemorrhage is essential for emergency management.",
+        "options": [
+            "Gradual onset headache over days with visual disturbances",
+            "Sudden severe headache (thunderclap) with meningismus, no focal deficits initially",
+            "Headache with ipsilateral ptosis and miosis (Horner syndrome)",
+            "Headache with contralateral weakness and aphasia",
+            "Headache with fever and altered mental status from meningitis"
+        ],
+        "correct": 1,
+        "explanation": "Subarachnoid hemorrhage (SAH) classically presents with sudden, severe thunderclap headache (often \"worst headache of my life\"), nausea, vomiting, neck stiffness (meningismus), and photophobia. Focal deficits may be absent initially unless there is associated intracerebral hemorrhage or vasospasm. CT non-contrast is 98% sensitive within 6 hours; if negative and high suspicion, lumbar puncture for xanthochromia is performed. The most common cause is ruptured saccular (berry) aneurysm. Complications include rebleeding (highest risk in first 24 hours), vasospasm (days 4-14, causes delayed cerebral ischemia), hydrocephalus, and hyponatremia (cerebral salt wasting vs SIADH). Nimodipine (calcium channel blocker) reduces delayed cerebral ischemia from vasospasm. Early aneurysm occlusion (coiling or clipping) is standard."
+    },
+    {
+        "id": 43,
+        "question": "A 60-year-old man presents with progressive difficulty walking, frequent falls, and urinary incontinence over 1 year. Examination shows bradykinesia, rigidity, and postural instability with poor response to levodopa. He has vertical gaze palsy (especially downward gaze). Which of the following is the most likely diagnosis?",
+        "options": [
+            "Parkinson's disease",
+            "Progressive supranuclear palsy (PSP)",
+            "Multiple system atrophy (MSA)",
+            "Dementia with Lewy bodies (DLB)",
+            "Corticobasal degeneration"
+        ],
+        "correct": 1,
+        "explanation": "Progressive supranuclear palsy (PSP) is an atypical parkinsonism characterized by vertical supranuclear gaze palsy (first downward gaze), early falls (within first year, due to axial rigidity and postural instability), symmetric parkinsonism, poor response to levodopa, and cognitive impairment (executive dysfunction, apathy, pseudobulbar affect). MRI may show \"hummingbird sign\" (midbrain atrophy) on sagittal view. PSP typically presents after age 60. Unlike Parkinson's disease (asymmetric, resting tremor, good levodopa response), PSP has no tremor in many cases. Multiple system atrophy (MSA) has autonomic failure (orthostatic hypotension, erectile dysfunction, urinary retention) with cerebellar (MSA-C) or parkinsonian (MSA-P) features. Corticobasal degeneration presents with asymmetric apraxia, alien limb phenomenon, myoclonus, and cortical sensory loss."
+    },
+    {
+        "id": 44,
+        "question": "A 25-year-old woman presents with subacute onset of bilateral leg weakness, urinary retention, and band-like sensation around her chest. Over the next 3 days, weakness ascends to involve her arms. She is areflexic. CSF shows elevated protein (150 mg/dL) with normal cell count (albuminocytologic dissociation). Which of the following is the most likely diagnosis and appropriate treatment?",
+        "options": [
+            "Multiple sclerosis; IV methylprednisolone",
+            "Transverse myelitis; IV methylprednisolone",
+            "Guillain-Barré syndrome; IV immunoglobulin or plasma exchange",
+            "Neuromyelitis optica; rituximab",
+            "Acute disseminated encephalomyelitis; IV steroids"
+        ],
+        "correct": 2,
+        "explanation": "Guillain-Barré syndrome (GBS) presents with rapidly progressive ascending symmetric weakness, areflexia, and albuminocytologic dissociation (elevated protein, normal WBC). Respiratory muscles may be involved (monitor vital capacity). This patient's weakness ascending to arms with areflexia is typical for GBS (acute inflammatory demyelinating polyneuropathy). The sensory level (band-like chest sensation) is less typical but can occur. IV immunoglobulin (IVIG) or plasma exchange is equally effective if started within 2-4 weeks of symptom onset. Miller Fisher variant (ophthalmoplegia, ataxia, areflexia) with anti-GQ1b antibodies. GBS often preceded by Campylobacter jejuni, CMV, EBV, Zika. Axonal variants (AMAN, AMSAN) have poorer recovery. Supportive care includes monitoring for autonomic dysfunction and respiratory failure. IV steroids are not effective (may worsen)."
+    },
+    {
+        "id": 45,
+        "question": "A 55-year-old man with a history of coronary artery disease presents with sudden-onset dysarthria and left-sided weakness. His symptoms began 3 hours ago. He is on warfarin for atrial fibrillation with INR 3.2. CT head shows no hemorrhage. Which of the following is the most appropriate management for his acute ischemic stroke?",
+        "options": [
+            "IV alteplase (tPA) is contraindicated due to INR >1.7",
+            "IV alteplase (tPA) can be given despite INR if no bleeding risk",
+            "Mechanical thrombectomy if large vessel occlusion present",
+            "Aspirin 325 mg immediately",
+            "Heparin infusion for anticoagulation"
+        ],
+        "correct": 2,
+        "explanation": "IV tPA is contraindicated in patients on warfarin with INR >1.7 due to increased risk of symptomatic intracerebral hemorrhage. Mechanical thrombectomy (with stent retriever or aspiration) is safe and effective in selected patients with large vessel occlusion (LVO) up to 24 hours after last known well (DAWN, DEFUSE-3 trials), regardless of INR as long as it is not supratherapeutic. This patient should undergo CT angiography to assess for LVO (MCA, ICA, basilar). If LVO present, thrombectomy can be performed. If no LVO, treatment is supportive and antiplatelet (aspirin) is started 24 hours after stroke onset (not immediately). Heparin is not beneficial for acute ischemic stroke in atrial fibrillation; anticoagulation is started later (1-14 days depending on infarct size)."
+    },
+    {
+        "id": 46,
+        "question": "Which of the following best describes the clinical features of progressive supranuclear palsy (PSP)? A 65-year-old man presents with frequent falls (especially backwards), difficulty looking down, and slurred speech. Examination shows supranuclear vertical gaze palsy (impaired downgaze), axial rigidity, and bradykinesia. He has no resting tremor. Levodopa provides minimal benefit. Understanding the distinguishing features of PSP helps differentiate it from Parkinson's disease.",
+        "options": [
+            "Asymmetric resting tremor, good levodopa response, levodopa-induced dyskinesias",
+            "Early falls, vertical gaze palsy (downgaze first), axial rigidity, poor levodopa response",
+            "Autonomic failure (orthostatic hypotension, erectile dysfunction), cerebellar ataxia",
+            "Focal limb apraxia, alien limb phenomenon, myoclonus",
+            "Visual hallucinations, fluctuating cognition, REM sleep behavior disorder"
+        ],
+        "correct": 1,
+        "explanation": "Progressive supranuclear palsy (PSP) is characterized by early postural instability (falls within first year, often backwards), supranuclear vertical gaze palsy (initially downgaze impairment progressing to all directions), axial rigidity (more than limb rigidity), pseudobulbar palsy (dysarthria, dysphagia, emotional incontinence), and cognitive impairment (executive dysfunction, apathy, bradyphrenia). MRI shows midbrain atrophy (hummingbird sign, morning glory sign). Unlike Parkinson's disease (resting tremor, asymmetric, good response to levodopa, levodopa-induced dyskinesias), PSP has no tremor in many cases and poor levodopa response. Treatment is symptomatic (physical therapy, speech therapy, botulinum toxin for eyelid apraxia, antidepressants). Average survival is 6-9 years. Pathologically, PSP shows tau-positive neurofibrillary tangles in basal ganglia, brainstem, and cerebellum (4R tauopathy)."
+    },
+    {
+        "id": 47,
+        "question": "A 30-year-old woman presents with acute-onset left leg weakness and numbness. She has a history of optic neuritis 2 years ago that resolved completely. MRI brain shows multiple periventricular T2 hyperintense lesions, some enhancing. CSF shows oligoclonal bands. She is diagnosed with relapsing-remitting multiple sclerosis. Which of the following is the most appropriate first-line disease-modifying therapy?",
+        "options": [
+            "High-dose IV methylprednisolone",
+            "Interferon-beta-1a or glatiramer acetate",
+            "Natalizumab",
+            "Fingolimod",
+            "Ocrelizumab"
+        ],
+        "correct": 1,
+        "explanation": "First-line disease-modifying therapies (DMTs) for relapsing-remitting MS with mild to moderate activity include injectable agents (interferon-beta-1a, interferon-beta-1b, glatiramer acetate), oral agents (fingolimod, dimethyl fumarate, teriflunomide, diroximel fumarate, monomethyl fumarate), and infusion therapies (natalizumab, ocrelizumab, ofatumumab). Choice depends on disease activity, tolerability, safety profile (e.g., PML risk with natalizumab), and patient preference. High-dose IV methylprednisolone treats acute relapses (accelerates recovery) but does not alter long-term disability or reduce relapse rate. Highly active MS may require higher efficacy drugs (natalizumab, ocrelizumab, alemtuzumab, cladribine). Interferons and glatiramer acetate are moderate efficacy with established safety profiles and are typical starting DMTs for first-line treatment in patients with infrequent relapses and low MRI lesion burden. Beta interferons cause flu-like symptoms and injection site reactions."
+    },
+    {
+        "id": 48,
+        "question": "A 70-year-old man with a history of hypertension presents with sudden-onset left-sided weakness and neglect. Last known well was 6 hours ago. NIHSS is 18. CT head shows no hemorrhage but early ischemic changes in the right MCA territory. CT angiography shows occlusion of the right middle cerebral artery (M1 segment). Which of the following is the most appropriate treatment?",
+        "options": [
+            "IV alteplase (tPA) is not indicated due to time window exceeded",
+            "Mechanical thrombectomy (endovascular therapy)",
+            "Aspirin 325 mg daily",
+            "Heparin infusion",
+            "Carotid endarterectomy"
+        ],
+        "correct": 1,
+        "explanation": "Mechanical thrombectomy (with stent retriever or aspiration) is indicated for patients with acute ischemic stroke due to large vessel occlusion (internal carotid artery, proximal MCA M1/M2, basilar artery) within 24 hours of last known well, provided there is salvageable brain tissue on perfusion imaging (DAWN and DEFUSE-3 trials). This patient's M1 occlusion with mild ischemic changes (ASPECTS ≥6) is eligible for thrombectomy. IV tPA is generally administered first if patient qualifies (within 4.5 hours and no contraindications). For patients outside tPA window but within 24 hours with LVO, thrombectomy alone is appropriate (no tPA). Aspirin is given after thrombectomy or after 24 hours if no procedure. Heparin is not indicated for acute ischemic stroke. Outcomes depend on time to reperfusion, collaterals, and successful recanalization (TICI 2b/3)."
+    },
+    {
+        "id": 49,
+        "question": "A 25-year-old woman presents with acute-onset bilateral visual loss for 30 minutes followed by complete recovery. She has no headache or other neurological symptoms. She reports similar episodes in the past. MRI brain is normal. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Optic neuritis",
+            "Transient ischemic attack (posterior circulation)",
+            "Migraine with aura (typical aura without headache)",
+            "Idiopathic intracranial hypertension",
+            "Conversion disorder"
+        ],
+        "correct": 2,
+        "explanation": "Migraine with aura can present with transient visual symptoms (scotoma, fortification spectra, bilateral vision loss) without headache (acephalgic migraine or migraine aura without headache). Visual aura typically lasts 5-60 minutes (this patient's 30 minutes fits), often bilateral, and has gradual onset and resolution. Transient ischemic attack (TIA) in the posterior circulation (occipital lobes) can cause transient vision loss, but would typically be monocular (amaurosis fugax) if carotid, or binocular visual field cuts (homonymous hemianopia) and occur in older patients with vascular risk factors. Optic neuritis presents with painful monocular vision loss over days to weeks, not minutes. Idiopathic intracranial hypertension presents with papilledema and chronic headaches, not transient episodes. Migraine with typical aura (without headache) is common, especially in young women, and benign. Diagnosis is clinical after excluding concerning causes (TIA, GCA, optic neuritis). No treatment needed if infrequent; if frequent, migraine prophylaxis (topiramate, propranolol, amitriptyline) may be used."
+    },
+    {
+        "id": 50,
+        "question": "A 68-year-old man presents with progressive memory loss, visuospatial deficits, and word-finding difficulty over 3 years. He has no motor symptoms. Mini-Mental State Examination (MMSE) is 15/30. MRI shows generalized cortical atrophy with medial temporal lobe involvement. He is started on donepezil. Which of the following is the most common genetic risk factor for late-onset Alzheimer's disease?",
+        "options": [
+            "APOE epsilon4 allele",
+            "Amyloid precursor protein (APP) mutation",
+            "Presenilin-1 (PSEN1) mutation",
+            "Presenilin-2 (PSEN2) mutation",
+            "Tau gene (MAPT) mutation"
+        ],
+        "correct": 0,
+        "explanation": "APOE epsilon4 allele is the most common genetic risk factor for late-onset Alzheimer's disease (AD). One copy increases risk 3-fold; two copies increases risk 10-15-fold and lowers age of onset. However, not all APOE4 carriers develop AD, and AD occurs without APOE4. Early-onset AD (age <60) may have mutations in APP, PSEN1 (most common early-onset), or PSEN2 (rare, autosomal dominant). MAPT mutations cause frontotemporal dementia (tauopathy). Donepezil (cholinesterase inhibitor) is first-line for mild-to-moderate AD; memantine is for moderate-to-severe. APOE4 genotyping is not routinely recommended for diagnosis or predictive testing in asymptomatic individuals. AD pathology: amyloid-beta plaques and neurofibrillary tangles (tau). Amyloid PET and CSF biomarkers (low amyloid-beta42, elevated tau/p-tau) are diagnostic. Current treatments are symptomatic; anti-amyloid antibodies (lecanemab, donanemab) slow cognitive decline slightly but have ARIA (amyloid-related imaging abnormalities) risk."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 51,
+        "question": "A 45-year-old woman presents with progressive weakness in her legs, difficulty walking, and urinary urgency over 6 months. Examination shows spastic paraparesis, hyperreflexia, and Babinski signs bilaterally. She has no sensory level. MRI spine shows T2 hyperintensity in the lateral corticospinal tracts without cord swelling. MRI brain shows no lesions. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Primary lateral sclerosis (PLS)",
+            "Amyotrophic lateral sclerosis (ALS)",
+            "Hereditary spastic paraplegia",
+            "Subacute combined degeneration"
+        ],
+        "correct": 1,
+        "explanation": "Primary lateral sclerosis (PLS) is a rare motor neuron disease affecting only upper motor neurons (UMN), causing progressive spasticity, hyperreflexia, and weakness without lower motor neuron (LMN) signs (fasciculations, atrophy, areflexia) or sensory loss. PLS progresses slower than ALS (10-20 year survival), typically begins in legs. ALS has both UMN (spasticity, hyperreflexia) and LMN signs (fasciculations, muscle atrophy, areflexia), often with bulbar involvement (dysarthria, dysphagia). MRI in PLS may show T2 hyperintensity along corticospinal tracts. Hereditary spastic paraplegia (HSP) is genetic (SPG mutations), presents with slowly progressive spastic paraparesis, often family history, onset usually <40. Subacute combined degeneration (B12 deficiency) has posterior column loss (impaired vibration/proprioception) and peripheral neuropathy, not isolated UMN signs. PLS is diagnosis of exclusion; EMG/NCS shows no LMN involvement (differentiates from ALS). Treatment is symptomatic (baclofen, tizanidine for spasticity, physical therapy)."
+    },
+    {
+        "id": 52,
+        "question": "Which of the following best describes the clinical features of a patient with a right middle cerebral artery (MCA) stroke? A 70-year-old man with atrial fibrillation presents with sudden-onset left-sided weakness and neglect. He has left homonymous hemianopia, left facial droop, and left arm and leg weakness (2/5). He is unaware of his deficits (anosognosia) and denies that anything is wrong. His speech is fluent but he does not follow commands appropriately. Understanding the cortical functions of the nondominant hemisphere helps localize the stroke.",
+        "options": [
+            "Right-sided weakness, aphasia, right gaze deviation",
+            "Left-sided weakness, neglect, anosognosia, left hemianopia",
+            "Bilateral leg weakness, urinary incontinence, abulia",
+            "Vertigo, ataxia, dysarthria, crossed findings",
+            "Locked-in syndrome with preserved consciousness"
+        ],
+        "correct": 1,
+        "explanation": "Right MCA stroke (nondominant hemisphere) causes left-sided weakness (face/arm > leg), left hemisensory loss, left homonymous hemianopia. Nondominant parietal lobe involvement causes contralateral neglect (ignores left side), anosognosia (unawareness of deficits), and apraxia (difficulty with complex tasks). Constructional apraxia (unable to draw, copy figures) is also common. Dominant (left) MCA stroke causes right-sided weakness plus aphasia (Broca's (non-fluent) or Wernicke's (fluent) depending on anterior vs posterior division). Global aphasia with large left MCA stroke. Left gaze deviation (toward the side of the lesion) occurs with frontal eye field involvement in MCA stroke. Bilateral leg weakness occurs with anterior cerebral artery stroke (parasagittal frontal lobe). PCA stroke causes contralateral homonymous hemianopia with macular sparing. Posterior circulation (vertebrobasilar) causes vertigo, ataxia, diplopia, dysarthria, crossed sensory/motor findings. Locked-in syndrome from basilar artery occlusion: quadriplegia, anarthria, preserved vertical eye movements and consciousness."
+    },
+    {
+        "id": 53,
+        "question": "A 55-year-old man with diabetes and hypertension presents with sudden-onset vertigo, nausea, and vomiting. He has left-sided ataxia on finger-to-nose testing. He has no weakness or sensory loss. Dix-Hallpike maneuver is negative. MRI shows a small infarct in the left cerebellar hemisphere. Which artery is most likely occluded?",
+        "options": [
+            "Anterior inferior cerebellar artery (AICA)",
+            "Posterior inferior cerebellar artery (PICA)",
+            "Superior cerebellar artery (SCA)",
+            "Basilar artery",
+            "Vertebral artery"
+        ],
+        "correct": 2,
+        "explanation": "Superior cerebellar artery (SCA) supplies the superior portion of the cerebellum (hemisphere and vermis). SCA stroke causes ipsilateral ataxia (appendicular > truncal), dysarthria, and often nausea/vomiting/dizziness. SCA territory is above PICA territory (which supplies lateral medulla and inferior cerebellum). AICA supplies the middle cerebellar peduncle and inferior cerebellum; AICA stroke causes ipsilateral ataxia, facial weakness, and hearing loss. PICA stroke (lateral medullary/Wallenberg) causes ipsilateral facial numbness, contralateral body numbness, Horner syndrome, dysphagia, hoarseness, vertigo, and ataxia (inferior cerebellar peduncle). Isolated cerebellar ataxia without brainstem signs suggests pure cerebellar artery stroke (SCA or PICA). Basilar artery occlusion is catastrophic (locked-in, coma). In older patients with vascular risk factors, isolated cerebellar infarct is common; anticoagulation or antiplatelet depends on etiology (cardioembolism vs small vessel vs large artery atherosclerosis). CT is often negative early; MRI DWI is best. Management: blood pressure control, antiplatelet (aspirin or clopidogrel), statin, and secondary prevention (evaluate for AF, carotid stenosis, cardioembolic source)."
+    },
+    {
+        "id": 54,
+        "question": "A 30-year-old man presents with acute-onset right arm weakness and difficulty speaking. His symptoms resolve completely within 45 minutes. He has no prior medical history. CT head is normal. ECG shows normal sinus rhythm. Carotid ultrasound is normal. Which of the following is the most appropriate next step in evaluating the cause of his transient ischemic attack (TIA)?",
+        "options": [
+            "Transthoracic echocardiogram with bubble study",
+            "CT angiography of head and neck",
+            "MRI brain with diffusion-weighted imaging",
+            "Hypercoagulable workup (factor V Leiden, prothrombin mutation)",
+            "EEG to rule out seizure"
+        ],
+        "correct": 0,
+        "explanation": "In young patients (<50) with cryptogenic TIA or stroke, patent foramen ovale (PFO) with right-to-left shunt is a common cause. Transthoracic echocardiogram with agitated saline bubble study (bubble study) detects PFO; if negative with high suspicion, transesophageal echocardiogram (TEE) is more sensitive (also detects aortic arch plaque, valvular vegetations, left atrial thrombus). PFO is present in 25% of general population, but prevalence higher in cryptogenic stroke (40-50%). Risk factors for PFO-related stroke include large shunt size, associated atrial septal aneurysm, and deep venous thrombosis (paradoxical embolism). If PFO found in young patient with cryptogenic stroke, options include antiplatelet therapy (aspirin) or PFO closure (benefit in patients aged 18-60 with PFO plus atrial septal aneurysm or large shunt, after excluding DVT). Hypercoagulable workup is for unexplained thrombosis, especially with family history or recurrent events. CTA assesses large vessel stenosis (less likely in young without risk factors). MRI brain may show infarct but not needed acutely if symptoms resolved. TIA workup includes brain imaging, vascular imaging (carotid ultrasound/CTA/MRA), and cardiac evaluation (ECG, echocardiogram)."
+    },
+    {
+        "id": 55,
+        "question": "A 65-year-old man presents with progressive difficulty walking, frequent falls, and urinary urgency over 6 months. Examination shows spastic paraparesis, hyperreflexia, and extensor plantar responses. He has no sensory loss. MRI cervical spine shows T2 hyperintensity within the cord from C2 to C7 but no enhancement or swelling. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Cervical spondylotic myelopathy",
+            "Neuromyelitis optica",
+            "Amyotrophic lateral sclerosis",
+            "Subacute combined degeneration"
+        ],
+        "correct": 1,
+        "explanation": "Cervical spondylotic myelopathy (CSM) is the most common cause of spinal cord dysfunction in older adults, resulting from degenerative changes (disk herniation, osteophytes, ligamentum flavum hypertrophy) causing spinal cord compression. MRI shows T2 hyperintensity (myelomalacia) at the level of compression, often without enhancement. Cord swelling is minimal. Symptoms include spasticity, hyperreflexia, Babinski signs (UMN below lesion), ataxia (loss of proprioception), hand clumsiness, and urinary urgency. Neck pain may be absent. This patient has no sensory level (patchy involvement typical). CSM often affects cervical cord due to narrow spinal canal (congenital stenosis). Treatment: physical therapy for mild; surgical decompression (laminoplasty or laminectomy and fusion) for moderate to severe (worsening symptoms, severe compression on MRI, or myelopathy signs). Multiple sclerosis typically has relapsing-remitting course, brain lesions, oligoclonal bands, younger age. NMO (anti-AQP4) has longitudinally extensive transverse myelitis (>3 segments) with cord swelling and enhancement in acute stage. ALS has UMN and LMN signs (fasciculations, atrophy). Subacute combined degeneration (B12 deficiency) has posterior column loss (impaired vibration/proprioception) and peripheral neuropathy. EMG/NCS may help differentiate."
+    },
+    {
+        "id": 56,
+        "question": "Which of the following best describes the clinical features of a patient with left anterior cerebral artery (ACA) stroke? A 60-year-old man presents with sudden-onset right leg weakness and urinary incontinence. He has apathy and abulia (lack of motivation). He has no arm weakness, facial droop, or aphasia. He is able to move his right arm normally. Understanding the cortical territory of ACA helps localize stroke to the medial frontal lobe.",
+        "options": [
+            "Contralateral leg weakness (greater than arm), abulia, urinary incontinence",
+            "Global aphasia, right hemiparesis (face and arm > leg), right gaze deviation",
+            "Left neglect, left hemiparesis, anosognosia",
+            "Bilateral leg weakness, cognitive decline, gait apraxia",
+            "Contralateral homonymous hemianopia with macular sparing"
+        ],
+        "correct": 0,
+        "explanation": "Anterior cerebral artery (ACA) supplies the medial frontal lobe (including the leg area of motor cortex) and anterior corpus callosum. Stroke causes contralateral leg weakness (greater than arm) with relative sparing of face and arm. Sensory loss in contralateral leg may occur. Frontal lobe involvement causes abulia (loss of initiative, apathy, mutism), urinary incontinence, and transcortical motor aphasia (left ACA). Grasp reflex and paratonic rigidity may be present. ACA stroke is less common than MCA stroke (10%). Causes include cardioembolism (AF) or atherosclerotic occlusion. Imaging may show watershed infarct between ACA and MCA. Bilateral ACA stroke (anterior communicating artery aneurysm rupture) causes severe leg weakness, abulia, and paraplegia. MCA stroke (nondominant) causes neglect, hemiparesis face/arm > leg. PCA stroke causes homonymous hemianopia. ACA stroke can mimic normal pressure hydrocephalus (gait, incontinence, cognitive change). Management includes acute treatment (tPA if within window and no contraindications), antiplatelet for secondary prevention, and rehabilitation for leg weakness."
+    },
+    {
+        "id": 57,
+        "question": "A 28-year-old woman presents with acute-onset bilateral leg weakness and numbness ascending over 5 days. She also has urinary retention. Examination shows flaccid paraparesis (1/5), areflexia in legs, and sensory loss below T10. Arms are normal. CSF shows elevated protein (120 mg/dL) with normal cell count. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Acute flaccid myelitis",
+            "Guillain-Barré syndrome (acute inflammatory demyelinating polyneuropathy)",
+            "Transverse myelitis",
+            "Cauda equina syndrome",
+            "Conversion disorder"
+        ],
+        "correct": 0,
+        "explanation": "Acute flaccid myelitis (AFM) is a neuroinflammatory condition (usually post-infectious, often enterovirus D68) that presents with acute flaccid weakness (LMN pattern), areflexia, and sensory loss/incontinence, typically affecting one or more limbs. AFM predominantly involves the spinal cord gray matter (anterior horn cells), causing areflexia and flaccid weakness. MRI shows T2 hyperintensity involving the central gray matter of the spinal cord (often longitudinally extensive). CSF shows pleocytosis (lymphocytic) and elevated protein. Guillain-Barré syndrome (AIDP) is ascending symmetric weakness with areflexia and albuminocytologic dissociation (elevated protein, normal WBC), but typically sensory symptoms/pain and facial weakness may occur. GBS is more common with rising weakness from legs to arms and possible respiratory involvement. Transverse myelitis causes UMN signs (spasticity, hyperreflexia, Babinski) after initial spinal shock (flaccid phase can last days to weeks). However, UMN signs (Babinski) would appear within days. Cauda equina syndrome (compression) causes areflexia, saddle anesthesia, urinary retention, but sensory level would not be present (radicular pain, asymmetric). AFM is diagnosed in patients with acute flaccid weakness, spinal cord MRI showing gray matter involvement, often with prior febrile illness. Treatment includes IVIG, plasma exchange, and rehabilitation. Many have residual weakness. This patient's presentation (bilateral leg flaccid weakness, areflexia, sensory level) suggests gray matter involvement (AFM) given the rapid progression and areflexia in legs while arms are normal (not typical ascending GBS)."
+    },
+    {
+        "id": 58,
+        "question": "A 55-year-old woman presents with subacute onset of memory loss, confusion, and gait disturbance over 3 months. She has a history of lung cancer diagnosed 1 year ago. MRI brain shows multiple ring-enhancing lesions in the cerebral hemispheres with surrounding vasogenic edema. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Primary CNS lymphoma",
+            "Glioblastoma multiforme",
+            "Brain metastases",
+            "Brain abscess",
+            "Toxoplasmosis"
+        ],
+        "correct": 2,
+        "explanation": "Brain metastases are the most common intracranial tumors in adults, arising from primary cancers (lung, breast, melanoma, renal, colon). MRI shows multiple (often) ring-enhancing lesions at gray-white matter junction with surrounding vasogenic edema. This patient's lung cancer history makes metastases highly likely. Primary CNS lymphoma (PCNSL) is typically periventricular, homogeneously enhancing, and occurs in immunocompromised or elderly immunocompetent; ring enhancement less common. Glioblastoma multiforme (GBM) is solitary (or unifocal with satellite lesions), ring-enhancing, with central necrosis, but usually single and located in hemispheres. Brain abscess requires primary source (endocarditis, dental, sinusitis, etc.) and presents with headache, fever, focal deficits; immune status may be compromised. Toxoplasmosis occurs in HIV/AIDS (CD4 <100) with multiple ring-enhancing lesions (often in basal ganglia, corticomedullary junction), and positive toxoplasma IgG. In a patient with known malignancy, metastases are most likely. Treatment for brain metastases: corticosteroids (for edema), whole brain radiation, stereotactic radiosurgery (if few lesions, good performance status), surgery (for large solitary lesion, diagnosis uncertain, or life-threatening mass effect). Prognosis depends on primary cancer histology, number of metastases, and performance status (GPA score)."
+    },
+    {
+        "id": 59,
+        "question": "A 35-year-old woman presents with episodic severe headache (throbbing, unilateral) lasting 4-6 hours, accompanied by nausea, photophobia, and phonophobia. She has a history of similar episodes since adolescence. She reports that bright lights and loud noises worsen the headache. Which of the following is the most appropriate acute treatment for her current headache?",
+        "options": [
+            "Propranolol daily",
+            "Sumatriptan (triptan) orally or intranasally",
+            "Topiramate daily",
+            "Amitriptyline daily",
+            "Naproxen alone"
+        ],
+        "correct": 1,
+        "explanation": "Acute treatment of migraine includes triptans (sumatriptan, rizatriptan, eletriptan, etc.) for moderate-to-severe attacks with or without nausea. Triptans are 5-HT1B/1D agonists causing vasoconstriction of cerebral arteries and inhibition of CGRP release. They are most effective when taken early during an attack. Oral, intranasal, subcutaneous formulations are available (subcutaneous fastest onset). NSAIDs (naproxen, ibuprofen) are for mild-to-moderate attacks. Ergotamine derivatives are less used. Preventive (prophylactic) medications (propranolol, topiramate, amitriptyline, valproate, CGRP antibodies) are for patients with frequent attacks (≥4 per month, or disabling). This patient requires acute treatment for her current migraine, not daily prevention. Sumatriptan is first-line for acute treatment (contraindicated in coronary artery disease, uncontrolled hypertension, hemiplegic migraine, basilar migraine). Combination of triptan plus NSAID (e.g., sumatriptan/naproxen) improves efficacy. Triptans can cause chest tightness, tingling, flushing, and nausea, but are generally well-tolerated. Overuse of triptans (≥10 days/month) can cause medication-overuse headache. CGRP receptor antagonists (gepants: ubrogepant, rimegepant) are new acute treatments without vasoconstrictor effects, for patients with cardiovascular contraindications to triptans."
+    },
+    {
+        "id": 60,
+        "question": "A 68-year-old man with a history of hypertension and hyperlipidemia presents with sudden-onset right-sided weakness and aphasia. His symptoms began 2 hours ago. He is on aspirin 81 mg daily. BP is 185/100 mmHg. CT head shows no hemorrhage. Which of the following is the most appropriate next step?",
+        "options": [
+            "IV alteplase (tPA) after BP lowered to <185/110 mmHg",
+            "IV alteplase (tPA) without BP lowering",
+            "Mechanical thrombectomy",
+            "Aspirin 325 mg now",
+            "Clopidogrel 300 mg loading dose"
+        ],
+        "correct": 0,
+        "explanation": "This patient presents within 3 hours of acute ischemic stroke. BP must be lowered to <185/110 mmHg before IV tPA to reduce risk of intracerebral hemorrhage. Current BP 185/100 is at the upper limit; IV labetalol (10-20 mg) or nicardipine infusion (5 mg/hr, titrate) should be given. Once BP is controlled, tPA is administered. tPA improves outcomes (30% absolute benefit for favorable outcome) despite 6% risk of symptomatic hemorrhage. Exclusion criteria include warfarin with INR >1.7, heparin within 48 hours with elevated PTT, prior intracranial hemorrhage, head trauma within 3 months, intracranial neoplasm, etc. This patient's aspirin use is not a contraindication (aspirin alone not excluded). Mechanical thrombectomy is for large vessel occlusion (LVO) up to 24 hours; not first-line for all. Aspirin is given 24 hours after tPA (if no hemorrhage on repeat CT). Clopidogrel is not first-line for acute stroke (DAPT is for minor stroke/high-risk TIA, not for patients receiving tPA). Time goal: door-to-needle <60 minutes. tPA dosing: 0.9 mg/kg (max 90 mg), 10% bolus, 90% infusion over 1 hour. After tPA, BP maintained <180/105 for 24 hours."
+    },
+	
+	
+	
+	
+    {
+        "id": 61,
+        "question": "A 72-year-old man presents with progressive memory loss, difficulty finding words, and getting lost in familiar places over 2 years. He has no motor symptoms. Mini-Mental State Examination (MMSE) is 17/30. MRI shows generalized cortical atrophy with prominent hippocampal involvement. Which of the following is the most appropriate first-line pharmacologic treatment?",
+        "options": [
+            "Memantine monotherapy",
+            "Donepezil (cholinesterase inhibitor)",
+            "Levodopa/carbidopa",
+            "Rivastigmine patch",
+            "Galantamine"
+        ],
+        "correct": 1,
+        "explanation": "Alzheimer's disease is the most common dementia. Cholinesterase inhibitors (donepezil, rivastigmine, galantamine) are first-line for mild-to-moderate AD, providing modest symptomatic benefit. Memantine is added for moderate-to-severe disease or used if cholinesterase inhibitors are not tolerated."
+    },
+    {
+        "id": 62,
+        "question": "Which of the following best describes the clinical presentation of a patient with Wernicke encephalopathy? A 50-year-old man with chronic alcohol use disorder presents with confusion, difficulty walking, and blurred vision. Examination reveals nystagmus, ataxia, and ophthalmoplegia (lateral gaze palsy). He has been eating poorly for weeks. Without prompt treatment, this condition can progress to Korsakoff syndrome.",
+        "options": [
+            "Dementia, polyneuropathy, and megaloblastic anemia",
+            "Confusion, ophthalmoplegia, and ataxia",
+            "Apathy, anterograde amnesia, and confabulation",
+            "Resting tremor, bradykinesia, and rigidity",
+            "Myoclonus, startle, and cortical blindness"
+        ],
+        "correct": 1,
+        "explanation": "Wernicke encephalopathy presents with the classic triad of confusion, ataxia, and ophthalmoplegia due to thiamine (B1) deficiency, most common in alcohol use disorder. Treatment is IV thiamine 500 mg TID; critical to give BEFORE glucose to prevent precipitation of acute deficiency."
+    },
+    {
+        "id": 63,
+        "question": "A 35-year-old woman presents with acute-onset bilateral leg weakness and urinary retention. She had a viral upper respiratory infection 10 days ago. Examination shows lower extremity weakness (3/5), areflexia, and sensory level at T10. MRI spine shows T2 hyperintensity involving the central gray matter of the spinal cord. CSF shows lymphocytic pleocytosis (100 WBC/mm³). Which of the following is the most likely diagnosis?",
+        "options": [
+            "Guillain-Barré syndrome",
+            "Transverse myelitis",
+            "Multiple sclerosis",
+            "Acute flaccid myelitis",
+            "Spinal cord infarction"
+        ],
+        "correct": 3,
+        "explanation": "Acute flaccid myelitis (AFM) presents with acute flaccid weakness, areflexia, and MRI showing gray matter (anterior horn) involvement. It is often post-infectious (enterovirus D68, EV-A71). Unlike transverse myelitis (UMN signs after spinal shock), AFM causes LMN findings (flaccid weakness, areflexia)."
+    },
+    {
+        "id": 64,
+        "question": "A 55-year-old woman presents with subacute onset of memory loss, confusion, and myoclonus over 6 weeks. MRI shows cortical ribboning and basal ganglia hyperintensity on DWI. CSF 14-3-3 protein is positive, and RT-QuIC is positive. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Alzheimer's disease",
+            "Creutzfeldt-Jakob disease (CJD)",
+            "Limbic encephalitis",
+            "Viral encephalitis",
+            "Normal pressure hydrocephalus"
+        ],
+        "correct": 1,
+        "explanation": "Sporadic CJD presents with rapidly progressive dementia, myoclonus, and ataxia. MRI shows cortical ribboning and basal ganglia hyperintensity on DWI. RT-QuIC detects prion protein seeding activity in CSF and is highly specific. Median survival is 4-6 months."
+    },
+    {
+        "id": 65,
+        "question": "A 65-year-old man with hypertension presents with sudden-onset vertigo, dysarthria, and left-sided ataxia. Examination reveals left facial numbness, right-sided body numbness, and left Horner syndrome (ptosis, miosis, anhidrosis). Which artery occlusion is most likely?",
+        "options": [
+            "Posterior inferior cerebellar artery (PICA)",
+            "Superior cerebellar artery (SCA)",
+            "Anterior inferior cerebellar artery (AICA)",
+            "Basilar artery",
+            "Vertebral artery"
+        ],
+        "correct": 0,
+        "explanation": "Lateral medullary (Wallenberg) syndrome from PICA or vertebral artery occlusion causes ipsilateral facial numbness, contralateral body numbness (crossed sensory loss), Horner syndrome, dysphagia, hoarseness, vertigo, and ipsilateral ataxia. This is the classic brainstem stroke syndrome."
+    },
+    {
+        "id": 66,
+        "question": "Which of the following best describes the clinical course of amyotrophic lateral sclerosis (ALS)? A 60-year-old man presents with progressive weakness in his right hand, muscle twitching, and difficulty swallowing over 8 months. Examination reveals fasciculations, muscle atrophy, hyperreflexia, and Babinski sign. He has no sensory loss. Understanding the combined upper and lower motor neuron involvement helps distinguish ALS from other disorders.",
+        "options": [
+            "Symmetric proximal weakness, elevated CK, muscle biopsy shows inflammation",
+            "Ascending weakness, areflexia, albuminocytologic dissociation on CSF",
+            "Both upper motor neuron (spasticity, hyperreflexia) and lower motor neuron (fasciculations, atrophy) signs with no sensory loss",
+            "Pure lower motor neuron signs with normal reflexes",
+            "Pure upper motor neuron signs with no fasciculations or atrophy"
+        ],
+        "correct": 2,
+        "explanation": "ALS is characterized by combined UMN signs (spasticity, hyperreflexia, Babinski) and LMN signs (fasciculations, muscle atrophy, areflexia) without sensory loss. Bulbar involvement (dysarthria, dysphagia) is common. Riluzole (glutamate antagonist) and edaravone modestly slow progression."
+    },
+    {
+        "id": 67,
+        "question": "A 30-year-old woman presents with a 3-month history of progressive left leg weakness and numbness. MRI brain shows multiple periventricular T2 hyperintense lesions, some enhancing. CSF shows oligoclonal bands. Which of the following is the most appropriate first-line disease-modifying therapy?",
+        "options": [
+            "IV methylprednisolone for acute relapse",
+            "Interferon-beta-1a (moderate efficacy DMT)",
+            "Natalizumab (high efficacy DMT)",
+            "Fingolimod (oral DMT)",
+            "Ocrelizumab (anti-CD20)"
+        ],
+        "correct": 1,
+        "explanation": "For relapsing-remitting MS with mild-to-moderate activity, first-line DMTs include interferon-beta or glatiramer acetate. High-efficacy therapies (natalizumab, ocrelizumab) are for highly active disease. Acute relapses are treated with IV steroids, but they do not alter long-term disability."
+    },
+    {
+        "id": 68,
+        "question": "A 45-year-old woman presents with fluctuating ptosis, diplopia, and difficulty swallowing that worsens as the day progresses. Examination shows fatigable weakness of extraocular muscles. Edrophonium test produces transient improvement. Which of the following is the most appropriate first-line symptomatic treatment?",
+        "options": [
+            "Prednisolone",
+            "Pyridostigmine",
+            "IV immunoglobulin",
+            "Plasma exchange",
+            "Rituximab"
+        ],
+        "correct": 1,
+        "explanation": "Myasthenia gravis first-line symptomatic treatment is pyridostigmine (acetylcholinesterase inhibitor). Immunosuppression (prednisolone, azathioprine) is added for moderate-to-severe generalized disease. Thymectomy is indicated for AChR-positive patients aged <60. Myasthenic crisis (respiratory failure) requires IVIG or plasma exchange."
+    },
+    {
+        "id": 69,
+        "question": "A 25-year-old man presents with acute-onset fever, headache, and confusion. He has a generalized tonic-clonic seizure. MRI shows T2 hyperintensity in the right temporal lobe. CSF shows lymphocytic pleocytosis, elevated protein, normal glucose, and PCR is positive for HSV-1. Which of the following is the most appropriate antiviral therapy?",
+        "options": [
+            "Acyclovir IV",
+            "Ganciclovir IV",
+            "Foscarnet IV",
+            "Oseltamivir oral",
+            "Valacyclovir oral"
+        ],
+        "correct": 0,
+        "explanation": "Herpes simplex virus encephalitis is treated with IV acyclovir (10 mg/kg every 8 hours for 14-21 days). Without treatment, mortality >70%; with treatment, mortality 20-30% but survivors often have residual deficits (memory impairment, personality changes). PCR of CSF is diagnostic."
+    },
+    {
+        "id": 70,
+        "question": "A 65-year-old man with a history of hypertension presents with sudden-onset right arm and leg weakness. His symptoms began 4 hours ago. He is taking warfarin for atrial fibrillation with INR 2.8. CT head shows no hemorrhage. CT angiography shows left MCA M1 segment occlusion. Which of the following is the most appropriate treatment?",
+        "options": [
+            "IV alteplase (tPA) is contraindicated due to INR >1.7",
+            "Mechanical thrombectomy",
+            "IV heparin infusion",
+            "Aspirin 325 mg now",
+            "Increase warfarin dose"
+        ],
+        "correct": 1,
+        "explanation": "IV tPA is contraindicated in patients on warfarin with INR >1.7 due to bleeding risk. Mechanical thrombectomy is indicated for large vessel occlusion up to 24 hours (DAWN/DEFUSE-3 trials). This patient with M1 occlusion should undergo urgent thrombectomy if salvageable brain tissue on perfusion imaging."
+    },
+	
+	
+	
+	
+	
+	
+    {
+        "id": 71,
+        "question": "A 55-year-old woman presents with acute-onset left-sided weakness and neglect. She is outside the window for thrombolysis. CT head shows a right MCA territory infarct. She has atrial fibrillation. Which of the following is the most appropriate anticoagulation strategy for secondary prevention?",
+        "options": [
+            "Aspirin 325 mg daily",
+            "Clopidogrel 75 mg daily",
+            "Apixaban started 1-14 days after stroke",
+            "Warfarin started immediately",
+            "Heparin drip for 5 days"
+        ],
+        "correct": 2,
+        "explanation": "For atrial fibrillation-related stroke, direct oral anticoagulants (apixaban, rivaroxaban, edoxaban, dabigatran) are preferred over warfarin. Anticoagulation is typically started 1-14 days after stroke depending on infarct size (small infarct: day 1-3; large infarct: day 7-14)."
+    },
+    {
+        "id": 72,
+        "question": "Which of the following best describes the presentation of neuromyelitis optica spectrum disorder (NMOSD)? A 40-year-old woman presents with bilateral vision loss and leg weakness. MRI shows longitudinally extensive transverse myelitis (>3 vertebral segments) and optic nerve enhancement. She has no brain lesions. Understanding the typical features of NMOSD helps distinguish it from multiple sclerosis.",
+        "options": [
+            "Relapsing-remitting optic neuritis with periventricular plaques",
+            "Longitudinally extensive transverse myelitis plus optic neuritis, anti-AQP4 antibodies positive",
+            "Progressive spastic paraparesis with oligoclonal bands",
+            "Acute flaccid paralysis with areflexia",
+            "Cerebellar ataxia with brainstem atrophy"
+        ],
+        "correct": 1,
+        "explanation": "NMOSD is characterized by recurrent episodes of optic neuritis and longitudinally extensive transverse myelitis (LETM, >3 segments). Anti-aquaporin-4 (AQP4) antibodies are positive in 70-80% of cases. Unlike MS, brain MRI typically shows no lesions. Rituximab or eculizumab is used for prevention."
+    },
+    {
+        "id": 73,
+        "question": "A 28-year-old woman presents with acute-onset right eye pain and vision loss that worsens with eye movement. She has no other neurological symptoms. Ophthalmologic examination reveals decreased visual acuity and relative afferent pupillary defect (RAPD). MRI brain shows only a single enhancing lesion in the right optic nerve. Which of the following is the most appropriate acute treatment?",
+        "options": [
+            "Oral prednisone alone",
+            "IV methylprednisolone followed by oral prednisone taper",
+            "Observation without treatment",
+            "Plasma exchange",
+            "IV immunoglobulin"
+        ],
+        "correct": 1,
+        "explanation": "Acute optic neuritis is treated with IV methylprednisolone (1 gram daily for 3-5 days) followed by oral prednisone taper to accelerate visual recovery. Oral prednisone alone increases recurrence risk. About 50% develop multiple sclerosis within 10 years."
+    },
+    {
+        "id": 74,
+        "question": "A 62-year-old man with a history of hypertension presents with sudden-onset vertigo, nausea, and vomiting. Examination reveals right-sided ataxia and dysarthria. He has no weakness or sensory loss. MRI shows a small infarct in the right superior cerebellar artery territory. Which of the following is the most appropriate acute management?",
+        "options": [
+            "IV tPA if within 4.5 hours",
+            "Aspirin and statin for secondary prevention",
+            "Heparin infusion",
+            "Warfarin for cardioembolism",
+            "Carotid endarterectomy"
+        ],
+        "correct": 0,
+        "explanation": "If this patient presents within 4.5 hours of symptom onset, IV tPA is indicated for acute ischemic stroke regardless of territory. For smaller strokes outside tPA window, antiplatelet (aspirin 325 mg) and statin are given within 24-48 hours. Source of embolism (atrial fibrillation, large artery) should be evaluated."
+    },
+    {
+        "id": 75,
+        "question": "A 70-year-old man presents with progressive gait difficulty, frequent falls (backwards), and slowed movements over 1 year. Examination reveals axial rigidity, bradykinesia, and impaired downgaze. He has no resting tremor. Levodopa provides minimal benefit. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Parkinson's disease",
+            "Progressive supranuclear palsy (PSP)",
+            "Multiple system atrophy (MSA)",
+            "Dementia with Lewy bodies",
+            "Corticobasal degeneration"
+        ],
+        "correct": 1,
+        "explanation": "PSP presents with early falls (backwards), vertical supranuclear gaze palsy (downgaze first), axial rigidity, and poor response to levodopa. Unlike Parkinson's disease, resting tremor is absent. MRI shows midbrain atrophy (hummingbird sign)."
+    },
+    {
+        "id": 76,
+        "question": "Which of the following best describes the clinical features of myasthenic crisis? A 45-year-old woman with known myasthenia gravis presents with sudden-onset difficulty breathing, dysphagia, and inability to maintain oxygen saturation. She has not missed her medications. Edrophonium test improves her symptoms. Understanding the difference between myasthenic and cholinergic crisis is critical for management.",
+        "options": [
+            "Worsening after edrophonium, muscarinic signs (salivation, bradycardia)",
+            "Improvement after edrophonium, no muscarinic signs",
+            "Worsening with rest, improvement with activity",
+            "Improvement with atropine, no response to edrophonium",
+            "Normal edrophonium test with fixed weakness"
+        ],
+        "correct": 1,
+        "explanation": "Myasthenic crisis (disease exacerbation) improves with edrophonium (acetylcholinesterase inhibitor) and requires IVIG or plasma exchange. Cholinergic crisis (excessive medication) worsens with edrophonium and has muscarinic signs (salivation, diarrhea, bradycardia); treatment is stopping pyridostigmine and giving atropine."
+    },
+    {
+        "id": 77,
+        "question": "A 35-year-old man presents with a 3-day history of ascending weakness starting in his feet. He now has difficulty walking and cannot raise his arms. Examination shows symmetric weakness, areflexia, and normal sensation. CSF shows elevated protein with normal cell count (albuminocytologic dissociation). Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Guillain-Barré syndrome",
+            "Transverse myelitis",
+            "Poliomyelitis",
+            "Myasthenia gravis"
+        ],
+        "correct": 1,
+        "explanation": "Guillain-Barré syndrome (GBS) presents with rapidly progressive ascending symmetric weakness, areflexia, and albuminocytologic dissociation (elevated protein, normal WBC). IVIG or plasma exchange is equally effective if started within 2-4 weeks. Monitor vital capacity for respiratory failure."
+    },
+    {
+        "id": 78,
+        "question": "A 60-year-old woman presents with sudden-onset thunderclap headache, nausea, and neck stiffness. CT head shows hyperdense blood in the basal cisterns. She has no focal deficits. Which of the following is the most important next step to prevent rebleeding?",
+        "options": [
+            "IV nimodipine",
+            "Early aneurysm occlusion (coiling or clipping)",
+            "Blood pressure control to <140/90",
+            "Lumbar puncture to confirm diagnosis",
+            "IV mannitol for cerebral edema"
+        ],
+        "correct": 1,
+        "explanation": "After subarachnoid hemorrhage from ruptured aneurysm, early aneurysm occlusion (coiling or clipping) prevents rebleeding (highest risk in first 24 hours). Nimodipine reduces delayed cerebral ischemia from vasospasm but does not prevent rebleeding. BP control is important but not primary for rebleeding prevention."
+    },
+    {
+        "id": 79,
+        "question": "A 55-year-old man with a history of hypertension presents with sudden-onset right-sided weakness and aphasia. Last known well was 8 hours ago. NIHSS is 16. CT head shows no hemorrhage. CT angiography shows left MCA M1 occlusion with good collaterals. Perfusion imaging shows large penumbra. Which of the following is the most appropriate treatment?",
+        "options": [
+            "IV alteplase (tPA) is not indicated beyond 4.5 hours",
+            "Mechanical thrombectomy",
+            "Aspirin 325 mg daily",
+            "Heparin infusion",
+            "Carotid endarterectomy"
+        ],
+        "correct": 1,
+        "explanation": "Mechanical thrombectomy is indicated for large vessel occlusion up to 24 hours if there is salvageable brain tissue (mismatch on perfusion imaging) as per DAWN and DEFUSE-3 trials. This patient with M1 occlusion and good penumbra is an excellent candidate. tPA is not given beyond 4.5 hours."
+    },
+    {
+        "id": 80,
+        "question": "A 28-year-old woman presents with episodes of sharp, electric shock-like pain in her right cheek triggered by brushing her teeth or touching her face. The pain lasts 30-60 seconds and is severe. Neurological examination is normal. Which of the following is the first-line treatment for this condition?",
+        "options": [
+            "Gabapentin",
+            "Carbamazepine",
+            "Amitriptyline",
+            "Pregabalin",
+            "Baclofen"
+        ],
+        "correct": 1,
+        "explanation": "Trigeminal neuralgia (tic douloureux) presents with paroxysmal, unilateral facial pain triggered by non-painful stimuli. Carbamazepine or oxcarbazepine is first-line, reducing sodium channel activity. If medication fails, microvascular decompression surgery is considered. MRI rules out secondary causes (multiple sclerosis, tumor)."
+    },
+	
+	
+	
+	
+	
+	
+    {
+        "id": 81,
+        "question": "A 30-year-old woman presents with acute-onset bilateral leg weakness and urinary retention. She had a viral illness 1 week ago. Examination shows flaccid paraplegia (0/5), areflexia, and sensory loss below T10. CSF shows lymphocytic pleocytosis (80 WBC/mm³). MRI spine shows T2 hyperintensity involving the central gray matter. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Guillain-Barré syndrome",
+            "Transverse myelitis",
+            "Acute flaccid myelitis",
+            "Multiple sclerosis",
+            "Spinal cord infarction"
+        ],
+        "correct": 2,
+        "explanation": "Acute flaccid myelitis (AFM) presents with acute flaccid weakness, areflexia, and MRI showing gray matter (anterior horn) involvement. Often post-infectious (enterovirus D68). Unlike transverse myelitis (UMN signs), AFM causes LMN findings with areflexia and flaccidity."
+    },
+    {
+        "id": 82,
+        "question": "Which of the following best describes the clinical features of a left posterior cerebral artery (PCA) stroke? A 65-year-old man with hypertension presents with sudden-onset difficulty reading and inability to recognize faces. He has a right homonymous hemianopia with macular sparing. He has no weakness or neglect. Understanding the visual pathway helps localize this stroke to the occipital lobe.",
+        "options": [
+            "Contralateral homonymous hemianopia with macular sparing, alexia without agraphia, prosopagnosia",
+            "Right-sided weakness, aphasia, right gaze deviation",
+            "Left-sided neglect, left hemiparesis, anosognosia",
+            "Bilateral leg weakness, apathy, urinary incontinence",
+            "Vertigo, ataxia, dysarthria, crossed findings"
+        ],
+        "correct": 0,
+        "explanation": "Left PCA stroke (dominant hemisphere) causes right homonymous hemianopia with macular sparing (due to collateral supply), alexia without agraphia (pure word blindness), and prosopagnosia. Macular sparing differentiates PCA from MCA stroke (full field cut)."
+    },
+    {
+        "id": 83,
+        "question": "A 55-year-old woman with breast cancer presents with subacute onset of headache, confusion, and right-sided weakness. MRI brain shows multiple ring-enhancing lesions at the gray-white matter junction with surrounding vasogenic edema. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Primary CNS lymphoma",
+            "Glioblastoma multiforme",
+            "Brain metastases",
+            "Brain abscess",
+            "Toxoplasmosis"
+        ],
+        "correct": 2,
+        "explanation": "Brain metastases are the most common intracranial tumors in adults, typically multiple ring-enhancing lesions at gray-white matter junction. Breast, lung, melanoma, renal, and colon cancers commonly metastasize to brain. Treatment: steroids for edema, radiation, or surgery for solitary lesion."
+    },
+    {
+        "id": 84,
+        "question": "A 35-year-old man presents with progressive difficulty walking, hand clumsiness, and muscle twitching over 1 year. Examination reveals fasciculations, thenar atrophy, hyperreflexia, and Babinski signs. He has no sensory loss. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Guillain-Barré syndrome",
+            "Amyotrophic lateral sclerosis (ALS)",
+            "Myasthenia gravis",
+            "Hereditary spastic paraplegia"
+        ],
+        "correct": 2,
+        "explanation": "ALS presents with combined upper motor neuron (spasticity, hyperreflexia, Babinski) and lower motor neuron (fasciculations, muscle atrophy, areflexia) signs without sensory loss. Riluzole and edaravone modestly slow progression. Median survival is 3-5 years from onset."
+    },
+    {
+        "id": 85,
+        "question": "A 70-year-old man presents with sudden-onset vertigo, dysarthria, and left-sided weakness. Examination reveals left facial weakness, left arm and leg weakness, and left gaze deviation (eyes deviated to the left). Which artery occlusion is most likely?",
+        "options": [
+            "Right middle cerebral artery (MCA)",
+            "Left middle cerebral artery (MCA)",
+            "Right posterior cerebral artery (PCA)",
+            "Basilar artery",
+            "Left anterior cerebral artery (ACA)"
+        ],
+        "correct": 1,
+        "explanation": "Left MCA stroke causes right-sided weakness (face/arm > leg), aphasia (dominant hemisphere), and gaze deviation toward the side of the lesion (left). Gaze preference is away from the hemiparesis. This patient's left gaze deviation indicates left hemispheric lesion. Left-sided weakness would not occur with left MCA lesion."
+    },
+    {
+        "id": 86,
+        "question": "A 45-year-old woman presents with episodic severe headache with visual aura (zigzag lines) lasting 20 minutes followed by unilateral throbbing headache with nausea and photophobia. She has 4-5 attacks per month. Which of the following is the most appropriate preventive medication?",
+        "options": [
+            "Sumatriptan",
+            "Propranolol",
+            "Naproxen",
+            "Ergotamine",
+            "Ondansetron"
+        ],
+        "correct": 1,
+        "explanation": "For migraine prevention in patients with frequent attacks (≥4 per month), first-line options include propranolol, topiramate, amitriptyline, or valproate. Sumatriptan and naproxen are acute treatments, not prevention. CGRP antibodies are for refractory cases."
+    },
+    {
+        "id": 87,
+        "question": "A 60-year-old man with hypertension presents with sudden-onset dysarthria and left-sided weakness. His symptoms began 2 hours ago. CT head shows an old lacunar infarct but no acute hemorrhage. BP is 195/105 mmHg. Which of the following is the most appropriate next step?",
+        "options": [
+            "IV alteplase (tPA) after lowering BP to <185/110",
+            "Hold tPA due to old lacunar infarct",
+            "IV labetalol to lower BP to <140/90 before tPA",
+            "Aspirin 325 mg now",
+            "Mechanical thrombectomy without tPA"
+        ],
+        "correct": 0,
+        "explanation": "Prior lacunar infarct is not a contraindication to tPA. BP must be lowered to <185/110 mmHg before tPA using IV labetalol or nicardipine. This patient presents within 3 hours, making him eligible for tPA. After tPA, BP maintained <180/105 for 24 hours."
+    },
+    {
+        "id": 88,
+        "question": "A 35-year-old woman presents with acute-onset bilateral vision loss for 30 minutes followed by complete recovery. She has a history of similar episodes preceded by fortification spectra. She has no headache during these episodes. MRI brain is normal. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Transient ischemic attack (TIA)",
+            "Migraine with aura (acephalgic migraine)",
+            "Optic neuritis",
+            "Idiopathic intracranial hypertension",
+            "Conversion disorder"
+        ],
+        "correct": 1,
+        "explanation": "Acephalgic migraine (migraine aura without headache) presents with transient visual aura (5-60 minutes) without headache. Common in young patients. Unlike TIA, symptoms are positive (zigzag lines, flashing lights) rather than negative (darkness). No treatment needed if infrequent."
+    },
+    {
+        "id": 89,
+        "question": "A 55-year-old woman presents with progressive difficulty climbing stairs, drooping eyelids worse at the end of the day, and double vision. Examination shows ptosis, ophthalmoparesis, and fatigable weakness. Which diagnostic test is most specific for myasthenia gravis?",
+        "options": [
+            "Edrophonium (Tensilon) test",
+            "Repetitive nerve stimulation",
+            "Serum acetylcholine receptor (AChR) antibodies",
+            "Single-fiber EMG",
+            "MRI brain"
+        ],
+        "correct": 2,
+        "explanation": "Serum AChR antibodies are positive in 80-90% of generalized myasthenia gravis and 50% of ocular MG, with high specificity (99%). If negative, MuSK or LRP4 antibodies may be tested. Single-fiber EMG is most sensitive (95%) but less specific. Edrophonium test is less sensitive/specific."
+    },
+    {
+        "id": 90,
+        "question": "A 25-year-old man with HIV (CD4 count 45) presents with subacute headache, confusion, and focal seizures. MRI shows multiple ring-enhancing lesions in basal ganglia and corticomedullary junction. Toxoplasma IgG is positive. Which of the following is the most appropriate next step?",
+        "options": [
+            "Brain biopsy",
+            "Empiric toxoplasmosis treatment (pyrimethamine plus sulfadiazine)",
+            "Start highly active antiretroviral therapy (HAART) only",
+            "Whole brain radiation",
+            "IV corticosteroids alone"
+        ],
+        "correct": 1,
+        "explanation": "In HIV with CD4 <100 and multiple ring-enhancing lesions, toxoplasmosis is most common. Empiric treatment (pyrimethamine + sulfadiazine + leucovorin) is started; clinical and radiologic improvement expected in 7-14 days. Brain biopsy reserved for non-responders."
+    },
+	
+	
+	
+	
+    {
+        "id": 91,
+        "question": "A 65-year-old man presents with sudden-onset right-sided weakness and aphasia. His symptoms began 1 hour ago. He has a history of hypertension and diabetes. CT head shows no hemorrhage. BP is 200/110 mmHg. Which of the following is the most appropriate blood pressure management before IV tPA?",
+        "options": [
+            "Proceed with tPA without BP lowering",
+            "Lower BP to <185/110 using IV labetalol before tPA",
+            "Lower BP to <140/90 using IV nitroprusside",
+            "Hold tPA and treat BP with oral antihypertensives",
+            "Give tPA and then treat BP"
+        ],
+        "correct": 1,
+        "explanation": "Before IV tPA, BP must be lowered to <185/110 mmHg to reduce intracerebral hemorrhage risk. IV labetalol (10-20 mg) or nicardipine infusion is used. After tPA, BP is maintained <180/105 for 24 hours. This patient's BP 200/110 requires urgent lowering."
+    },
+    {
+        "id": 92,
+        "question": "Which of the following best describes the clinical presentation of normal pressure hydrocephalus (NPH)? A 72-year-old man presents with progressive gait difficulty (magnetic gait, feet stuck to floor), urinary incontinence, and cognitive decline over 6 months. He has no headache. MRI shows ventriculomegaly out of proportion to cortical atrophy with evidence of trans-ependymal flow.",
+        "options": [
+            "Headache, papilledema, and sixth nerve palsy",
+            "Gait apraxia, urinary incontinence, and dementia (wet, wacky, wobbly)",
+            "Resting tremor, bradykinesia, and rigidity",
+            "Ataxia, nystagmus, and scanning dysarthria",
+            "Proximal weakness, diplopia, and fatigability"
+        ],
+        "correct": 1,
+        "explanation": "NPH presents with the classic triad: gait apraxia (magnetic gait, wide-based), urinary incontinence, and subcortical dementia (executive dysfunction, apathy). Diagnosis supported by improvement after large-volume lumbar puncture (30-50 mL CSF removal). Treatment is ventriculoperitoneal shunting."
+    },
+    {
+        "id": 93,
+        "question": "A 28-year-old woman presents with acute-onset ascending weakness over 4 days. She initially noticed tingling in her feet, then difficulty walking, and now cannot raise her arms. Examination shows symmetric weakness (3/5), areflexia, and no sensory level. CSF shows elevated protein (110 mg/dL) with normal WBC count. Which of the following is the most appropriate treatment?",
+        "options": [
+            "IV methylprednisolone",
+            "IV immunoglobulin (IVIG) or plasma exchange",
+            "Oral prednisone taper",
+            "IV acyclovir",
+            "IV ceftriaxone"
+        ],
+        "correct": 1,
+        "explanation": "Guillain-Barré syndrome with progressive weakness and albuminocytologic dissociation is treated with IVIG or plasma exchange (equally effective). IV steroids are not beneficial and may worsen outcomes. Respiratory function (vital capacity) must be monitored closely. Early treatment improves recovery."
+    },
+    {
+        "id": 94,
+        "question": "A 35-year-old woman presents with episodes of severe, unilateral periorbital pain lasting 15-45 minutes, occurring 3-4 times per day for 2 weeks. She has ipsilateral conjunctival injection, lacrimation, and nasal congestion during attacks. Which of the following is the most appropriate acute treatment?",
+        "options": [
+            "Oral sumatriptan",
+            "Subcutaneous sumatriptan or high-flow oxygen",
+            "Propranolol daily",
+            "Verapamil daily",
+            "Naproxen"
+        ],
+        "correct": 1,
+        "explanation": "Cluster headache acute treatment: high-flow oxygen (100% at 12-15 L/min) or subcutaneous sumatriptan (6 mg) is first-line. Verapamil is for prophylaxis. Unlike migraine, cluster headaches are short, severe, unilateral periorbital with autonomic features, occurring in clusters (weeks to months)."
+    },
+    {
+        "id": 95,
+        "question": "A 60-year-old man with a history of hypertension presents with sudden-onset vertigo, dysarthria, and right-sided ataxia. Examination reveals right-sided limb ataxia, dysmetria, and intention tremor. He has no weakness or sensory loss. MRI shows a small infarct in the right cerebellum. Which artery is most likely occluded?",
+        "options": [
+            "Posterior inferior cerebellar artery (PICA)",
+            "Superior cerebellar artery (SCA)",
+            "Anterior inferior cerebellar artery (AICA)",
+            "Basilar artery",
+            "Vertebral artery"
+        ],
+        "correct": 1,
+        "explanation": "Superior cerebellar artery (SCA) supplies the superior cerebellum. SCA stroke causes ipsilateral ataxia (appendicular > truncal), dysarthria, nausea, and vertigo without brainstem signs (no cranial nerve findings). Pure cerebellar ataxia without crossed findings localizes to SCA or PICA."	
+    },
+    {
+        "id": 96,
+        "question": "A 45-year-old woman presents with progressive weakness in her legs, difficulty walking, and urinary urgency over 6 months. Examination shows spastic paraparesis (4/5), hyperreflexia, and Babinski signs bilaterally. No sensory level. MRI cervical spine shows T2 hyperintensity within the cord from C3 to C6 with cord compression from disk osteophytes. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Cervical spondylotic myelopathy",
+            "Amyotrophic lateral sclerosis",
+            "Transverse myelitis",
+            "Subacute combined degeneration"
+        ],
+        "correct": 1,
+        "explanation": "Cervical spondylotic myelopathy (CSM) from degenerative disk disease causes progressive myelopathy (spasticity, hyperreflexia, Babinski, hand clumsiness, gait impairment) without significant pain. MRI shows cord compression and T2 hyperreflexia. Surgical decompression is indicated for moderate to severe disease."
+    },
+    {
+        "id": 97,
+        "question": "A 55-year-old woman presents with acute-onset thunderclap headache, nausea, and neck stiffness. CT head shows hyperdense blood in the basal cisterns. She has no focal deficits. Which of the following medications reduces the risk of delayed cerebral ischemia from vasospasm?",
+        "options": [
+            "Nimodipine",
+            "Heparin",
+            "Aspirin",
+            "Mannitol",
+            "Phenytoin"
+        ],
+        "correct": 0,
+        "explanation": "Nimodipine (calcium channel blocker) reduces the risk of delayed cerebral ischemia from vasospasm after subarachnoid hemorrhage. It is given orally (60 mg every 4 hours) for 21 days. Early aneurysm occlusion (coiling/clipping) prevents rebleeding. Nimodipine does not reduce rebleeding risk."
+    },
+    {
+    "id": 98,
+    "question": "A 65-year-old man with a history of hypertension and diabetes presents with sudden-onset right-sided weakness and aphasia. His symptoms began 2 hours ago. CT head shows no hemorrhage. He is on warfarin for atrial fibrillation with INR 1.8. Which of the following is the most appropriate management?",
+    "options": [
+        "IV alteplase (tPA) is indicated (INR ≤1.7 is cutoff, 1.8 is too high)",
+        "Mechanical thrombectomy if large vessel occlusion present",
+        "Aspirin 325 mg immediately",
+        "Heparin infusion",
+        "Warfarin reversal with vitamin K"
+    ],
+    "correct": 1,
+    "explanation": "IV tPA is contraindicated if INR >1.7 (this patient's INR is 1.8). Mechanical thrombectomy is safe and effective for large vessel occlusion up to 24 hours regardless of INR, as long as INR is not supratherapeutic. This patient should undergo CTA to assess for LVO. If no LVO, antiplatelet therapy (aspirin) is given after 24-48 hours."
+},
+    {
+        "id": 99,
+        "question": "A 65-year-old man with a history of hypertension and diabetes presents with sudden-onset right-sided weakness and aphasia. His symptoms began 3 hours ago. CT head shows no hemorrhage. BP is 185/100 mmHg. He is on warfarin for atrial fibrillation with INR 2.5. Which of the following is the most appropriate treatment?",
+        "options": [
+            "IV tPA is contraindicated due to INR >1.7",
+            "Mechanical thrombectomy if large vessel occlusion present",
+            "IV heparin infusion",
+            "Aspirin 325 mg now",
+            "Warfarin reversal with vitamin K"
+        ],
+        "correct": 1,
+        "explanation": "IV tPA is contraindicated in patients on warfarin with INR >1.7 due to bleeding risk. Mechanical thrombectomy (up to 24 hours) is safe and effective for large vessel occlusion regardless of INR. This patient should undergo CTA to assess for LVO. If no LVO, antiplatelet therapy is given."
+    },
+    {
+        "id": 100,
+        "question": "A 45-year-old woman presents with fluctuating ptosis, diplopia, and difficulty swallowing that worsens as the day progresses. Examination shows fatigable weakness of extraocular muscles and ptosis. Edrophonium test produces transient improvement. Which of the following is the most appropriate first-line symptomatic treatment?",
+        "options": [
+            "Prednisolone",
+            "Pyridostigmine",
+            "IV immunoglobulin",
+            "Plasma exchange",
+            "Rituximab"
+        ],
+        "correct": 1,
+        "explanation": "Myasthenia gravis first-line symptomatic treatment is pyridostigmine (acetylcholinesterase inhibitor). Immunosuppression (prednisolone, azathioprine) is added for moderate-to-severe generalized disease. Thymectomy is indicated for AChR-positive patients aged <60. Myasthenic crisis (respiratory failure) requires IVIG or plasma exchange."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    ];
+
+    // ============================================================
+    // DO NOT EDIT BELOW THIS LINE - The rendering engine works automatically
+    // ============================================================
+
+    let userAnswers = new Array(questions.length).fill(null);
+    let submitted = false;
+
+    function updateProgress() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        const percentage = questions.length ? (answered / questions.length) * 100 : 0;
+        document.getElementById('progressText').innerHTML = `${answered}/${questions.length} Answered`;
+        document.getElementById('progressFill').style.width = percentage + '%';
+    }
+
+    function renderScorePanel(correctCount = null) {
+        const container = document.getElementById('scorePanelContainer');
+        if (!submitted) {
+            container.classList.add('hidden-panel');
+            container.innerHTML = '';
+        } else {
+            const score = correctCount !== null ? correctCount : 0;
+            container.classList.remove('hidden-panel');
+            container.innerHTML = `
+                <div class="score-title"><i class="fas fa-chart-simple"></i> Score</div>
+                <div class="score-value">${score}/${questions.length}</div>
+            `;
+        }
+    }
+
+    function renderMCQs() {
+        if (!questions.length) {
+            document.getElementById('mcqContent').innerHTML = '<div style="text-align:center;padding:60px 20px;background:white;border-radius:24px;"><i class="fas fa-info-circle" style="font-size:3rem;color:#1ecbe1;"></i><p style="margin-top:20px;font-size:1.1rem;color:#15304c;">No MCQs loaded yet.</p><p style="margin-top:10px;color:#5a7d9a;">Paste your 100 Medicine questions into the "questions" array in the script section of this HTML file.</p></div>';
+            return;
+        }
+
+        let html = '';
+        questions.forEach((q, idx) => {
+            const number = idx + 1;
+            const saved = userAnswers[idx];
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                let optionClass = 'option';
+                if (submitted) {
+                    if (optIdx === q.correct) optionClass += ' correct-option';
+                    else if (saved === optIdx && saved !== q.correct) optionClass += ' wrong-option';
+                    else if (saved === optIdx) optionClass += ' selected';
+                } else {
+                    if (saved === optIdx) optionClass += ' selected';
+                }
+                optionsHtml += `<div class="${optionClass}" data-q="${idx}" data-opt="${optIdx}">${String.fromCharCode(65+optIdx)}. ${escapeHtml(opt)}</div>`;
+            });
+            
+            let explClass = 'explanation-box';
+            let cardClass = '';
+            if (submitted) {
+                explClass += ' show';
+                if (saved === null) {
+                    cardClass = 'unanswered-ans';
+                } else if (saved === q.correct) {
+                    cardClass = 'correct-ans';
+                } else {
+                    cardClass = 'wrong-ans';
+                }
+            }
+            
+            html += `
+            <div class="mcq-card ${cardClass}" id="card-${idx}">
+                <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q${number}</div>
+                <div class="question-text">${escapeHtml(q.question)}</div>
+                <div class="options">${optionsHtml}</div>
+                <div class="${explClass}" id="exp-${idx}">
+                    <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+                    ${escapeHtml(q.explanation)}
+                </div>
+            </div>`;
+        });
+        
+        html += `<div class="submit-wrapper"><button id="submitBtn" class="primary-btn"><i class=""></i> Submit </button></div>`;
+        document.getElementById('mcqContent').innerHTML = html;
+        
+        const btn = document.getElementById('submitBtn');
+        if (btn) {
+            if (submitted) {
+                btn.innerHTML = '<i class=""></i> Submitted';
+                btn.classList.add('disabled-btn');
+                btn.disabled = true;
+            } else {
+                btn.onclick = function() { submitMCQs(); };
+            }
+        }
+        
+        if (!submitted) {
+            document.querySelectorAll('#mcqContent .option').forEach(opt => {
+                opt.addEventListener('click', function(e) {
+                    if (submitted) return;
+                    const qIdx = this.dataset.q;
+                    const optIdx = parseInt(this.dataset.opt);
+                    const parentOptions = this.parentElement.children;
+                    for (let el of parentOptions) {
+                        el.classList.remove('selected');
+                    }
+                    this.classList.add('selected');
+                    userAnswers[qIdx] = optIdx;
+                    updateProgress();
+                });
+            });
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    window.submitMCQs = function() {
+        if (submitted) return;
+        submitted = true;
+        let correctCount = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) correctCount++;
+        }
+        renderScorePanel(correctCount);
+        renderMCQs();
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.onload = function() {
+        renderScorePanel();
+        renderMCQs();
+        updateProgress();
+    };
+</script>
+</body>
+</html>

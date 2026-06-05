@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT English Preparation Session · Gerunds & Gerund Phrases </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';"> Score</h2>
+        <div id="final-score">0 / 25</div>
+       
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class=""></i>  Gerunds & Gerund Phrases </h3>
+        <div class="syllabus-grid">
+           
+        </div>
+
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> MedPrep </span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// ENGLISH GERUNDS & GERUND PHRASES - 25 MCQs (April 27)
+// Covers: Gerund as subject/object, vs participle, possessive with gerund, verb patterns, prepositions + gerund
+// ✅ EACH QUESTION: ONE correct answer · Explanation matches the key
+// --------------------------------------------------------------
+const quizData = [
+    // ==================== Gerund as Subject ====================
+    {q: "Identify the gerund in the sentence: 'Swimming is good exercise.'", a: "A", choices: ["Swimming", "is", "good", "exercise"], e: "Gerund: verb-ing acting as noun (subject of sentence)."},
+    {q: "In the sentence 'Reading books improves the mind', the word 'Reading' functions as a:", a: "D", choices: ["Verb", "Adjective", "Gerund acting as object", "Gerund acting as subject"], e: "'Reading' is the subject of the sentence, thus a gerund."},
+    {q: "Complete the sentence: '___ is prohibited in this building.'", a: "A", choices: ["Smoking", "To smoke", "Smoke", "Smoked"], e: "Gerund as subject: 'Smoking' (the activity) is prohibited."},
+    
+    // ==================== Gerund as Object ====================
+    {q: "Identify the gerund phrase: 'She enjoys reading science fiction novels.'", a: "C", choices: ["She enjoys", "enjoys reading", "reading science fiction novels", "science fiction novels"], e: "Gerund phrase consists of gerund + its object/complements, acting as noun (object of verb 'enjoys')."},
+    {q: "Complete the sentence: 'He admitted ___ the money.'", a: "B", choices: ["to steal", "stealing", "stole", "to have stolen"], e: "Verb 'admitted' is followed by gerund: admitted stealing."},
+    {q: "Which verb is NOT followed by a gerund?", a: "D", choices: ["Enjoy", "Avoid", "Consider", "Want"], e: "'Want' is followed by infinitive (to + verb), not gerund."},
+    
+    // ==================== Object of Preposition ====================
+    {q: "Complete the sentence: 'He is afraid ___ flying.'", a: "C", choices: ["to", "for", "of", "with"], e: "Adjective + preposition 'of' + gerund: afraid of flying."},
+    {q: "Complete the sentence: 'She is interested ___ learning new languages.'", a: "B", choices: ["for", "in", "on", "about"], e: "Adjective + preposition 'in' + gerund: interested in learning."},
+    {q: "Complete the sentence: 'They apologized ___ being late.'", a: "D", choices: ["about", "with", "on", "for"], e: "Verb + preposition 'for' + gerund: apologized for being late."},
+    {q: "Complete the sentence: 'We look forward ___ from you.'", a: "B", choices: ["to hear", "to hearing", "hearing", "hear"], e: "'Look forward to' is followed by gerund (to is preposition here)."},
+    
+    // ==================== Possessive with Gerund ====================
+    {q: "Complete the sentence: 'I appreciate ___ coming to the meeting.'", a: "A", choices: ["your", "you", "yours", "yourself"], e: "Possessive adjective + gerund: 'your coming' (emphasizes the action, not person)."},
+    {q: "Complete the sentence: 'The teacher objected to ___ arriving late.'", a: "D", choices: ["him", "he", "his", "his"], e: "Possessive with gerund: 'his arriving' is correct after preposition 'to'."},
+    {q: "Identify the correct sentence:", a: "C", choices: ["She didn't like me singing.", "She didn't like I singing.", "She didn't like my singing.", "She didn't like me to sing."], e: "Possessive 'my' with gerund 'singing' is grammatically correct formal English."},
+    
+    // ==================== Gerund vs Present Participle ====================
+    {q: "In the sentence 'I saw him running down the street', the word 'running' functions as a:", a: "B", choices: ["Gerund", "Present participle", "Infinitive", "Past participle"], e: "Running describes the action of 'him' (object complement), thus present participle, not gerund."},
+    {q: "Identify whether the -ing word is a gerund or participle: 'The crying baby needed attention.'", a: "B", choices: ["Gerund", "Present participle", "Both", "Neither"], e: "'Crying' modifies the noun 'baby' → present participle acting as adjective."},
+    {q: "In the sentence 'Hiking is my favorite hobby', the word 'Hiking' is a:", a: "A", choices: ["Gerund", "Present participle", "Verb", "Adjective"], e: "Hiking is the subject of the sentence → gerund (noun)."},
+    
+    // ==================== Verb Patterns (Gerund vs Infinitive) ====================
+    {q: "Complete the sentence: 'She stopped ___ coffee because of health issues.'", a: "B", choices: ["to drink", "drinking", "drink", "drunk"], e: "Stopped + gerund = quit an activity; stopped + infinitive = paused to start another."},
+    {q: "Complete the sentence: 'He stopped ___ hello to his neighbor.'", a: "A", choices: ["to say", "saying", "say", "said"], e: "Stopped to say = paused his activity to say hello."},
+    {q: "Complete the sentence: 'I remember ___ the door before leaving.'", a: "C", choices: ["to lock", "lock", "locking", "locked"], e: "Remember + gerund = recall a past action; remember + infinitive = don't forget."},
+    {q: "Complete the sentence: 'Don't forget ___ the lights.'", a: "D", choices: ["switching", "switch", "switched", "to switch"], e: "Forget + infinitive = reminder for future action."},
+    {q: "Complete the sentence: 'She tried ___ the heavy box, but it was too difficult.'", a: "B", choices: ["to lift", "lifting", "lift", "lifted"], e: "Try + gerund = experiment; try + infinitive = attempt (here meaning attempt)."},
+    
+    // ==================== Phrasal Verbs + Gerund ====================
+    {q: "Complete the sentence: 'He ended up ___ the entire project alone.'", a: "B", choices: ["do", "to do", "doing", "done"], e: "Phrasal verb 'ended up' is followed by gerund."},
+    {q: "Complete the sentence: 'She couldn't help ___ at his joke.'", a: "C", choices: ["to laugh", "laugh", "laughing", "laughed"], e: "Couldn't help + gerund = unavoidable action, couldn't help laughing."},
+    {q: "Complete the sentence: 'They insisted on ___ the bill.'", a: "D", choices: ["pay", "to pay", "paid", "paying"], e: "Insisted on + gerund: 'paying'."},
+    
+    // ==================== Error Identification ====================
+    {q: "Identify the error: 'I enjoy to read novels in my free time.'", a: "B", choices: ["enjoy", "to read", "novels", "free time"], e: "Verb 'enjoy' is followed by gerund, not infinitive. Correct: 'reading'."},
+   
+];
+
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 25`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

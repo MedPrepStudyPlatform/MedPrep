@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep ·  Block-J  ·  Community Medicine </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5fafd;
+            color: #15304c;
+            line-height: 1.5;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #f5fafd;
+            padding-top: 5px;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .main-header {
+            background: #0a2c48;
+            color: white;
+            width: 100%;
+            padding: 20px 0;
+            box-shadow: 0 12px 28px -10px rgba(10, 44, 72, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-wrapper {
+            background: white;
+            padding: 8px 28px;
+            border-radius: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #1ecbe1;
+            transition: transform 0.2s ease;
+        }
+
+        .logo-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-img {
+            height: 65px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .pill-nav {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 16px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(30, 203, 225, 0.5);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pill-nav span {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: white;
+            letter-spacing: 0.3px;
+        }
+
+        .pill-nav i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        .score-panel {
+            background: white;
+            border-radius: 60px;
+            padding: 16px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 18px -6px #b5d9f0;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .score-panel.hidden-panel {
+            display: none;
+        }
+
+        .score-title {
+            font-family: 'Outfit', sans-serif;
+            color: #0a2c48;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .score-value {
+            background: #0a2c48;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 40px;
+            padding: 12px 20px;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #0a2c48;
+            font-size: 0.9rem;
+        }
+
+        .progress-fill {
+            height: 10px;
+            background: #1ecbe1;
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-bg {
+            flex-grow: 1;
+            background: #e1f0fa;
+            border-radius: 20px;
+            height: 10px;
+            min-width: 100px;
+        }
+
+        .mcq-card {
+            background: white;
+            border-radius: 24px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #cde1f0;
+            box-shadow: 0 6px 14px -6px #aac9e2;
+            transition: all 0.2s ease;
+        }
+
+        .mcq-card:hover {
+            box-shadow: 0 10px 20px -8px #aac9e2;
+        }
+
+        .mcq-card.correct-ans {
+            border-left: 8px solid #10b981;
+            background: #f0fdf4;
+        }
+
+        .mcq-card.wrong-ans {
+            border-left: 8px solid #f44336;
+            background: #fff3f5;
+        }
+
+        .mcq-card.unanswered-ans {
+            border-left: 8px solid #ff9800;
+            background: #fff8e7;
+        }
+
+        .q-num {
+            font-weight: 700;
+            color: #0a2c48;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 18px;
+            color: #1a3a5a;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .option {
+            background: #f1f9ff;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: 1px solid #c3dcf2;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .option:hover {
+            background: #d7ecfd;
+            border-color: #1ecbe1;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1ecbe1;
+            color: #0a2c48;
+            border-color: #0a2c48;
+            font-weight: 600;
+        }
+
+        .option.correct-option {
+            background: #10b981;
+            color: white;
+            border-color: #0e6e4a;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .option.wrong-option {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+            pointer-events: none;
+        }
+
+        .explanation-box {
+            margin-top: 20px;
+            background: #f4f9ff;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #0a2c48;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .explanation-box.show {
+            display: block;
+        }
+
+        .exp-title {
+            font-weight: 700;
+            color: #0a2c48;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0 50px;
+        }
+
+        .primary-btn {
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            background: #0a2c48;
+            color: white;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .primary-btn:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+            transform: scale(1.02);
+        }
+
+        .primary-btn.disabled-btn,
+        .primary-btn:disabled {
+            background: #9aaebf;
+            color: #f0f4f8;
+            cursor: not-allowed;
+            transform: none;
+            pointer-events: none;
+        }
+
+        .main-footer {
+            background: #0a2c48;
+            color: #ffffffcc;
+            text-align: center;
+            padding: 24px 20px;
+            margin-top: 30px;
+            border-top: 1px solid #1ecbe1;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            .header-inner { padding: 0 15px; flex-direction: column; text-align: center; }
+            .logo-wrapper { padding: 6px 20px; }
+            .logo-img { height: 50px; }
+            .pill-nav { padding: 5px 12px; gap: 6px; }
+            .pill-nav span { font-size: 0.75rem; }
+            .score-panel { padding: 14px 18px; flex-direction: column; text-align: center; border-radius: 30px; }
+            .score-title { font-size: 1rem; justify-content: center; }
+            .score-value { font-size: 1rem; padding: 5px 16px; }
+            .options { gap: 10px; }
+            .option { padding: 10px 16px; font-size: 0.85rem; }
+            .question-text { font-size: 0.95rem; }
+            .mcq-card { padding: 18px; }
+            .primary-btn { padding: 12px 28px; font-size: 0.9rem; }
+            .progress-bar { flex-direction: column; text-align: center; }
+            .progress-bg { width: 100%; min-width: auto; }
+            .main-footer { padding: 20px 16px; font-size: 0.75rem; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 12px; }
+            .header-inner { padding: 0 12px; }
+            .logo-wrapper { padding: 5px 16px; }
+            .logo-img { height: 42px; }
+            .mcq-card { padding: 15px; border-radius: 20px; }
+            .question-text { font-size: 0.9rem; }
+            .option { padding: 8px 14px; font-size: 0.8rem; }
+            .explanation-box { padding: 12px 15px; font-size: 0.85rem; }
+            .score-value { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-inner">
+        <div class="logo-wrapper">
+            <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+        </div>
+        <div class="pill-nav">
+            <span><i class="fas fa-file-alt"></i>Block-J</span>
+            <span><i class="fas fa-users"></i>Community Medicine</span>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div id="scorePanelContainer" class="score-panel hidden-panel"></div>
+
+    <div class="progress-sticky">
+        <div class="progress-bar">
+            <span class="progress-text" id="progressText">0/100 Answered</span>
+            <div class="progress-bg">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <span class="progress-text" id="scorePreview"></span>
+        </div>
+    </div>
+
+    <div id="mcqContent"></div>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <i class=""></i> © MedPrep · All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+    
+
+    const questions = [
+        
+		
+		
+		
+		
+	
+    {
+        "id": 1,
+        "question": "A public health officer is investigating an outbreak of food poisoning in a village. She collects data on all 500 villagers, documenting who ate the suspected food and who developed symptoms. She calculates the attack rate among those who ate the food and compares it to those who did not. Which of the following study designs is being used?",
+        "options": [
+            "Case-control study",
+            "Randomized controlled trial",
+            "Cohort study",
+            "Cross-sectional study",
+            "Ecological study"
+        ],
+        "correct": 2,
+        "explanation": "A cohort study follows a group of individuals over time to compare outcomes between exposed and unexposed groups. In this outbreak investigation, the officer is comparing attack rates between those who ate the food (exposed) and those who did not (unexposed), which is characteristic of a cohort study. Case-control studies start with diseased and non-diseased groups and look back at exposure. Cross-sectional studies measure exposure and disease at a single point in time."
+    },
+    {
+        "id": 2,
+        "question": "A researcher wants to study the association between smoking and lung cancer. She selects 200 patients with lung cancer and 200 controls without lung cancer from the same hospital. She then interviews them about their smoking history. Which measure of association is most appropriate for this study design?",
+        "options": [
+            "Relative risk",
+            "Attributable risk",
+            "Incidence rate ratio",
+            "Risk difference",
+            "Odds ratio"
+        ],
+        "correct": 4,
+        "explanation": "Odds ratio is the appropriate measure of association for case-control studies because incidence cannot be calculated directly (the study starts with diseased and non-diseased individuals, not a population at risk). Odds ratio approximates relative risk when the disease is rare (prevalence <10%). Relative risk is used in cohort studies where incidence rates can be calculated. Attributable risk measures the excess risk in exposed versus unexposed groups."
+    },
+    {
+        "id": 3,
+        "question": "Which of the following best describes the difference between incidence and prevalence? A health department reports that there are 5000 new cases of tuberculosis diagnosed in the city during 2023, and on December 31, 2023, there were 8000 existing cases of tuberculosis. Understanding these two measures of disease frequency is essential for public health planning and resource allocation.",
+        "options": [
+            "Incidence measures existing cases at a point in time; prevalence measures new cases over a period",
+            "Both incidence and prevalence measure new cases only",
+            "Incidence measures new cases over a period of time; prevalence measures all existing cases at a point in time",
+            "Incidence is always higher than prevalence",
+            "Prevalence is only used for chronic diseases; incidence is only used for acute diseases"
+        ],
+        "correct": 2,
+        "explanation": "Incidence measures new cases occurring in a population over a specified time period (risk or rate). Prevalence measures all existing cases (both new and pre-existing) at a point in time (point prevalence) or over a period (period prevalence). Prevalence is influenced by incidence and disease duration. For chronic diseases like tuberculosis, prevalence is typically higher than incidence. For acute diseases with short duration, incidence and prevalence may be similar."
+    },
+    {
+        "id": 4,
+        "question": "A researcher is studying the relationship between physical activity and cardiovascular disease. She follows 10,000 healthy adults for 10 years, recording their exercise habits at baseline and tracking who develops heart disease. Which of the following measures of association should she calculate?",
+        "options": [
+            "Odds ratio",
+            "Relative risk (risk ratio)",
+            "Prevalence ratio",
+            "Attributable fraction",
+            "Number needed to treat"
+        ],
+        "correct": 1,
+        "explanation": "Relative risk (risk ratio) is the appropriate measure for cohort studies, comparing the incidence of disease in exposed versus unexposed groups. The researcher follows a cohort over time, so she can calculate incidence rates. Relative risk = (Incidence in exposed) / (Incidence in unexposed). Odds ratio is for case-control studies. Attributable fraction measures the proportion of disease in the exposed group due to the exposure. Number needed to treat is used in randomized controlled trials."
+    },
+    {
+        "id": 5,
+        "question": "A city health department reports that the infant mortality rate in the city is 25 per 1000 live births. Which of the following is the correct interpretation of this statistic?",
+        "options": [
+            "25% of all deaths in the city occurred in infants under 1 year of age",
+            "25 out of every 1000 children born alive die before their fifth birthday",
+            "25 out of every 1000 children born alive die before their first birthday",
+            "25 out of every 1000 women of childbearing age die during pregnancy",
+            "25 out of every 1000 live births result in stillbirth"
+        ],
+        "correct": 2,
+        "explanation": "Infant mortality rate (IMR) is the number of deaths of infants under 1 year of age per 1000 live births in a given year. IMR is an important indicator of the overall health status of a population and reflects maternal and child health, socioeconomic conditions, and healthcare quality. Neonatal mortality rate (deaths under 28 days) and post-neonatal mortality rate (deaths from 28 days to 1 year) are subcomponents. Under-5 mortality rate includes deaths before the fifth birthday. Maternal mortality ratio is deaths per 100,000 live births from pregnancy-related causes."
+    },
+    {
+        "id": 6,
+        "question": "A health economist is evaluating a new screening program for breast cancer. She calculates that the program costs $50,000 per quality-adjusted life year (QALY) gained. The World Health Organization recommends that interventions costing less than 3 times the gross domestic product (GDP) per capita are considered cost-effective. The GDP per capita in this country is $15,000. Which of the following conclusions is most appropriate?",
+        "options": [
+            "The program is not cost-effective because it exceeds $10,000 per QALY",
+            "The program is not cost-effective because it exceeds the GDP per capita",
+            "The program is cost-effective because it is less than 3 times the GDP per capita",
+            "The program is cost-effective because it is less than $100,000 per QALY",
+            "Cost-effectiveness cannot be determined without a comparator"
+        ],
+        "correct": 2,
+        "explanation": "The WHO threshold for cost-effectiveness is less than 3 times the GDP per capita. Here, 3 × $15,000 = $45,000 per QALY. The program costs $50,000 per QALY, which exceeds this threshold, so it is not cost-effective by WHO standards. The $50,000 per QALY threshold is commonly used in the United States but is not universally applicable. Cost-effectiveness analysis compares costs and outcomes (QALYs) of competing interventions. Without a comparator (e.g., no screening vs alternative screening), a full cost-effectiveness analysis cannot be performed. The incremental cost-effectiveness ratio (ICER) is the difference in cost divided by the difference in QALYs between two interventions. Cost-utility analysis uses QALYs as the outcome measure."
+    },
+    {
+        "id": 7,
+        "question": "A researcher wants to determine if there is an association between a new biomarker and the risk of developing diabetes. She enrolls 1000 healthy adults, measures their biomarker levels at baseline, and follows them for 5 years to see who develops diabetes. The study finds that individuals with high biomarker levels have a relative risk of 3.0 (95% confidence interval 1.5-6.0) for developing diabetes compared to those with low levels. Which of the following is the correct interpretation of the confidence interval?",
+        "options": [
+            "There is a 95% chance that the true relative risk is between 1.5 and 6.0",
+            "The results are not statistically significant because the confidence interval does not include 0",
+            "The results are statistically significant because the confidence interval includes 1.0",
+            "The results are not statistically significant because the confidence interval does not include 3.0",
+            "The results are statistically significant because the confidence interval does not include 1.0"
+        ],
+        "correct": 4,
+        "explanation": "A confidence interval that does not include 1.0 (the null value for relative risk) indicates statistical significance at the 0.05 level. Here, the 95% CI is 1.5-6.0, which does not include 1.0, so the association is statistically significant. The correct interpretation of a 95% CI is that if the study were repeated many times, 95% of the calculated confidence intervals would contain the true population parameter. It is not correct to say there is a 95% chance that the true value lies within the interval (the true value is fixed, not random). The null value for relative risk is 1.0 (no association), not 0 (which is the null for risk difference)."
+    },
+    {
+        "id": 8,
+        "question": "A school nurse is planning a vaccination campaign to prevent measles in a community. She knows that measles is highly contagious and that herd immunity is necessary to prevent outbreaks. Approximately what percentage of the population needs to be immune to achieve herd immunity for measles?",
+        "options": [
+            "95%",
+            "80%",
+            "70%",
+            "60%",
+            "50%"
+        ],
+        "correct": 0,
+        "explanation": "Measles is one of the most contagious infectious diseases, with a basic reproduction number (R0) of 12-18. Herd immunity threshold is calculated as 1 - 1/R0, which for measles is approximately 92-95%. This means about 95% of the population must be immune (through vaccination or natural infection) to interrupt transmission and prevent outbreaks. For less contagious diseases, the threshold is lower (e.g., polio 80-85%, influenza 33-44%). Achieving 95% coverage requires two doses of MMR vaccine (first dose at 12-15 months, second dose at 4-6 years). Herd immunity protects vulnerable individuals who cannot be vaccinated (infants, immunocompromised, pregnant women)."
+    },
+    {
+        "id": 9,
+        "question": "A researcher is conducting a randomized controlled trial to test a new drug for hypertension. She randomly assigns 200 patients to receive either the new drug or a placebo. After 6 months, the mean blood pressure in the treatment group is 10 mmHg lower than in the placebo group, with a p-value of 0.03. Which of the following is the most appropriate interpretation of this p-value?",
+        "options": [
+            "There is a 3% chance that the drug is effective",
+            "There is a 3% chance of observing a difference of 10 mmHg or more if the drug had no effect",
+            "There is a 97% chance that the drug is effective",
+            "The probability of making a Type II error is 3%",
+            "The results are not statistically significant because the p-value is less than 0.05"
+        ],
+        "correct": 1,
+        "explanation": "The p-value is the probability of observing the study results (or more extreme results) if the null hypothesis (no difference between groups) were true. A p-value of 0.03 means that if the drug had no effect, there is only a 3% chance of observing a difference of 10 mmHg or more by random chance alone. Since the p-value is less than 0.05, the results are statistically significant. The p-value does not indicate the probability that the drug is effective (Bayesian interpretation) nor the probability of making a Type II error (beta, not p). Type I error (alpha) is the probability of rejecting the null when it is true, set at 0.05 before the study."
+    },
+    {
+        "id": 10,
+        "question": "A community health worker is planning a smoking cessation program. She reviews the literature and finds that a previous study reported a relative risk of lung cancer of 15.0 for smokers compared to non-smokers. Which of the following is the most appropriate interpretation of this relative risk?",
+        "options": [
+            "Smokers have a 15% higher risk of lung cancer compared to non-smokers",
+            "The risk of lung cancer in smokers is 15 times the risk in non-smokers",
+            "15% of lung cancer cases among smokers are attributable to smoking",
+            "The incidence of lung cancer is 15 per 1000 person-years in smokers",
+            "Smokers have a 15-fold increased risk of lung cancer compared to non-smokers"
+        ],
+        "correct": 1,
+        "explanation": "A relative risk (RR) of 15.0 means that the risk of lung cancer in smokers is 15 times the risk in non-smokers. This indicates a very strong association, as smoking is a major cause of lung cancer. RR = (Incidence in exposed) / (Incidence in unexposed). An RR of 1.0 means no association; RR >1.0 indicates increased risk; RR <1.0 indicates decreased risk. Attributable risk percent is (RR-1)/RR × 100%, which for RR=15 is approximately 93%. This means about 93% of lung cancer cases among smokers are attributable to smoking. Relative risk is a measure of association, not incidence rate. Options that say \"15 times\" and \"15-fold\" are both correct interpretations; option B and E are equivalent."
+    },	
+		
+		
+		
+		
+		
+
+    {
+        "id": 11,
+        "question": "A public health researcher is investigating an outbreak of hepatitis A in a town. She interviews all affected individuals and compares their exposure history to a group of healthy neighbors. She finds that 80% of cases ate at a specific restaurant compared to 20% of controls. Which of the following measures can she calculate from this study design?",
+        "options": [
+            "Relative risk",
+            "Odds ratio",
+            "Attack rate",
+            "Incidence rate",
+            "Attributable risk"
+        ],
+        "correct": 1,
+        "explanation": "This is a case-control study (cases with hepatitis A and controls without disease). The appropriate measure of association is odds ratio (OR), which approximates relative risk when the disease is rare. OR = (a/c) / (b/d) = (80×80)/(20×20) = 16.0, meaning cases are 16 times more likely to have eaten at the restaurant than controls."
+    },
+    {
+        "id": 12,
+        "question": "Which of the following best describes the difference between sensitivity and specificity of a diagnostic test? A new rapid test for COVID-19 is being evaluated against the gold standard PCR test. Among 100 patients with confirmed COVID-19, the rapid test is positive in 90 patients. Among 100 healthy controls, the rapid test is negative in 95 patients. Understanding these measures is essential for choosing appropriate screening tests for different clinical scenarios.",
+        "options": [
+            "Sensitivity is the proportion of healthy individuals who test negative; specificity is the proportion of diseased individuals who test positive",
+            "Both sensitivity and specificity are measures of predictive value",
+            "Sensitivity is the proportion of diseased individuals who test positive; specificity is the proportion of healthy individuals who test negative",
+            "Sensitivity is affected by disease prevalence; specificity is not",
+            "Sensitivity and specificity are only used in randomized controlled trials"
+        ],
+        "correct": 2,
+        "explanation": "Sensitivity = TP/(TP+FN) = 90/100 = 90% (ability to correctly identify those with disease). Specificity = TN/(TN+FP) = 95/100 = 95% (ability to correctly identify those without disease). Sensitivity is high for ruling out disease (SnNout: high sensitivity, negative test rules out). Specificity is high for ruling in disease (SpPin: high specificity, positive test rules in). Predictive values (PPV, NPV) are affected by disease prevalence, but sensitivity and specificity are inherent test characteristics."
+    },
+    {
+        "id": 13,
+        "question": "A health department is investigating an outbreak of gastroenteritis in a community. The investigators calculate the attack rates for persons who ate various food items at a community gathering. Which of the following is the most appropriate next step to identify the likely source of the outbreak?",
+        "options": [
+            "Calculate relative risks or odds ratios for each food item",
+            "Perform laboratory testing of all food samples",
+            "Quarantine all symptomatic individuals",
+            "Administer empiric antibiotics to all attendees",
+            "Close the community gathering facility"
+        ],
+        "correct": 0,
+        "explanation": "In a foodborne outbreak investigation, calculating relative risks (cohort study) or odds ratios (case-control) for each food item helps identify the statistically significant association between specific foods and illness. The food item with the highest RR or OR that is statistically significant is the likely source. Attack rates alone (percent ill among those who ate a food) are insufficient without comparison to those who did not eat the food. Laboratory confirmation of the pathogen is important but identification of the source food by epidemiologic analysis is usually faster and guides immediate control measures."
+    },
+    {
+        "id": 14,
+        "question": "A researcher is conducting a cross-sectional study to determine the prevalence of hypertension in a rural community. She surveys 2000 adults and finds that 400 have hypertension. Which of the following is the point prevalence of hypertension in this population?",
+        "options": [
+            "400 per 2000 person-years",
+            "20% per year",
+            "20%",
+            "400 cases",
+            "0.2 per 1000"
+        ],
+        "correct": 2,
+        "explanation": "Point prevalence is the proportion of individuals with a condition at a specific point in time. It is calculated as (number of existing cases at a point in time) / (total population). Here, 400/2000 = 0.20 = 20%. Prevalence is a proportion, not a rate (person-years), and has no time dimension (it is measured at a point in time). Incidence rates are expressed per person-time (e.g., per 1000 person-years). Prevalence is useful for measuring disease burden for chronic diseases and for planning healthcare services."
+    },
+    {
+        "id": 15,
+        "question": "A community physician is evaluating a screening program for colorectal cancer using fecal occult blood testing (FOBT). The test has a sensitivity of 70% and specificity of 90%. The prevalence of colorectal cancer in the target population is 1%. What is the positive predictive value (PPV) of the test?",
+        "options": [
+            "70%",
+            "90%",
+            "1%",
+            "0.7%",
+            "6.6%"
+        ],
+        "correct": 4,
+        "explanation": "PPV = TP/(TP+FP). In a population of 10,000 with 1% prevalence (100 cases, 9900 without disease): TP = 100 × 0.7 = 70; FP = 9900 × (1-0.9) = 990. PPV = 70/(70+990) = 70/1060 = 6.6%. Low PPV with low prevalence explains why screening is most effective in high-risk populations. NPV = 8910/(8910+30) = 99.7%. Prevalence has a major effect on predictive values but does not affect sensitivity or specificity."
+    },
+    {
+        "id": 16,
+        "question": "A researcher wants to study the association between air pollution and asthma in children. He selects 300 children with asthma and 300 children without asthma and collects data on their exposure to air pollution. Which of the following measures of association will he calculate?",
+        "options": [
+            "Relative risk",
+            "Odds ratio",
+            "Incidence rate ratio",
+            "Risk difference",
+            "Number needed to treat"
+        ],
+        "correct": 1,
+        "explanation": "This is a case-control study (asthma cases versus non-asthma controls). The appropriate measure of association is odds ratio (OR). OR approximates relative risk when the disease is rare. Relative risk is calculated in cohort studies. Number needed to treat is used in randomized controlled trials. Risk difference is the absolute difference in risk between exposed and unexposed groups and requires incidence data (cohort study)."
+    },
+    {
+        "id": 17,
+        "question": "A city health department reports that the maternal mortality ratio (MMR) in the city increased from 100 to 150 per 100,000 live births over 5 years. Which of the following is the most likely explanation for this increase?",
+        "options": [
+            "Improved reporting of maternal deaths",
+            "Decreased birth rate",
+            "Increased number of women of childbearing age",
+            "Improved access to prenatal care",
+            "Decreased number of live births"
+        ],
+        "correct": 0,
+        "explanation": "Maternal mortality ratio is deaths per 100,000 live births. An increase in MMR could result from an actual increase in maternal deaths or improved reporting (capturing deaths that were previously missed). Better access to prenatal care would be expected to decrease MMR, not increase it. Changes in birth rate or number of women of childbearing age do not directly affect the ratio because the denominator is live births, not population size. It is important to verify whether the increase reflects true worsening of maternal health or improved surveillance."
+    },
+    {
+        "id": 18,
+        "question": "A researcher is conducting a randomized controlled trial of a new vaccine. She randomizes 1000 participants to receive either the new vaccine or placebo and follows them for 1 year. She finds that the incidence of disease in the vaccine group is 5 per 1000 and in the placebo group is 20 per 1000. Which of the following is the vaccine efficacy?",
+        "options": [
+            "75%",
+            "80%",
+            "15%",
+            "25%",
+            "50%"
+        ],
+        "correct": 0,
+        "explanation": "Vaccine efficacy = (IR unvaccinated - IR vaccinated) / IR unvaccinated × 100% = (20 - 5)/20 × 100% = 15/20 × 100% = 75%. This means the vaccine reduces the risk of disease by 75% in the vaccinated group compared to the unvaccinated group. Alternatively, vaccine efficacy = (1 - relative risk) × 100% = (1 - 0.25) × 100% = 75%. Relative risk = 5/20 = 0.25. Vaccine efficacy is a measure of how well the vaccine prevents disease under ideal clinical trial conditions. Vaccine effectiveness is the same measure but under real-world conditions. A VE of 75% is considered good but not excellent; many modern vaccines have higher efficacy (e.g., measles vaccine >95%)."
+    },
+    {
+        "id": 19,
+        "question": "A health economist is comparing two interventions for preventing cardiovascular disease. Intervention A costs $10,000 and saves 5 QALYs. Intervention B costs $15,000 and saves 6 QALYs. Which intervention is more cost-effective, and what is the incremental cost-effectiveness ratio (ICER) for moving from Intervention A to Intervention B?",
+        "options": [
+            "Intervention A is more cost-effective; ICER = $5,000 per QALY",
+            "Intervention B is more cost-effective; ICER = $2,000 per QALY",
+            "Intervention A is more cost-effective; ICER = $10,000 per QALY",
+            "Intervention B is more cost-effective; ICER = $5,000 per QALY",
+            "Both are equally cost-effective; ICER = $0"
+        ],
+        "correct": 3,
+        "explanation": "ICER = (Cost B - Cost A) / (QALY B - QALY A) = ($15,000 - $10,000) / (6 - 5) = $5,000 per QALY. Since Intervention B provides additional QALYs at an acceptable cost (if below the willingness-to-pay threshold, e.g., $50,000 per QALY), it is considered cost-effective. Intervention A has a cost per QALY of $10,000/5 = $2,000 per QALY, but this is not an ICER because there is no comparator. The ICER represents the additional cost per additional QALY gained when switching from the less effective to the more effective intervention. If the ICER is below the threshold, the more effective intervention is cost-effective."
+    },
+    {
+        "id": 20,
+        "question": "A community health worker is planning a tuberculosis screening program. The tuberculin skin test (TST) has a sensitivity of 80% and specificity of 99% for active TB. The prevalence of active TB in the community is 0.1%. Which of the following statements about the screening program is most accurate?",
+        "options": [
+            "Most positive tests will be true positives",
+            "The test has high positive predictive value due to high specificity",
+            "Most positive tests will be false positives due to low prevalence",
+            "The test has low negative predictive value due to low sensitivity",
+            "The test is not useful for screening because sensitivity is low"
+        ],
+        "correct": 2,
+        "explanation": "When disease prevalence is very low (0.1%), even a test with high specificity (99%) will generate many false positives. In a population of 100,000: 100 cases (true positives: 80), 99,900 without disease (false positives: 999). PPV = 80/(80+999) = 7.4%. Thus, most positive tests (93%) will be false positives. This is why universal screening for rare diseases is generally not recommended unless the test has very high specificity (>99.9%) or the condition has serious consequences. Screening should be targeted to high-risk populations to improve PPV."
+    },	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 21,
+        "question": "A public health researcher is investigating the relationship between body mass index (BMI) and the risk of developing diabetes. She follows 5000 healthy adults for 10 years and categorizes them into normal weight, overweight, and obese groups at baseline. Which of the following is the most appropriate statistical test to compare the incidence of diabetes among the three groups?",
+        "options": [
+            "Chi-square test",
+            "Student's t-test",
+            "Paired t-test",
+            "Pearson correlation",
+            "Logistic regression"
+        ],
+        "correct": 0,
+        "explanation": "The chi-square test is appropriate for comparing proportions (incidence of diabetes) among three or more independent groups (normal weight, overweight, obese). It tests whether there is an association between BMI category and diabetes status (yes/no). Student's t-test compares means between two groups. Paired t-test compares means before and after intervention. Logistic regression is used for multivariable analysis with binary outcome. A significant chi-square test indicates that at least one group differs from the others; post-hoc tests are needed to identify which specific groups differ."
+    },
+    {
+        "id": 22,
+        "question": "A health department is investigating an outbreak of Salmonella infection. The investigators create an epidemic curve (epi curve) showing the number of cases by date of symptom onset. The curve shows a sharp peak followed by a rapid decline, with all cases occurring within a 24-hour period. Which of the following is the most likely source of this outbreak?",
+        "options": [
+            "Person-to-person transmission",
+            "Continuous common source",
+            "Point source exposure",
+            "Propagated outbreak",
+            "Waterborne transmission"
+        ],
+        "correct": 2,
+        "explanation": "A point source outbreak is characterized by a sharp peak followed by a rapid decline, with cases clustered in a short time interval (usually less than one incubation period). This pattern indicates that all cases were exposed to the same source at approximately the same time (e.g., a single contaminated food item at a meal). Person-to-person transmission (propagated outbreak) shows multiple peaks with gradual increase and spread over time. Continuous common source (e.g., contaminated water supply) shows a plateau or gradual rise and fall over a longer period. The shape of the epi curve (monomodal sharp peak) is classic for point source."
+    },
+    {
+        "id": 23,
+        "question": "A researcher is designing a case-control study to investigate risk factors for a rare cancer. She wants to select an appropriate control group. Which of the following is the most important consideration when selecting controls?",
+        "options": [
+            "Controls should have the same exposure distribution as the general population",
+            "Controls should be selected from the same hospital as the cases",
+            "Controls should be representative of the population that gave rise to the cases",
+            "Controls should be matched to cases on all potential risk factors",
+            "Controls should all be healthy individuals with no medical conditions"
+        ],
+        "correct": 2,
+        "explanation": "The most important principle in case-control study design is that controls should be representative of the source population that gave rise to the cases. This ensures that the exposure distribution in controls reflects the exposure distribution in the population from which cases were drawn, avoiding selection bias. Hospital-based controls may be subject to Berkson's bias (different hospitalization rates by exposure). Matching on all potential risk factors is not feasible and can lead to overmatching (reduces efficiency). Controls should be similar to cases except for the disease status, and they should be selected independently of exposure status. Population-based controls are ideal but may be more expensive to obtain."
+    },
+    {
+        "id": 24,
+        "question": "A community physician is reviewing the vital statistics of a district. The crude death rate is 8 per 1000 population, while the age-standardized death rate (using a standard population) is 10 per 1000. Which of the following conclusions is most appropriate?",
+        "options": [
+            "The population is younger than the standard population",
+            "The population is older than the standard population",
+            "The population has better health than the standard population",
+            "The population has worse health than the standard population",
+            "Age-standardization is not necessary for death rates"
+        ],
+        "correct": 1,
+        "explanation": "When the crude death rate (8/1000) is lower than the age-standardized rate (10/1000), it indicates that the study population is younger than the standard population (age distribution differs). Age-standardization adjusts for differences in age distribution, allowing valid comparisons between populations with different age structures. If the population were older, we would expect the crude rate to be higher than the standardized rate because mortality increases with age. Age-standardization is essential when comparing populations with different age distributions (e.g., comparing a developing country with a developed country). The directly standardized rate is the rate that would be observed if the study population had the same age distribution as the standard population."
+    },
+    {
+        "id": 25,
+        "question": "A researcher is evaluating a new screening test for cervical cancer. The test has a sensitivity of 85% and a specificity of 95%. The prevalence of cervical cancer in the screening population is 2%. What is the probability that a person with a positive test actually has cervical cancer (positive predictive value)?",
+        "options": [
+            "85%",
+            "95%",
+            "2%",
+            "26%",
+            "74%"
+        ],
+        "correct": 3,
+        "explanation": "PPV = (sensitivity × prevalence) / [(sensitivity × prevalence) + ((1 - specificity) × (1 - prevalence))] = (0.85 × 0.02) / [(0.85 × 0.02) + (0.05 × 0.98)] = 0.017 / (0.017 + 0.049) = 0.017 / 0.066 = 0.2576 = 26%. NPV = (specificity × (1 - prevalence)) / [(specificity × (1 - prevalence)) + ((1 - sensitivity) × prevalence)] = (0.95 × 0.98) / [(0.95 × 0.98) + (0.15 × 0.02)] = 0.931 / 0.934 = 99.7%. The low PPV (26%) reflects the low prevalence of disease. Even with a relatively specific test, most positives are false positives when disease is rare. This is why screening is most beneficial in high-risk populations."
+    },
+    {
+        "id": 26,
+        "question": "A health officer is investigating a cluster of leukemia cases in a community near a chemical plant. She interviews the families of affected children about potential exposures. She also interviews families of healthy children from the same neighborhood. This type of study is best described as:",
+        "options": [
+            "Case-control study",
+            "Cohort study",
+            "Cross-sectional study",
+            "Ecological study",
+            "Randomized controlled trial"
+        ],
+        "correct": 0,
+        "explanation": "This is a case-control study. The investigator starts with cases (children with leukemia) and selects controls (healthy children) from the same source population (neighborhood). Exposure information is then collected retrospectively (interviews about potential exposures). This design is efficient for studying rare diseases like childhood leukemia. Cohort studies would require following a large population for many years to observe enough cases, which is impractical for rare diseases. Ecological studies compare groups (e.g., communities) rather than individuals and are subject to ecological fallacy. Case-control studies are observational (no intervention), so they cannot prove causation but can identify associations."
+    },
+    {
+        "id": 27,
+        "question": "A researcher is conducting a systematic review and meta-analysis of randomized controlled trials on the effect of statins on cardiovascular events. She combines the results of 10 trials and calculates a pooled relative risk of 0.75 (95% CI 0.68-0.83). Which of the following is the most appropriate interpretation of the I² statistic, which is 85%?",
+        "options": [
+            "The pooled estimate is highly precise",
+            "There is no heterogeneity among the studies",
+            "There is substantial heterogeneity among the studies",
+            "The results are not statistically significant",
+            "Publication bias is likely present"
+        ],
+        "correct": 2,
+        "explanation": "The I² statistic measures the percentage of total variation across studies that is due to heterogeneity rather than chance. I² values: 0-40% may not be important; 30-60% moderate heterogeneity; 50-90% substantial heterogeneity; 75-100% considerable heterogeneity. I² = 85% indicates substantial heterogeneity, meaning that the variation in effect sizes across studies is due to true differences in study characteristics (e.g., different populations, interventions, outcomes, or study quality) rather than random sampling error. When substantial heterogeneity is present, a random-effects model is appropriate, and investigators should explore sources of heterogeneity through subgroup analysis or meta-regression. Fixed-effects models assume that all studies are estimating the same underlying effect, which is not appropriate with high I². High I² does not necessarily indicate publication bias; funnel plots are used to assess publication bias."
+    },
+    {
+        "id": 28,
+        "question": "A community health program is implementing directly observed therapy (DOT) for tuberculosis treatment. Which of the following is the most important reason for using DOT?",
+        "options": [
+            "To reduce the cost of TB treatment",
+            "To reduce side effects of TB medications",
+            "To improve patient satisfaction",
+            "To reduce the duration of TB treatment",
+            "To prevent the development of drug-resistant TB"
+        ],
+        "correct": 4,
+        "explanation": "Directly observed therapy (DOT) involves a healthcare worker watching the patient swallow each dose of TB medication. The primary purpose is to ensure adherence to the full course of treatment, which typically lasts 6-9 months for drug-sensitive TB. Poor adherence leads to treatment failure, relapse, and the development of multidrug-resistant TB (MDR-TB). DOT is a key component of the DOTS (Directly Observed Treatment, Short-course) strategy recommended by the WHO. DOT significantly reduces the risk of acquired drug resistance by ensuring complete therapy. It does not reduce the duration of treatment (that depends on the drug regimen), nor does it reduce side effects or cost. Patient satisfaction may vary, but adherence for public health benefit is the primary goal."
+    },
+    {
+        "id": 29,
+        "question": "A researcher is analyzing data from a cohort study. She finds that the incidence of lung cancer in smokers is 200 per 100,000 person-years and in non-smokers is 20 per 100,000 person-years. Which of the following is the attributable risk (risk difference) of smoking for lung cancer?",
+        "options": [
+            "10",
+            "180 per 100,000 person-years",
+            "10%",
+            "90%",
+            "200 per 100,000 person-years"
+        ],
+        "correct": 1,
+        "explanation": "Attributable risk (AR), also called risk difference, is the excess risk in the exposed group compared to the unexposed group: AR = Incidence in exposed - Incidence in unexposed = 200 - 20 = 180 per 100,000 person-years. This means that among smokers, 180 out of every 100,000 cases of lung cancer per year are attributable to smoking (assuming causality). The attributable fraction (percent) among the exposed is (AR / Incidence in exposed) × 100% = (180/200) × 100% = 90%. This means that 90% of lung cancer cases in smokers are due to smoking. The population attributable risk (PAR) depends on the prevalence of smoking in the population and estimates the proportion of cases in the total population attributable to smoking. The relative risk is 200/20 = 10."
+    },
+    {
+        "id": 30,
+        "question": "A hospital epidemiologist is investigating an outbreak of surgical site infections in the postoperative ward. She creates a line listing of all affected patients, documenting their age, sex, surgical procedure, date of surgery, date of infection onset, and the surgeon who performed the operation. Which of the following is the most important next step in the outbreak investigation?",
+        "options": [
+            "Notify the media about the outbreak",
+            "Close the surgical ward for disinfection",
+            "Calculate attack rates by surgeon and procedure",
+            "Start empiric antibiotics on all postoperative patients",
+            "Send all staff for testing"
+        ],
+        "correct": 2,
+        "explanation": "After creating a line listing, the next step is to calculate attack rates by relevant variables (e.g., by surgeon, by procedure, by operating room, by date) to identify potential sources of the outbreak. Attack rates help generate hypotheses about the cause (e.g., if infections cluster with one surgeon, that surgeon's technique or equipment may be the source). Once hypotheses are generated, analytic studies (cohort or case-control) can be conducted to test them. Outbreak investigation steps: 1) verify diagnosis, 2) confirm outbreak (compare to expected rates), 3) define cases, 4) perform descriptive epidemiology (person, place, time), 5) generate hypotheses, 6) test hypotheses (analytic studies), 7) implement control measures, 8) communicate findings. Notifying media is premature without confirmed cause and control measures. Closing the ward may be necessary for environmental cleaning but is not the first analytic step. Empiric antibiotics should be guided by culture results to avoid resistance."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+    {
+        "id": 31,
+        "question": "A researcher is studying the relationship between physical activity and depression. He measures physical activity levels and depression symptoms in 5000 adults at a single point in time. This type of study design is best described as:",
+        "options": [
+            "Case-control study",
+            "Cohort study",
+            "Cross-sectional study",
+            "Randomized controlled trial",
+            "Ecological study"
+        ],
+        "correct": 2,
+        "explanation": "A cross-sectional study measures exposure (physical activity) and outcome (depression) at the same point in time. This design is useful for estimating prevalence and generating hypotheses about associations, but it cannot establish temporal sequence (whether physical activity preceded depression or depression led to reduced activity). Cross-sectional studies are relatively quick and inexpensive, making them ideal for health surveys and surveillance. They are susceptible to reverse causality and cannot determine incidence or risk. Case-control and cohort studies require longitudinal follow-up. Randomized controlled trials involve intervention assignment. Ecological studies use group-level data rather than individual data."
+    },
+    {
+        "id": 32,
+        "question": "A health department is evaluating a community-based intervention to reduce childhood obesity. They measure BMI in all elementary school children before the intervention and again after 2 years. They find a statistically significant decrease in mean BMI percentile. Which of the following is the most important limitation of this study design?",
+        "options": [
+            "Lack of a control group",
+            "Small sample size",
+            "Short duration of follow-up",
+            "Selection bias",
+            "Measurement error"
+        ],
+        "correct": 0,
+        "explanation": "This is a before-and-after study (pre-post design) without a control group. The major limitation is the inability to determine whether the observed decrease is due to the intervention or other factors (e.g., secular trends, maturation, history, regression to the mean). Without a control group that did not receive the intervention, causal inference is weak. A randomized controlled trial or quasi-experimental design with a comparison group would provide stronger evidence. While other limitations may exist (sample size, duration, measurement error), the absence of a control group is the most critical flaw for establishing effectiveness. Possible confounding factors include changes in school lunch policies, physical education requirements, or community awareness of obesity during the same period."
+    },
+    {
+        "id": 33,
+        "question": "A researcher is analyzing the relationship between socioeconomic status (SES) and infant mortality. She finds that infants in the lowest SES quintile have an infant mortality rate of 15 per 1000 live births, while those in the highest SES quintile have a rate of 5 per 1000 live births. Which of the following is the relative risk of infant mortality for low SES compared to high SES?",
+        "options": [
+            "10 per 1000",
+            "3 per 1000",
+            "5 per 1000",
+            "200%",
+            "3"
+        ],
+        "correct": 4,
+        "explanation": "Relative risk (RR) = Incidence in exposed / Incidence in unexposed = 15 / 5 = 3. This means that infants in the lowest SES quintile have 3 times the risk of infant mortality compared to those in the highest SES quintile. RR is a ratio, so it has no units. The risk difference (attributable risk) is 15 - 5 = 10 per 1000 live births, which represents the excess risk associated with low SES. The relative risk is a measure of the strength of association, while the risk difference measures the public health impact (number of excess deaths attributable to the exposure). When reporting results, both measures provide complementary information. A RR of 3 indicates a moderately strong association, but the public health impact depends on the prevalence of low SES in the population (population attributable risk)."
+    },
+    {
+        "id": 34,
+        "question": "A community physician is planning a vaccination campaign for measles during an outbreak. She estimates that the basic reproduction number (R0) for measles in this community is 15. Approximately what percentage of the population must be immune to achieve herd immunity and stop the outbreak?",
+        "options": [
+            "67%",
+            "93%",
+            "80%",
+            "85%",
+            "99%"
+        ],
+        "correct": 1,
+        "explanation": "The herd immunity threshold (HIT) is calculated as 1 - 1/R0. For R0 = 15, HIT = 1 - 1/15 = 1 - 0.0667 = 0.9333 = 93.3%. This means approximately 93% of the population must be immune to interrupt measles transmission. Measles is one of the most contagious diseases, which is why two doses of MMR vaccine (coverage >95%) are recommended. For less contagious diseases, the threshold is lower: polio (R0=5-7) requires 80-85% immunity; influenza (R0=1.5-2) requires 33-50% immunity. Achieving herd immunity protects vulnerable individuals who cannot be vaccinated (infants, immunocompromised, pregnant women). Herd immunity can be achieved through vaccination or natural infection, but vaccination is the safest method. When coverage falls below the threshold, outbreaks can occur as seen in communities with declining vaccination rates."
+    },
+    {
+        "id": 35,
+        "question": "A researcher is evaluating a new diagnostic test for HIV. The test has a sensitivity of 99% and a specificity of 99.5%. The prevalence of HIV in the population being tested is 0.5%. What is the probability that a person with a positive test actually has HIV (positive predictive value)?",
+        "options": [
+            "99%",
+            "99.5%",
+            "0.5%",
+            "50%",
+            "66%"
+        ],
+        "correct": 3,
+        "explanation": "PPV = (sensitivity × prevalence) / [(sensitivity × prevalence) + ((1 - specificity) × (1 - prevalence))] = (0.99 × 0.005) / [(0.99 × 0.005) + (0.005 × 0.995)] = 0.00495 / (0.00495 + 0.004975) = 0.00495 / 0.009925 = 0.499 = 49.9% ≈ 50%. Even with excellent test characteristics (sensitivity 99%, specificity 99.5%), the PPV is only 50% when disease prevalence is very low (0.5%). This means half of the positive tests are false positives. This demonstrates why universal screening for rare diseases is problematic and why confirmatory testing (e.g., Western blot for HIV) is essential after a positive screening test (ELISA). The CDC recommends that positive HIV screening tests be confirmed with a more specific test. The PPV increases as disease prevalence increases; in high-risk populations (prevalence 5%), PPV would be much higher (approximately 91%)."
+    },
+    {
+        "id": 36,
+        "question": "A health officer is investigating an outbreak of hepatitis A in a town. She interviews all 200 people who attended a wedding reception. She finds that 50 of the 80 people who ate the seafood platter developed hepatitis, while 10 of the 120 people who did not eat the seafood platter developed hepatitis. Which of the following is the attack rate among those who ate the seafood platter?",
+        "options": [
+            "50%",
+            "25%",
+            "62.5%",
+            "12.5%",
+            "80%"
+        ],
+        "correct": 2,
+        "explanation": "Attack rate is the proportion of exposed individuals who develop the disease during the outbreak period. Attack rate among exposed = (Number of cases among exposed) / (Total number of exposed) × 100% = 50/80 × 100% = 62.5%. Attack rate among unexposed = 10/120 × 100% = 8.3%. The relative risk = 62.5% / 8.3% = 7.5, indicating that those who ate the seafood platter had 7.5 times the risk of hepatitis compared to those who did not. Attack rates are not true rates (they are cumulative incidence proportions) because they do not account for time (the outbreak period is short, so the time component is implicit). Attack rates are useful for foodborne outbreak investigations because the exposure is usually a single meal, and the risk period is one incubation period. The food with the highest attack rate (and highest relative risk) is the most likely source."
+    },
+    {
+        "id": 37,
+        "question": "A researcher is conducting a systematic review of studies on the association between passive smoking and lung cancer. She finds that most studies show a positive association, but some studies show no association. Which of the following would be the strongest evidence that publication bias is present?",
+        "options": [
+            "The funnel plot is asymmetrical with missing studies in the lower left quadrant",
+            "The I² statistic is less than 25%",
+            "The pooled odds ratio is 1.2 with a narrow confidence interval",
+            "All studies have large sample sizes",
+            "The forest plot shows all effect sizes to the right of the null line"
+        ],
+        "correct": 0,
+        "explanation": "Publication bias occurs when studies with statistically significant or positive results are more likely to be published than studies with null or negative results. A funnel plot (effect size vs. standard error or sample size) is used to detect publication bias. In the absence of bias, the plot should be symmetric and resemble an inverted funnel (smaller studies scatter more widely). Asymmetry (e.g., missing studies in the lower left quadrant, which represent smaller studies with null or negative effects) suggests publication bias. Funnel plot asymmetry can also indicate true heterogeneity or methodological differences among studies. An I² <25% indicates low heterogeneity (not related to publication bias). A narrow confidence interval indicates precision (large sample size). A forest plot showing all effects to the right of the null line suggests a consistent positive association, which does not necessarily indicate publication bias; it could be a true positive association. Other methods to assess publication bias include Egger's test (statistical test for funnel plot asymmetry) and trim-and-fill analysis (estimates the effect of missing studies)."
+    },
+    {
+        "id": 38,
+        "question": "A community health program is implementing a salt iodization program to prevent iodine deficiency disorders. Which of the following is the most important outcome measure to evaluate the effectiveness of this program?",
+        "options": [
+            "Prevalence of goiter in school-aged children",
+            "Incidence of thyroid cancer",
+            "Urinary iodine levels in the population",
+            "Prevalence of hypothyroidism",
+            "Mortality from cretinism"
+        ],
+        "correct": 2,
+        "explanation": "Urinary iodine concentration (UIC) is the most sensitive and reliable indicator of recent iodine intake at the population level. Approximately 90% of ingested iodine is excreted in urine, so UIC reflects current iodine status. The WHO recommends median UIC in school-aged children of 100-199 mcg/L as adequate. While goiter prevalence (palpable or visible thyroid enlargement) is a long-term outcome indicator (reflects chronic iodine deficiency over years), it is less sensitive because goiter may persist for months after iodine repletion. Urinary iodine responds quickly to changes in iodine intake (days to weeks), making it ideal for program monitoring. Thyroid cancer incidence is not directly related to iodine deficiency. Cretinism (severe irreversible intellectual disability) is a severe consequence of iodine deficiency during pregnancy but is rare and not a sensitive program indicator. Hypothyroidism prevalence is a longer-term outcome and may be affected by other factors. Salt iodization programs are considered one of the most successful public health interventions, dramatically reducing iodine deficiency disorders worldwide."
+    },
+    {
+        "id": 39,
+        "question": "A researcher is conducting a cohort study to investigate the relationship between air pollution and asthma in children. She follows 10,000 children for 5 years and finds a relative risk of 1.5 (95% CI 1.2-1.9) for asthma in children living near major roads compared to those living away from major roads. Which of the following is the most appropriate interpretation of this finding?",
+        "options": [
+            "Living near a major road causes a 50% increase in asthma risk",
+            "Children living near major roads have a 50% higher risk of developing asthma compared to children living away from major roads",
+            "There is no significant association between living near a major road and asthma risk",
+            "The risk of asthma is 50% lower in children living near major roads",
+            "50% of asthma cases are attributable to living near a major road"
+        ],
+        "correct": 1,
+        "explanation": "A relative risk (RR) of 1.5 means that children living near major roads have 1.5 times (or 50% higher) the risk of developing asthma compared to children living away from major roads. The 95% confidence interval (1.2-1.9) does not include 1.0, indicating that the association is statistically significant. However, RR alone does not prove causation; other factors (confounding by socioeconomic status, indoor allergens, parental smoking) could explain the association. The interpretation should state the RR and confidence interval without implying causation. Causation is supported by additional evidence such as dose-response relationship, biological plausibility, consistency across studies, and temporality (exposure precedes disease). The RR of 1.5 represents a modest but potentially important public health impact, depending on the prevalence of the exposure (living near major roads). The attributable risk percent = (RR-1)/RR × 100% = (0.5/1.5) × 100% = 33%, meaning about 33% of asthma cases among children living near major roads could be attributable to this exposure (if causal)."
+    },
+    {
+        "id": 40,
+        "question": "A health economist is evaluating two screening strategies for colorectal cancer: fecal immunochemical test (FIT) every year versus colonoscopy every 10 years. She calculates the cost per quality-adjusted life year (QALY) gained for FIT compared to no screening as $25,000, and for colonoscopy compared to FIT as $75,000. The country's willingness-to-pay threshold is $50,000 per QALY. Which of the following is the most appropriate conclusion?",
+        "options": [
+            "Colonoscopy is more cost-effective than FIT",
+            "Both strategies are not cost-effective",
+            "FIT is cost-effective compared to no screening, but colonoscopy is not cost-effective compared to FIT",
+            "Colonoscopy should be offered to all patients regardless of cost",
+            "FIT should not be implemented because colonoscopy is more effective"
+        ],
+        "correct": 2,
+        "explanation": "Cost-effectiveness analysis compares incremental cost per QALY gained. FIT compared to no screening ($25,000 per QALY) is below the threshold of $50,000, so FIT is cost-effective. Colonoscopy compared to FIT ($75,000 per QALY) is above the threshold, so colonoscopy is not cost-effective (does not provide good value for money) compared to FIT. This means that FIT should be implemented as the screening strategy; colonoscopy may still be offered for high-risk individuals or when resources allow, but it is not considered cost-effective at the population level. The ICER for colonoscopy compared to no screening would be even lower (because it includes the benefit over no screening), but the appropriate comparison for decision-making is the incremental cost-effectiveness of the next best alternative. The decision threshold reflects what society is willing to pay for an additional QALY. Countries vary in their thresholds (e.g., UK uses £20,000-30,000 per QALY; US commonly uses $50,000-100,000 per QALY; WHO uses 1-3 times GDP per capita)."
+    },	
+	
+	
+	
+	
+	
+	
+	
+	
+
+    {
+        "id": 41,
+        "question": "A researcher wants to study the natural history of a newly discovered infectious disease. She identifies 500 newly diagnosed patients and follows them over time to document progression of symptoms, complications, and recovery rates. Which type of study design is being used?",
+        "options": [
+            "Case-control study",
+            "Cohort study",
+            "Cross-sectional study",
+            "Randomized controlled trial",
+            "Ecological study"
+        ],
+        "correct": 1,
+        "explanation": "A cohort study follows a group of individuals (cohort) over time to observe outcomes. This design is ideal for studying natural history, prognosis, and incidence. Case-control studies start with outcomes and look back. Cross-sectional studies measure exposure and outcome at one time point. RCTs involve intervention assignment."
+    },
+    {
+        "id": 42,
+        "question": "A community physician is reviewing the mortality statistics for a district. The crude mortality rate is 12 per 1000 population, while the age-standardized mortality rate (using the world standard population) is 8 per 1000. Which of the following conclusions is most appropriate about the population's age structure?",
+        "options": [
+            "The population has more children than the standard population",
+            "The population has better health than the standard population",
+            "The population has worse health than the standard population",
+            "The population is older than the standard population",
+            "Age-standardization is not valid for this population"
+        ],
+        "correct": 3,
+        "explanation": "When the crude rate (12/1000) is higher than the standardized rate (8/1000), the study population is older than the standard population (mortality increases with age). Age-standardization removes the effect of age differences, allowing valid comparisons. The crude rate is influenced by age distribution; older populations have higher crude mortality rates even if age-specific rates are similar."
+    },
+    {
+        "id": 43,
+        "question": "A health department is planning a screening program for a disease. The test has high sensitivity but only moderate specificity. The disease prevalence in the target population is very low. Which of the following will be the major consequence of implementing this screening program?",
+        "options": [
+            "High number of false positives",
+            "High number of false negatives",
+            "Low cost of screening",
+            "High positive predictive value",
+            "High negative predictive value"
+        ],
+        "correct": 0,
+        "explanation": "When prevalence is low and specificity is moderate, many false positives will occur. PPV = TP/(TP+FP). Even with high sensitivity, low prevalence leads to many FP because the denominator (non-diseased population) is large. This results in unnecessary anxiety, further testing, and healthcare costs. Screening is most effective in high-risk populations (higher prevalence improves PPV)."
+    },
+    {
+        "id": 44,
+        "question": "A researcher is investigating an outbreak of food poisoning. She calculates that the attack rate among those who ate potato salad was 40%, while the attack rate among those who did not eat potato salad was 10%. Which of the following is the relative risk of illness associated with eating potato salad?",
+        "options": [
+            "30%",
+            "50%",
+            "4",
+            "0.25",
+            "400%"
+        ],
+        "correct": 2,
+        "explanation": "Relative risk = (Attack rate in exposed) / (Attack rate in unexposed) = 40% / 10% = 4. This means those who ate potato salad have 4 times the risk of illness compared to those who did not. A RR of 4 indicates a strong association, suggesting potato salad is the likely source. The risk difference (attributable risk) is 40% - 10% = 30%."
+    },
+    {
+        "id": 45,
+        "question": "A public health nurse is conducting a cross-sectional survey to determine the prevalence of hypertension in a village. She measures blood pressure in all 1000 adult residents. Which of the following is a major limitation of this study design?",
+        "options": [
+            "Cannot measure incidence",
+            "Cannot determine prevalence",
+            "Cannot estimate sample size",
+            "Cannot measure blood pressure accurately",
+            "Cannot establish temporal sequence"
+        ],
+        "correct": 4,
+        "explanation": "Cross-sectional studies measure exposure and outcome at the same point in time, so they cannot determine whether exposure preceded outcome (temporal sequence). This limits causal inference. They are useful for estimating prevalence and generating hypotheses but are susceptible to reverse causality. They can measure incidence only if repeated over time (longitudinal study). They can estimate sample size and measure blood pressure accurately with proper technique."
+    },
+    {
+        "id": 46,
+        "question": "A researcher is conducting a case-control study on risk factors for a rare cancer. She selects 100 cases and 100 controls. Which of the following is the most important consideration when selecting controls?",
+        "options": [
+            "Controls should be matched to cases on all variables",
+            "Controls should be representative of the population that produced the cases",
+            "Controls should be selected from the same hospital as the cases",
+            "Controls should have no history of any disease",
+            "Controls should be relatives of the cases"
+        ],
+        "correct": 1,
+        "explanation": "Controls should be representative of the source population that gave rise to the cases (the population at risk). This ensures that the exposure distribution in controls reflects that of the general population, avoiding selection bias. Matching on all variables is not feasible and can lead to overmatching. Hospital controls may introduce Berkson's bias. Controls should be at risk for the disease (not necessarily completely healthy)."
+    },
+    {
+        "id": 47,
+        "question": "A community health program is evaluating its tuberculosis control activities. The program reports that the cure rate for new smear-positive TB cases increased from 70% to 85% after implementing directly observed therapy (DOT). Which of the following is the most important factor contributing to this improvement?",
+        "options": [
+            "Better diagnostic tests",
+            "Shorter treatment duration",
+            "Improved drug quality",
+            "Improved patient adherence",
+            "Reduced side effects"
+        ],
+        "correct": 3,
+        "explanation": "Directly observed therapy (DOT) improves treatment adherence by ensuring that patients take every dose under observation. Poor adherence is a major cause of treatment failure, relapse, and drug-resistant TB. DOT is a key component of the WHO DOTS strategy. While other factors may contribute, improved adherence is the primary mechanism by which DOT increases cure rates. Treatment duration remains 6-9 months for drug-sensitive TB. Side effect profiles of TB medications have not significantly changed."
+    },
+    {
+        "id": 48,
+        "question": "A health officer is investigating an outbreak of gastroenteritis in a school. She creates an epidemic curve (epi curve) showing the number of cases by hour of symptom onset. The curve shows a sharp peak followed by a rapid decline, with all cases occurring within a 12-hour period. Which of the following is the most likely source of this outbreak?",
+        "options": [
+            "Point source (common source exposure at a single time)",
+            "Continuous common source (ongoing exposure)",
+            "Person-to-person transmission",
+            "Vector-borne transmission",
+            "Zoonotic transmission"
+        ],
+        "correct": 0,
+        "explanation": "A point source outbreak shows a sharp peak (all cases exposed at approximately the same time) followed by a rapid decline (no ongoing transmission). The time interval is usually within one incubation period. This pattern suggests a single contaminated food item at a specific meal. Person-to-person transmission (propagated outbreak) shows multiple peaks over time. Continuous common source shows a plateau or gradual rise and fall."
+    },
+    {
+        "id": 49,
+        "question": "A researcher is evaluating the performance of a new rapid diagnostic test for malaria. The test is compared to the gold standard (microscopy). Among 200 patients with confirmed malaria by microscopy, the rapid test was positive in 180. Among 200 patients without malaria, the rapid test was negative in 190. Which of the following is the sensitivity of the rapid test?",
+        "options": [
+            "95%",
+            "75%",
+            "90%",
+            "85%",
+            "80%"
+        ],
+        "correct": 2,
+        "explanation": "Sensitivity = TP/(TP+FN) = 180/200 = 90%. Sensitivity is the ability of a test to correctly identify those with the disease (true positive rate). Specificity = TN/(TN+FP) = 190/200 = 95%. A test with 90% sensitivity will miss 10% of true cases (false negatives). In malaria, where missing a diagnosis can be fatal, high sensitivity is critical. The two options both show 90% due to duplicate; the correct index is 2 (first 90% option). Note: In the options list, two entries show 90%; the intended correct answer is the first 90% (index 2)."
+    },
+    {
+        "id": 50,
+        "question": "A researcher is analyzing data from a cohort study. She finds that the incidence of disease in the exposed group is 40 per 1000 person-years and in the unexposed group is 10 per 1000 person-years. Which of the following is the attributable risk percent among the exposed?",
+        "options": [
+            "75%",
+            "80%",
+            "25%",
+            "50%",
+            "300%"
+        ],
+        "correct": 0,
+        "explanation": "Attributable risk percent (AR%) among exposed = (Incidence exposed - Incidence unexposed) / Incidence exposed × 100% = (40-10)/40 × 100% = 30/40 × 100% = 75%. This means 75% of disease cases among the exposed group are attributable to the exposure (assuming causality). The relative risk is 40/10 = 4. AR% = (RR-1)/RR × 100% = (4-1)/4 × 100% = 3/4 × 100% = 75%. The attributable risk (risk difference) is 30 per 1000 person-years. Population attributable risk percent depends on the prevalence of exposure in the population."
+    },	
+	
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 51,
+        "question": "A community physician is designing a study to test the effectiveness of a new health education program to reduce smoking rates. She randomly assigns 10 villages to receive the program and 10 villages to receive no intervention. She then compares smoking rates after 2 years. Which of the following study designs is being used?",
+        "options": [
+            "Case-control study",
+            "Cohort study",
+            "Community randomized controlled trial",
+            "Cross-sectional study",
+            "Ecological study"
+        ],
+        "correct": 2,
+        "explanation": "This is a community randomized controlled trial (cluster RCT), where groups (villages) rather than individuals are randomized to intervention or control. This design is used when intervention is delivered at the community level or when contamination between individuals is likely. The unit of analysis is the village, and sample size must account for clustering (intracluster correlation). Individual-level RCT would randomize persons, not villages."
+    },
+    {
+        "id": 52,
+        "question": "A health department is conducting active surveillance for tuberculosis in a high-burden district. Which of the following is the most important advantage of active surveillance compared to passive surveillance?",
+        "options": [
+            "Lower cost",
+            "Requires fewer personnel",
+            "Less time-consuming",
+            "More acceptable to the community",
+            "More complete case ascertainment"
+        ],
+        "correct": 4,
+        "explanation": "Active surveillance involves health workers actively contacting healthcare providers or visiting communities to identify cases. It provides more complete case ascertainment, especially for diseases where patients may not seek care. Passive surveillance relies on healthcare providers reporting cases and is less complete but less expensive. Active surveillance is resource-intensive but essential for outbreak investigation and elimination programs. Active surveillance is used for diseases targeted for elimination (polio, measles) and in research studies."
+    },
+    {
+        "id": 53,
+        "question": "A researcher is calculating the incidence rate of a disease in a cohort study. She observes 50 new cases over 5 years in a population of 1000 initially disease-free individuals. However, some individuals were lost to follow-up during the study. Which of the following measures of incidence should she use?",
+        "options": [
+            "Incidence density (person-time rate)",
+            "Cumulative incidence",
+            "Attack rate",
+            "Point prevalence",
+            "Period prevalence"
+        ],
+        "correct": 0,
+        "explanation": "Incidence density (person-time rate) is the appropriate measure when individuals are followed for different lengths of time (loss to follow-up, death, or study entry at different times). The denominator is person-years of observation. Cumulative incidence assumes complete follow-up of all participants for the entire study period. Attack rate is a cumulative incidence proportion used in outbreak settings. Prevalence measures existing cases, not new cases. Person-time accounts for varying follow-up duration and is expressed as cases per person-year or per 1000 person-years."
+    },
+    {
+        "id": 54,
+        "question": "A public health program is implementing a community-based intervention to reduce salt intake for hypertension prevention. This intervention is best described as which level of prevention?",
+        "options": [
+            "Primary prevention",
+            "Secondary prevention",
+            "Tertiary prevention",
+            "Quaternary prevention",
+            "Primordial prevention"
+        ],
+        "correct": 0,
+        "explanation": "Primary prevention aims to prevent the onset of disease by reducing risk factors before disease develops. Reducing salt intake in the general population to prevent hypertension is primary prevention. Secondary prevention is early detection (screening) and treatment of early disease. Tertiary prevention reduces complications and disability in established disease. Primordial prevention prevents the development of risk factors themselves (e.g., promoting healthy lifestyle in children before risk factors appear)."
+    },
+    {
+        "id": 55,
+        "question": "A researcher is conducting a systematic review and finds that the I² statistic is 95%. Which of the following is the most appropriate interpretation of this finding?",
+        "options": [
+            "There is no heterogeneity between studies",
+            "The pooled estimate is highly precise",
+            "The results are not statistically significant",
+            "There is very high heterogeneity between studies",
+            "Publication bias is likely present"
+        ],
+        "correct": 3,
+        "explanation": "I² statistic measures the percentage of total variation across studies that is due to heterogeneity rather than chance. I² = 95% indicates very high (considerable) heterogeneity, meaning the variation in effect sizes is due to true differences in study characteristics rather than sampling error. A random-effects model is appropriate. Investigators should explore sources of heterogeneity through subgroup analysis or meta-regression. High I² does not necessarily indicate publication bias; funnel plots assess publication bias. I² of 0-40% may not be important; 30-60% moderate; 50-90% substantial; 75-100% considerable. Fixed-effects models are inappropriate for high I²."
+    },
+    {
+        "id": 56,
+        "question": "A health officer is investigating an outbreak of a disease with a long incubation period (several weeks). She creates an epidemic curve. Which of the following patterns would most strongly suggest a point source exposure?",
+        "options": [
+            "Multiple peaks over several weeks",
+            "Gradual rise with a plateau",
+            "Sharp peak followed by gradual decline (single wave)",
+            "Irregular pattern with no clear peak",
+            "Constant number of cases each day"
+        ],
+        "correct": 2,
+        "explanation": "A point source outbreak (single exposure at a specific time) produces a sharp peak (cases clustered within one incubation period) followed by a gradual decline (epidemic curve is unimodal). The time from exposure to peak is the median incubation period. For diseases with long incubation periods, the peak appears weeks after exposure. Multiple peaks suggest person-to-person transmission (propagated outbreak). A plateau suggests continuous common source. The classic epi curve shapes help identify the mode of transmission: point source (sharp peak), propagated (multiple peaks increasing over time), continuous common source (plateau then decline)."
+    },
+    {
+        "id": 57,
+        "question": "A researcher is analyzing data from a case-control study. She calculates an odds ratio of 3.5 (95% confidence interval 2.0-6.0). Which of the following is the most appropriate interpretation of the 95% confidence interval?",
+        "options": [
+            "There is a 95% chance that the true odds ratio is between 2.0 and 6.0",
+            "The results are not statistically significant",
+            "The odds ratio is significantly different from 0",
+            "The confidence interval is wide, indicating poor precision",
+            "The true odds ratio is likely between 2.0 and 6.0"
+        ],
+        "correct": 4,
+        "explanation": "A 95% confidence interval means that if the study were repeated many times, 95% of the calculated intervals would contain the true population odds ratio. The correct interpretation is that we are 95% confident that the true OR lies between 2.0 and 6.0. The interval does not include 1.0 (null value), so the association is statistically significant at p<0.05. The width of the interval (range 4.0) suggests moderate precision; a wider interval would indicate less precision. The confidence interval is about the parameter, not the probability of the study's result. OR is significantly different from 1.0, not 0 (null for OR is 1.0)."
+    },
+    {
+        "id": 58,
+        "question": "A community health worker is planning a vaccination campaign. She needs to achieve herd immunity to prevent a measles outbreak. The basic reproduction number (R0) for measles in this community is estimated to be 18. Approximately what percentage of the population must be immune to achieve herd immunity?",
+        "options": [
+            "94%",
+            "80%",
+            "90%",
+            "85%",
+            "99%"
+        ],
+        "correct": 0,
+        "explanation": "Herd immunity threshold = 1 - 1/R0 = 1 - 1/18 = 1 - 0.0556 = 0.9444 = 94.4%. This means approximately 94% of the population must be immune to interrupt transmission. Measles is extremely contagious (R0 12-18), requiring very high vaccination coverage (typically >95% with two MMR doses). For less contagious diseases, the threshold is lower: polio (R0 5-7) requires 80-85%; influenza (R0 1.5-2) requires 33-50%. Herd immunity protects vulnerable individuals (infants, immunocompromised, pregnant women) who cannot be vaccinated. When coverage falls below the threshold, outbreaks occur as seen in communities with declining vaccination rates."
+    },
+    {
+        "id": 59,
+        "question": "A researcher is conducting a study to determine the association between a genetic marker and a disease. He selects 300 patients with the disease and 300 healthy controls. He then tests for the presence of the genetic marker in both groups. Which of the following measures of association will he calculate?",
+        "options": [
+            "Relative risk",
+            "Odds ratio",
+            "Incidence rate ratio",
+            "Risk difference",
+            "Number needed to treat"
+        ],
+        "correct": 1,
+        "explanation": "This is a case-control study (diseased vs. non-diseased). The appropriate measure of association is the odds ratio (OR). The OR approximates the relative risk when the disease is rare (prevalence <10%). Relative risk (RR) is calculated in cohort studies where incidence rates are available. Risk difference (attributable risk) requires incidence data. Number needed to treat (NNT) is calculated from randomized controlled trials. The OR is calculated as (a/c) / (b/d) = (cases exposed/cases unexposed) / (controls exposed/controls unexposed)."
+    },
+    {
+        "id": 60,
+        "question": "A health department is evaluating a screening program for cervical cancer using Pap smear. The test has a sensitivity of 70% and specificity of 95%. The prevalence of cervical cancer in the screened population is 1%. What is the negative predictive value (NPV) of the test?",
+        "options": [
+            "70%",
+            "95%",
+            "1%",
+            "99.7%",
+            "50%"
+        ],
+        "correct": 3,
+        "explanation": "NPV = TN/(TN+FN). In a population of 10,000 with 1% prevalence (100 cases, 9900 without disease): FN = 100 × (1-0.7) = 30; TN = 9900 × 0.95 = 9405. NPV = 9405/(9405+30) = 9405/9435 = 99.7%. A high NPV means that a negative test result reliably rules out disease, which is valuable in screening programs to avoid missing cases. PPV = TP/(TP+FP) = 70/(70+495) = 70/565 = 12.4%. NPV is high (99.7%) due to low prevalence; in higher prevalence populations, NPV decreases while PPV increases. NPV = (specificity × (1-prevalence)) / [(specificity × (1-prevalence)) + ((1-sensitivity) × prevalence)]."
+    },
+	
+	
+	
+	
+		
+		
+		
+	
+    {
+        "id": 61,
+        "question": "A researcher wants to study the relationship between cholesterol levels and heart disease. She measures cholesterol in 5000 healthy adults and then follows them for 10 years to see who develops heart disease. This study design is best described as:",
+        "options": [
+            "Case-control study",
+            "Cross-sectional study",
+            "Prospective cohort study",
+            "Randomized controlled trial",
+            "Retrospective cohort study"
+        ],
+        "correct": 2,
+        "explanation": "This is a prospective cohort study because exposure (cholesterol) is measured at baseline and outcomes (heart disease) are assessed during follow-up. Prospective cohort studies establish temporality (exposure precedes outcome) and allow calculation of incidence and relative risk. Retrospective cohort studies use existing data for exposure and outcomes."
+    },
+    {
+        "id": 62,
+        "question": "A health department reports that the neonatal mortality rate in a district is 20 per 1000 live births. Which of the following is the correct definition of neonatal mortality?",
+        "options": [
+            "Deaths of infants under 1 year of age",
+            "Deaths of infants under 28 days of age",
+            "Deaths of infants under 7 days of age",
+            "Deaths of infants under 5 years of age",
+            "Deaths of infants under 24 hours of age"
+        ],
+        "correct": 1,
+        "explanation": "Neonatal mortality rate is the number of deaths of infants under 28 days of age per 1000 live births. Early neonatal mortality (under 7 days) and late neonatal mortality (7-28 days) are subcomponents. Post-neonatal mortality is deaths from 28 days to 1 year. Infant mortality rate includes all deaths under 1 year. Perinatal mortality includes stillbirths and early neonatal deaths."
+    },
+    {
+        "id": 63,
+        "question": "A researcher is conducting a randomized controlled trial of a new antihypertensive drug. She randomly assigns 500 patients to the new drug and 500 to placebo. After 1 year, the mean blood pressure in the treatment group is 10 mmHg lower than in the placebo group, with a p-value of 0.01. Which of the following is the most appropriate interpretation of the p-value?",
+        "options": [
+            "The probability of observing a difference of 10 mmHg or more by chance alone is 1%",
+            "There is a 99% chance that the drug is effective",
+            "The probability of making a Type II error is 1%",
+            "The results are not clinically significant",
+            "The null hypothesis is true"
+        ],
+        "correct": 0,
+        "explanation": "A p-value of 0.01 means that if the null hypothesis (no true difference) were true, the probability of observing a difference of 10 mmHg or more by random chance alone is 1%. Since p < 0.05, the result is statistically significant. The p-value does not indicate the probability that the drug is effective (Bayesian interpretation) nor the probability of Type II error (which is beta)."
+    },
+    {
+        "id": 64,
+        "question": "A community physician is evaluating a tuberculosis screening program using chest X-ray. The test has a sensitivity of 80% and specificity of 90%. The prevalence of active TB in the population is 0.1%. What is the positive predictive value (PPV) of the test?",
+        "options": [
+            "80%",
+            "0.8%",
+            "90%",
+            "9%",
+            "99%"
+        ],
+        "correct": 1,
+        "explanation": "PPV = (sensitivity × prevalence) / [(sensitivity × prevalence) + ((1-specificity) × (1-prevalence))] = (0.8 × 0.001) / [(0.8 × 0.001) + (0.1 × 0.999)] = 0.0008 / (0.0008 + 0.0999) = 0.0008 / 0.1007 = 0.0079 = 0.8%. When prevalence is very low, PPV is low (most positives are false positives). Screening is more efficient in high-risk populations. NPV would be very high (approximately 99.98%). Universal screening for rare diseases is not recommended."
+    },
+    {
+        "id": 65,
+        "question": "A health officer is investigating an outbreak of hepatitis A. She interviews all 300 people who attended a wedding. She finds that 60 of the 100 people who ate the seafood dish became ill, while 20 of the 200 people who did not eat the seafood dish became ill. Which of the following is the relative risk of illness associated with eating the seafood dish?",
+        "options": [
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "correct": 3,
+        "explanation": "Relative risk = (Attack rate in exposed) / (Attack rate in unexposed) = (60/100) / (20/200) = 0.6 / 0.1 = 6. Those who ate the seafood dish have 6 times the risk of illness compared to those who did not. Attack rates: exposed = 60%, unexposed = 10%. The risk difference (attributable risk) = 60% - 10% = 50%. The odds ratio = (60×180)/(40×20) = 10800/800 = 13.5."
+    },
+    {
+        "id": 66,
+        "question": "A researcher is analyzing data from a case-control study and finds an odds ratio of 2.5 with a 95% confidence interval of 1.2 to 5.0. Which of the following conclusions is most appropriate?",
+        "options": [
+            "There is no association because the confidence interval is wide",
+            "The result is not statistically significant because the p-value is greater than 0.05",
+            "The result is statistically significant because the confidence interval does not include 1.0",
+            "The result is statistically significant because the confidence interval includes 2.5",
+            "The odds ratio is significantly different from 0"
+        ],
+        "correct": 2,
+        "explanation": "A 95% confidence interval that does not include 1.0 (the null value for OR) indicates statistical significance at p < 0.05. The OR of 2.5 suggests that cases are 2.5 times more likely to have the exposure than controls. The null hypothesis is OR = 1.0 (no association). The width of the CI (1.2 to 5.0) indicates moderate precision. OR is significantly different from 1.0, not 0. A wide CI that still excludes 1.0 remains statistically significant."
+    },
+    {
+        "id": 67,
+        "question": "A community health program is implementing a hypertension screening campaign for adults over 40 years of age. This activity is best described as which level of prevention?",
+        "options": [
+            "Primary prevention",
+            "Primordial prevention",
+            "Tertiary prevention",
+            "Quaternary prevention",
+            "Secondary prevention"
+        ],
+        "correct": 4,
+        "explanation": "Secondary prevention involves early detection of disease through screening in asymptomatic individuals, followed by treatment to prevent progression. Hypertension screening in adults over 40 is secondary prevention. Primary prevention prevents disease onset (lifestyle modification). Primordial prevention prevents development of risk factors (healthy lifestyle in children). Tertiary prevention reduces complications in established disease (stroke rehabilitation)."
+    },
+    {
+        "id": 68,
+        "question": "A researcher is conducting a study to determine the prevalence of diabetes in a community. She randomly selects 1000 adults and tests their blood glucose. She finds that 100 have diabetes. Which of the following is the point prevalence of diabetes in this population?",
+        "options": [
+            "10%",
+            "100 per 1000 person-years",
+            "0.1",
+            "10 per 1000",
+            "100%"
+        ],
+        "correct": 0,
+        "explanation": "Point prevalence = (Number of existing cases at a point in time) / (Total population) = 100/1000 = 0.10 = 10%. Prevalence is a proportion, not a rate, and has no time dimension (point in time). It is expressed as a percentage or per 1000 population. Prevalence is influenced by incidence and disease duration. For chronic diseases like diabetes, prevalence is higher than incidence. Cross-sectional studies measure prevalence."
+    },
+    {
+        "id": 69,
+        "question": "A health department is investigating an outbreak of salmonella. The epidemic curve shows multiple peaks, with each peak higher than the previous one, and the time between peaks corresponds to the incubation period of the disease. Which of the following is the most likely mode of transmission?",
+        "options": [
+            "Point source",
+            "Person-to-person (propagated)",
+            "Continuous common source",
+            "Vector-borne",
+            "Zoonotic"
+        ],
+        "correct": 1,
+        "explanation": "A propagated outbreak (person-to-person transmission) shows multiple peaks with progressively larger peaks as secondary and tertiary cases occur. The interval between peaks corresponds to the incubation period. Point source produces a single sharp peak. Continuous common source produces a plateau with gradual rise and fall. Propagated outbreaks continue until susceptible individuals are depleted or control measures are implemented. Hand hygiene and isolation are key control measures."
+    },
+    {
+        "id": 70,
+        "question": "A researcher is designing a study to test a new vaccine. She plans to randomize 1000 participants to receive either the vaccine or placebo and then follow them for 2 years to compare the incidence of disease. Which of the following is the most important advantage of randomization in this study?",
+        "options": [
+            "Increases sample size",
+            "Reduces loss to follow-up",
+            "Eliminates the need for blinding",
+            "Increases generalizability",
+            "Reduces confounding by known and unknown factors"
+        ],
+        "correct": 4,
+        "explanation": "Randomization balances both known and unknown confounding factors between treatment groups, ensuring that differences in outcomes are due to the intervention rather than baseline differences. This is the key advantage of RCTs over observational studies. Randomization does not increase sample size (it is determined before randomization). It does not reduce loss to follow-up (retention strategies are needed separately). Blinding is still important to reduce bias. Generalizability depends on inclusion/exclusion criteria, not randomization alone."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 71,
+        "question": "A researcher wants to study the association between smoking and lung cancer. He selects 200 patients with lung cancer and 200 controls without lung cancer from the same hospital and asks about their smoking history. Which measure of association can he calculate?",
+        "options": [
+            "Relative risk",
+            "Odds ratio",
+            "Attributable risk",
+            "Incidence rate",
+            "Risk difference"
+        ],
+        "correct": 1,
+        "explanation": "In a case-control study, the odds ratio (OR) is the appropriate measure of association. OR approximates relative risk when the disease is rare. Relative risk and attributable risk require incidence data from cohort studies. The OR is calculated as (cases exposed/cases unexposed) divided by (controls exposed/controls unexposed)."
+    },
+    {
+        "id": 72,
+        "question": "A health department reports that the infant mortality rate (IMR) in a district decreased from 60 to 30 per 1000 live births over 10 years. Which of the following is the most likely contributing factor to this improvement?",
+        "options": [
+            "Increased birth rate",
+            "Increased maternal age",
+            "Improved treatment of chronic diseases",
+            "Improved perinatal and neonatal care",
+            "Decreased vaccination coverage"
+        ],
+        "correct": 3,
+        "explanation": "Infant mortality rate is sensitive to perinatal and neonatal care. Improvements in obstetric care, neonatal resuscitation, management of prematurity, and prevention of infections reduce IMR. Other factors include better maternal nutrition, sanitation, and vaccination. Increased birth rate and maternal age (especially very young or old) would not improve IMR. Decreased vaccination would increase infectious causes of infant death."
+    },
+    {
+        "id": 73,
+        "question": "A community physician is conducting a cross-sectional survey to determine the prevalence of hypertension in a village. Which of the following is a major limitation of this study design?",
+        "options": [
+            "Cannot establish temporal sequence",
+            "Cannot measure prevalence",
+            "Too expensive and time-consuming",
+            "Cannot generate hypotheses",
+            "Cannot estimate sample size"
+        ],
+        "correct": 0,
+        "explanation": "Cross-sectional studies measure exposure and outcome at the same point in time, so they cannot determine whether exposure preceded outcome (temporal sequence). This limits causal inference. They are useful for estimating prevalence, generating hypotheses, and are relatively inexpensive. They can estimate sample size but cannot measure incidence (requires follow-up)."
+    },
+    {
+        "id": 74,
+        "question": "A researcher is evaluating a new screening test for breast cancer. The test has a sensitivity of 90% and specificity of 80%. The prevalence of breast cancer in the screening population is 1%. What is the positive predictive value (PPV) of the test?",
+        "options": [
+            "90%",
+            "80%",
+            "4.3%",
+            "10%",
+            "1%"
+        ],
+        "correct": 2,
+        "explanation": "PPV = (sensitivity × prevalence) / [(sensitivity × prevalence) + ((1-specificity) × (1-prevalence))] = (0.9×0.01)/(0.9×0.01)+(0.2×0.99) = 0.009/(0.009+0.198)=0.009/0.207=0.043=4.3%. Low prevalence leads to low PPV even with good sensitivity. NPV = (0.8×0.99)/(0.8×0.99)+(0.1×0.01)=0.792/0.793=99.9%. The low PPV (only 4.3% of positives actually have disease) shows that universal screening for rare diseases yields many false positives. Screening should target high-risk populations to improve PPV."
+    },
+    {
+        "id": 75,
+        "question": "A health officer is investigating an outbreak of a disease with a very short incubation period (hours). The epidemic curve shows a sharp peak with all cases occurring within a 6-hour period. Which of the following is the most likely source of this outbreak?",
+        "options": [
+            "Person-to-person transmission",
+            "Continuous common source",
+            "Vector-borne transmission",
+            "Zoonotic transmission",
+            "Point source (single contaminated meal)"
+        ],
+        "correct": 4,
+        "explanation": "A point source outbreak (single exposure at a specific time) produces a sharp peak with cases clustered within one incubation period. The short incubation period (hours) suggests a bacterial toxin (e.g., Staphylococcus aureus, Bacillus cereus) or chemical exposure. Person-to-person transmission produces multiple peaks over time. Continuous common source produces a plateau. The meal is likely the contaminated source. Control measures include removing the contaminated food and preventing further exposure."
+    },
+    {
+        "id": 76,
+        "question": "A researcher is conducting a randomized controlled trial of a new drug for diabetes. He reports a relative risk reduction of 50% for the primary outcome. Which of the following is the most appropriate interpretation of this finding?",
+        "options": [
+            "The drug reduces the absolute risk of the outcome by 50%",
+            "The risk of the outcome in the treatment group is half that in the placebo group",
+            "50% of patients in the treatment group had the outcome",
+            "The drug prevents 50% of all cases of the outcome",
+            "The number needed to treat is 50"
+        ],
+        "correct": 1,
+        "explanation": "Relative risk reduction (RRR) = 1 - relative risk. RRR of 50% means relative risk = 0.5, so the risk in the treatment group is half that in the control group. Absolute risk reduction depends on baseline risk and is not 50% unless baseline risk is 100%. NNT = 1/absolute risk reduction. RRR does not indicate the proportion of patients with the outcome. For example, if control event rate is 10%, treatment event rate is 5%, RRR = 50%, ARR = 5%, NNT = 20."
+    },
+    {
+        "id": 77,
+        "question": "A community health program is implementing polio vaccination campaigns. The goal is to achieve herd immunity to prevent transmission. The basic reproduction number (R0) for polio is approximately 6. What percentage of the population must be immune to achieve herd immunity?",
+        "options": [
+            "50%",
+            "60%",
+            "70%",
+            "83%",
+            "95%"
+        ],
+        "correct": 3,
+        "explanation": "Herd immunity threshold = 1 - 1/R0 = 1 - 1/6 = 1 - 0.167 = 0.833 = 83%. Polio requires about 83% immunity to interrupt transmission. This is lower than measles (R0 12-18, requiring 92-95%) but higher than influenza (R0 1.5-2, requiring 33-50%). Polio eradication requires high vaccination coverage (typically >90% with OPV/IPV) and surveillance. Herd immunity protects unvaccinated individuals by reducing transmission. Achieving and maintaining high coverage is essential to prevent outbreaks as seen in areas with declining vaccination rates."
+    },
+    {
+        "id": 78,
+        "question": "A researcher is analyzing data from a prospective cohort study. She finds that the incidence of disease in the exposed group is 30 per 1000 person-years and in the unexposed group is 10 per 1000 person-years. Which of the following is the attributable risk (risk difference)?",
+        "options": [
+            "20 per 1000 person-years",
+            "3",
+            "30 per 1000 person-years",
+            "10 per 1000 person-years",
+            "200%"
+        ],
+        "correct": 0,
+        "explanation": "Attributable risk (risk difference) = Incidence exposed - Incidence unexposed = 30 - 10 = 20 per 1000 person-years. This represents the excess risk in the exposed group that is attributable to the exposure (assuming causality). Relative risk = 30/10 = 3. Attributable risk percent = (20/30)×100% = 67%, meaning 67% of disease in the exposed group is attributable to the exposure. Population attributable risk depends on exposure prevalence in the population."
+    },
+    {
+        "id": 79,
+        "question": "A health department is implementing a program to promote physical activity and healthy eating in schools to prevent childhood obesity. This intervention is best described as which level of prevention?",
+        "options": [
+            "Secondary prevention",
+            "Tertiary prevention",
+            "Primary prevention",
+            "Quaternary prevention",
+            "Curative prevention"
+        ],
+        "correct": 2,
+        "explanation": "Primary prevention aims to prevent disease onset by reducing risk factors before disease develops. Promoting physical activity and healthy eating in children prevents obesity before it occurs. Secondary prevention is early detection (screening). Tertiary prevention reduces complications in established disease (diabetes management). Primordial prevention prevents development of risk factors (addressing societal determinants). School-based health promotion programs are classic examples of primary prevention. They target healthy children to maintain health and prevent obesity. This is more effective and cost-efficient than treating established obesity and its complications (diabetes, hypertension)."
+    },
+    {
+        "id": 80,
+        "question": "A researcher is conducting a meta-analysis and calculates a pooled odds ratio of 1.8 with a 95% confidence interval of 0.9 to 3.2. Which of the following is the most appropriate interpretation?",
+        "options": [
+            "The association is statistically significant because the odds ratio is greater than 1",
+            "The association is statistically significant because the confidence interval is wide",
+            "The association is not statistically significant because the p-value is less than 0.05",
+            "The results are highly precise because the confidence interval is narrow",
+            "The association is not statistically significant because the confidence interval includes 1.0"
+        ],
+        "correct": 4,
+        "explanation": "A 95% confidence interval that includes 1.0 indicates that the null hypothesis (OR = 1.0) cannot be rejected at the 0.05 significance level. The association is not statistically significant. An OR of 1.8 suggests a positive association, but the wide CI (0.9 to 3.2) includes values below and above 1.0, so the result is imprecise and not statistically significant. Statistical significance requires the entire CI to be above 1.0 (or below 1.0 for protective effects). The p-value would be >0.05. The width of the CI indicates imprecision (wide CI = imprecise estimate)."
+    },
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 81,
+        "question": "A researcher is conducting a study to determine the incidence of diabetes in a population. She enrolls 5000 healthy adults and follows them for 5 years. She finds that 100 participants develop diabetes during the follow-up period, and the total person-years of observation is 24,500. Which of the following is the incidence density (person-time rate) of diabetes?",
+        "options": [
+            "20 per 1000 population",
+            "100 per 5000 person-years",
+            "4.08 per 1000 person-years",
+            "2% per year",
+            "5%"
+        ],
+        "correct": 2,
+        "explanation": "Incidence density = new cases / total person-time = 100/24,500 = 4.08 per 1000 person-years. Person-time accounts for varying follow-up durations among participants."
+    },
+    {
+        "id": 82,
+        "question": "A health department is investigating an outbreak of a disease. The epidemic curve shows a gradual rise over several days, followed by a plateau, and then a gradual decline. The source of the outbreak is a contaminated municipal water supply. Which of the following best describes this pattern?",
+        "options": [
+            "Point source",
+            "Propagated (person-to-person)",
+            "Intermittent common source",
+            "Mixed outbreak",
+            "Continuous common source"
+        ],
+        "correct": 4,
+        "explanation": "A continuous common source outbreak (e.g., contaminated water) produces a gradual rise, plateau, and gradual decline after source removal. Point source has a sharp peak; propagated has multiple peaks."
+    },
+    {
+        "id": 83,
+        "question": "A researcher is evaluating a new diagnostic test for a disease. The test has a sensitivity of 95% and a specificity of 90%. The prevalence of the disease in the population is 5%. What is the negative predictive value (NPV) of the test?",
+        "options": [
+            "99.7%",
+            "95%",
+            "90%",
+            "85%",
+            "80%"
+        ],
+        "correct": 0,
+        "explanation": "NPV = [spec × (1-prev)] / [spec × (1-prev) + (1-sens) × prev] = 99.7%. A negative test reliably rules out disease when prevalence is low."
+    },
+    {
+        "id": 84,
+        "question": "A community physician is planning a smoking cessation program. She reviews the literature and finds that the relative risk of lung cancer for smokers compared to non-smokers is 10. Which of the following is the attributable risk percent among smokers?",
+        "options": [
+            "10%",
+            "90%",
+            "50%",
+            "80%",
+            "95%"
+        ],
+        "correct": 1,
+        "explanation": "Attributable risk percent = (RR-1)/RR × 100% = (10-1)/10 × 100% = 90%. This means 90% of lung cancer cases in smokers are attributable to smoking."
+    },
+    {
+        "id": 85,
+        "question": "A researcher is conducting a case-control study on risk factors for a rare disease. She selects 100 cases and 100 controls. She finds that 40 of the cases and 10 of the controls have the exposure of interest. Which of the following is the odds ratio?",
+        "options": [
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+        ],
+        "correct": 2,
+        "explanation": "OR = (a×d)/(b×c) = (40×90)/(60×10) = 3600/600 = 6. Cases are 6 times more likely to have the exposure than controls."
+    },
+    {
+        "id": 86,
+        "question": "A health department is planning a screening program for a disease. The test has a sensitivity of 85% and specificity of 95%. The prevalence of the disease in the general population is 0.5%. Which of the following is the most important factor to improve the positive predictive value of the test?",
+        "options": [
+            "Increase sensitivity",
+            "Increase specificity",
+            "Screen a high-risk population with higher prevalence",
+            "Decrease the cost of the test",
+            "Increase the sample size"
+        ],
+        "correct": 2,
+        "explanation": "PPV is directly influenced by disease prevalence. Screening high-risk populations (higher prevalence) significantly improves PPV. Universal screening of low-prevalence populations yields many false positives."
+    },
+    {
+        "id": 87,
+        "question": "A researcher is conducting a randomized controlled trial of a new vaccine. She reports that the vaccine efficacy is 80%. Which of the following is the most appropriate interpretation of this finding?",
+        "options": [
+            "80% of vaccinated individuals are protected from the disease",
+            "The vaccine prevents 80% of all cases of the disease in the population",
+            "The relative risk of disease in the vaccinated group compared to the unvaccinated group is 0.8",
+            "The absolute risk reduction is 80%",
+            "The risk of disease in the vaccinated group is 20% of the risk in the unvaccinated group"
+        ],
+        "correct": 4,
+        "explanation": "Vaccine efficacy = 1 - RR, so RR = 0.2. The vaccinated group has 20% of the disease risk of the unvaccinated group. Absolute risk reduction depends on baseline risk."
+    },
+    {
+        "id": 88,
+        "question": "A community health worker is conducting a health survey and wants to estimate the mean blood pressure in a population with 95% confidence. She calculates a 95% confidence interval of 120 to 130 mmHg. Which of the following is the most appropriate interpretation of this confidence interval?",
+        "options": [
+            "We are 95% confident that the true population mean blood pressure lies between 120 and 130 mmHg",
+            "95% of individuals in the population have blood pressure between 120 and 130 mmHg",
+            "There is a 95% chance that the sample mean is between 120 and 130 mmHg",
+            "The probability that the true mean is 125 mmHg is 95%",
+            "The margin of error is 10 mmHg"
+        ],
+        "correct": 0,
+        "explanation": "A 95% CI means we are 95% confident that the true population parameter lies within the interval. It does not describe individual values or the probability of the true mean."
+    },
+    {
+        "id": 89,
+        "question": "A health department is evaluating a contact tracing program for tuberculosis. The program identifies 100 contacts of active TB cases and screens them for latent TB infection. Of these, 20 have positive tuberculin skin tests and are offered preventive therapy. This activity is best described as which level of prevention?",
+        "options": [
+            "Primary prevention",
+            "Secondary prevention",
+            "Tertiary prevention",
+            "Primordial prevention",
+            "Quaternary prevention"
+        ],
+        "correct": 1,
+        "explanation": "Secondary prevention involves early detection (screening) and treatment of latent infection to prevent progression to active disease. Primary prevention would be BCG vaccination before exposure."
+    },
+    {
+        "id": 90,
+        "question": "A researcher is analyzing the results of a randomized controlled trial. She reports a p-value of 0.04 for the primary outcome. Which of the following is the most appropriate conclusion?",
+        "options": [
+            "The null hypothesis is true",
+            "There is a 4% chance that the null hypothesis is true",
+            "The results are clinically significant",
+            "The probability of making a Type I error is 4% if the null hypothesis is true",
+            "The probability of making a Type II error is 4%"
+        ],
+        "correct": 3,
+        "explanation": "A p-value of 0.04 means that if the null hypothesis were true, the probability of observing the results by chance is 4% (Type I error rate). Statistical significance does not guarantee clinical significance."
+    },
+	
+	
+	
+	
+	
+    {
+        "id": 91,
+        "question": "A researcher wants to study the relationship between alcohol consumption and liver cirrhosis. He selects 200 patients with cirrhosis and 200 controls without cirrhosis from the same hospital and asks about their drinking history. This study design is best described as:",
+        "options": [
+            "Cohort study",
+            "Cross-sectional study",
+            "Case-control study",
+            "Randomized controlled trial",
+            "Ecological study"
+        ],
+        "correct": 2,
+        "explanation": "Subjects selected based on disease status (cirrhosis vs no cirrhosis) with retrospective exposure assessment defines a case-control study."
+    },
+    {
+        "id": 92,
+        "question": "A health department reports that the maternal mortality ratio (MMR) in a district is 200 per 100,000 live births. Which of the following is the correct interpretation of this statistic?",
+        "options": [
+            "200 women die from pregnancy-related causes per 100,000 women of childbearing age",
+            "200 women die from pregnancy-related causes per 100,000 population",
+            "200 women die from pregnancy-related causes per 100,000 deliveries",
+            "200 women die from pregnancy-related causes per 100,000 births",
+            "200 women die from pregnancy-related causes per 100,000 live births"
+        ],
+        "correct": 4,
+        "explanation": "Maternal mortality ratio is defined as pregnancy-related deaths per 100,000 live births, not total population or women of childbearing age."
+    },
+    {
+        "id": 93,
+        "question": "A community physician is planning a study to determine the prevalence of malnutrition in children under 5 years. She randomly selects 500 children from 10 villages and measures their height and weight. This is an example of which type of study?",
+        "options": [
+            "Cross-sectional study",
+            "Case-control study",
+            "Cohort study",
+            "Randomized controlled trial",
+            "Ecological study"
+        ],
+        "correct": 0,
+        "explanation": "Cross-sectional studies measure exposure and outcome at a single point in time, ideal for estimating prevalence."
+    },
+    {
+        "id": 94,
+        "question": "A researcher is analyzing data from a cohort study. She finds that the relative risk of disease for exposed vs unexposed is 2.0. The incidence of disease in the unexposed group is 10 per 1000 person-years. Which of the following is the incidence in the exposed group?",
+        "options": [
+            "5 per 1000 person-years",
+            "20 per 1000 person-years",
+            "10 per 1000 person-years",
+            "15 per 1000 person-years",
+            "30 per 1000 person-years"
+        ],
+        "correct": 1,
+        "explanation": "RR = Incidence exposed / Incidence unexposed, so 2.0 = Incidence exposed / 10, thus Incidence exposed = 20 per 1000 person-years."
+    },
+    {
+        "id": 95,
+        "question": "A health officer is investigating an outbreak of food poisoning. She calculates that the odds ratio for eating potato salad is 8.0 with a 95% confidence interval of 3.0 to 20.0. Which of the following is the most appropriate conclusion?",
+        "options": [
+            "There is no association because the confidence interval is wide",
+            "The association is not statistically significant because the p-value is greater than 0.05",
+            "Potato salad is unlikely to be the source of the outbreak",
+            "The association is statistically significant because the confidence interval does not include 1.0",
+            "The results are clinically insignificant"
+        ],
+        "correct": 3,
+        "explanation": "CI of 3.0-20.0 excludes 1.0, indicating statistical significance (p<0.05) and a strong association between potato salad and illness."
+    },
+    {
+        "id": 96,
+        "question": "A researcher is conducting a systematic review and meta-analysis. The forest plot shows that all individual study effect estimates are on the same side of the null line (protective or harmful), but the I² statistic is 65%. Which of the following is the most appropriate interpretation?",
+        "options": [
+            "There is no heterogeneity among the studies",
+            "The results are not statistically significant",
+            "There is substantial heterogeneity; a random-effects model is appropriate",
+            "Publication bias is definitely present",
+            "The pooled estimate is not valid"
+        ],
+        "correct": 2,
+        "explanation": "I² = 65% indicates substantial heterogeneity, requiring a random-effects model for appropriate pooling."
+    },
+    {
+        "id": 97,
+        "question": "A community health program is implementing a childhood immunization program. The goal is to achieve herd immunity for measles. The current vaccination coverage is 85%. Which of the following is the most likely consequence?",
+        "options": [
+            "Measles will be eliminated from the community",
+            "Herd immunity will be achieved",
+            "Outbreaks are still possible because coverage is below the herd immunity threshold",
+            "All unvaccinated individuals are protected",
+            "The vaccine is ineffective at this coverage level"
+        ],
+        "correct": 2,
+        "explanation": "Measles herd immunity threshold is 92-95%; 85% coverage is insufficient, leaving the community vulnerable to outbreaks."
+    },
+    {
+        "id": 98,
+        "question": "A researcher is evaluating a screening test. The test has a sensitivity of 80% and a specificity of 90%. The prevalence of the disease is 10%. What is the positive predictive value (PPV) of the test?",
+        "options": [
+            "47%",
+            "80%",
+            "90%",
+            "10%",
+            "50%"
+        ],
+        "correct": 0,
+        "explanation": "PPV = (0.8×0.1)/[(0.8×0.1)+(0.1×0.9)] = 0.08/0.17 = 47%."
+    },
+    {
+        "id": 99,
+        "question": "A health department is implementing a needle exchange program for injection drug users to prevent HIV transmission. This intervention is best described as which level of prevention?",
+        "options": [
+            "Primary prevention",
+            "Secondary prevention",
+            "Tertiary prevention",
+            "Primordial prevention",
+            "Quaternary prevention"
+        ],
+        "correct": 0,
+        "explanation": "Needle exchange prevents HIV acquisition by reducing risk behaviors before infection occurs, which is primary prevention (harm reduction)."
+    },
+    {
+        "id": 100,
+        "question": "A researcher is conducting a study to determine the association between a new biomarker and the risk of developing diabetes. She measures the biomarker in 5000 healthy adults and follows them for 10 years. She finds that individuals with high biomarker levels have a relative risk of 3.0 (95% CI 2.0-4.5) for developing diabetes compared to those with low levels. Which of the following is the most appropriate interpretation?",
+        "options": [
+            "The biomarker is not associated with diabetes risk",
+            "High biomarker levels are associated with a 3-fold increased risk of diabetes, and the association is statistically significant",
+            "The biomarker causes diabetes in 3% of cases",
+            "The positive predictive value of the biomarker is 3.0",
+            "The study has low power because the confidence interval is wide"
+        ],
+        "correct": 1,
+        "explanation": "RR = 3.0 and CI (2.0-4.5) excludes 1.0, indicating a statistically significant 3-fold increased risk."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    ];
+
+    // ============================================================
+    // DO NOT EDIT BELOW THIS LINE - The rendering engine works automatically
+    // ============================================================
+
+    let userAnswers = new Array(questions.length).fill(null);
+    let submitted = false;
+
+    function updateProgress() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        const percentage = questions.length ? (answered / questions.length) * 100 : 0;
+        document.getElementById('progressText').innerHTML = `${answered}/${questions.length} Answered`;
+        document.getElementById('progressFill').style.width = percentage + '%';
+    }
+
+    function renderScorePanel(correctCount = null) {
+        const container = document.getElementById('scorePanelContainer');
+        if (!submitted) {
+            container.classList.add('hidden-panel');
+            container.innerHTML = '';
+        } else {
+            const score = correctCount !== null ? correctCount : 0;
+            container.classList.remove('hidden-panel');
+            container.innerHTML = `
+                <div class="score-title"><i class="fas fa-chart-simple"></i> Score</div>
+                <div class="score-value">${score}/${questions.length}</div>
+            `;
+        }
+    }
+
+    function renderMCQs() {
+        if (!questions.length) {
+            document.getElementById('mcqContent').innerHTML = '<div style="text-align:center;padding:60px 20px;background:white;border-radius:24px;"><i class="fas fa-info-circle" style="font-size:3rem;color:#1ecbe1;"></i><p style="margin-top:20px;font-size:1.1rem;color:#15304c;">No MCQs loaded yet.</p><p style="margin-top:10px;color:#5a7d9a;">Paste your 100 Community Medicine questions into the "questions" array in the script section of this HTML file.</p></div>';
+            return;
+        }
+
+        let html = '';
+        questions.forEach((q, idx) => {
+            const number = idx + 1;
+            const saved = userAnswers[idx];
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                let optionClass = 'option';
+                if (submitted) {
+                    if (optIdx === q.correct) optionClass += ' correct-option';
+                    else if (saved === optIdx && saved !== q.correct) optionClass += ' wrong-option';
+                    else if (saved === optIdx) optionClass += ' selected';
+                } else {
+                    if (saved === optIdx) optionClass += ' selected';
+                }
+                optionsHtml += `<div class="${optionClass}" data-q="${idx}" data-opt="${optIdx}">${String.fromCharCode(65+optIdx)}. ${escapeHtml(opt)}</div>`;
+            });
+            
+            let explClass = 'explanation-box';
+            let cardClass = '';
+            if (submitted) {
+                explClass += ' show';
+                if (saved === null) {
+                    cardClass = 'unanswered-ans';
+                } else if (saved === q.correct) {
+                    cardClass = 'correct-ans';
+                } else {
+                    cardClass = 'wrong-ans';
+                }
+            }
+            
+            html += `
+            <div class="mcq-card ${cardClass}" id="card-${idx}">
+                <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q${number}</div>
+                <div class="question-text">${escapeHtml(q.question)}</div>
+                <div class="options">${optionsHtml}</div>
+                <div class="${explClass}" id="exp-${idx}">
+                    <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+                    ${escapeHtml(q.explanation)}
+                </div>
+            </div>`;
+        });
+        
+        html += `<div class="submit-wrapper"><button id="submitBtn" class="primary-btn"><i class=""></i> Submit </button></div>`;
+        document.getElementById('mcqContent').innerHTML = html;
+        
+        const btn = document.getElementById('submitBtn');
+        if (btn) {
+            if (submitted) {
+                btn.innerHTML = '<i class=""></i> Submitted';
+                btn.classList.add('disabled-btn');
+                btn.disabled = true;
+            } else {
+                btn.onclick = function() { submitMCQs(); };
+            }
+        }
+        
+        if (!submitted) {
+            document.querySelectorAll('#mcqContent .option').forEach(opt => {
+                opt.addEventListener('click', function(e) {
+                    if (submitted) return;
+                    const qIdx = this.dataset.q;
+                    const optIdx = parseInt(this.dataset.opt);
+                    const parentOptions = this.parentElement.children;
+                    for (let el of parentOptions) {
+                        el.classList.remove('selected');
+                    }
+                    this.classList.add('selected');
+                    userAnswers[qIdx] = optIdx;
+                    updateProgress();
+                });
+            });
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    window.submitMCQs = function() {
+        if (submitted) return;
+        submitted = true;
+        let correctCount = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) correctCount++;
+        }
+        renderScorePanel(correctCount);
+        renderMCQs();
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.onload = function() {
+        renderScorePanel();
+        renderMCQs();
+        updateProgress();
+    };
+</script>
+</body>
+</html>

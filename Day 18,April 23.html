@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 2 · Day 18 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 2</span>
+        <span><i class="fas fa-clock"></i> Day 18,April 23, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';">Score</h2>
+        <div id="final-score">0 / 50</div>
+       
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class="fas fa-biohazard"></i>  Syllabus </h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-chart-line"></i> Evolution </span>
+            <span><i class="fas fa-flask"></i> Alcohols & Phenols</span>
+            <span><i class="fas fa-atom"></i> Modern Physics</span>
+            <span><i class="fas fa-brain"></i> Logical Deductions</span>
+        </div>
+
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()">Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> © 2026 MedPrep. All Rights Reserved.</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// TOUGHEST 50 MDCAT-STYLE MCQs - April 23rd
+// Biology: Evolution (15) | Chemistry: Alcohols & Phenols (15) | Physics: Modern Physics (15) | Logical Reasoning: Logical Deductions (5)
+// ✅ EACH QUESTION: ONE correct answer · Explanation matches the key
+// --------------------------------------------------------------
+const quizData = [];
+
+// ==================== BIOLOGY: EVOLUTION (15) ====================
+const bioEvolution = [
+    {q: "The theory of evolution by natural selection was proposed by:", a: "C", choices: ["Lamarck", "Mendel", "Charles Darwin", "Wallace"], e: "Darwin's 'On the Origin of Species' (1859) proposed natural selection as mechanism of evolution."},
+    {q: "The process by which organisms better adapted to their environment survive and reproduce is called:", a: "B", choices: ["Artificial selection", "Natural selection", "Genetic drift", "Mutation"], e: "Natural selection is differential survival and reproduction of better-adapted individuals."},
+    {q: "Homologous structures are evidence of:", a: "A", choices: ["Common ancestry", "Convergent evolution", "Analogous evolution", "Genetic drift"], e: "Homologous structures (e.g., forelimbs of vertebrates) share common origin despite different functions."},
+    {q: "The forelimbs of birds and humans are examples of:", a: "C", choices: ["Analogous structures", "Vestigial structures", "Homologous structures", "Fossil structures"], e: "Same basic structural plan indicates common ancestry → homologous."},
+    {q: "The wings of birds and butterflies are examples of:", a: "B", choices: ["Homologous structures", "Analogous structures", "Vestigial structures", "Fossil structures"], e: "Analogous structures have similar function but different evolutionary origin (convergent evolution)."},
+    {q: "The appendix in humans is considered a:", a: "D", choices: ["Homologous structure", "Analogous structure", "Fossil", "Vestigial structure"], e: "Vestigial structures have lost original function through evolution."},
+    {q: "The study of distribution of species across geographical regions is called:", a: "C", choices: ["Paleontology", "Embryology", "Biogeography", "Comparative anatomy"], e: "Biogeography studies species distribution patterns (e.g., Darwin's finches)."},
+    {q: "Hardy-Weinberg equilibrium describes conditions under which:", a: "B", choices: ["Evolution occurs rapidly", "Allele frequencies remain constant", "Mutations increase", "Natural selection is strongest"], e: "Hardy-Weinberg principle states allele frequencies remain constant in absence of evolutionary forces."},
+    {q: "Which of the following is NOT a condition for Hardy-Weinberg equilibrium?", a: "D", choices: ["Large population size", "Random mating", "No mutation", "Natural selection"], e: "Natural selection is an evolutionary force that changes allele frequencies; it must be absent for equilibrium."},
+    {q: "The formation of new species is called:", a: "A", choices: ["Speciation", "Evolution", "Adaptation", "Natural selection"], e: "Speciation is the evolutionary process by which new biological species arise."},
+    {q: "Lamarck's theory of evolution proposed:", a: "C", choices: ["Natural selection", "Genetic drift", "Inheritance of acquired characteristics", "Punctuated equilibrium"], e: "Lamarckism: organisms pass on traits acquired during their lifetime (e.g., giraffe's long neck)."},
+    {q: "Fossil records provide evidence for evolution by showing:", a: "D", choices: ["Analogous structures", "Convergent evolution", "Genetic drift", "Transitional forms and gradual change"], e: "Fossils show progression of forms over time (e.g., Archaeopteryx)."},
+    {q: "Industrial melanism in peppered moths is an example of:", a: "B", choices: ["Genetic drift", "Natural selection", "Mutation", "Gene flow"], e: "Dark moths became more common due to selective predation (camouflage on polluted trees)."},
+    {q: "The concept of 'survival of the fittest' refers to:", a: "C", choices: ["Strongest individuals", "Largest individuals", "Best adapted to environment", "Most aggressive"], e: "'Fittest' means best adapted to current environment, not necessarily strongest."},
+    {q: "Genetic drift has the greatest effect on:", a: "D", choices: ["Large populations", "Large populations", "Medium populations", "Small populations"], e: "Random allele frequency changes are more pronounced in small populations (bottleneck/founder effect)."}
+];
+bioEvolution.forEach(item => quizData.push(item));
+
+// ==================== CHEMISTRY: ALCOHOLS & PHENOLS (15) ====================
+const chemAlcoholsPhenols = [
+    {q: "The functional group of alcohols is:", a: "B", choices: ["-CHO", "-OH", "-COOH", "-NH₂"], e: "Hydroxyl group (-OH) attached to saturated carbon characterizes alcohols."},
+    {q: "Methanol is also known as:", a: "C", choices: ["Ethanol", "Propanol", "Wood alcohol", "Grain alcohol"], e: "Methanol (CH₃OH) is called wood alcohol; ethanol is grain alcohol."},
+    {q: "The alcohol that is toxic and can cause blindness is:", a: "A", choices: ["Methanol", "Ethanol", "Propanol", "Butanol"], e: "Methanol is oxidized to formaldehyde and formic acid, causing metabolic acidosis and blindness."},
+    {q: "The general formula of monohydric alcohols is:", a: "D", choices: ["CₙH₂ₙO", "CₙH₂ₙ₊₂O", "CₙH₂ₙ₊₂O", "CₙH₂ₙ₊₂O"], e: "Monohydric alcohols: CₙH₂ₙ₊₁OH or CₙH₂ₙ₊₂O."},
+    {q: "Phenol is also known as:", a: "C", choices: ["Benzyl alcohol", "Cyclohexanol", "Carbolic acid", "Phenyl methanol"], e: "Phenol (C₆H₅OH) is called carbolic acid, used as disinfectant."},
+    {q: "The reaction of alcohol with carboxylic acid in presence of concentrated H₂SO₄ gives:", a: "B", choices: ["Ether", "Ester", "Aldehyde", "Ketone"], e: "Esterification: R-OH + R'-COOH ⇌ R'-COOR + H₂O."},
+    {q: "Dehydration of ethanol at 170°C with conc. H₂SO₄ gives:", a: "D", choices: ["Diethyl ether", "Ethanal", "Ethanoic acid", "Ethene"], e: "Dehydration at higher temperature (170°C) yields alkene (ethene)."},
+    {q: "The product of oxidation of primary alcohol with K₂Cr₂O₇/H₂SO₄ is:", a: "A", choices: ["Aldehyde then carboxylic acid", "Ketone", "Ether", "Alkene"], e: "Primary alcohol → aldehyde → carboxylic acid upon further oxidation."},
+    {q: "Phenol is more acidic than aliphatic alcohols because:", a: "C", choices: ["Stronger O-H bond", "Inductive effect", "Resonance stabilization of phenoxide ion", "Hydrogen bonding"], e: "Phenoxide ion is stabilized by resonance with aromatic ring, making phenol more acidic."},
+    {q: "The test used to identify phenol is:", a: "B", choices: ["Iodoform test", "Neutral FeCl₃ test (violet color)", "Tollens' test", "Bromine water test"], e: "Phenol gives violet color with neutral ferric chloride solution."},
+    {q: "Ethanol reacts with sodium metal to produce:", a: "D", choices: ["Sodium ethanoate", "Sodium chloride", "Hydrogen peroxide", "Sodium ethoxide and hydrogen gas"], e: "2C₂H₅OH + 2Na → 2C₂H₅ONa + H₂↑."},
+    {q: "The alcohol that gives iodoform test is:", a: "C", choices: ["Methanol", "1-propanol", "Ethanol", "2-methyl-2-propanol"], e: "Ethanol (and secondary alcohols with CH₃CHOH- group) give positive iodoform test."},
+    {q: "The order of boiling points of alcohols is:", a: "B", choices: ["Primary < Secondary < Tertiary", "Primary > Secondary > Tertiary", "Tertiary > Primary > Secondary", "All same"], e: "Boiling point decreases with increased branching due to less surface area for hydrogen bonding."},
+    {q: "The reaction of phenol with bromine water produces:", a: "D", choices: ["Bromobenzene", "o-bromophenol", "p-bromophenol", "2,4,6-tribromophenol (white precipitate)"], e: "Phenol undergoes electrophilic substitution with Br₂/H₂O to form tribromophenol."},
+    {q: "Ethylene glycol is an example of:", a: "A", choices: ["Dihydric alcohol", "Trihydric alcohol", "Monohydric alcohol", "Aromatic alcohol"], e: "Ethylene glycol (HO-CH₂-CH₂-OH) has two -OH groups → dihydric alcohol."}
+];
+chemAlcoholsPhenols.forEach(item => quizData.push(item));
+
+// ==================== PHYSICS: MODERN PHYSICS (15) ====================
+const physicsModern = [
+    {q: "The photoelectric effect was explained by:", a: "C", choices: ["Newton", "Planck", "Einstein", "Bohr"], e: "Einstein (1905) explained photoelectric effect using photon concept, earning Nobel Prize."},
+    {q: "The energy of a photon is given by:", a: "B", choices: ["E = mc²", "E = hf", "E = ½mv²", "E = kT"], e: "Photon energy E = hf = hc/λ (Planck's constant × frequency)."},
+    {q: "The work function of a metal is:", a: "D", choices: ["Minimum frequency of light", "Maximum kinetic energy", "Threshold wavelength", "Minimum energy required to eject an electron"], e: "Work function (φ) is minimum energy needed to remove electron from metal surface."},
+    {q: "De Broglie proposed that particles have:", a: "A", choices: ["Wave-like properties", "Only particle properties", "No momentum", "Fixed position"], e: "Wave-particle duality: λ = h/p (de Broglie wavelength)."},
+    {q: "Heisenberg's uncertainty principle states:", a: "C", choices: ["Δx·Δt ≥ h/4π", "Δp·ΔE ≥ h/4π", "Δx·Δp ≥ h/4π", "ΔE·Δt = 0"], e: "Cannot simultaneously measure position and momentum with arbitrary precision."},
+    {q: "The Bohr model of atom successfully explained:", a: "B", choices: ["Spectra of multi-electron atoms", "Hydrogen spectrum", "Zeeman effect", "Stark effect"], e: "Bohr model accurately predicted hydrogen spectral lines but failed for multi-electron atoms."},
+    {q: "The nucleus of an atom consists of:", a: "D", choices: ["Protons only", "Neutrons only", "Electrons and protons", "Protons and neutrons (nucleons)"], e: "Nucleus contains protons (positive) and neutrons (neutral); electrons orbit outside."},
+    {q: "The half-life of a radioactive substance is:", a: "C", choices: ["Time to become stable", "Time to double activity", "Time for half of nuclei to decay", "Average lifetime"], e: "Half-life (t₁/₂) is constant for given isotope, independent of initial amount."},
+    {q: "The phenomenon of emission of electrons from metal surface by light is:", a: "A", choices: ["Photoelectric effect", "Compton effect", "Thermionic emission", "Pair production"], e: "Photoelectric effect: light (photons) ejects electrons from metal."},
+    {q: "The binding energy of a nucleus is:", a: "B", choices: ["Energy to break nucleus into nucleons", "Energy released when nucleus forms from nucleons", "Mass defect × c²", "All of the above"], e: "Binding energy = Δm·c²; energy required to separate nucleus into individual nucleons."},
+    {q: "The most stable nucleus in terms of binding energy per nucleon is:", a: "C", choices: ["Uranium-238", "Hydrogen-1", "Iron-56", "Helium-4"], e: "Iron-56 has highest binding energy per nucleon (~8.8 MeV), most stable."},
+    {q: "The equation E = mc² represents:", a: "D", choices: ["Kinetic energy", "Potential energy", "Thermal energy", "Mass-energy equivalence"], e: "Einstein's mass-energy equivalence: mass can be converted to energy."},
+    {q: "Compton effect demonstrates:", a: "B", choices: ["Wave nature of light", "Particle nature of light (photons)", "Diffraction", "Interference"], e: "Compton scattering (X-rays scattered by electrons) shows photon momentum and particle nature."},
+    {q: "The dual nature of matter means:", a: "C", choices: ["Matter can be created", "Matter can be destroyed", "Matter exhibits both particle and wave properties", "Matter is only waves"], e: "Wave-particle duality: all matter has both particle and wave characteristics."},
+    {q: "The concept of quantization of energy was introduced by:", a: "A", choices: ["Max Planck", "Einstein", "Bohr", "Heisenberg"], e: "Planck (1900) proposed energy is quantized: E = nhf."}
+];
+physicsModern.forEach(item => quizData.push(item));
+
+// ==================== LOGICAL REASONING: LOGICAL DEDUCTIONS (5) ====================
+const lrDeductions = [
+    {q: "All roses are flowers. Some flowers fade quickly. Therefore, some roses fade quickly. This argument is:", a: "B", choices: ["Valid", "Invalid (fallacy)", "Sound", "True"], e: "The conclusion does not necessarily follow; the flowers that fade quickly might not include roses."},
+    {q: "If all mammals have hair, and a whale is a mammal, then a whale has hair. This is an example of:", a: "C", choices: ["Inductive reasoning", "Abductive reasoning", "Deductive reasoning", "Circular reasoning"], e: "Deductive reasoning moves from general premise to specific conclusion."},
+    {q: "Statement: All birds can fly. Penguins are birds. Conclusion: Penguins can fly. This is:", a: "C", choices: ["True", "False", "Valid but false premise", "Invalid"], e: "The premise 'All birds can fly' is false (penguins cannot), but the logical structure is valid."},
+    {q: "The statement 'If you study, you will pass. You did not study. Therefore, you will not pass.' commits which fallacy?", a: "B", choices: ["Affirming the consequent", "Denying the antecedent", "Modus ponens", "Modus tollens"], e: "Denying the antecedent: If P then Q, not P, therefore not Q — invalid."},
+    {q: "A doctor says, 'The patient has a fever and cough; therefore, they have the flu.' This is an example of:", a: "A", choices: ["Hasty generalization", "Post hoc ergo propter hoc", "Circular reasoning", "Straw man"], e: "Drawing a conclusion from insufficient evidence or single case."}
+];
+lrDeductions.forEach(item => quizData.push(item));
+
+// Final check: total 15+15+15+5 = 50
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 50`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

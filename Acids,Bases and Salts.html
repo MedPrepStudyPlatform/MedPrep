@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acids, Bases & Salts </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fef2f2 0%, #fee2e2 100%);
+            color: #991b1b;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #dc2626;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #b91c1c, #dc2626);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #b91c1c;
+            font-weight: 600;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            background: #fee2e2;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 6px 20px;
+            border-radius: 60px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #fecaca;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(220, 38, 38, 0.08);
+            border-color: #fca5a5;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #991b1b;
+            padding-left: 14px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #dc2626;
+            background: #fef2f2;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #b91c1c;
+            color: white;
+            border-color: #b91c1c;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(220, 38, 38, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(185, 28, 28, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #991b1b, #b91c1c);
+            color: #fef2f2;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #991b1b;
+            display: none;
+            background: #fef2f2;
+            padding: 16px 22px;
+            border-left: 6px solid #dc2626;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #f97316 !important;
+            background: #ffedd5 !important;
+            color: #9a3412 !important;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #dc2626;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1> Acids, Bases & Salts</h1>
+    <div style="text-align: center;">
+        
+    </div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()"> SUBMIT</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+    
+</div>
+
+<script>
+    // 20 high-quality Acids, Bases & Salts MCQs (FSC Part 1, Chapter 8)
+    const acidBaseMCQs = [
+        { q: "According to Arrhenius concept, an acid is a substance that:", options: ["Donates a proton", "Accepts a proton", "Donates OH⁻ ions", "Donates H⁺ ions in water"], exp: "Arrhenius defined acid as a substance that produces H⁺ ions (hydronium ions) in aqueous solution.", correct: "D" },
+        { q: "The pH of a neutral solution at 25°C is:", options: ["0", "7", "14", "1"], exp: "At 25°C, [H⁺] = [OH⁻] = 10⁻⁷ M, so pH = 7.", correct: "B" },
+        { q: "Which of the following is a Lewis base?", options: ["BF₃", "NH₃", "AlCl₃", "H⁺"], exp: "Lewis base donates an electron pair. NH₃ has a lone pair on nitrogen, making it a Lewis base.", correct: "B" },
+        { q: "The conjugate base of H₂O is:", options: ["H₃O⁺", "OH⁻", "O²⁻", "H₂O itself"], exp: "Conjugate base is formed when acid loses a proton. H₂O loses H⁺ to form OH⁻.", correct: "B" },
+        { q: "Which of the following is the strongest acid?", options: ["HClO", "HClO₂", "HClO₃", "HClO₄"], exp: "Perchloric acid (HClO₄) is the strongest among oxyacids of chlorine due to more oxygen atoms.", correct: "D" },
+        { q: "The pH of 0.001 M HCl solution is:", options: ["1", "2", "3", "4"], exp: "HCl is strong acid, [H⁺] = 0.001 M = 10⁻³ M, so pH = 3.", correct: "C" },
+        { q: "A buffer solution resists change in:", options: ["Temperature", "Pressure", "pH", "Concentration"], exp: "Buffer solutions maintain nearly constant pH upon addition of small amounts of acid or base.", correct: "C" },
+        { q: "Which pair constitutes a buffer solution?", options: ["NaCl + HCl", "CH₃COOH + CH₃COONa", "NaOH + HCl", "NH₄Cl + NaOH (equimolar)"], exp: "CH₃COOH (weak acid) and CH₃COONa (its salt) form an acidic buffer.", correct: "B" },
+        { q: "The pH of a solution with [H⁺] = 1 × 10⁻⁹ M is:", options: ["5", "7", "9", "11"], exp: "pH = -log(10⁻⁹) = 9. The solution is basic.", correct: "C" },
+        { q: "According to Brønsted-Lowry concept, a base is a substance that:", options: ["Donates a proton", "Accepts a proton", "Donates an electron pair", "Accepts an electron pair"], exp: "Brønsted-Lowry base is a proton (H⁺) acceptor.", correct: "B" },
+        { q: "The ionisation constant of water (Kw) at 25°C is:", options: ["10⁻⁷", "10⁻¹⁴", "10⁻¹²", "10⁻⁹"], exp: "Kw = [H⁺][OH⁻] = 1 × 10⁻¹⁴ mol² L⁻² at 25°C.", correct: "B" },
+        { q: "Which salt undergoes anionic hydrolysis?", options: ["NaCl", "CH₃COONa", "NH₄Cl", "KNO₃"], exp: "CH₃COONa (salt of weak acid and strong base) gives basic solution due to acetate ion hydrolysis.", correct: "B" },
+        { q: "The pH of a 0.1 M CH₃COOH solution (Ka = 1.8 × 10⁻⁵) is approximately:", options: ["2.87", "4.74", "5.87", "1.87"], exp: "[H⁺] = √(Ka×C) = √(1.8×10⁻⁵×0.1) = √(1.8×10⁻⁶) = 1.34×10⁻³, pH ≈ 2.87.", correct: "A" },
+        { q: "Which of the following is a Lewis acid?", options: ["NH₃", "H₂O", "BF₃", "CH₄"], exp: "BF₃ has an incomplete octet and accepts an electron pair, making it a Lewis acid.", correct: "C" },
+        { q: "The pH of a solution is 4. Its pOH is:", options: ["4", "7", "10", "14"], exp: "pH + pOH = 14 at 25°C, so pOH = 14 - 4 = 10.", correct: "C" },
+        { q: "Which of the following is the conjugate acid of NH₃?", options: ["NH₂⁻", "NH₄⁺", "N³⁻", "NH₂OH"], exp: "NH₃ accepts a proton to form NH₄⁺, which is its conjugate acid.", correct: "B" },
+        { q: "The buffer capacity is maximum when:", options: ["pH = pKa", "pH > pKa", "pH < pKa", "pH = 7"], exp: "Buffer capacity is maximum when [weak acid] = [salt], i.e., pH = pKa.", correct: "A" },
+        { q: "The colour of phenolphthalein in basic solution is:", options: ["Colourless", "Pink", "Yellow", "Blue"], exp: "Phenolphthalein is colourless in acidic medium and pink in basic medium.", correct: "B" },
+        { q: "A salt formed by strong acid and strong base will have pH:", options: ["<7", ">7", "=7", "0"], exp: "NaCl (strong acid + strong base) undergoes no hydrolysis, solution is neutral, pH = 7.", correct: "C" },
+        { q: "The Henderson-Hasselbalch equation for a basic buffer is:", options: ["pH = pKa + log([salt]/[acid])", "pOH = pKb + log([salt]/[base])", "pH = pKa + log([base]/[salt])", "pH = pKb + log([salt]/[acid])"], exp: "For basic buffer: pOH = pKb + log([salt]/[base]). Also pH = 14 - pOH.", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...acidBaseMCQs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>📖 Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = ` Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

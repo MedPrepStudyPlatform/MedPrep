@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · Block-J · Minor Subjects </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5fafd;
+            color: #15304c;
+            line-height: 1.5;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #f5fafd;
+            padding-top: 5px;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .main-header {
+            background: #0a2c48;
+            color: white;
+            width: 100%;
+            padding: 20px 0;
+            box-shadow: 0 12px 28px -10px rgba(10, 44, 72, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-wrapper {
+            background: white;
+            padding: 8px 28px;
+            border-radius: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #1ecbe1;
+            transition: transform 0.2s ease;
+        }
+
+        .logo-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-img {
+            height: 65px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .pill-nav {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 16px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(30, 203, 225, 0.5);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pill-nav span {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: white;
+            letter-spacing: 0.3px;
+        }
+
+        .pill-nav i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        .score-panel {
+            background: white;
+            border-radius: 60px;
+            padding: 16px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 18px -6px #b5d9f0;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .score-panel.hidden-panel {
+            display: none;
+        }
+
+        .score-title {
+            font-family: 'Outfit', sans-serif;
+            color: #0a2c48;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .score-value {
+            background: #0a2c48;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 40px;
+            padding: 12px 20px;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #0a2c48;
+            font-size: 0.9rem;
+        }
+
+        .progress-fill {
+            height: 10px;
+            background: #1ecbe1;
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-bg {
+            flex-grow: 1;
+            background: #e1f0fa;
+            border-radius: 20px;
+            height: 10px;
+            min-width: 100px;
+        }
+
+        .mcq-card {
+            background: white;
+            border-radius: 24px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #cde1f0;
+            box-shadow: 0 6px 14px -6px #aac9e2;
+            transition: all 0.2s ease;
+        }
+
+        .mcq-card:hover {
+            box-shadow: 0 10px 20px -8px #aac9e2;
+        }
+
+        .mcq-card.correct-ans {
+            border-left: 8px solid #10b981;
+            background: #f0fdf4;
+        }
+
+        .mcq-card.wrong-ans {
+            border-left: 8px solid #f44336;
+            background: #fff3f5;
+        }
+
+        .mcq-card.unanswered-ans {
+            border-left: 8px solid #ff9800;
+            background: #fff8e7;
+        }
+
+        .q-num {
+            font-weight: 700;
+            color: #0a2c48;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 18px;
+            color: #1a3a5a;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .option {
+            background: #f1f9ff;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: 1px solid #c3dcf2;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .option:hover {
+            background: #d7ecfd;
+            border-color: #1ecbe1;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1ecbe1;
+            color: #0a2c48;
+            border-color: #0a2c48;
+            font-weight: 600;
+        }
+
+        .option.correct-option {
+            background: #10b981;
+            color: white;
+            border-color: #0e6e4a;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .option.wrong-option {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+            pointer-events: none;
+        }
+
+        .explanation-box {
+            margin-top: 20px;
+            background: #f4f9ff;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #0a2c48;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .explanation-box.show {
+            display: block;
+        }
+
+        .exp-title {
+            font-weight: 700;
+            color: #0a2c48;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0 50px;
+        }
+
+        .primary-btn {
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            background: #0a2c48;
+            color: white;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .primary-btn:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+            transform: scale(1.02);
+        }
+
+        .primary-btn.disabled-btn,
+        .primary-btn:disabled {
+            background: #9aaebf;
+            color: #f0f4f8;
+            cursor: not-allowed;
+            transform: none;
+            pointer-events: none;
+        }
+
+        .main-footer {
+            background: #0a2c48;
+            color: #ffffffcc;
+            text-align: center;
+            padding: 24px 20px;
+            margin-top: 30px;
+            border-top: 1px solid #1ecbe1;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            .header-inner { padding: 0 15px; flex-direction: column; text-align: center; }
+            .logo-wrapper { padding: 6px 20px; }
+            .logo-img { height: 50px; }
+            .pill-nav { padding: 5px 12px; gap: 6px; }
+            .pill-nav span { font-size: 0.75rem; }
+            .score-panel { padding: 14px 18px; flex-direction: column; text-align: center; border-radius: 30px; }
+            .score-title { font-size: 1rem; justify-content: center; }
+            .score-value { font-size: 1rem; padding: 5px 16px; }
+            .options { gap: 10px; }
+            .option { padding: 10px 16px; font-size: 0.85rem; }
+            .question-text { font-size: 0.95rem; }
+            .mcq-card { padding: 18px; }
+            .primary-btn { padding: 12px 28px; font-size: 0.9rem; }
+            .progress-bar { flex-direction: column; text-align: center; }
+            .progress-bg { width: 100%; min-width: auto; }
+            .main-footer { padding: 20px 16px; font-size: 0.75rem; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 12px; }
+            .header-inner { padding: 0 12px; }
+            .logo-wrapper { padding: 5px 16px; }
+            .logo-img { height: 42px; }
+            .mcq-card { padding: 15px; border-radius: 20px; }
+            .question-text { font-size: 0.9rem; }
+            .option { padding: 8px 14px; font-size: 0.8rem; }
+            .explanation-box { padding: 12px 15px; font-size: 0.85rem; }
+            .score-value { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-inner">
+        <div class="logo-wrapper">
+            <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+        </div>
+        <div class="pill-nav">
+            <span><i class="fas fa-file-alt"></i>Block-J</span>
+            <span><i class="fas fa-brain"></i>Minor subjects</span>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div id="scorePanelContainer" class="score-panel hidden-panel"></div>
+
+    <div class="progress-sticky">
+        <div class="progress-bar">
+            <span class="progress-text" id="progressText">0/100 Answered</span>
+            <div class="progress-bg">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <span class="progress-text" id="scorePreview"></span>
+        </div>
+    </div>
+
+    <div id="mcqContent"></div>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <i class=""></i> © MedPrep · All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+    
+    const questions = [
+        
+		
+		
+		
+		
+	
+   
+    {
+        "id": 1,
+        "question": "A 55-year-old woman presents with sudden-onset thunderclap headache, vomiting, and neck stiffness. CT head shows hyperdense blood in the basal cisterns. Which of the following is the most appropriate immediate management to prevent rebleeding?",
+        "options": [
+            "IV nimodipine",
+            "IV mannitol",
+            "Neurosurgical consultation for aneurysm clipping or coiling",
+            "IV anticonvulsants",
+            "Lumbar puncture"
+        ],
+        "correct": 2,
+        "explanation": "Subarachnoid hemorrhage requires early aneurysm occlusion to prevent rebleeding, which has highest risk in first 24 hours."
+    },
+    {
+        "id": 2,
+        "question": "A 10-year-old boy presents with progressive difficulty walking, frequent falls, and slurred speech over 2 years. Examination reveals ataxia, dysmetria, nystagmus, scoliosis, and positive family history. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Duchenne muscular dystrophy",
+            "Spinocerebellar ataxia type 6",
+            "Cerebral palsy",
+            "Friedreich's ataxia"
+        ],
+        "correct": 4,
+        "explanation": "Friedreich's ataxia is an autosomal recessive disorder with GAA trinucleotide repeat expansion, causing progressive ataxia, areflexia, scoliosis, and cardiomyopathy."
+    },
+    {
+        "id": 3,
+        "question": "A 6-month-old infant presents with fever, irritability, poor feeding, and a bulging fontanelle. CSF shows 5000 WBC/mm³ (90% neutrophils), low glucose, and elevated protein. Gram stain shows Gram-negative coccobacilli. Which of the following is the most appropriate empiric antibiotic?",
+        "options": [
+            "Ceftriaxone",
+            "Ampicillin plus gentamicin",
+            "Vancomycin plus rifampin",
+            "Cefotaxime plus ampicillin",
+            "Meropenem alone"
+        ],
+        "correct": 0,
+        "explanation": "Haemophilus influenzae type b (Gram-negative coccobacillus) is treated with ceftriaxone or cefotaxime; Hib vaccine has dramatically reduced incidence."
+    },
+    {
+        "id": 4,
+        "question": "A 2-week-old neonate presents with fever, lethargy, poor feeding, and seizures. CSF shows 1000 WBC/mm³ (80% neutrophils), low glucose, elevated protein. Gram stain shows Gram-positive cocci in chains. Which of the following is the most appropriate empiric antibiotic regimen?",
+        "options": [
+            "Cefotaxime alone",
+            "Ampicillin plus cefotaxime",
+            "Ceftriaxone alone",
+            "Vancomycin plus gentamicin",
+            "Ampicillin plus gentamicin"
+        ],
+        "correct": 1,
+        "explanation": "Group B Streptococcus causes neonatal meningitis; ampicillin covers GBS and Listeria, while cefotaxime covers Gram-negatives; ceftriaxone is avoided in neonates."
+    },
+    {
+        "id": 5,
+        "question": "A 4-year-old child presents with fever, headache, vomiting, and petechial rash. CSF shows 8000 WBC/mm³ (95% neutrophils), low glucose, elevated protein. Gram stain shows Gram-negative diplococci. Which of the following is the most appropriate antibiotic for the patient and prophylaxis for close contacts?",
+        "options": [
+            "Ampicillin for patient; rifampin for contacts",
+            "Vancomycin for patient; ciprofloxacin for contacts",
+            "Chloramphenicol for patient; ceftriaxone for contacts",
+            "Ceftriaxone for patient; rifampin for contacts",
+            "Meropenem for patient; no prophylaxis needed"
+        ],
+        "correct": 3,
+        "explanation": "Meningococcal meningitis is treated with ceftriaxone; close contacts require rifampin, ciprofloxacin, or ceftriaxone prophylaxis to eradicate nasopharyngeal carriage."
+    },
+    {
+        "id": 6,
+        "question": "A 12-year-old boy with Friedreich's ataxia presents for routine follow-up. He has progressive gait ataxia and areflexia. Which of the following is the most common cause of death in these patients?",
+        "options": [
+            "Respiratory failure",
+            "Diabetes mellitus complications",
+            "Hypertrophic cardiomyopathy",
+            "Aspiration pneumonia",
+            "Scoliosis with restrictive lung disease"
+        ],
+        "correct": 2,
+        "explanation": "Hypertrophic cardiomyopathy is the most common cause of death in Friedreich's ataxia, occurring in approximately 60% of patients."
+    },
+    {
+        "id": 7,
+        "question": "A 3-year-old child presents with fever, vomiting, and lethargy. Lumbar puncture shows 200 WBC/mm³ (60% lymphocytes), elevated protein, and low glucose. Which of the following is the most appropriate empiric therapy pending culture results?",
+        "options": [
+            "Ceftriaxone alone",
+            "Ampicillin plus gentamicin",
+            "Ampicillin plus cefotaxime",
+            "Vancomycin plus rifampin",
+            "Ceftriaxone plus vancomycin"
+        ],
+        "correct": 4,
+        "explanation": "Empiric therapy for suspected bacterial meningitis in children is ceftriaxone plus vancomycin to cover resistant Streptococcus pneumoniae."
+    },
+    {
+        "id": 8,
+        "question": "A 45-year-old woman is scheduled for elective cholecystectomy. She has no significant past medical history. Which of the following is the most important component of preoperative evaluation to assess anesthetic risk?",
+        "options": [
+            "Airway assessment (Mallampati classification)",
+            "Complete blood count",
+            "Chest X-ray",
+            "Liver function tests",
+            "Electrocardiogram"
+        ],
+        "correct": 0,
+        "explanation": "Airway assessment is the most critical component to identify patients at risk of difficult intubation, a leading cause of anesthesia-related morbidity and mortality."
+    },
+    {
+        "id": 9,
+        "question": "A 30-year-old woman undergoes spinal anesthesia for cesarean section. Which of the following is the most common adverse effect associated with spinal anesthesia?",
+        "options": [
+            "High spinal anesthesia",
+            "Hypotension",
+            "Post-dural puncture headache",
+            "Nerve root irritation",
+            "Epidural hematoma"
+        ],
+        "correct": 1,
+        "explanation": "Hypotension is the most common adverse effect of spinal anesthesia (up to 80%), caused by sympathetic blockade leading to vasodilation and decreased preload."
+    },
+    {
+        "id": 10,
+        "question": "A 25-year-old man undergoes general anesthesia with succinylcholine. He has prolonged paralysis requiring extended mechanical ventilation. Which of the following is the most likely cause?",
+        "options": [
+            "Malignant hyperthermia",
+            "Postoperative nausea and vomiting",
+            "Hypertension",
+            "Pseudocholinesterase deficiency",
+            "Bronchospasm"
+        ],
+        "correct": 3,
+        "explanation": "Pseudocholinesterase deficiency causes prolonged paralysis (up to 2-6 hours) after succinylcholine due to impaired metabolism, requiring extended mechanical ventilation."
+    },
+    {
+        "id": 11,
+        "question": "A 2-day-old neonate presents with poor feeding, hypothermia, and lethargy. CSF shows 1500 WBC/mm³ (70% neutrophils), low glucose, elevated protein. Gram stain shows Gram-positive rods. Which of the following is the most appropriate antibiotic?",
+        "options": [
+            "Cefotaxime alone",
+            "Vancomycin alone",
+            "Ampicillin plus gentamicin",
+            "Ceftriaxone alone",
+            "Gentamicin alone"
+        ],
+        "correct": 2,
+        "explanation": "Listeria monocytogenes (Gram-positive rods) causes neonatal meningitis; ampicillin covers Listeria while gentamicin provides Gram-negative coverage."
+    },
+    {
+        "id": 12,
+        "question": "A 14-year-old boy presents with progressive weakness and atrophy of his hands and feet, sensory loss, and absent reflexes. Family history shows similar symptoms in his father and grandfather. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Guillain-Barré syndrome",
+            "Friedreich's ataxia",
+            "Amyotrophic lateral sclerosis",
+            "Multiple sclerosis",
+            "Charcot-Marie-Tooth disease"
+        ],
+        "correct": 4,
+        "explanation": "Charcot-Marie-Tooth disease is hereditary motor and sensory neuropathy with distal weakness, atrophy, areflexia, and autosomal dominant inheritance."
+    },
+    {
+        "id": 13,
+        "question": "A 7-day-old neonate presents with fever, irritability, and a bulging fontanelle. CSF shows 2000 WBC/mm³ (80% neutrophils), low glucose, elevated protein. Gram stain is negative. Which of the following is the most appropriate empiric antibiotic regimen?",
+        "options": [
+            "Ampicillin plus cefotaxime",
+            "Ceftriaxone plus vancomycin",
+            "Ampicillin plus gentamicin",
+            "Cefotaxime alone",
+            "Vancomycin plus rifampin"
+        ],
+        "correct": 0,
+        "explanation": "Ampicillin covers GBS and Listeria while cefotaxime covers Gram-negatives; ceftriaxone is avoided in neonates due to bilirubin displacement risk."
+    },
+    {
+        "id": 14,
+        "question": "A 60-year-old man with glioblastoma multiforme presents with new-onset focal seizures. He is on dexamethasone for cerebral edema. Which of the following is the most appropriate first-line anti-seizure medication?",
+        "options": [
+            "Phenytoin",
+            "Levetiracetam",
+            "Carbamazepine",
+            "Lamotrigine",
+            "Valproate"
+        ],
+        "correct": 1,
+        "explanation": "Levetiracetam has no CYP450 interactions with dexamethasone or chemotherapy, unlike phenytoin and carbamazepine which induce CYP450 and reduce efficacy."
+    },
+    {
+        "id": 15,
+        "question": "A 35-year-old woman receives epidural anesthesia for labor pain. Which of the following is the most serious complication requiring immediate recognition and treatment?",
+        "options": [
+            "Post-dural puncture headache",
+            "Failed block",
+            "Hypotension",
+            "Epidural hematoma",
+            "Nausea and vomiting"
+        ],
+        "correct": 3,
+        "explanation": "Epidural hematoma is a life-threatening complication requiring urgent surgical decompression; symptoms include severe back pain, progressive motor weakness, and urinary retention."
+    },
+    {
+        "id": 16,
+        "question": "A 28-year-old man sustains a traumatic spinal cord injury at T6 level. He develops acute hypertension, severe headache, and bradycardia. Which of the following is the most appropriate immediate intervention?",
+        "options": [
+            "IV fluids and vasopressors",
+            "IV corticosteroids",
+            "Sit patient upright and treat trigger (e.g., distended bladder)",
+            "CT head",
+            "Anticoagulation"
+        ],
+        "correct": 2,
+        "explanation": "Autonomic dysreflexia occurs with spinal lesions above T6; noxious stimuli (distended bladder) trigger hypertension and bradycardia; sit patient upright and remove trigger immediately."
+    },
+    {
+        "id": 17,
+        "question": "A 45-year-old woman is bitten by a stray dog. The wound is deep and bleeding. The dog cannot be located. Which of the following is the most appropriate rabies post-exposure prophylaxis?",
+        "options": [
+            "Rabies vaccine alone",
+            "Tetanus toxoid alone",
+            "Rabies immunoglobulin alone",
+            "Observation only",
+            "Rabies vaccine plus rabies immunoglobulin"
+        ],
+        "correct": 4,
+        "explanation": "WHO Category III exposure (deep wound, bleeding, unvaccinated, animal unavailable) requires both rabies vaccine (day 0,3,7,14,28) and rabies immunoglobulin infiltrated into the wound."
+    },
+    {
+        "id": 18,
+        "question": "A 55-year-old man is anxious before surgery and requests medication to reduce preoperative anxiety. Which of the following is the most appropriate pre-anesthetic medication?",
+        "options": [
+            "Midazolam",
+            "Atropine",
+            "Fentanyl",
+            "Metoclopramide",
+            "Ranitidine"
+        ],
+        "correct": 0,
+        "explanation": "Midazolam (benzodiazepine) provides anxiolysis and anterograde amnesia; it is the standard pre-anesthetic medication for anxiety."
+    },
+    {
+        "id": 19,
+        "question": "A 70-year-old man undergoes spinal anesthesia. Two days later, he develops severe postural headache (worse sitting/standing, better lying down). Conservative measures fail. Which of the following is the most appropriate treatment?",
+        "options": [
+            "Bed rest for 7 days",
+            "Epidural blood patch",
+            "IV fluids and caffeine",
+            "Acetaminophen",
+            "Lumbar puncture again"
+        ],
+        "correct": 1,
+        "explanation": "Post-dural puncture headache (PDPH) from CSF leakage is treated conservatively first; epidural blood patch is the definitive treatment for persistent PDPH."
+    },
+    {
+        "id": 20,
+        "question": "A 25-year-old woman is involved in a workplace conflict. Both parties cannot resolve the issue themselves. Which of the following is the most appropriate first step in conflict resolution?",
+        "options": [
+            "Formal arbitration",
+            "Active listening and identifying underlying interests",
+            "Immediate disciplinary action",
+            "Legal action",
+            "Ignoring the conflict"
+        ],
+        "correct": 1,
+        "explanation": "Active listening and identifying underlying interests (not positions) is the first step in conflict resolution before escalating to formal arbitration or legal action."
+    },
+		
+		
+		
+		
+	
+	
+	
+    {
+        "id": 21,
+        "question": "A 15-year-old boy presents with foot drop, steppage gait, hammer toes, and pes cavus. Nerve conduction studies show markedly slowed nerve conduction velocities. Which of the following is the most likely inheritance pattern?",
+        "options": [
+            "Autosomal dominant",
+            "X-linked dominant",
+            "Autosomal recessive",
+            "Mitochondrial",
+            "X-linked recessive"
+        ],
+        "correct": 0,
+        "explanation": "Charcot-Marie-Tooth disease type 1A (most common) is autosomal dominant due to PMP22 duplication; slowed conduction velocities indicate demyelinating type."
+    },
+    {
+        "id": 22,
+        "question": "A 3-week-old neonate presents with fever, poor feeding, and seizures. CSF shows 500 WBC/mm³ (40% neutrophils, 60% lymphocytes), glucose 30 mg/dL, protein 150 mg/dL. Gram stain is negative. Which of the following is the most likely organism?",
+        "options": [
+            "Group B Streptococcus",
+            "Escherichia coli",
+            "Listeria monocytogenes",
+            "Staphylococcus aureus",
+            "Haemophilus influenzae"
+        ],
+        "correct": 2,
+        "explanation": "Listeria monocytogenes can cause meningitis in neonates with lymphocytic predominance (unlike typical bacterial meningitis) and Gram stain is often negative."
+    },
+    {
+        "id": 23,
+        "question": "A 65-year-old man with chronic subdural hematoma is on warfarin for atrial fibrillation. He presents with recurrent headaches and confusion. Which of the following is the most appropriate management to prevent recurrence?",
+        "options": [
+            "Continue warfarin at same dose",
+            "Stop warfarin permanently",
+            "Switch to aspirin",
+            "IV mannitol",
+            "Burr hole drainage followed by temporary discontinuation of warfarin"
+        ],
+        "correct": 4,
+        "explanation": "Chronic subdural hematoma requires burr hole drainage; warfarin should be temporarily discontinued perioperatively to prevent recurrence, then restarted after risk assessment."
+    },
+    {
+        "id": 24,
+        "question": "A 4-year-old child with recurrent meningitis presents with fever, headache, and nuchal rigidity. CT head shows a midline cystic lesion in the posterior fossa with enhancement. Which of the following is the most likely underlying abnormality?",
+        "options": [
+            "Epidermoid cyst",
+            "Dermoid cyst",
+            "Dandy-Walker malformation",
+            "Chiari malformation type I",
+            "Basilar invagination"
+        ],
+        "correct": 1,
+        "explanation": "Dermoid cyst (midline posterior fossa) can communicate with the skin surface, causing recurrent meningitis due to bacterial seeding; surgical excision is required."
+    },
+    {
+        "id": 25,
+        "question": "A 32-year-old woman undergoes general anesthesia with rocuronium. At the end of surgery, she remains paralyzed with no twitch response on train-of-four monitoring. Which of the following is the most appropriate reversal agent?",
+        "options": [
+            "Neostigmine",
+            "Atropine",
+            "Flumazenil",
+            "Sugammadex",
+            "Naloxone"
+        ],
+        "correct": 3,
+        "explanation": "Sugammadex is a cyclodextrin that encapsulates rocuronium, providing rapid reversal of neuromuscular blockade regardless of depth of block."
+    },
+    {
+        "id": 26,
+        "question": "A 60-year-old man with a thoracic spinal tumor presents with progressive lower extremity weakness, sensory loss at the T8 level, and urinary retention. MRI shows an extramedullary, intradural mass that enhances homogeneously. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Ependymoma",
+            "Astrocytoma",
+            "Meningioma",
+            "Schwannoma",
+            "Hemangioblastoma"
+        ],
+        "correct": 2,
+        "explanation": "Spinal meningiomas are intradural, extramedullary tumors that enhance homogeneously; they are more common in women and older adults, and surgical resection is curative."
+    },
+    {
+        "id": 27,
+        "question": "A 25-year-old man is brought to the emergency department with a deep puncture wound on his hand from a rusty nail. He has not received a tetanus booster in 10 years. Which of the following is the most appropriate management?",
+        "options": [
+            "Tetanus toxoid plus tetanus immune globulin (TIG)",
+            "Tetanus toxoid alone",
+            "Wound debridement only",
+            "Observation only",
+            "Tetanus immune globulin alone"
+        ],
+        "correct": 0,
+        "explanation": "Tetanus-prone wound with unknown or incomplete vaccination history requires both tetanus toxoid (active immunization) and tetanus immune globulin (passive immunization)."
+    },
+    {
+        "id": 28,
+        "question": "A 10-year-old child is bitten by a bat while sleeping. The bat tests positive for rabies. The child has no visible wound. Which of the following is the most appropriate rabies post-exposure prophylaxis?",
+        "options": [
+            "No prophylaxis needed",
+            "Observation for 6 months",
+            "Rabies vaccine alone",
+            "Rabies immunoglobulin alone",
+            "Rabies vaccine plus rabies immunoglobulin"
+        ],
+        "correct": 4,
+        "explanation": "Bat exposure (even without visible wound) is considered Category III exposure; requires both rabies vaccine and RIG because rabies virus can be transmitted through small, undetectable bites."
+    },
+    {
+        "id": 29,
+        "question": "A 40-year-old woman undergoes epidural anesthesia for knee replacement surgery. She receives 0.5% bupivacaine. Which of the following is the most serious systemic toxicity of bupivacaine?",
+        "options": [
+            "Neurotoxicity (seizures)",
+            "Cardiotoxicity (ventricular arrhythmias, cardiac arrest)",
+            "Allergic reaction",
+            "Hepatotoxicity",
+            "Nephrotoxicity"
+        ],
+        "correct": 1,
+        "explanation": "Bupivacaine is more cardiotoxic than other local anesthetics; accidental intravascular injection can cause ventricular arrhythmias and cardiac arrest that is difficult to resuscitate."
+    },
+    {
+        "id": 30,
+        "question": "A 55-year-old woman with metastatic breast cancer presents with new-onset back pain and lower extremity weakness. MRI shows a spinal epidural metastasis at T5 with cord compression. Which of the following is the most appropriate immediate management?",
+        "options": [
+            "Oral opioids",
+            "Radiation therapy",
+            "Surgical decompression",
+            "High-dose dexamethasone",
+            "Chemotherapy"
+        ],
+        "correct": 3,
+        "explanation": "High-dose dexamethasone (10-16 mg IV) is the immediate treatment for malignant spinal cord compression to reduce vasogenic edema and prevent further neurologic deterioration."
+    },
+    {
+        "id": 31,
+        "question": "A 6-month-old infant presents with fever, irritability, and a bulging fontanelle. CSF shows 200 WBC/mm³ (90% lymphocytes), elevated protein, and normal glucose. Which of the following is the most likely cause?",
+        "options": [
+            "Neisseria meningitidis",
+            "Streptococcus agalactiae",
+            "Viral meningitis (enterovirus)",
+            "Haemophilus influenzae type b",
+            "Cryptococcus neoformans"
+        ],
+        "correct": 2,
+        "explanation": "Viral meningitis typically shows lymphocytic predominance with normal or mildly elevated protein and normal glucose; enterovirus is the most common cause in infants."
+    },
+    {
+        "id": 32,
+        "question": "A 25-year-old medical student is bitten by a stray dog in a rabies-endemic area. The wound is superficial on the finger and did not bleed. The dog escaped and cannot be observed. Which of the following is the most appropriate rabies post-exposure prophylaxis?",
+        "options": [
+            "Rabies vaccine alone",
+            "Rabies vaccine plus rabies immunoglobulin",
+            "No prophylaxis needed",
+            "Observation for 14 days",
+            "Rabies immunoglobulin alone"
+        ],
+        "correct": 0,
+        "explanation": "WHO Category II exposure (superficial wound without bleeding) requires only rabies vaccine (day 0,3,7,14,28); RIG is reserved for Category III (deep/bleeding wounds)."
+    },
+    {
+        "id": 33,
+        "question": "A 30-year-old woman receives spinal anesthesia for cesarean section using 0.5% bupivacaine. She immediately develops hypotension and bradycardia. Which of the following is the most appropriate vasopressor?",
+        "options": [
+            "Dopamine",
+            "Ephedrine",
+            "Norepinephrine",
+            "Vasopressin",
+            "Phenylephrine"
+        ],
+        "correct": 4,
+        "explanation": "Phenylephrine (pure alpha-1 agonist) is preferred for spinal anesthesia-induced hypotension in obstetrics because it does not cause fetal acidosis, unlike ephedrine."
+    },
+    {
+        "id": 34,
+        "question": "A 58-year-old man with a history of smoking presents with new-onset hoarseness and difficulty swallowing. MRI shows a mass in the jugular foramen. Which of the following cranial nerves is most likely affected?",
+        "options": [
+            "CN VII, VIII",
+            "CN IX, X, XI",
+            "CN V, VI",
+            "CN III, IV, VI",
+            "CN XII alone"
+        ],
+        "correct": 1,
+        "explanation": "Jugular foramen syndrome (Vernet syndrome) involves CN IX (glossopharyngeal), X (vagus), and XI (accessory) due to mass lesion in the jugular foramen."
+    },
+    {
+        "id": 35,
+        "question": "A 5-year-old child presents with fever, headache, and vomiting. Lumbar puncture shows 300 WBC/mm³ (70% lymphocytes), elevated protein, and low glucose. Which of the following is the most likely organism?",
+        "options": [
+            "Enterovirus",
+            "Herpes simplex virus",
+            "Cryptococcus neoformans",
+            "Mycobacterium tuberculosis",
+            "Listeria monocytogenes"
+        ],
+        "correct": 3,
+        "explanation": "Tuberculous meningitis presents with subacute onset, lymphocytic pleocytosis, elevated protein, and low glucose (classic triad), unlike viral meningitis which has normal glucose."
+    },
+    {
+        "id": 36,
+        "question": "A 65-year-old man undergoes general anesthesia with sevoflurane and succinylcholine. He develops muscle rigidity, hyperthermia (42°C), and tachycardia. Which of the following is the most appropriate immediate treatment?",
+        "options": [
+            "Mannitol",
+            "Sodium bicarbonate",
+            "Dantrolene",
+            "Corticosteroids",
+            "IV fluids"
+        ],
+        "correct": 2,
+        "explanation": "Malignant hyperthermia is triggered by volatile anesthetics and succinylcholine; immediate treatment is IV dantrolene (ryanodine receptor antagonist) plus cooling measures."
+    },
+    {
+        "id": 37,
+        "question": "A 12-year-old boy with Friedreich's ataxia presents for routine follow-up. He has progressive scoliosis and difficulty walking. Which of the following medications is contraindicated due to risk of worsening cardiomyopathy?",
+        "options": [
+            "Ibuprofen",
+            "Metformin",
+            "Digoxin",
+            "Spironolactone",
+            "Dobutamine"
+        ],
+        "correct": 0,
+        "explanation": "NSAIDs (ibuprofen) can cause fluid retention and worsen heart failure; they should be avoided in Friedreich's ataxia patients with hypertrophic cardiomyopathy."
+    },
+    {
+        "id": 38,
+        "question": "A 40-year-old woman undergoes spinal anesthesia. After the procedure, she develops severe postural headache. Which of the following is the most effective preventive measure to reduce the risk of post-dural puncture headache?",
+        "options": [
+            "Bed rest for 24 hours",
+            "IV fluids before the procedure",
+            "Caffeine before the procedure",
+            "Use of a 25G Quincke needle",
+            "Use of a 27G pencil-point (Whitacre) needle"
+        ],
+        "correct": 4,
+        "explanation": "Using a small-gauge (25-27G) pencil-point needle (e.g., Whitacre, Sprotte) is the most effective way to reduce PDPH risk compared to cutting-bevel Quincke needles."
+    },
+    {
+        "id": 39,
+        "question": "A 28-year-old woman sustains a spinal cord injury at C5 level. She develops acute hypertension, severe headache, and sweating above the level of the lesion. Which of the following is the most common trigger of this condition?",
+        "options": [
+            "Fecal impaction",
+            "Distended bladder",
+            "Pressure sore",
+            "Urinary tract infection",
+            "Ingrown toenail"
+        ],
+        "correct": 1,
+        "explanation": "Autonomic dysreflexia is most commonly triggered by a distended bladder (80-85% of cases); immediate management includes sitting patient upright and catheterizing the bladder."
+    },
+    {
+        "id": 40,
+        "question": "A 55-year-old man undergoes craniotomy for resection of a meningioma. Postoperatively, he develops polyuria (6 L/day) and serum sodium of 155 mEq/L. Urine osmolality is 150 mOsm/kg. Which of the following is the most likely diagnosis?",
+        "options": [
+            "SIADH",
+            "Cerebral salt wasting",
+            "Diabetes mellitus",
+            "Diabetes insipidus (central)",
+            "Psychogenic polydipsia"
+        ],
+        "correct": 3,
+        "explanation": "Central diabetes insipidus after neurosurgery presents with polyuria, hypernatremia, and dilute urine due to ADH deficiency; treatment is desmopressin (DDAVP)."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 41,
+        "question": "A 2-year-old child presents with fever, vomiting, and a petechial rash. CSF shows 5000 WBC/mm³ (95% neutrophils), low glucose, and elevated protein. Gram stain shows Gram-negative diplococci. Which of the following is the most appropriate antibiotic?",
+        "options": [
+            "Ampicillin",
+            "Ceftriaxone",
+            "Vancomycin",
+            "Gentamicin",
+            "Chloramphenicol"
+        ],
+        "correct": 1,
+        "explanation": "Ceftriaxone is first-line for meningococcal meningitis (Gram-negative diplococci) in children; it provides excellent CNS penetration and covers N. meningitidis."
+    },
+    {
+        "id": 42,
+        "question": "A 6-year-old child with a history of recurrent otitis media presents with fever, headache, and confusion. CT head shows a ring-enhancing lesion in the temporal lobe. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Glioblastoma",
+            "Toxoplasmosis",
+            "Metastasis",
+            "Brain abscess",
+            "Lymphoma"
+        ],
+        "correct": 3,
+        "explanation": "Otitis media can spread to the temporal lobe causing brain abscess; ring-enhancing lesion with surrounding edema is characteristic."
+    },
+    {
+        "id": 43,
+        "question": "A 32-year-old HIV-positive man with CD4 count of 50 presents with headache, confusion, and focal seizures. MRI shows multiple ring-enhancing lesions in the basal ganglia. Toxoplasma IgG is positive. Which of the following is the most appropriate treatment?",
+        "options": [
+            "Pyrimethamine plus sulfadiazine",
+            "Acyclovir",
+            "Ganciclovir",
+            "Amphotericin B",
+            "Fluconazole"
+        ],
+        "correct": 0,
+        "explanation": "Cerebral toxoplasmosis (most common CNS opportunistic infection in AIDS) is treated with pyrimethamine plus sulfadiazine; response expected in 7-14 days."
+    },
+    {
+        "id": 44,
+        "question": "A 55-year-old woman presents with progressive memory loss and personality changes over 2 years. Autopsy reveals abundant neurofibrillary tangles and senile plaques. Which of the following proteins is the primary component of senile plaques?",
+        "options": [
+            "Tau",
+            "Alpha-synuclein",
+            "Amyloid-beta",
+            "Prion protein",
+            "Huntingtin"
+        ],
+        "correct": 2,
+        "explanation": "Senile plaques (extracellular) in Alzheimer's disease are composed of amyloid-beta; neurofibrillary tangles (intracellular) are composed of hyperphosphorylated tau."
+    },
+    {
+        "id": 45,
+        "question": "A 70-year-old man presents with shuffling gait, resting tremor, and rigidity. Autopsy shows depigmentation of the substantia nigra and Lewy bodies in remaining neurons. Which of the following is the main component of Lewy bodies?",
+        "options": [
+            "Tau",
+            "Amyloid-beta",
+            "Ubiquitin",
+            "TDP-43",
+            "Alpha-synuclein"
+        ],
+        "correct": 4,
+        "explanation": "Lewy bodies in Parkinson's disease are composed of aggregated alpha-synuclein protein; they are eosinophilic intracytoplasmic inclusions."
+    },
+    {
+        "id": 46,
+        "question": "A 35-year-old woman presents with acute-onset weakness in her legs, urinary retention, and a sensory level at T10. MRI shows T2 hyperintensity in the thoracic cord without enhancement. She had a viral illness 2 weeks ago. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Transverse myelitis",
+            "Neuromyelitis optica",
+            "Spinal cord infarction",
+            "Epidural abscess"
+        ],
+        "correct": 1,
+        "explanation": "Acute transverse myelitis is often post-infectious, presenting with spinal cord dysfunction (weakness, sensory level, bladder involvement) and MRI T2 hyperintensity."
+    },
+    {
+        "id": 47,
+        "question": "A 28-year-old woman presents with fluctuating ptosis, diplopia worse at the end of the day, and difficulty swallowing. Which of the following is the most appropriate initial diagnostic test?",
+        "options": [
+            "MRI brain",
+            "Edrophonium (Tensilon) test",
+            "Repetitive nerve stimulation",
+            "Serum acetylcholine receptor (AChR) antibodies",
+            "CT chest"
+        ],
+        "correct": 3,
+        "explanation": "Serum AChR antibodies are the most specific diagnostic test for myasthenia gravis (positive in 80-90% of generalized cases)."
+    },
+    {
+        "id": 48,
+        "question": "A 62-year-old man with lung cancer presents with new-onset ptosis, diplopia, and proximal muscle weakness that improves with repeated contraction. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Lambert-Eaton myasthenic syndrome",
+            "Myasthenia gravis",
+            "Botulism",
+            "Guillain-Barré syndrome",
+            "Polymyositis"
+        ],
+        "correct": 0,
+        "explanation": "Lambert-Eaton syndrome is associated with small cell lung cancer; weakness improves with repeated contraction (unlike myasthenia gravis which worsens)."
+    },
+    {
+        "id": 49,
+        "question": "A 45-year-old woman presents with progressive weakness in her hands and feet, sensory loss in a stocking-glove distribution, and absent reflexes. She has a history of chronic inflammatory demyelinating polyneuropathy (CIDP). Which of the following is the first-line treatment for CIDP?",
+        "options": [
+            "IV immunoglobulin (IVIG)",
+            "Corticosteroids",
+            "Plasma exchange",
+            "Rituximab",
+            "Cyclophosphamide"
+        ],
+        "correct": 1,
+        "explanation": "Corticosteroids are first-line for CIDP, but IVIG and plasma exchange are also effective and used as alternatives or for refractory cases."
+    },
+    {
+        "id": 50,
+        "question": "A 30-year-old woman with neurofibromatosis type 1 presents with multiple cafe-au-lait spots and axillary freckling. Which of the following is the most common CNS tumor in neurofibromatosis type 1?",
+        "options": [
+            "Meningioma",
+            "Schwannoma",
+            "Ependymoma",
+            "Medulloblastoma",
+            "Optic pathway glioma"
+        ],
+        "correct": 4,
+        "explanation": "Optic pathway gliomas (usually pilocytic astrocytoma) are the most common CNS tumors in NF1, often presenting with visual loss or proptosis."
+    },
+    {
+        "id": 51,
+        "question": "A 40-year-old man presents with bilateral hearing loss and tinnitus. MRI shows bilateral vestibular schwannomas. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Neurofibromatosis type 1",
+            "Schwannomatosis",
+            "Tuberous sclerosis",
+            "Von Hippel-Lindau disease",
+            "Neurofibromatosis type 2"
+        ],
+        "correct": 4,
+        "explanation": "Bilateral vestibular schwannomas are diagnostic of neurofibromatosis type 2 (NF2), caused by mutations in the NF2 gene on chromosome 22."
+    },
+    {
+        "id": 52,
+        "question": "A 65-year-old man presents with sudden-onset severe headache and vomiting. CT head shows subarachnoid hemorrhage. Which of the following is the most common cause of non-traumatic subarachnoid hemorrhage?",
+        "options": [
+            "Hypertension",
+            "Arteriovenous malformation",
+            "Amyloid angiopathy",
+            "Trauma",
+            "Saccular (berry) aneurysm"
+        ],
+        "correct": 4,
+        "explanation": "Ruptured saccular (berry) aneurysm is the most common cause of non-traumatic subarachnoid hemorrhage (80-85% of cases)."
+    },
+    {
+        "id": 53,
+        "question": "A 55-year-old man presents with acute-onset right-sided weakness and aphasia. CT head shows no hemorrhage. He is within 3 hours of symptom onset. Which of the following is the most appropriate treatment?",
+        "options": [
+            "IV alteplase (tPA)",
+            "Aspirin",
+            "Clopidogrel",
+            "Heparin",
+            "Warfarin"
+        ],
+        "correct": 0,
+        "explanation": "IV alteplase (tPA) is indicated for acute ischemic stroke within 3-4.5 hours of symptom onset, improving functional outcomes."
+    },
+    {
+        "id": 54,
+        "question": "A 70-year-old man presents with sudden-onset severe headache, nausea, and vomiting. CT head shows a hyperdense crescent-shaped collection over the left cerebral hemisphere crossing suture lines. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Epidural hematoma",
+            "Subarachnoid hemorrhage",
+            "Intracerebral hemorrhage",
+            "Cerebral contusion",
+            "Subdural hematoma"
+        ],
+        "correct": 4,
+        "explanation": "Subdural hematoma is crescent-shaped and crosses suture lines, often caused by tearing of bridging veins."
+    },
+    {
+        "id": 55,
+        "question": "A 25-year-old man sustains a head injury in a motor vehicle accident. He has a lucid interval followed by rapid deterioration. CT head shows a biconvex lens-shaped hematoma that does not cross suture lines. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Subdural hematoma",
+            "Subarachnoid hemorrhage",
+            "Intracerebral hemorrhage",
+            "Cerebral edema",
+            "Epidural hematoma"
+        ],
+        "correct": 4,
+        "explanation": "Epidural hematoma is biconvex (lens-shaped), does not cross suture lines, and classically presents with a lucid interval."
+    },
+    {
+        "id": 56,
+        "question": "A 60-year-old woman with hypertension presents with sudden-onset severe headache and right-sided weakness. CT head shows a left putamenal hemorrhage. Which of the following is the most common underlying pathology?",
+        "options": [
+            "Cerebral amyloid angiopathy",
+            "Hypertensive arteriolosclerosis (lipohyalinosis)",
+            "Ruptured aneurysm",
+            "Trauma",
+            "Arteriovenous malformation"
+        ],
+        "correct": 1,
+        "explanation": "Hypertensive intracerebral hemorrhage most commonly occurs in the putamen due to lipohyalinosis of lenticulostriate arteries."
+    },
+    {
+        "id": 57,
+        "question": "A 50-year-old man presents with acute-onset severe headache and neck stiffness. CT head is normal. Lumbar puncture shows xanthochromia. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Meningitis",
+            "Migraine",
+            "Tension headache",
+            "Subdural hematoma",
+            "Subarachnoid hemorrhage"
+        ],
+        "correct": 4,
+        "explanation": "Xanthochromia (yellow CSF) indicates breakdown of red blood cells and confirms subarachnoid hemorrhage when CT is negative (up to 5% of cases)."
+    },
+    {
+        "id": 58,
+        "question": "A 72-year-old man with Alzheimer's disease presents with new-onset visual hallucinations and parkinsonism. He has fluctuating cognition. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Dementia with Lewy bodies",
+            "Parkinson's disease",
+            "Progressive supranuclear palsy",
+            "Frontotemporal dementia",
+            "Corticobasal degeneration"
+        ],
+        "correct": 0,
+        "explanation": "Dementia with Lewy bodies presents with dementia, visual hallucinations, and parkinsonism; cognitive fluctuations are characteristic."
+    },
+    {
+        "id": 59,
+        "question": "A 65-year-old man presents with progressive difficulty walking, frequent falls backwards, and vertical gaze palsy (especially downgaze). Which of the following is the most likely diagnosis?",
+        "options": [
+            "Parkinson's disease",
+            "Multiple system atrophy",
+            "Corticobasal degeneration",
+            "Dementia with Lewy bodies",
+            "Progressive supranuclear palsy"
+        ],
+        "correct": 4,
+        "explanation": "Progressive supranuclear palsy (PSP) presents with vertical gaze palsy (downgaze first), early falls, and axial rigidity; MRI shows hummingbird sign."
+    },
+    {
+        "id": 60,
+        "question": "A 55-year-old man presents with progressive weakness in his legs, hand clumsiness, and dysarthria. Examination shows hyperreflexia, Babinski signs, and fasciculations. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Myasthenia gravis",
+            "Guillain-Barré syndrome",
+            "Polymyositis",
+            "Amyotrophic lateral sclerosis"
+        ],
+        "correct": 4,
+        "explanation": "ALS presents with both upper motor neuron signs (spasticity, hyperreflexia, Babinski) and lower motor neuron signs (fasciculations, atrophy, weakness) without sensory loss."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 61,
+        "question": "A 30-year-old woman presents with acute-onset bilateral leg weakness and urinary retention. MRI shows T2 hyperintensity in the thoracic cord extending over 4 vertebral segments. She has a history of optic neuritis. Aquaporin-4 antibodies are positive. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Transverse myelitis",
+            "Neuromyelitis optica spectrum disorder (NMOSD)",
+            "Acute disseminated encephalomyelitis",
+            "Spinal cord infarction"
+        ],
+        "correct": 2,
+        "explanation": "NMOSD presents with longitudinally extensive transverse myelitis (>3 segments) and optic neuritis; anti-AQP4 antibodies are highly specific."
+    },
+    {
+        "id": 62,
+        "question": "A 25-year-old man presents with acute-onset ascending weakness, areflexia, and facial diplegia. CSF shows elevated protein with normal cell count. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Myasthenia gravis",
+            "Botulism",
+            "Polio",
+            "Guillain-Barré syndrome"
+        ],
+        "correct": 4,
+        "explanation": "Guillain-Barré syndrome presents with ascending weakness, areflexia, and albuminocytologic dissociation (high protein, normal WBC)."
+    },
+    {
+        "id": 63,
+        "question": "A 45-year-old woman presents with fluctuating weakness, ptosis, and diplopia. Edrophonium test shows transient improvement. Which of the following is the most appropriate first-line symptomatic treatment?",
+        "options": [
+            "Pyridostigmine",
+            "Prednisolone",
+            "IV immunoglobulin",
+            "Plasma exchange",
+            "Rituximab"
+        ],
+        "correct": 0,
+        "explanation": "Pyridostigmine (acetylcholinesterase inhibitor) is first-line symptomatic treatment for myasthenia gravis, improving muscle strength."
+    },
+    {
+        "id": 64,
+        "question": "A 60-year-old man with lung cancer presents with proximal muscle weakness that improves with repeated contraction. Which of the following is the most appropriate diagnostic test?",
+        "options": [
+            "Serum AChR antibodies",
+            "Serum voltage-gated calcium channel (VGCC) antibodies",
+            "Edrophonium test",
+            "Muscle biopsy",
+            "Repetitive nerve stimulation"
+        ],
+        "correct": 1,
+        "explanation": "Lambert-Eaton syndrome is associated with VGCC antibodies (P/Q-type) in 90% of patients, often with small cell lung cancer."
+    },
+    {
+        "id": 65,
+        "question": "A 55-year-old woman presents with progressive numbness and tingling in her feet, difficulty walking, and memory loss. She has a history of gastric bypass surgery 5 years ago. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Guillain-Barré syndrome",
+            "Diabetic neuropathy",
+            "Subacute combined degeneration (vitamin B12 deficiency)",
+            "Charcot-Marie-Tooth disease"
+        ],
+        "correct": 3,
+        "explanation": "B12 deficiency after gastric bypass causes subacute combined degeneration: posterior column loss (sensory ataxia) and corticospinal tract signs (spasticity)."
+    },
+    {
+        "id": 66,
+        "question": "A 8-year-old boy presents with sudden-onset ataxia, nystagmus, and dysarthria after a viral illness. MRI shows normal findings. CSF shows mild lymphocytic pleocytosis. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Acute cerebellar ataxia (post-infectious)",
+            "Brain tumor",
+            "Stroke",
+            "Migraine"
+        ],
+        "correct": 1,
+        "explanation": "Acute post-infectious cerebellar ataxia is the most common cause of acute ataxia in children, typically following varicella or other viral infections."
+    },
+    {
+        "id": 67,
+        "question": "A 35-year-old woman presents with episodes of sharp, electric shock-like pain on the right side of her face triggered by brushing her teeth. Neurological exam is normal. Which of the following is the most appropriate first-line treatment?",
+        "options": [
+            "Gabapentin",
+            "Amitriptyline",
+            "Pregabalin",
+            "Baclofen",
+            "Carbamazepine"
+        ],
+        "correct": 4,
+        "explanation": "Carbamazepine is first-line for trigeminal neuralgia (tic douloureux), which presents with paroxysmal facial pain triggered by light touch."
+    },
+    {
+        "id": 68,
+        "question": "A 60-year-old man with hypertension presents with sudden-onset vertigo, dysarthria, and left-sided ataxia. Examination shows left facial numbness and right-sided body numbness. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Lateral medullary (Wallenberg) syndrome",
+            "Pontine hemorrhage",
+            "Cerebellar stroke",
+            "Meniere's disease",
+            "Vertebrobasilar insufficiency"
+        ],
+        "correct": 0,
+        "explanation": "Lateral medullary syndrome (PICA occlusion) presents with ipsilateral facial numbness, contralateral body numbness, ataxia, vertigo, and Horner syndrome."
+    },
+    {
+        "id": 69,
+        "question": "A 45-year-old man presents with subacute onset of confusion, myoclonus, and ataxia over 6 weeks. MRI shows cortical ribboning on DWI. CSF 14-3-3 protein is elevated. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Alzheimer's disease",
+            "Viral encephalitis",
+            "Limbic encephalitis",
+            "Normal pressure hydrocephalus",
+            "Creutzfeldt-Jakob disease (CJD)"
+        ],
+        "correct": 4,
+        "explanation": "Sporadic CJD presents with rapidly progressive dementia, myoclonus, ataxia, and MRI shows cortical ribboning on DWI."
+    },
+    {
+        "id": 70,
+        "question": "A 32-year-old woman presents with recurrent episodes of severe, unilateral periorbital pain lasting 15 minutes, occurring 4 times per day for 2 weeks. She has ipsilateral lacrimation and nasal congestion. Which of the following is the most appropriate acute treatment?",
+        "options": [
+            "Oral sumatriptan",
+            "Propranolol",
+            "Verapamil",
+            "Naproxen",
+            "Subcutaneous sumatriptan or high-flow oxygen"
+        ],
+        "correct": 4,
+        "explanation": "Cluster headache acute treatment: high-flow oxygen (12-15 L/min) or subcutaneous sumatriptan (6 mg) is first-line."
+    },
+    {
+        "id": 71,
+        "question": "A 28-year-old woman presents with episodes of visual aura (zigzag lines) lasting 20 minutes followed by unilateral throbbing headache, nausea, and photophobia. She has 6 attacks per month. Which of the following is the most appropriate preventive medication?",
+        "options": [
+            "Sumatriptan",
+            "Naproxen",
+            "Propranolol",
+            "Ergotamine",
+            "Ondansetron"
+        ],
+        "correct": 2,
+        "explanation": "Propranolol is first-line for migraine prophylaxis; other options include topiramate, amitriptyline, and valproate."
+    },
+    {
+        "id": 72,
+        "question": "A 55-year-old woman presents with a 3-month history of progressive memory loss, personality changes, and difficulty speaking. MRI shows asymmetric frontotemporal atrophy. She has no parkinsonism. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Alzheimer's disease",
+            "Dementia with Lewy bodies",
+            "Vascular dementia",
+            "Normal pressure hydrocephalus",
+            "Frontotemporal dementia (Pick's disease)"
+        ],
+        "correct": 4,
+        "explanation": "Frontotemporal dementia presents with early behavioral changes and language impairment, with frontal/temporal atrophy on MRI; Pick bodies (tau) on histology."
+    },
+    {
+        "id": 73,
+        "question": "A 70-year-old man presents with progressive difficulty walking, urinary incontinence, and cognitive decline over 6 months. MRI shows ventriculomegaly out of proportion to cortical atrophy with transependymal flow. Which of the following is the most appropriate diagnostic test?",
+        "options": [
+            "Lumbar puncture with large-volume tap",
+            "CT angiography",
+            "EEG",
+            "Brain biopsy",
+            "Carotid ultrasound"
+        ],
+        "correct": 0,
+        "explanation": "Normal pressure hydrocephalus (NPH) is diagnosed by improvement in gait after large-volume lumbar puncture (30-50 mL CSF removal)."
+    },
+    {
+        "id": 74,
+        "question": "A 25-year-old man presents with acute-onset bilateral vision loss for 30 minutes followed by complete recovery. He has no headache. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Optic neuritis",
+            "Transient ischemic attack",
+            "Seizure",
+            "Conversion disorder",
+            "Migraine aura without headache (acephalgic migraine)"
+        ],
+        "correct": 4,
+        "explanation": "Acephalgic migraine (migraine aura without headache) presents with transient visual symptoms lasting 5-60 minutes without headache."
+    },
+    {
+        "id": 75,
+        "question": "A 55-year-old man with alcohol use disorder presents with confusion, ataxia, and nystagmus. Which of the following is the most appropriate immediate treatment?",
+        "options": [
+            "IV dextrose",
+            "IV lorazepam",
+            "Oral folate",
+            "IV naloxone",
+            "IV thiamine"
+        ],
+        "correct": 4,
+        "explanation": "Wernicke encephalopathy (thiamine deficiency) requires IV thiamine immediately; give BEFORE glucose to prevent precipitation."
+    },
+    {
+        "id": 76,
+        "question": "A 45-year-old man presents with acute-onset severe headache, fever, and confusion. MRI shows T2 hyperintensity in the right temporal lobe. CSF PCR is positive for HSV-1. Which of the following is the most appropriate treatment?",
+        "options": [
+            "IV ganciclovir",
+            "Oral valacyclovir",
+            "IV ceftriaxone",
+            "IV amphotericin B",
+            "IV acyclovir"
+        ],
+        "correct": 4,
+        "explanation": "HSV encephalitis (temporal lobe involvement) is treated with IV acyclovir 10 mg/kg every 8 hours for 14-21 days."
+    },
+    {
+        "id": 77,
+        "question": "A 32-year-old woman presents with acute-onset bilateral leg weakness and urinary retention. MRI shows T2 hyperintensity in the thoracic cord. CSF shows oligoclonal bands. Brain MRI shows no lesions. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Transverse myelitis",
+            "Neuromyelitis optica",
+            "Spinal cord tumor",
+            "Epidural abscess",
+            "Multiple sclerosis presenting as myelitis"
+        ],
+        "correct": 4,
+        "explanation": "Partial myelitis can be the first presentation of multiple sclerosis; oligoclonal bands in CSF support MS diagnosis."
+    },
+    {
+        "id": 78,
+        "question": "A 28-year-old woman presents with acute-onset right eye pain and vision loss worse with eye movement. Fundoscopy shows optic disc swelling. MRI shows optic nerve enhancement. Which of the following is the most appropriate acute treatment?",
+        "options": [
+            "IV methylprednisolone",
+            "Oral prednisone",
+            "Observation",
+            "Plasma exchange",
+            "IVIG"
+        ],
+        "correct": 0,
+        "explanation": "Acute optic neuritis is treated with IV methylprednisolone (1g daily for 3-5 days) followed by oral taper to accelerate visual recovery."
+    },
+    {
+        "id": 79,
+        "question": "A 65-year-old man with Parkinson's disease develops visual hallucinations and paranoia. His motor symptoms are well-controlled on levodopa/carbidopa. Which of the following is the most appropriate next step?",
+        "options": [
+            "Start quetiapine",
+            "Reduce levodopa/carbidopa dose",
+            "Start pimavanserin",
+            "Start risperidone",
+            "Start clozapine"
+        ],
+        "correct": 1,
+        "explanation": "First-line management of Parkinson's disease psychosis is to reduce or simplify antiparkinsonian medications before adding antipsychotics."
+    },
+    {
+        "id": 80,
+        "question": "A 30-year-old man presents with a 2-week history of progressive weakness in both legs, erectile dysfunction, and urinary retention. Examination shows lower extremity weakness, hyperreflexia, and Babinski signs. MRI shows T2 hyperintensity in the thoracic cord with cord swelling. Which of the following is the most appropriate treatment?",
+        "options": [
+            "Plasma exchange",
+            "IVIG",
+            "Antibiotics",
+            "Surgical decompression",
+            "IV methylprednisolone"
+        ],
+        "correct": 4,
+        "explanation": "Acute transverse myelitis is treated with high-dose IV methylprednisolone (1g daily for 3-5 days) followed by oral taper."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 81,
+        "question": "A 55-year-old woman presents with progressive weakness in her legs, hand clumsiness, and dysarthria. Examination shows hyperreflexia, Babinski signs, and fasciculations. There is no sensory loss. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Myasthenia gravis",
+            "Amyotrophic lateral sclerosis (ALS)",
+            "Guillain-Barré syndrome",
+            "Polymyositis"
+        ],
+        "correct": 2,
+        "explanation": "ALS presents with combined upper motor neuron signs (spasticity, hyperreflexia, Babinski) and lower motor neuron signs (fasciculations, atrophy) without sensory loss."
+    },
+    {
+        "id": 82,
+        "question": "A 28-year-old woman presents with acute-onset right eye pain and vision loss worse with eye movement. She has no other neurological symptoms. MRI shows optic nerve enhancement with no brain lesions. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Neuromyelitis optica",
+            "Idiopathic intracranial hypertension",
+            "Anterior ischemic optic neuropathy",
+            "Clinically isolated syndrome (optic neuritis)"
+        ],
+        "correct": 4,
+        "explanation": "Isolated optic neuritis (painful vision loss, RAPD) is a clinically isolated syndrome; 50% develop MS within 10 years."
+    },
+    {
+        "id": 83,
+        "question": "A 35-year-old man presents with episodic severe, unilateral periorbital pain lasting 45 minutes, occurring 3 times daily for 3 weeks. He has ipsilateral ptosis, lacrimation, and nasal congestion. Which of the following is the most appropriate prophylactic medication?",
+        "options": [
+            "Verapamil",
+            "Sumatriptan",
+            "Propranolol",
+            "Topiramate",
+            "Amitriptyline"
+        ],
+        "correct": 0,
+        "explanation": "Verapamil (calcium channel blocker) is first-line prophylactic treatment for cluster headache during the cluster period."
+    },
+    {
+        "id": 84,
+        "question": "A 45-year-old woman with systemic lupus erythematosus presents with acute-onset bilateral leg weakness and urinary retention. MRI shows longitudinally extensive transverse myelitis (>3 segments). Which of the following is the most likely diagnosis?",
+        "options": [
+            "Multiple sclerosis",
+            "Neuromyelitis optica spectrum disorder",
+            "Transverse myelitis",
+            "Epidural abscess",
+            "Spinal cord infarction"
+        ],
+        "correct": 1,
+        "explanation": "Longitudinally extensive transverse myelitis (>3 segments) is characteristic of NMOSD, often associated with SLE or other autoimmune diseases."
+    },
+    {
+        "id": 85,
+        "question": "A 60-year-old man with hypertension presents with sudden-onset vertigo, nausea, and vomiting. Examination shows right-sided ataxia and dysarthria. He has no weakness. MRI shows a small infarct in the right cerebellum. Which artery is most likely occluded?",
+        "options": [
+            "Posterior inferior cerebellar artery (PICA)",
+            "Anterior inferior cerebellar artery (AICA)",
+            "Basilar artery",
+            "Vertebral artery",
+            "Superior cerebellar artery (SCA)"
+        ],
+        "correct": 4,
+        "explanation": "Pure cerebellar ataxia without brainstem signs suggests SCA stroke (superior cerebellum); PICA causes lateral medullary syndrome with brainstem signs."
+    },
+    {
+        "id": 86,
+        "question": "A 70-year-old man presents with progressive memory loss, difficulty finding words, and getting lost in familiar places over 3 years. He has no motor symptoms. Which of the following is the most appropriate first-line pharmacologic treatment?",
+        "options": [
+            "Memantine",
+            "Risperidone",
+            "Donepezil (cholinesterase inhibitor)",
+            "Levodopa",
+            "Fluoxetine"
+        ],
+        "correct": 2,
+        "explanation": "Donepezil, rivastigmine, or galantamine (cholinesterase inhibitors) are first-line for mild-to-moderate Alzheimer's dementia."
+    },
+    {
+        "id": 87,
+        "question": "A 55-year-old woman with amyotrophic lateral sclerosis develops progressive dysphagia and respiratory difficulty. Which of the following is the most common cause of death in ALS?",
+        "options": [
+            "Cardiac arrhythmia",
+            "Aspiration pneumonia",
+            "Malnutrition",
+            "Suicide",
+            "Respiratory failure"
+        ],
+        "correct": 4,
+        "explanation": "Respiratory failure from progressive weakness of respiratory muscles is the most common cause of death in ALS, typically within 3-5 years of onset."
+    },
+    {
+        "id": 88,
+        "question": "A 30-year-old man presents with acute-onset weakness in his legs, paresthesias, and difficulty walking. He reports a diarrheal illness 2 weeks ago. Examination shows areflexia and symmetric weakness. CSF shows elevated protein with normal cell count. Which of the following is the most likely preceding infection?",
+        "options": [
+            "Campylobacter jejuni",
+            "Cytomegalovirus",
+            "Zika virus",
+            "Mycoplasma pneumoniae",
+            "Epstein-Barr virus"
+        ],
+        "correct": 0,
+        "explanation": "Campylobacter jejuni is the most common preceding infection in Guillain-Barré syndrome, associated with the axonal variant (AMAN)."
+    },
+    {
+        "id": 89,
+        "question": "A 65-year-old man presents with progressive difficulty walking, frequent falls, and orthostatic hypotension. Examination shows bradykinesia, rigidity, and no tremor. He has poor response to levodopa. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Parkinson's disease",
+            "Multiple system atrophy (MSA)",
+            "Progressive supranuclear palsy",
+            "Corticobasal degeneration",
+            "Dementia with Lewy bodies"
+        ],
+        "correct": 1,
+        "explanation": "MSA (Shy-Drager syndrome) presents with parkinsonism, cerebellar ataxia, and autonomic failure (orthostatic hypotension); poor levodopa response."
+    },
+    {
+        "id": 90,
+        "question": "A 40-year-old woman presents with progressive visual loss and proptosis. MRI shows a mass involving the optic nerve. She has multiple cafe-au-lait spots and axillary freckling. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Optic nerve meningioma",
+            "Retinoblastoma",
+            "Orbital pseudotumor",
+            "Thyroid ophthalmopathy",
+            "Optic nerve glioma"
+        ],
+        "correct": 4,
+        "explanation": "Optic pathway glioma is the most common CNS tumor in neurofibromatosis type 1, presenting with visual loss, proptosis, and optic disc pallor."
+    },
+    {
+        "id": 91,
+        "question": "A 25-year-old man presents with new-onset generalized tonic-clonic seizure. MRI shows a well-circumscribed, cystic lesion in the frontal lobe with a mural nodule. Surgical resection is performed. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Glioblastoma",
+            "Oligodendroglioma",
+            "Pilocytic astrocytoma",
+            "Ependymoma",
+            "Medulloblastoma"
+        ],
+        "correct": 2,
+        "explanation": "Pilocytic astrocytoma (WHO Grade I) presents as a cystic lesion with an enhancing mural nodule, most commonly in the cerebellum or frontal lobe."
+    },
+    {
+        "id": 92,
+        "question": "A 55-year-old man presents with progressive headache, nausea, and vomiting. MRI shows a dural-based, homogeneously enhancing mass with a dural tail sign. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Glioblastoma",
+            "Schwannoma",
+            "Hemangioblastoma",
+            "Lymphoma",
+            "Meningioma"
+        ],
+        "correct": 4,
+        "explanation": "Meningioma is a dural-based extra-axial tumor; dural tail sign on MRI is characteristic but not pathognomonic."
+    },
+    {
+        "id": 93,
+        "question": "A 30-year-old woman presents with new-onset seizures. MRI shows a well-circumscribed, calcified mass in the frontal lobe with a \"fried egg\" appearance on histology. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Oligodendroglioma",
+            "Astrocytoma",
+            "Meningioma",
+            "DNET",
+            "Ependymoma"
+        ],
+        "correct": 0,
+        "explanation": "Oligodendroglioma shows perinuclear halos (fried egg appearance), calcifications, and chicken wire vasculature; 1p/19q codeletion predicts better prognosis."
+    },
+    {
+        "id": 94,
+        "question": "A 50-year-old woman presents with progressive hearing loss and tinnitus. MRI shows an enhancing mass in the cerebellopontine angle. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Meningioma",
+            "Vestibular schwannoma",
+            "Ependymoma",
+            "Arachnoid cyst",
+            "Epidermoid cyst"
+        ],
+        "correct": 1,
+        "explanation": "Vestibular schwannoma (acoustic neuroma) arises from Schwann cells of CN VIII, presenting with unilateral hearing loss and tinnitus."
+    },
+    {
+        "id": 95,
+        "question": "A 45-year-old woman presents with new-onset seizures. MRI shows a ring-enhancing lesion with surrounding edema in the temporal lobe. She has a history of breast cancer. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Glioblastoma",
+            "Brain abscess",
+            "Toxoplasmosis",
+            "Primary CNS lymphoma",
+            "Brain metastasis"
+        ],
+        "correct": 4,
+        "explanation": "Ring-enhancing lesions at gray-white matter junction in a patient with known primary cancer are brain metastases until proven otherwise."
+    },
+    {
+        "id": 96,
+        "question": "A 60-year-old man with HIV (CD4 count 45) presents with headache and confusion. MRI shows multiple ring-enhancing lesions in the basal ganglia. Toxoplasma IgG is positive. Which of the following is the most appropriate next step?",
+        "options": [
+            "Brain biopsy",
+            "Start HAART only",
+            "Whole brain radiation",
+            "IV corticosteroids",
+            "Empiric treatment for toxoplasmosis (pyrimethamine plus sulfadiazine)"
+        ],
+        "correct": 4,
+        "explanation": "In AIDS patients with CD4 <100 and multiple ring-enhancing lesions, empiric toxoplasmosis treatment is started; biopsy reserved for non-responders."
+    },
+    {
+        "id": 97,
+        "question": "A 55-year-old man with glioblastoma presents with worsening headache and focal neurological deficit. He is on dexamethasone. Which of the following is the most appropriate management for cerebral edema in brain tumor patients?",
+        "options": [
+            "Mannitol",
+            "Hyperventilation",
+            "Surgical decompression",
+            "Acetazolamide",
+            "Dexamethasone"
+        ],
+        "correct": 4,
+        "explanation": "Dexamethasone (corticosteroid) is first-line for vasogenic edema in brain tumors; it reduces capillary permeability and improves symptoms within 24-48 hours."
+    },
+    {
+        "id": 98,
+        "question": "A 65-year-old man with glioblastoma is started on temozolomide chemotherapy. Which of the following is the most important laboratory parameter to monitor during treatment?",
+        "options": [
+            "Complete blood count (CBC)",
+            "Liver function tests",
+            "Renal function tests",
+            "Blood glucose",
+            "Serum electrolytes"
+        ],
+        "correct": 0,
+        "explanation": "Temozolomide causes myelosuppression (thrombocytopenia, neutropenia); CBC should be monitored regularly (day 1 and day 22 of each 28-day cycle)."
+    },
+    {
+        "id": 99,
+        "question": "A 10-year-old boy presents with morning headache, vomiting, and new-onset strabismus. MRI shows a mass in the fourth ventricle with hydrocephalus. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Ependymoma",
+            "Pilocytic astrocytoma",
+            "Choroid plexus papilloma",
+            "Craniopharyngioma",
+            "Medulloblastoma"
+        ],
+        "correct": 4,
+        "explanation": "Medulloblastoma is the most common malignant brain tumor in children, typically arising in the cerebellum/fourth ventricle and presenting with hydrocephalus."
+    },
+    {
+        "id": 100,
+        "question": "A 45-year-old woman with neurofibromatosis type 2 presents with progressive hearing loss. MRI shows bilateral vestibular schwannomas. Which of the following is the most appropriate management?",
+        "options": [
+            "Surgical resection",
+            "Gamma knife radiosurgery",
+            "Chemotherapy",
+            "Radiation therapy",
+            "Observation with serial imaging"
+        ],
+        "correct": 4,
+        "explanation": "Observation with serial imaging is often appropriate for small, asymptomatic vestibular schwannomas in NF2; surgery reserved for large or symptomatic tumors due to risk of hearing loss."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    ];
+
+    // ============================================================
+    // DO NOT EDIT BELOW THIS LINE - The rendering engine works automatically
+    // ============================================================
+
+    let userAnswers = new Array(questions.length).fill(null);
+    let submitted = false;
+
+    function updateProgress() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        const percentage = questions.length ? (answered / questions.length) * 100 : 0;
+        document.getElementById('progressText').innerHTML = `${answered}/${questions.length} Answered`;
+        document.getElementById('progressFill').style.width = percentage + '%';
+    }
+
+    function renderScorePanel(correctCount = null) {
+        const container = document.getElementById('scorePanelContainer');
+        if (!submitted) {
+            container.classList.add('hidden-panel');
+            container.innerHTML = '';
+        } else {
+            const score = correctCount !== null ? correctCount : 0;
+            container.classList.remove('hidden-panel');
+            container.innerHTML = `
+                <div class="score-title"><i class="fas fa-chart-simple"></i> Score</div>
+                <div class="score-value">${score}/${questions.length}</div>
+            `;
+        }
+    }
+
+    function renderMCQs() {
+        if (!questions.length) {
+            document.getElementById('mcqContent').innerHTML = '<div style="text-align:center;padding:60px 20px;background:white;border-radius:24px;"><i class="fas fa-info-circle" style="font-size:3rem;color:#1ecbe1;"></i><p style="margin-top:20px;font-size:1.1rem;color:#15304c;">No MCQs loaded yet.</p><p style="margin-top:10px;color:#5a7d9a;">Paste your 100 Minor Subjects questions into the "questions" array in the script section of this HTML file.</p></div>';
+            return;
+        }
+
+        let html = '';
+        questions.forEach((q, idx) => {
+            const number = idx + 1;
+            const saved = userAnswers[idx];
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                let optionClass = 'option';
+                if (submitted) {
+                    if (optIdx === q.correct) optionClass += ' correct-option';
+                    else if (saved === optIdx && saved !== q.correct) optionClass += ' wrong-option';
+                    else if (saved === optIdx) optionClass += ' selected';
+                } else {
+                    if (saved === optIdx) optionClass += ' selected';
+                }
+                optionsHtml += `<div class="${optionClass}" data-q="${idx}" data-opt="${optIdx}">${String.fromCharCode(65+optIdx)}. ${escapeHtml(opt)}</div>`;
+            });
+            
+            let explClass = 'explanation-box';
+            let cardClass = '';
+            if (submitted) {
+                explClass += ' show';
+                if (saved === null) {
+                    cardClass = 'unanswered-ans';
+                } else if (saved === q.correct) {
+                    cardClass = 'correct-ans';
+                } else {
+                    cardClass = 'wrong-ans';
+                }
+            }
+            
+            html += `
+            <div class="mcq-card ${cardClass}" id="card-${idx}">
+                <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q${number}</div>
+                <div class="question-text">${escapeHtml(q.question)}</div>
+                <div class="options">${optionsHtml}</div>
+                <div class="${explClass}" id="exp-${idx}">
+                    <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+                    ${escapeHtml(q.explanation)}
+                </div>
+            </div>`;
+        });
+        
+        html += `<div class="submit-wrapper"><button id="submitBtn" class="primary-btn"><i class=""></i> Submit</button></div>`;
+        document.getElementById('mcqContent').innerHTML = html;
+        
+        const btn = document.getElementById('submitBtn');
+        if (btn) {
+            if (submitted) {
+                btn.innerHTML = '<i class=""></i> Submitted';
+                btn.classList.add('disabled-btn');
+                btn.disabled = true;
+            } else {
+                btn.onclick = function() { submitMCQs(); };
+            }
+        }
+        
+        if (!submitted) {
+            document.querySelectorAll('#mcqContent .option').forEach(opt => {
+                opt.addEventListener('click', function(e) {
+                    if (submitted) return;
+                    const qIdx = this.dataset.q;
+                    const optIdx = parseInt(this.dataset.opt);
+                    const parentOptions = this.parentElement.children;
+                    for (let el of parentOptions) {
+                        el.classList.remove('selected');
+                    }
+                    this.classList.add('selected');
+                    userAnswers[qIdx] = optIdx;
+                    updateProgress();
+                });
+            });
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    window.submitMCQs = function() {
+        if (submitted) return;
+        submitted = true;
+        let correctCount = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) correctCount++;
+        }
+        renderScorePanel(correctCount);
+        renderMCQs();
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.onload = function() {
+        renderScorePanel();
+        renderMCQs();
+        updateProgress();
+    };
+</script>
+</body>
+</html>

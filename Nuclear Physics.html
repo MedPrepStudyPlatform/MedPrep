@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuclear Physics | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fef2f2 0%, #fee2e2 100%);
+            color: #991b1b;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #dc2626;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #b91c1c, #dc2626);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #fecaca;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(220, 38, 38, 0.08);
+            border-color: #fca5a5;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #991b1b;
+            padding-left: 14px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #dc2626;
+            background: #fef2f2;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #b91c1c;
+            color: white;
+            border-color: #b91c1c;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(220, 38, 38, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(185, 28, 28, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #991b1b, #b91c1c);
+            color: #fef2f2;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #991b1b;
+            display: none;
+            background: #fef2f2;
+            padding: 16px 22px;
+            border-left: 6px solid #dc2626;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #f97316 !important;
+            background: #ffedd5 !important;
+            color: #9a3412 !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Nuclear Physics</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Nuclear Physics MCQs (Physics FSC Part 2, Chapter 21)
+    const nuclearPhysicsMcqs = [
+        { q: "The nucleus of an atom consists of:", options: ["Protons and neutrons", "Protons and electrons", "Neutrons and electrons", "Only protons"], exp: "The nucleus contains protons (positively charged) and neutrons (neutral). Electrons orbit the nucleus.", correct: "A" },
+        { q: "The number of neutrons in the nucleus of ²³⁵U is:", options: ["92", "143", "235", "327"], exp: "Mass number A = 235, atomic number Z = 92. Neutrons = A - Z = 235 - 92 = 143.", correct: "B" },
+        { q: "The atomic mass number (A) is equal to the number of:", options: ["Protons", "Neutrons", "Nucleons", "Electrons"], exp: "Mass number A = number of protons + number of neutrons = total nucleons.", correct: "C" },
+        { q: "The half-life of a radioactive element is 10 days. The time taken for 87.5% of the sample to decay is:", options: ["10 days", "20 days", "30 days", "40 days"], exp: "After 1 half-life: 50% remains. After 2: 25% remains. After 3: 12.5% remains → 87.5% decayed. So time = 3 × 10 = 30 days.", correct: "C" },
+        { q: "The decay constant λ of a radioactive substance is related to half-life t₁/₂ by:", options: ["λ = 0.693/t₁/₂", "λ = t₁/₂/0.693", "λ = 1/t₁/₂", "λ = 2/t₁/₂"], exp: "t₁/₂ = 0.693/λ → λ = 0.693/t₁/₂.", correct: "A" },
+        { q: "The activity of a radioactive sample is 1000 disintegrations per second. After one half-life, the activity becomes:", options: ["500 dis/s", "250 dis/s", "1000 dis/s", "2000 dis/s"], exp: "Activity is proportional to the number of undecayed nuclei. After one half-life, number halves, so activity halves to 500 dis/s.", correct: "A" },
+        { q: "The mass defect for a nucleus is 0.1 u. The binding energy is (1 u = 931.5 MeV/c²):", options: ["93.15 MeV", "9.315 MeV", "931.5 MeV", "0.1 MeV"], exp: "B.E. = Δm × 931.5 = 0.1 × 931.5 = 93.15 MeV.", correct: "A" },
+        { q: "The binding energy per nucleon is maximum for:", options: ["²H (Deuterium)", "⁵⁶Fe (Iron)", "²³⁸U (Uranium)", "⁴He (Helium)"], exp: "Iron-56 has the highest binding energy per nucleon (~8.8 MeV), making it the most stable nucleus.", correct: "B" },
+        { q: "The process in which a heavy nucleus splits into two lighter nuclei with the release of energy is called:", options: ["Nuclear fusion", "Nuclear fission", "Radioactive decay", "Pair production"], exp: "Nuclear fission is the splitting of a heavy nucleus (e.g., U-235) into lighter nuclei, releasing energy.", correct: "B" },
+        { q: "The process in which two light nuclei combine to form a heavier nucleus with the release of energy is called:", options: ["Nuclear fusion", "Nuclear fission", "Radioactive decay", "Chain reaction"], exp: "Nuclear fusion (e.g., hydrogen fusing to helium in stars) releases enormous energy.", correct: "A" },
+        { q: "The energy released in a nuclear reaction is given by:", options: ["E = mc²", "E = Δm c²", "E = hf", "E = ½ mv²"], exp: "Einstein's mass-energy equivalence: E = Δm c², where Δm is the mass defect.", correct: "B" },
+        { q: "The most penetrating radiation among alpha, beta, and gamma is:", options: ["Alpha particles", "Beta particles", "Gamma rays", "All have same penetration"], exp: "Gamma rays are electromagnetic radiation with highest penetrating power (requires thick lead or concrete to stop).", correct: "C" },
+        { q: "Alpha particles are:", options: ["Helium nuclei (²He⁴)", "Electrons", "Positrons", "Photons"], exp: "Alpha particle consists of 2 protons and 2 neutrons, identical to a helium-4 nucleus.", correct: "A" },
+        { q: "Beta-minus (β⁻) decay involves the emission of:", options: ["Electron", "Positron", "Helium nucleus", "Photon"], exp: "In β⁻ decay, a neutron converts to a proton, emitting an electron and an antineutrino.", correct: "A" },
+        { q: "The Geiger-Muller (G-M) counter is used to detect:", options: ["Radioactivity", "Electric current", "Magnetic field", "Temperature"], exp: "The G-M counter detects ionizing radiation (alpha, beta, gamma).", correct: "A" },
+        { q: "In a nuclear reactor, the function of the moderator is to:", options: ["Slow down neutrons", "Absorb neutrons", "Increase neutron speed", "Cool the reactor"], exp: "Moderator (e.g., graphite, heavy water) slows down fast neutrons to thermal energies to sustain chain reaction.", correct: "A" },
+        { q: "The SI unit of radioactivity is:", options: ["Becquerel (Bq)", "Curie (Ci)", "Gray (Gy)", "Sievert (Sv)"], exp: "1 Becquerel = 1 disintegration per second. Curie is an older unit (1 Ci = 3.7 × 10¹⁰ Bq).", correct: "A" },
+        { q: "The half-life of a radioactive substance is 5 years. After 15 years, the fraction of the original sample remaining is:", options: ["1/2", "1/4", "1/8", "1/16"], exp: "Number of half-lives = 15/5 = 3. Fraction remaining = (1/2)³ = 1/8.", correct: "C" },
+        { q: "The phenomenon of pair production occurs when a photon of energy at least:", options: ["1.02 MeV", "0.51 MeV", "0.511 MeV", "0.256 MeV"], exp: "Pair production (γ → e⁻ + e⁺) requires minimum energy 2mₑc² = 2 × 0.511 MeV = 1.022 MeV ≈ 1.02 MeV.", correct: "A" },
+        { q: "The isotope used in carbon dating is:", options: ["¹⁴C", "¹²C", "¹³C", "¹⁴N"], exp: "Carbon-14 (¹⁴C) is radioactive with half-life ~5730 years, used to date organic materials.", correct: "A" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+    let quizSubmitted = false;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        randomizedQuestions = shuffleArray([...nuclearPhysicsMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+        
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

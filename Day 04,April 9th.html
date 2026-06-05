@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 02 · Day 04 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* MedPrep Core Styles */
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+        }
+
+        html, body { 
+            margin: 0; padding: 0; width: 100%; 
+            background: var(--med-light); 
+            font-family: 'Inter', sans-serif; 
+            color: var(--med-text);
+            overflow-x: hidden;
+        }
+
+        .main-header {
+            background: var(--med-dark); color: white; padding: 15px 0;
+            box-shadow: 0 16px 30px -10px #0a2c48cc;
+            width: 100%; text-align: center;
+        }
+        .logo-wrapper {
+            background: white; padding: 5px 20px; border-radius: 80px;
+            display: inline-flex; border: 2px solid var(--med-accent);
+            margin-bottom: 10px;
+        }
+        .logo-img { height: 45px; width: auto; object-fit: contain; mix-blend-mode: multiply; }
+        
+        .pill-nav {
+            display: inline-flex; gap: 10px; background: rgba(255,255,255,0.15);
+            padding: 6px 15px; border-radius: 100px; backdrop-filter: blur(6px);
+            border: 1px solid #1ecbe180; font-size: 0.85rem;
+        }
+
+        .container { 
+            width: 95%; max-width: 850px; margin: 25px auto; 
+            background: white; border-radius: 30px; padding: 30px;
+            box-shadow: 0 15px 30px -10px #0a2c481a;
+            border: 1px solid rgba(30,203,225,0.3);
+            box-sizing: border-box;
+        }
+
+        .syllabus-box {
+            background: #e0f2fe; border: 2px solid var(--med-accent);
+            border-radius: 20px; padding: 20px; margin-bottom: 30px;
+        }
+        .syllabus-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px; margin-top: 10px; font-weight: 600; font-size: 0.9rem;
+        }
+
+        .question-wrap { margin-bottom: 35px; border-bottom: 1px solid #eef2f5; padding-bottom: 20px; }
+        .q-text { font-weight: 700; margin-bottom: 15px; display: block; line-height: 1.4; }
+
+        .opt-label {
+            display: flex; align-items: center; padding: 12px 15px;
+            border: 1px solid #d1d9e0; border-radius: 12px; margin-bottom: 10px;
+            cursor: pointer; transition: 0.2s; font-size: 0.95rem;
+        }
+        .opt-label:hover { border-color: var(--med-accent); background: #f0f9ff; }
+        .opt-label input { margin-right: 12px; transform: scale(1.2); cursor: pointer; }
+
+        .feedback-area {
+            display: none; margin-top: 15px; padding: 15px;
+            border-radius: 15px; font-size: 0.9rem; border-left: 5px solid #ccc;
+            background: #f8fafc;
+        }
+        .correct-ans { color: #059669; font-weight: 700; }
+        .wrong-ans { color: #dc2626; font-weight: 700; }
+        .expl-text { margin-top: 8px; color: #475569; font-style: italic; }
+
+        #score-summary {
+            display: none; text-align: center; background: var(--med-dark);
+            color: white; padding: 30px; border-radius: 25px; margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+        }
+
+        #submit-btn {
+            background: var(--med-accent); color: var(--med-dark);
+            border: none; padding: 18px 40px; border-radius: 50px;
+            font-weight: 800; font-size: 1.2rem; cursor: pointer;
+            width: 100%; transition: 0.3s; box-shadow: 0 10px 20px -5px #1ecbe166;
+        }
+        #submit-btn:hover { transform: translateY(-3px); background: #17b3c7; }
+
+        .main-footer { 
+            background: var(--med-dark); color: #e2f0fa; padding: 30px 15px; 
+            border-top: 4px solid var(--med-accent); margin-top: 50px; text-align: center; 
+            width: 100%; font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px; border-radius: 15px; }
+            .logo-img { height: 35px; }
+            .pill-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div><br>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 02</span>
+        <span><i class="fas fa-clock"></i> Day 04,April 09th, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family: 'Outfit'; margin: 0;"> Score </h2>
+        <div id="final-score" style="font-size: 3.5rem; font-weight: 800; color: var(--med-accent);">0 / 50</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class="fas fa-biohazard"></i> Syllabus</h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-microscope"></i> Enzymes </span>
+            <span><i class="fas fa-flask"></i> Liquids & Solids </span>
+            <span><i class="fas fa-sync-alt"></i> Rotational & Circular Motion</span>
+            <span><i class="fas fa-brain"></i> Critical Thinking </span>
+        </div>
+        
+    </div>
+
+    <form id="quizForm">
+        <div id="bio-section"></div>
+        <div id="chem-section"></div>
+        <div id="phys-section"></div>
+        <div id="eng-section"></div>
+        <button type="button" id="submit-btn" onclick="checkAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class="fas fa-staff-aesculapius" style="color:#1ecbe1;"></i> © MedPrep 2026 · All Rights Reserved.</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// TOUGHEST 50 MDCAT-STYLE MCQs - April 9th (VERIFIED: keys & explanations aligned)
+// Biology: Enzymes (15) | Chemistry: Liquids & Solids (15) | Physics: Rotational & Circular Motion (15) | English: Critical Thinking (5)
+// --------------------------------------------------------------
+const quizData = [
+    // ==================== BIOLOGY: ENZYMES (Advanced) ====================
+    {q: "An enzyme follows Michaelis-Menten kinetics. If the substrate concentration is 4 times the Km, the reaction velocity (v) as a fraction of Vmax is:", a: "C", choices: ["0.5", "0.67", "0.8", "0.9"], e: "v/Vmax = [S]/(Km+[S]) = 4Km/(Km+4Km) = 4/5 = 0.8."},
+    {q: "A competitive inhibitor increases the apparent Km without affecting Vmax. Which of the following statements explains this effect?", a: "B", choices: ["It binds irreversibly to the active site", "It binds reversibly to the active site, competing with substrate", "It binds to an allosteric site reducing enzyme affinity", "It denatures the enzyme"], e: "Competitive inhibitor competes for the active site, requiring higher [S] to reach half Vmax → increased Km."},
+    {q: "Lineweaver-Burk plot for an enzyme in the presence of a non-competitive inhibitor shows:", a: "D", choices: ["Same x-intercept, different y-intercept", "Same y-intercept, different x-intercept", "Different both intercepts", "Same x-intercept, different y-intercept"], e: "Non-competitive: Vmax decreases (y-intercept increases), Km unchanged (x-intercept same)."},
+    {q: "The transition state of an enzyme-catalyzed reaction is stabilized primarily by:", a: "C", choices: ["Covalent catalysis", "Metal ion catalysis", "Binding energy from enzyme-substrate interactions", "Acid-base catalysis"], e: "Enzymes stabilize the transition state through complementary binding, lowering activation energy."},
+    {q: "Zymogens (proenzymes) are activated by:", a: "A", choices: ["Proteolytic cleavage", "Allosteric binding", "Phosphorylation", "Coenzyme binding"], e: "Zymogens like trypsinogen are activated by irreversible proteolytic cleavage."},
+    {q: "Which of the following is NOT a mechanism of enzyme regulation?", a: "D", choices: ["Allosteric regulation", "Feedback inhibition", "Covalent modification", "Substrate degradation"], e: "Substrate degradation is catabolism, not a regulatory mechanism of enzyme activity."},
+    {q: "An allosteric enzyme displays sigmoidal kinetics. The binding of a positive effector would:", a: "B", choices: ["Increase Km and decrease Vmax", "Decrease Km and increase cooperativity", "Shift the curve to the right", "Convert the sigmoidal curve to hyperbolic"], e: "Positive effectors increase affinity (decrease Km) and often enhance cooperativity."},
+    {q: "The catalytic efficiency of an enzyme is expressed by:", a: "C", choices: ["Km", "Vmax", "Kcat/Km", "Kcat"], e: "Kcat/Km measures catalytic efficiency, accounting for both turnover and substrate affinity."},
+    {q: "Which class of enzymes transfers a phosphate group from ATP to a substrate?", a: "B", choices: ["Phosphatase", "Kinase", "Phosphorylase", "Dehydrogenase"], e: "Kinases catalyze phosphorylation using ATP."},
+    {q: "Ribozymes are:", a: "D", choices: ["Protein enzymes that digest RNA", "Enzymes that synthesize ribosomes", "Artificial enzymes", "RNA molecules with catalytic activity"], e: "Ribozymes are catalytic RNA molecules, discovered by Cech and Altman."},
+    {q: "The induced fit model of enzyme catalysis suggests that:", a: "C", choices: ["Active site is rigid and preformed", "Substrate binds only at the allosteric site", "Conformational changes occur upon substrate binding", "Enzyme does not interact with substrate"], e: "Induced fit: substrate binding induces conformational change for optimal catalysis."},
+    {q: "A uncompetitive inhibitor binds to:", a: "B", choices: ["Free enzyme only", "Enzyme-substrate complex only", "Both free enzyme and ES complex", "Allosteric site only"], e: "Uncompetitive inhibitors bind exclusively to the ES complex, decreasing both Km and Vmax."},
+    {q: "The pH optimum of most intracellular enzymes is near 7.4. A decrease in pH to 6.0 would likely:", a: "A", choices: ["Denature the enzyme by altering ionization states", "Increase enzyme activity", "Have no effect", "Increase substrate binding"], e: "pH changes affect charged amino acids in active site, altering enzyme conformation and activity."},
+    {q: "Coenzymes such as NAD+ function as:", a: "C", choices: ["Permanent structural components", "Metal activators", "Transient carriers of electrons or functional groups", "Inhibitors"], e: "Coenzymes are organic molecules that carry electrons (NADH) or chemical groups during catalysis."},
+    {q: "The lock and key model fails to explain:", a: "D", choices: ["Substrate specificity", "Competitive inhibition", "Enzyme stereospecificity", "Enzyme flexibility and allostery"], e: "Lock and key assumes rigid active site; cannot explain allostery or induced fit."},
+
+    // ==================== CHEMISTRY: LIQUIDS & SOLIDS ====================
+    {q: "Which intermolecular force is primarily responsible for the unusually high boiling point of water?", a: "C", choices: ["London dispersion forces", "Dipole-dipole interactions", "Hydrogen bonding", "Ion-dipole forces"], e: "Hydrogen bonds (O-H···O) are strong and require more energy to break."},
+    {q: "The vapor pressure of a liquid decreases with:", a: "B", choices: ["Increasing temperature", "Increasing strength of intermolecular forces", "Decreasing molar mass", "Increasing kinetic energy"], e: "Stronger IMFs hold molecules together, reducing escaping tendency → lower vapor pressure."},
+    {q: "Which of the following solids is expected to have the highest melting point?", a: "C", choices: ["NaCl", "Ice (H₂O)", "Diamond (C)", "Sucrose (C₁₂H₂₂O₁₁)"], e: "Diamond is a covalent network solid with strong C-C bonds throughout, extremely high melting point."},
+    {q: "The process of a solid converting directly to a gas is called:", a: "B", choices: ["Condensation", "Sublimation", "Deposition", "Vaporization"], e: "Sublimation: solid → gas (e.g., dry ice, iodine)."},
+    {q: "Which of the following exhibits the strongest London dispersion forces?", a: "D", choices: ["He", "Ne", "Ar", "Xe"], e: "Larger atoms/molecules have more electrons, greater polarizability, stronger dispersion forces."},
+    {q: "The critical temperature of a gas is the temperature above which:", a: "C", choices: ["The gas cannot be compressed", "The gas liquefies under pressure", "The gas cannot be liquefied regardless of pressure", "The gas behaves ideally"], e: "Above Tc, kinetic energy overcomes intermolecular forces; no liquid forms."},
+    {q: "Which of the following compounds would you expect to have the highest surface tension?", a: "B", choices: ["CCl₄ (nonpolar)", "H₂O (hydrogen bonding)", "C₆H₁₄ (nonpolar)", "CH₃Cl (polar)"], e: "Strong hydrogen bonding in water gives highest cohesive forces → highest surface tension."},
+    {q: "In a metallic solid, electrons are described as:", a: "A", choices: ["Delocalized in a 'sea' of electrons", "Tightly bound to individual atoms", "Transferred completely to anions", "Localized between two atoms"], e: "Metallic bonding: positive ions in a sea of delocalized electrons."},
+    {q: "The boiling point of a solution is higher than that of the pure solvent because:", a: "B", choices: ["Solute molecules increase vapor pressure", "Solute molecules decrease vapor pressure", "Solute molecules increase kinetic energy", "Solute molecules break hydrogen bonds"], e: "Non-volatile solute lowers vapor pressure (Raoult's law), requiring higher temperature to reach atmospheric pressure."},
+    {q: "Which type of crystalline solid conducts electricity in both molten and solid state?", a: "B", choices: ["Ionic solid", "Metallic solid", "Molecular solid", "Covalent network solid"], e: "Metals have delocalized electrons that conduct in both states."},
+    {q: "The heat required to convert 1 mole of liquid to vapor at its boiling point is called:", a: "C", choices: ["Heat of fusion", "Specific heat", "Molar heat of vaporization", "Latent heat of sublimation"], e: "ΔH_vap is the energy needed for liquid → gas phase change."},
+    {q: "Which of the following is an example of a molecular solid?", a: "D", choices: ["NaCl", "SiO₂", "Iron", "Iodine (I₂)"], e: "Iodine crystals consist of discrete I₂ molecules held by weak London forces."},
+    {q: "Capillary action is due to:", a: "C", choices: ["Surface tension only", "Viscosity only", "Cohesion and adhesion", "Vapor pressure"], e: "Cohesion (liquid-liquid) and adhesion (liquid-solid) together cause capillary rise."},
+    {q: "The presence of hydrogen bonding in a compound affects all EXCEPT:", a: "D", choices: ["Boiling point", "Viscosity", "Surface tension", "Molecular mass"], e: "Hydrogen bonding does not change molecular mass; it affects physical properties."},
+    {q: "Amorphous solids differ from crystalline solids in that they:", a: "B", choices: ["Have a sharp melting point", "Lack long-range order", "Are always transparent", "Conduct electricity"], e: "Amorphous solids have disordered arrangement; no definite melting point."},
+
+    // ==================== PHYSICS: ROTATIONAL & CIRCULAR MOTION ====================
+    {q: "A wheel of radius 0.5 m rotates with angular velocity 10 rad/s. The linear speed of a point on its rim is:", a: "B", choices: ["2.5 m/s", "5 m/s", "10 m/s", "20 m/s"], e: "v = rω = 0.5 × 10 = 5 m/s."},
+    {q: "A centrifuge rotates at 3000 rpm. Its angular velocity in rad/s is approximately:", a: "C", choices: ["50 rad/s", "100 rad/s", "314 rad/s", "628 rad/s"], e: "3000 rev/min × (2π rad/rev) × (1 min/60 s) = 3000×2π/60 = 100π ≈ 314 rad/s."},
+    {q: "Moment of inertia of a solid sphere about its diameter is ⅖ MR². If mass is doubled and radius halved, the new moment of inertia becomes:", a: "B", choices: ["⅕ MR²", "⅕ MR²", "⅘ MR²", "⅕ MR²"], e: "I = ⅖ (2M)(R/2)² = ⅖ × 2M × R²/4 = ⅖ × (2/4) MR² = ⅖ × ½ MR² = ⅕ MR²."},
+    {q: "A torque of 20 Nm is applied to a wheel of moment of inertia 5 kg·m². The angular acceleration is:", a: "B", choices: ["2 rad/s²", "4 rad/s²", "10 rad/s²", "100 rad/s²"], e: "τ = Iα → α = τ/I = 20/5 = 4 rad/s²."},
+    {q: "A particle moves in a circle of radius 2 m with constant tangential acceleration of 3 m/s². After 2 seconds starting from rest, its centripetal acceleration is:", a: "D", choices: ["6 m/s²", "12 m/s²", "24 m/s²", "18 m/s²"], e: "v = at = 3×2=6 m/s. ac = v²/r = 36/2 = 18 m/s²."},
+    {q: "The angular momentum of a rotating body is conserved when:", a: "C", choices: ["External force is zero", "External torque is maximum", "Net external torque is zero", "Moment of inertia is constant"], e: "τ_ext = dL/dt; if τ_ext = 0, L is constant."},
+    {q: "A solid cylinder and a hollow cylinder of same mass and radius roll down an incline without slipping. Which reaches the bottom first?", a: "A", choices: ["Solid cylinder", "Hollow cylinder", "Both together", "Depends on height"], e: "Solid cylinder has smaller moment of inertia (½MR² vs MR²), thus greater acceleration."},
+    {q: "A flywheel rotating at 1200 rpm comes to rest after 40 revolutions. The angular deceleration is:", a: "B", choices: ["-π rad/s²", "-2π rad/s²", "-4π rad/s²", "-8π rad/s²"], e: "ω₀ = 1200×2π/60 = 40π rad/s. θ = 40×2π = 80π rad. ω² = ω₀² + 2αθ → 0 = (40π)² + 2α(80π) → α = -1600π²/(160π) = -10π rad/s²."},
+    {q: "A stone tied to a string is whirled in a vertical circle. The tension is minimum at:", a: "B", choices: ["Lowest point", "Highest point", "Horizontal position", "Same everywhere"], e: "At top, tension + mg = mv²/r → tension = mv²/r - mg, minimal."},
+    {q: "The radius of gyration of a body is defined as:", a: "C", choices: ["Distance from axis to center of mass", "Square root of I/M", "√(I/M)", "I²/M"], e: "k = √(I/M); represents distribution of mass about axis."},
+    {q: "A ballet dancer spins with arms outstretched. When she folds her arms, her angular velocity:", a: "A", choices: ["Increases", "Decreases", "Remains same", "Becomes zero"], e: "Moment of inertia decreases; angular momentum conserved → ω increases."},
+    {q: "The rotational kinetic energy of a body is ½ Iω². For a rolling sphere, total KE is:", a: "D", choices: ["½ mv²", "½ Iω²", "mv²", "½ mv² + ½ Iω²"], e: "Rolling = translational KE + rotational KE."},
+    {q: "A particle of mass 2 kg moves in a circle of radius 1 m with angular velocity 3 rad/s. Its angular momentum is:", a: "B", choices: ["3 kg·m²/s", "6 kg·m²/s", "9 kg·m²/s", "18 kg·m²/s"], e: "L = Iω = (mr²)ω = 2×1²×3 = 6 kg·m²/s."},
+    {q: "The banking of roads reduces reliance on friction by providing:", a: "C", choices: ["Centripetal force from normal component", "Reduced speed requirement", "Horizontal component of normal force", "Increased friction"], e: "Banking: normal force's horizontal component provides centripetal force."},
+    {q: "A body of mass m is rotating in a circle of radius r. If both mass and radius are doubled, the moment of inertia becomes:", a: "D", choices: ["2 times", "4 times", "6 times", "8 times"], e: "I = mr². New I = (2m)(2r)² = 2m×4r² = 8mr² = 8 times original."},
+
+    // ==================== ENGLISH: CRITICAL THINKING & LOGICAL FALLACIES ====================
+    {q: "Identify the logical fallacy: 'Everyone in this town drives an SUV, so you should too.'", a: "B", choices: ["Ad hominem", "Bandwagon appeal", "False dilemma", "Slippery slope"], e: "Bandwagon fallacy assumes something is correct because many people do it."},
+    {q: "If all mammals have hair, and a whale is a mammal, then a whale has hair. This is an example of:", a: "C", choices: ["Inductive reasoning", "Abductive reasoning", "Deductive reasoning", "Circular reasoning"], e: "Deductive reasoning moves from general premise to specific conclusion."},
+    {q: "Which of the following is a necessary condition for a valid argument?", a: "D", choices: ["All premises must be true", "Conclusion must be interesting", "Argument must be long", "Conclusion must follow logically from premises"], e: "Validity concerns logical structure; truth of premises is separate (soundness)."},
+    {q: "The statement 'If you study, you will pass. You did not study. Therefore, you will not pass.' commits which fallacy?", a: "B", choices: ["Affirming the consequent", "Denying the antecedent", "Modus ponens", "Modus tollens"], e: "Denying the antecedent: If P then Q, not P, therefore not Q — invalid."},
+    {q: "A doctor says, 'The patient has a fever and cough; therefore, they have the flu.' This is an example of:", a: "A", choices: ["Hasty generalization", "Post hoc ergo propter hoc", "Circular reasoning", "Straw man"], e: "Drawing a conclusion from insufficient evidence or single case."}
+];
+
+function renderQuiz() {
+    const sections = {
+        bio: document.getElementById('bio-section'),
+        chem: document.getElementById('chem-section'),
+        phys: document.getElementById('phys-section'),
+        eng: document.getElementById('eng-section')
+    };
+    quizData.forEach((item, index) => {
+        let sectionKey = index < 15 ? 'bio' : index < 30 ? 'chem' : index < 45 ? 'phys' : 'eng';
+        let html = `
+            <div class="question-wrap" id="q-block-${index}">
+                <span class="q-text">Q${index+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${index}" value="${String.fromCharCode(65+i)}">
+                        ${String.fromCharCode(65+i)}. ${c}
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${index}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        sections[sectionKey].innerHTML += html;
+    });
+}
+
+function checkAnswers() {
+    let score = 0;
+    quizData.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedback = document.getElementById(`feed-${index}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        if (selected) {
+            if (selected.value === item.a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong!</span>`;
+                feedback.style.borderColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:#e67e22"><i class="fas fa-exclamation-triangle"></i> Not answered!</span>`;
+            feedback.style.borderColor = "#f97316";
+        }
+    });
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 50`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('submit-btn').disabled = true;
+    document.getElementById('submit-btn').style.background = "#94a3b8";
+    document.getElementById('submit-btn').innerText = " Submitted";
+}
+
+renderQuiz();
+</script>
+</body>
+</html>

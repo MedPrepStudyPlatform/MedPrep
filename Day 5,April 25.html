@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT English Preparation Session · Direct & Indirect Speech </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';"> Score</h2>
+        <div id="final-score">0 / 25</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class=""></i>  Direct & Indirect Speech </h3>
+        <div class="syllabus-grid">
+            
+        </div>
+       
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()">Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> MedPrep </span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// ENGLISH DIRECT & INDIRECT SPEECH - 25 MCQs (April 25)
+// Covers: Tense changes, pronoun changes, time/place expressions, questions, commands, exclamations
+// ✅ EACH QUESTION: ONE correct answer · Explanation matches the key
+// --------------------------------------------------------------
+const quizData = [
+    // Declarative Sentences - Present to Past
+    {q: "Convert to indirect: He said, 'I am going to the market.'", a: "B", choices: ["He said that he is going to the market.", "He said that he was going to the market.", "He said that I was going to the market.", "He said that he will go to the market."], e: "Present continuous changes to past continuous in reported speech."},
+    {q: "Convert to indirect: She said, 'I write a letter.'", a: "C", choices: ["She said that she write a letter.", "She said that she writes a letter.", "She said that she wrote a letter.", "She said that she has written a letter."], e: "Present simple changes to past simple in reported speech."},
+    {q: "Convert to indirect: They said, 'We have finished the work.'", a: "A", choices: ["They said that they had finished the work.", "They said that they have finished the work.", "They said that they finished the work.", "They said that they were finishing the work."], e: "Present perfect changes to past perfect in reported speech."},
+    {q: "Convert to indirect: He said, 'I will help you.'", a: "D", choices: ["He said that he will help me.", "He said that he would help you.", "He said that I will help you.", "He said that he would help me."], e: "'Will' changes to 'would'; pronoun 'you' changes to 'me' according to context."},
+    
+    // Past Tense in Indirect
+    {q: "Convert to indirect: He said, 'I bought a car.'", a: "C", choices: ["He said that he buys a car.", "He said that he has bought a car.", "He said that he had bought a car.", "He said that he bought a car."], e: "Past simple changes to past perfect (had bought) in reported speech."},
+    
+    // Universal Truths (No tense change)
+    {q: "Convert to indirect: The teacher said, 'The Earth revolves around the Sun.'", a: "D", choices: ["The teacher said that the Earth revolved around the Sun.", "The teacher said that the Earth is revolving around the Sun.", "The teacher said that the Earth was revolving around the Sun.", "The teacher said that the Earth revolves around the Sun."], e: "Universal truth/habitual fact: tense does NOT change in indirect speech."},
+    
+    // Interrogative Sentences (Yes/No Questions)
+    {q: "Convert to indirect: She asked, 'Do you like coffee?'", a: "B", choices: ["She asked if I like coffee.", "She asked if I liked coffee.", "She asked that I like coffee.", "She asked do I like coffee."], e: "Yes/no question: use 'if/whether', present simple changes to past simple."},
+    {q: "Convert to indirect: He asked, 'Will you come tomorrow?'", a: "C", choices: ["He asked if I will come tomorrow.", "He asked if I would come the next day.", "He asked if I would come tomorrow.", "He asked that I would come."], e: "'Will' changes to 'would'; 'tomorrow' changes to 'the next day'."},
+    {q: "Convert to indirect: They asked, 'Have you seen the movie?'", a: "A", choices: ["They asked if I had seen the movie.", "They asked if I have seen the movie.", "They asked if I saw the movie.", "They asked that I had seen the movie."], e: "Present perfect changes to past perfect; 'if' introduces the question."},
+    
+    // Interrogative Sentences (Wh- Questions)
+    {q: "Convert to indirect: He asked, 'Where do you live?'", a: "D", choices: ["He asked where do I live.", "He asked where I live.", "He asked where did I live.", "He asked where I lived."], e: "Wh- question: wh- word retained, subject-verb order changed, past tense."},
+    {q: "Convert to indirect: She asked, 'What are you doing?'", a: "B", choices: ["She asked what I am doing.", "She asked what I was doing.", "She asked what was I doing.", "She asked what I were doing."], e: "Present continuous changes to past continuous; no inversion."},
+    
+    // Imperative Sentences (Commands, Requests, Advice)
+    {q: "Convert to indirect: He said, 'Close the door.'", a: "C", choices: ["He said to close the door.", "He told that close the door.", "He told me to close the door.", "He said that close the door."], e: "Imperative: reporting verb 'told/ordered/requested' + to + infinitive."},
+    {q: "Convert to indirect: She said, 'Please help me.'", a: "A", choices: ["She requested me to help her.", "She said to help her.", "She requested that help her.", "She told me to help her."], e: "'Please' indicates request → 'requested' + to + infinitive."},
+    {q: "Convert to indirect: He said, 'Don't make noise.'", a: "D", choices: ["He said don't make noise.", "He told that not make noise.", "He said to not make noise.", "He told me not to make noise."], e: "Negative imperative: told + object + not + to + infinitive."},
+    {q: "Convert to indirect: The doctor said, 'Take your medicine regularly.'", a: "B", choices: ["The doctor said to take my medicine regularly.", "The doctor advised me to take my medicine regularly.", "The doctor told that take my medicine.", "The doctor suggested to take medicine."], e: "Advice → 'advised' + object + to + infinitive."},
+    
+    // Exclamatory Sentences
+    {q: "Convert to indirect: He said, 'What a beautiful scene!'", a: "C", choices: ["He said what a beautiful scene.", "He exclaimed that it is a beautiful scene.", "He exclaimed that it was a beautiful scene.", "He said that a beautiful scene."], e: "Exclamation: 'exclaimed' + 'that' + adjective + subject + verb."},
+    {q: "Convert to indirect: She said, 'Alas! I have failed.'", a: "A", choices: ["She exclaimed with sorrow that she had failed.", "She said alas that she failed.", "She exclaimed that she has failed.", "She said that she failed with sorrow."], e: "Exclamation of sorrow: 'exclaimed with sorrow' + past perfect."},
+    
+    // Time and Place Expression Changes
+    {q: "Convert to indirect: He said, 'I will meet you here tomorrow.'", a: "D", choices: ["He said that he would meet me here tomorrow.", "He said that he will meet me there the next day.", "He said that he would meet me there the next day.", "He said that he would meet me there the next day."], e: "'Here' → 'there', 'tomorrow' → 'the next day', 'will' → 'would'."},
+    {q: "Convert to indirect: She said, 'I saw him yesterday.'", a: "B", choices: ["She said that she saw him yesterday.", "She said that she had seen him the previous day.", "She said that she had seen him yesterday.", "She said that she saw him the previous day."], e: "'Yesterday' → 'the previous day', past simple → past perfect."},
+    {q: "Convert to indirect: They said, 'We are coming now.'", a: "C", choices: ["They said that they are coming now.", "They said that they were coming now.", "They said that they were coming then.", "They said that they came then."], e: "'Now' → 'then', present continuous → past continuous."},
+    
+    // Pronoun Changes
+    {q: "Convert to direct: He told me that he had finished his work.", a: "A", choices: ["He said, 'I have finished my work.'", "He said, 'I had finished my work.'", "He said, 'He has finished his work.'", "He said, 'I finished my work.'"], e: "Past perfect in indirect ('had finished') becomes present perfect ('have finished') in direct."},
+    
+    // Mixed / Error Identification
+    {q: "Identify the error: 'She said that she will come to the party.'", a: "C", choices: ["She said", "that", "will come", "the party"], e: "Past tense reporting verb ('said') requires tense change 'will' → 'would'."},
+    {q: "Identify the error: 'He asked that what I wanted.'", a: "B", choices: ["He asked", "that", "what I wanted", "No error"], e: "Wh- questions do not use 'that'; correct: 'He asked what I wanted.'"},
+    {q: "Identify the error: 'The teacher said that the Earth revolves around the Sun.' (This sentence is correct)", a: "D", choices: ["The teacher said", "that", "revolves", "No error"], e: "Universal truth → no tense change, sentence is correct."},
+    {q: "Identify the error: 'He told that he was tired.'", a: "B", choices: ["He", "told", "that", "was tired"], e: "'Told' requires an indirect object (e.g., 'told me'); use 'said that' instead."}
+];
+
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 25`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

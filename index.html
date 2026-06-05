@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MedPrep</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5fafd;
+            color: #15304c;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Login Screen Styles */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a2c48 0%, #1a4d6e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 40px;
+            padding: 48px 40px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-logo {
+            margin-bottom: 24px;
+        }
+
+        .login-logo img {
+            height: 70px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .login-container h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .login-container h2 .med-text {
+            color: #0a2c48;
+        }
+
+        .login-container h2 .prep-text {
+            color: #1ecbe1;
+        }
+
+        .login-container p {
+            color: #5a7d9a;
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+        }
+
+        .input-group {
+            margin-bottom: 22px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            color: #1ecbe1;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e8f0;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #1ecbe1;
+            box-shadow: 0 0 0 3px rgba(30,203,225,0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #0a2c48;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .login-btn:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+            transform: translateY(-2px);
+        }
+
+        .error-msg {
+            color: #dc2626;
+            font-size: 0.85rem;
+            margin-top: 16px;
+            padding: 10px;
+            background: #fee2e2;
+            border-radius: 30px;
+            display: none;
+        }
+
+        /* Coming Soon Modal */
+        .coming-soon-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .coming-soon-content {
+            background: white;
+            border-radius: 32px;
+            padding: 40px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+        }
+
+        .coming-soon-content i {
+            font-size: 4rem;
+            color: #1ecbe1;
+            margin-bottom: 20px;
+        }
+
+        .coming-soon-content h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            color: #0a2c48;
+            margin-bottom: 12px;
+        }
+
+        .coming-soon-content p {
+            color: #5a7d9a;
+            margin-bottom: 24px;
+            font-size: 1rem;
+        }
+
+        .coming-soon-content .date-badge {
+            background: #e0f2fe;
+            color: #0a2c48;
+            padding: 8px 20px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .coming-soon-content button {
+            padding: 12px 28px;
+            background: #0a2c48;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .coming-soon-content button:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+        }
+
+        /* Access Denied Modal */
+        .access-denied-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease;
+        }
+
+        .access-denied-content {
+            background: white;
+            border-radius: 32px;
+            padding: 40px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+        }
+
+        .access-denied-content i {
+            font-size: 4rem;
+            color: #dc2626;
+            margin-bottom: 20px;
+        }
+
+        .access-denied-content h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            color: #0a2c48;
+            margin-bottom: 12px;
+        }
+
+        .access-denied-content p {
+            color: #5a7d9a;
+            margin-bottom: 24px;
+        }
+
+        .access-denied-content button {
+            padding: 12px 28px;
+            background: #0a2c48;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .access-denied-content button:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+        }
+
+        /* Main Website Styles */
+        .main-website {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+            flex: 1 0 auto;
+        }
+
+        .main-header {
+            background: #0a2c48;
+            color: white;
+            padding: 24px 0;
+            box-shadow: 0 12px 28px -8px rgba(10,44,72,0.4);
+            margin-bottom: 28px;
+            border-bottom: 3px solid #1ecbe1;
+        }
+
+        .header-flex {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .logo-wrapper {
+            background: white;
+            padding: 10px 36px;
+            border-radius: 80px;
+            display: inline-flex;
+            border: 2px solid #1ecbe1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .logo-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-img {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .main-sections {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin: 20px 0 30px;
+        }
+
+        .main-card, .sub-card {
+            background: white;
+            border-radius: 32px;
+            padding: 30px 20px;
+            box-shadow: 0 15px 30px -10px #0a2c481a;
+            transition: 0.2s;
+            border: 1px solid rgba(30,203,225,0.3);
+            cursor: pointer;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-card:hover, .sub-card:hover {
+            transform: translateY(-5px);
+            border-color: #1ecbe1;
+        }
+
+        .main-icon {
+            font-size: 2.5rem;
+            background: #e0f2fe;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: #0a2c48;
+            border: 2px solid #1ecbe1;
+        }
+
+        .nested-section {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+            border-radius: 30px;
+            padding: 28px 24px;
+            margin-top: 20px;
+            border: 2px solid #1ecbe1;
+            box-shadow: 0 20px 30px -15px #0a2c481a;
+            display: none;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 18px;
+        }
+
+        .quiz-item {
+            background: #f0f9ff;
+            padding: 14px 18px;
+            border-radius: 18px;
+            text-decoration: none;
+            color: #0a2c48;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid transparent;
+            transition: 0.25s;
+            font-size: 0.9rem;
+        }
+
+        .quiz-item i {
+            font-size: 1.1rem;
+            color: #1ecbe1;
+            width: 24px;
+        }
+
+        .quiz-item:hover {
+            background: #1ecbe1;
+            color: white;
+            border-color: #0a2c48;
+        }
+        .quiz-item:hover i {
+            color: white;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #0a2c48;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin: 28px 0 8px;
+            border: 2px solid #1ecbe1;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .back-link:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+        }
+
+        .main-footer {
+            background: #0a2c48;
+            color: #e2f0fa;
+            padding: 24px 20px;
+            border-top: 3px solid #1ecbe1;
+            text-align: center;
+            width: 100%;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+
+        @media (min-width: 768px) {
+            .main-sections {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginOverlay" class="login-overlay" style="display: none;">
+    <div class="login-container">
+        <div class="login-logo">
+            <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo">
+        </div>
+        <h2><span class="med-text">Welcome To Med</span><span class="prep-text">Prep</span></h2>
+        <p>Sign in to continue</p>
+        <div class="input-group">
+            <label><i class="fas fa-envelope"></i> Username</label>
+            <input type="email" id="loginEmail" placeholder="Enter your username">
+        </div>
+        <div class="input-group">
+            <label><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password">
+        </div>
+        <button class="login-btn" onclick="validateLogin()">Sign In</button>
+        <div id="loginError" class="error-msg">
+            <i class="fas fa-exclamation-triangle"></i> Invalid email or password. Please try again.
+        </div>
+    </div>
+</div>
+
+<!-- MAIN WEBSITE -->
+<div class="main-website" id="mainWebsite" style="display: none;">
+    <header class="main-header">
+        <div class="container header-flex">
+            <div class="logo-wrapper">
+                <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="mainHome" class="main-sections">
+            <div class="main-card mdcat" onclick="handleMDCATClick()">
+                <div class="main-icon"><i class="fas fa-flask"></i></div>
+                <h2>MDCAT Preparation</h2>
+            </div>
+            <div class="main-card medical" onclick="handleMedicalClick()">
+                <div class="main-icon"><i class="fas fa-user-md"></i></div>
+                <h2>Medical Studies</h2>
+            </div>
+        </div>
+
+        <!-- ==================== MDCAT SECTION ==================== -->
+        <div id="nestedMDCAT" class="nested-section">
+            <div class="card-grid">
+                <div class="sub-card" onclick="nav('nestedChapterWise')">
+                    <div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-book-open"></i></div>
+                    <h4>Chapter-wise MCQs</h4>
+                </div>
+                <div class="sub-card" onclick="showComingSoon('Past Papers')">
+                    <div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-file-alt"></i></div>
+                    <h4>Past Papers</h4>
+                </div>
+                <div class="sub-card" onclick="showComingSoon('MDCAT Super Session')">
+                    <div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-star-of-life"></i></div>
+                    <h4>MDCAT Super Session</h4>
+                </div>
+            </div>
+            <div class="back-link" onclick="nav('mainHome')"><i class="fas fa-arrow-left"></i> Back to Home</div>
+        </div>
+
+        <div id="nestedChapterWise" class="nested-section">
+            <div class="card-grid">
+                <div class="sub-card" onclick="nav('nestedBiology')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-dna"></i></div><h4>Biology</h4></div>
+                <div class="sub-card" onclick="nav('nestedChemistry')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-atom"></i></div><h4>Chemistry</h4></div>
+                <div class="sub-card" onclick="nav('nestedPhysics')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-gear"></i></div><h4>Physics</h4></div>
+            </div>
+            <div class="back-link" onclick="nav('nestedMDCAT')">Back to MDCAT</div>
+        </div>
+
+        <!-- ==================== PHYSICS SECTION (Fully Available) ==================== -->
+        <div id="nestedPhysics" class="nested-section">
+            <div class="card-grid">
+                <div class="sub-card" onclick="nav('nestedPhysicsFSc1')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-book"></i></div><h4>FSc Part I</h4></div>
+                <div class="sub-card" onclick="nav('nestedPhysicsFSc2')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-book-open"></i></div><h4>FSc Part II</h4></div>
+            </div>
+            <div class="back-link" onclick="nav('nestedChapterWise')">Back to Chapter-wise</div>
+        </div>
+
+        <!-- PHYSICS FSc Part 1 (11th) Quizzes -->
+        <div id="nestedPhysicsFSc1" class="nested-section">
+            <h3 style="margin-bottom: 20px;">FSc Part I</h3>
+            <div class="card-grid">
+                <a href="Measurment.html" class="quiz-item"><i class="fas fa-ruler"></i> Measurements</a>
+                <a href="Vectors and Equillibrium.html" class="quiz-item"><i class="fas fa-arrows-alt"></i> Vectors & Equilibrium</a>
+                <a href="Force and Motion.html" class="quiz-item"><i class="fas fa-car"></i> Force and Motion</a>
+                <a href="Work and Energy.html" class="quiz-item"><i class="fas fa-bolt"></i> Work and Energy</a>
+                <a href="Rotational  and Circular Motion.html" class="quiz-item"><i class="fas fa-sync-alt"></i> Rotational & Circular Motion</a>
+                <a href="Oscillation and Waves.html" class="quiz-item"><i class="fas fa-waveform"></i> Oscillations and Waves</a>
+                <a href="Physical Optics.html" class="quiz-item"><i class="fas fa-lightbulb"></i> Physical Optics</a>
+                <a href="Thermodynamics.html" class="quiz-item"><i class="fas fa-fire"></i> Thermodynamics</a>
+            </div>
+            <div class="back-link" onclick="nav('nestedPhysics')">Back to Physics</div>
+        </div>
+
+        <!-- PHYSICS FSc Part 2 (12th) Quizzes -->
+        <div id="nestedPhysicsFSc2" class="nested-section">
+            <h3 style="margin-bottom: 20px;">FSc Part II</h3>
+            <div class="card-grid">
+                <a href="Electrostatics.html" class="quiz-item"><i class="fas fa-bolt"></i> Electrostatics</a>
+                <a href="Current Electricity.html" class="quiz-item"><i class="fas fa-charging-station"></i> Current Electricity</a>
+                <a href="Electromagnetism.html" class="quiz-item"><i class="fas fa-magnet"></i> Electromagnetism</a>
+                <a href="Electromagnetic Induction.html" class="quiz-item"><i class="fas fa-coil"></i> Electromagnetic Induction</a>
+                <a href="Alternating Current.html" class="quiz-item"><i class="fas fa-wave-square"></i> Alternating Current</a>
+                <a href="Physics of Solids.html" class="quiz-item"><i class="fas fa-cube"></i> Physics of Solids</a>
+                <a href="Electronics .html" class="quiz-item"><i class="fas fa-microchip"></i> Electronics</a>
+                <a href="Dawn of Modern Physics.html" class="quiz-item"><i class="fas fa-atom"></i> Dawn of Modern Physics</a>
+                <a href="Atomic Spectra.html" class="quiz-item"><i class="fas fa-chart-line"></i> Atomic Spectra</a>
+                <a href="Nuclear Physics.html" class="quiz-item"><i class="fas fa-radiation"></i> Nuclear Physics</a>
+            </div>
+            <div class="back-link" onclick="nav('nestedPhysics')">Back to Physics</div>
+        </div>
+
+        <!-- ==================== BIOLOGY SECTION ==================== -->
+        <div id="nestedBiology" class="nested-section">
+            <div class="card-grid">
+                <div class="sub-card" onclick="nav('nestedFSc1')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-book"></i></div><h4>FSc Part I</h4></div>
+                <div class="sub-card" onclick="nav('nestedFSc2')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-book-open"></i></div><h4>FSc Part II</h4></div>
+            </div>
+            <div class="back-link" onclick="nav('nestedChapterWise')">Back</div>
+        </div>
+
+        <div id="nestedFSc1" class="nested-section"><h3>FSc Part I</h3><div class="card-grid"><a href="Cell_Structure.html" class="quiz-item">Cell Structure</a><a href="Biological_Molecules.html" class="quiz-item">Biological Molecules</a><a href="Enzymes.html" class="quiz-item">Enzymes</a><a href="Bioenergetics.html" class="quiz-item">Bioenergetics</a><a href="Acellular_Life.html" class="quiz-item">Acellular Life</a><a href="Prokaryotes.html" class="quiz-item">Prokaryotes</a><a href="Protists_Fungi.html" class="quiz-item">Protists and Fungi</a><a href="Plant_Diversity.html" class="quiz-item">Plant Diversity</a><a href="Animal_Diversity.html" class="quiz-item">Animal Diversity</a><a href="Form and Functions in Plants.html" class="quiz-item">Form and Functions in Plants</a><a href="Digestion.html" class="quiz-item">Digestion</a><a href="Circulation.html" class="quiz-item">Circulation</a><a href="Immunity.html" class="quiz-item">Immunity</a></div><div class="back-link" onclick="nav('nestedBiology')">Back</div></div>
+        <div id="nestedFSc2" class="nested-section"><h3>FSc Part II</h3><div class="card-grid"><a href="Respiration.html" class="quiz-item">Respiration</a><a href="Homeostasis.html" class="quiz-item">Homeostasis</a><a href="Support and Movement.html" class="quiz-item">Support and Movement</a><a href="Nervous Coordination.html" class="quiz-item">Nervous Coordination</a><a href="Chemical Coordination.html" class="quiz-item">Chemical Coordination</a><a href="Behaviour.html" class="quiz-item">Behaviour</a><a href="Reproduction.html" class="quiz-item">Reproduction</a><a href="Development and Aging.html" class="quiz-item">Development and Aging</a><a href="Inheritance.html" class="quiz-item">Inheritance</a><a href="Chromosomes and DNA.html" class="quiz-item">Chromosomes and DNA</a><a href="Evolution.html" class="quiz-item">Evolution</a><a href="Man and His Environment.html" class="quiz-item">Man and His Environment</a><a href="Biotechnology.html" class="quiz-item">Biotechnology</a><a href="Biology and Human Welfare.html" class="quiz-item">Biology and Human Welfare</a></div><div class="back-link" onclick="nav('nestedBiology')">Back</div></div>
+
+        <!-- CHEMISTRY SECTION -->
+        <div id="nestedChemistry" class="nested-section">
+            <div class="card-grid">
+                <div class="sub-card" onclick="nav('nestedChemFSc1')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-flask"></i></div><h4>FSc Part I</h4></div>
+                <div class="sub-card" onclick="nav('nestedChemFSc2')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-vial"></i></div><h4>FSc Part II</h4></div>
+            </div>
+            <div class="back-link" onclick="nav('nestedChapterWise')">Back</div>
+        </div>
+
+        <div id="nestedChemFSc1" class="nested-section"><h3>FSc Part I</h3><div class="card-grid"><a href="Stoichiometry.html" class="quiz-item">Stoichiometry</a><a href="Atomic Structure.html" class="quiz-item">Atomic Structure</a><a href="Chemical Bonding.html" class="quiz-item">Chemical Bonding</a><a href="Gases.html" class="quiz-item">Gases</a><a href="Liquids.html" class="quiz-item">Liquids</a><a href="Solids.html" class="quiz-item">Solids</a><a href="Chemical Equilibrium.html" class="quiz-item">Chemical Equilibrium</a><a href="Thermochemistry.html" class="quiz-item">Thermochemistry</a><a href="Chemical Kinetics.html" class="quiz-item">Chemical Kinetics</a><a href="Electrochemistry.html" class="quiz-item">Electrochemistry</a><a href="Solutions & Colloids.html" class="quiz-item">Solutions & Colloids</a><a href="Acids,Bases and Salts.html" class="quiz-item">Acids, Bases & Salts</a></div><div class="back-link" onclick="nav('nestedChemistry')">Back</div></div>
+        <div id="nestedChemFSc2" class="nested-section"><h3>FSc Part II</h3><div class="card-grid"><a href="S and P Block.html" class="quiz-item">s & p Block</a><a href="d and f Block.html" class="quiz-item">d & f Block</a><a href="Organic Compounds.html" class="quiz-item">Organic Compounds</a><a href="Hydrocarbons.html" class="quiz-item">Hydrocarbons</a><a href="Alkyl Halides.html" class="quiz-item">Alkyl Halides</a><a href="Alcohol,Phenol and Ethers.html" class="quiz-item">Alcohols, Phenols & Ethers</a><a href="Carboxylic acid.html" class="quiz-item">Carboxylic Acids</a><a href="Macromolecules.html" class="quiz-item">Macromolecules</a><a href="Industrial Chemistry.html" class="quiz-item">Industrial Chemistry</a></div><div class="back-link" onclick="nav('nestedChemistry')">Back</div></div>
+
+        <!-- MEDICAL STUDIES (Only 4th Year + Block J) -->
+        <div id="nestedMedicalStudies" class="nested-section">
+            <div class="card-grid">
+                <div class="sub-card" onclick="nav('nestedFourthYear')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-4"></i></div><h4>4th Year MBBS</h4></div>
+            </div>
+            <div class="back-link" onclick="nav('mainHome')">Back to Home</div>
+        </div>
+
+        <div id="nestedFourthYear" class="nested-section">
+            <div class="card-grid">
+                <div class="sub-card" onclick="nav('nestedBlockJ')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-brain"></i></div><h4>Block J · Neurosciences II</h4></div>
+            </div>
+            <div class="back-link" onclick="nav('nestedMedicalStudies')">Back</div>
+        </div>
+
+        <div id="nestedBlockJ" class="nested-section">
+            <div class="card-grid">
+                <div class="sub-card" onclick="nav('nestedPharmacology')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-capsules"></i></div><h4>Pharmacology</h4></div>
+                <div class="sub-card" onclick="nav('nestedPathology')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-microscope"></i></div><h4>Pathology</h4></div>
+                <div class="sub-card" onclick="nav('nestedForensic')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-balance-scale"></i></div><h4>Forensic Medicine</h4></div>
+                <div class="sub-card" onclick="nav('nestedCommunityMedicine')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-chart-line"></i></div><h4>Community Medicine</h4></div>
+                <div class="sub-card" onclick="nav('nestedMedicine')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-stethoscope"></i></div><h4>Medicine</h4></div>
+                <div class="sub-card" onclick="nav('nestedPsychiatry')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-brain"></i></div><h4>Psychiatry</h4></div>
+                <div class="sub-card" onclick="nav('nestedMinorSubjects')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-graduation-cap"></i></div><h4>Minor Subjects</h4></div>
+            </div>
+            <div class="back-link" onclick="nav('nestedFourthYear')">Back</div>
+        </div>
+
+        <div id="nestedPharmacology" class="nested-section"><a href="Pharmacology.html" class="quiz-item">Start Pharmacology Quiz</a><div class="back-link" onclick="nav('nestedBlockJ')">Back</div></div>
+        <div id="nestedPathology" class="nested-section"><a href="Pathology.html" class="quiz-item">Start Pathology Quiz</a><div class="back-link" onclick="nav('nestedBlockJ')">Back</div></div>
+        <div id="nestedForensic" class="nested-section"><a href="Forensic Medicine.html" class="quiz-item">Start Forensic Quiz</a><div class="back-link" onclick="nav('nestedBlockJ')">Back</div></div>
+        <div id="nestedCommunityMedicine" class="nested-section"><a href="Community Medicine.html" class="quiz-item">Start Community Medicine Quiz</a><div class="back-link" onclick="nav('nestedBlockJ')">Back</div></div>
+        <div id="nestedMedicine" class="nested-section"><a href="Medicine.html" class="quiz-item">Start Medicine Quiz</a><div class="back-link" onclick="nav('nestedBlockJ')">Back</div></div>
+        <div id="nestedPsychiatry" class="nested-section"><a href="Psychiatry.html" class="quiz-item">Start Psychiatry Quiz</a><div class="back-link" onclick="nav('nestedBlockJ')">Back</div></div>
+        <div id="nestedMinorSubjects" class="nested-section"><a href="Minor Subjects.html" class="quiz-item">Start Minor Subjects Quiz</a><div class="back-link" onclick="nav('nestedBlockJ')">Back</div></div>
+    </div>
+
+    <footer class="main-footer">
+        <span><i class="fas fa-staff-aesculapius" style="color:#1ecbe1;"></i>© MedPrep · All Rights Reserved.</span>
+    </footer>
+</div>
+
+<script>
+    // Valid users with roles
+    const validUsers = [
+        { email: "dr.yaseen4003@gmail.com", password: "Yaseen123", role: "full" },
+        { email: "naeemtaiba4@gmail.com", password: "Tayyaba123", role: "limited" },
+        { email: "abbaskhanbjr87@gmail.com", password: "Abbas123", role: "limited" },
+        { email: "rmomina2013@gmail.com", password: "Momina123", role: "limited" }
+    ];
+    
+    let currentUserRole = null;
+    let currentUserEmail = null;
+
+    function showComingSoon(sectionName) {
+        const modal = document.createElement('div');
+        modal.className = 'coming-soon-modal';
+        modal.innerHTML = `
+            <div class="coming-soon-content">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Coming Soon!</h3>
+                <div class="date-badge">📅 Available from <strong>8th June 2026</strong></div>
+                <p>${sectionName} section will be available from <strong>8th June 2026</strong>.</p>
+                <button onclick="this.closest('.coming-soon-modal').remove()">Got it</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+        });
+    }
+
+    function showAccessDenied() {
+        const modal = document.createElement('div');
+        modal.className = 'access-denied-modal';
+        modal.innerHTML = `
+            <div class="access-denied-content">
+                <i class="fas fa-ban"></i>
+                <h3>Access Denied</h3>
+                <p>You don't have permission to access Medical Studies section.<br>Please contact administrator.</p>
+                <button onclick="this.closest('.access-denied-modal').remove()">OK</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+        });
+    }
+
+    function handleMDCATClick() {
+        nav('nestedMDCAT');
+    }
+
+    function handleMedicalClick() {
+        if (currentUserRole === 'full') {
+            nav('nestedMedicalStudies');
+        } else {
+            showAccessDenied();
+        }
+    }
+
+    function checkLoginStatus() {
+        const isLoggedIn = sessionStorage.getItem('medprep_logged_in');
+        const savedUser = localStorage.getItem('current_logged_in_user');
+        const savedRole = localStorage.getItem('current_user_role');
+        
+        if (isLoggedIn === 'true' && savedUser && savedRole) {
+            currentUserEmail = savedUser;
+            currentUserRole = savedRole;
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('mainWebsite').style.display = 'flex';
+            document.getElementById('mainHome').style.display = 'grid';
+            return true;
+        } else {
+            document.getElementById('loginOverlay').style.display = 'flex';
+            document.getElementById('mainWebsite').style.display = 'none';
+            return false;
+        }
+    }
+
+    function validateLogin() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        const errorDiv = document.getElementById('loginError');
+        
+        errorDiv.style.display = 'none';
+        
+        const user = validUsers.find(u => u.email === email && u.password === password);
+        
+        if (!user) {
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 3000);
+            return;
+        }
+        
+        currentUserEmail = email;
+        currentUserRole = user.role;
+        
+        localStorage.setItem('current_logged_in_user', email);
+        localStorage.setItem('current_user_role', user.role);
+        sessionStorage.setItem('medprep_logged_in', 'true');
+        
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('mainWebsite').style.display = 'flex';
+        document.getElementById('mainHome').style.display = 'grid';
+    }
+
+    function nav(target) {
+        document.querySelectorAll('.nested-section').forEach(s => s.style.display = 'none');
+        const homeDiv = document.getElementById('mainHome');
+        if (homeDiv) homeDiv.style.display = 'none';
+        
+        const targetElement = document.getElementById(target);
+        if (target === 'mainHome') {
+            if (targetElement) targetElement.style.display = 'grid';
+        } else {
+            if (targetElement) targetElement.style.display = 'block';
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    window.nav = nav;
+    window.handleMDCATClick = handleMDCATClick;
+    window.handleMedicalClick = handleMedicalClick;
+    window.showComingSoon = showComingSoon;
+    
+    checkLoginStatus();
+    
+    document.getElementById('loginEmail')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') validateLogin();
+    });
+    document.getElementById('loginPassword')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') validateLogin();
+    });
+</script>
+</body>
+</html>

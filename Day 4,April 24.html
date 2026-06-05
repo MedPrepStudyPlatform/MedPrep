@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT English Preparation Session ·  Active & Passive Voice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        /* Header - NOT sticky, scrolls away */
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';">Score</h2>
+        <div id="final-score">0 / 25</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class=""></i>  Active & Passive Voice </h3>
+        <div class="syllabus-grid">
+            
+        </div>
+        
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit </button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> MedPrep </span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// ENGLISH ACTIVE & PASSIVE VOICE - 25 MCQs (April 24)
+// Covers: All tenses, modals, interrogatives, imperatives, two objects, impersonal passive
+// ✅ EACH QUESTION: ONE correct answer · Explanation matches the key
+// --------------------------------------------------------------
+const quizData = [
+    // Present Simple
+    {q: "Change to passive: 'The chef prepares delicious meals.'", a: "B", choices: ["Delicious meals prepare by chef", "Delicious meals are prepared by the chef", "Delicious meals were prepared by the chef", "Delicious meals is prepared by the chef"], e: "Present simple passive: am/is/are + past participle. 'Meals' plural → 'are prepared'."},
+    
+    // Past Simple
+    {q: "Change to passive: 'Shakespeare wrote Hamlet.'", a: "A", choices: ["Hamlet was written by Shakespeare.", "Hamlet is written by Shakespeare.", "Hamlet were written by Shakespeare.", "Hamlet was wrote by Shakespeare."], e: "Past simple passive: was/were + past participle. 'Hamlet' singular → 'was written'."},
+    
+    // Future Simple
+    {q: "Change to passive: 'The company will launch a new product.'", a: "C", choices: ["A new product is launched by the company.", "A new product was launched by the company.", "A new product will be launched by the company.", "A new product would be launched by the company."], e: "Future simple passive: will be + past participle → 'will be launched'."},
+    
+    // Present Continuous
+    {q: "Change to passive: 'The mechanic is repairing my car.'", a: "D", choices: ["My car is repaired by the mechanic.", "My car was being repaired by the mechanic.", "My car has been repaired by the mechanic.", "My car is being repaired by the mechanic."], e: "Present continuous passive: am/is/are + being + past participle → 'is being repaired'."},
+    
+    // Past Continuous
+    {q: "Change to passive: 'They were painting the house.'", a: "B", choices: ["The house is being painted.", "The house was being painted.", "The house was painted.", "The house has been painted."], e: "Past continuous passive: was/were + being + past participle → 'was being painted'."},
+    
+    // Present Perfect
+    {q: "Change to passive: 'Someone has stolen my wallet.'", a: "C", choices: ["My wallet is stolen.", "My wallet was stolen.", "My wallet has been stolen.", "My wallet had been stolen."], e: "Present perfect passive: has/have + been + past participle → 'has been stolen'."},
+    
+    // Past Perfect
+    {q: "Change to passive: 'They had completed the project before the deadline.'", a: "A", choices: ["The project had been completed before the deadline.", "The project was completed before the deadline.", "The project has been completed before the deadline.", "The project is completed before the deadline."], e: "Past perfect passive: had + been + past participle → 'had been completed'."},
+    
+    // Future Perfect
+    {q: "Change to passive: 'By next year, she will have finished her degree.'", a: "D", choices: ["Her degree will be finished.", "Her degree has been finished.", "Her degree is being finished.", "Her degree will have been finished."], e: "Future perfect passive: will have + been + past participle → 'will have been finished'."},
+    
+    // Modals (can, must, should, may)
+    {q: "Change to passive: 'You must complete the form.'", a: "B", choices: ["The form is completed.", "The form must be completed.", "The form must completed.", "The form has been completed."], e: "Modal passive: modal + be + past participle → 'must be completed'."},
+    {q: "Change to passive: 'They can solve the problem.'", a: "C", choices: ["The problem can solve.", "The problem could be solved.", "The problem can be solved.", "The problem is solved."], e: "Modal 'can' passive: can + be + past participle → 'can be solved'."},
+    {q: "Change to passive: 'You should not waste water.'", a: "A", choices: ["Water should not be wasted.", "Water should not waste.", "Water is not wasted.", "Water was not wasted."], e: "Negative modal passive: modal + not + be + past participle → 'should not be wasted'."},
+    
+    // Interrogative Sentences
+    {q: "Change to passive: 'Did they invite you?'", a: "D", choices: ["Were you invite?", "Was you invited?", "Are you invited?", "Were you invited?"], e: "Past simple interrogative passive: was/were + subject + past participle → 'Were you invited?'"},
+    {q: "Change to passive: 'Will they announce the results?'", a: "B", choices: ["Will the results announce?", "Will the results be announced?", "Will the results been announced?", "Are the results announced?"], e: "Future simple interrogative passive: will + subject + be + past participle → 'Will the results be announced?'"},
+    
+    // Imperative Sentences
+    {q: "Change to passive: 'Open the window.'", a: "C", choices: ["The window is opened.", "The window was opened.", "Let the window be opened.", "The window should open."], e: "Imperative passive: Let + object + be + past participle → 'Let the window be opened.'"},
+    {q: "Change to passive: 'Please close the door.'", a: "A", choices: ["Let the door be closed.", "The door is closed.", "Close the door.", "The door was closed."], e: "Imperative with 'please' → 'Let the door be closed.'"},
+    
+    // Passive with Two Objects
+    {q: "Change to passive: 'She gave me a gift.' (use 'I' as subject)", a: "B", choices: ["A gift was given to me.", "I was given a gift.", "I am given a gift.", "I have given a gift."], e: "With two objects, indirect object can become subject: 'I was given a gift'."},
+    {q: "Change to passive: 'They offered him a job.' (use 'He' as subject)", a: "D", choices: ["A job was offered to him.", "He is offered a job.", "He has been offered a job.", "He was offered a job."], e: "Past simple passive with indirect object → 'He was offered a job'."},
+    
+    // Passive without agent (by + agent omitted)
+    {q: "Which sentence correctly omits the agent because it is unknown?", a: "C", choices: ["The window was broken by someone.", "The window was broken by the boy.", "The window was broken.", "Someone broke the window."], e: "When agent is unknown or unimportant, 'by someone' can be omitted."},
+    
+    // Impersonal Passive (It is said that...)
+    {q: "Choose the correct impersonal passive: 'People say that he is rich.'", a: "A", choices: ["It is said that he is rich.", "He is said that he is rich.", "It says that he is rich.", "He is say to be rich."], e: "Impersonal passive: It + passive reporting verb + that clause → 'It is said that...'"},
+    {q: "Choose the correct personal passive: 'People believe that she works hard.'", a: "D", choices: ["It is believed that she works hard.", "She believes to work hard.", "She is believed that she works hard.", "She is believed to work hard."], e: "Personal passive: subject + passive reporting verb + to-infinitive → 'She is believed to work hard.'"},
+    
+    // Active to Passive with Gerund
+    {q: "Change to passive: 'I remember they took me to the zoo.'", a: "B", choices: ["I remember being taken to the zoo.", "I remember being taken to the zoo.", "I remember taken to the zoo.", "I am remembered to be taken."], e: "After 'remember', passive gerund: 'being + past participle' → 'being taken'."},
+    
+    // Passive with Prepositions
+    {q: "Change to passive: 'They laughed at him.'", a: "C", choices: ["He was laughed.", "He is laughed at.", "He was laughed at.", "He was laughed by them."], e: "Phrasal verb 'laugh at' retains preposition in passive: 'was laughed at'."},
+    
+    // Error Identification
+    {q: "Identify the error: 'The letter was wrote by her.'", a: "B", choices: ["The letter", "wrote", "by her", "No error"], e: "Past participle of 'write' is 'written', not 'wrote'. Correct: 'was written'."},
+    {q: "Identify the error: 'The meal is being cook by the chef.'", a: "C", choices: ["The meal", "is being", "cook", "by the chef"], e: "Past participle 'cooked' needed after 'being': 'is being cooked'."},
+    {q: "Identify the error: 'A new hospital will built next year.'", a: "C", choices: ["A new hospital", "will", "built", "next year"], e: "Missing 'be': 'will be built'."},
+    
+];
+
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 25`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

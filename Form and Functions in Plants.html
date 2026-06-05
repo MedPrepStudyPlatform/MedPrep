@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Physiology Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f0f7f4; color: #1c2e36; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-top: 10px solid #27ae60; }
+        h1 { font-family: 'Outfit', sans-serif; color: #145a32; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #2ecc71; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; }
+        .question { margin-bottom: 35px; padding: 25px; border: 2px solid #eef2f1; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.15rem; margin-bottom: 20px; color: #0e3321; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #edeff2; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #f9fbfb; font-size: 1rem; }
+        .option:hover { border-color: #27ae60; background: #f0fff4; }
+        .option.selected { background: #145a32; color: white; border-color: #145a32; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #27ae60; color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3); }
+        .btn-submit:hover { background: #1e8449; transform: translateY(-3px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #145a32; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #eafff5; padding: 18px; border-left: 6px solid #27ae60; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #1c2e36; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Form and Functions in Plants</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+		
+    </div>
+</div>
+
+<script>
+    const hardMDCATPlants = [
+        { q: "A plant cell with a solute potential (Ψs) of -12 bars is placed in a solution with a water potential (Ψw) of -8 bars. At equilibrium, if the cell is fully turgid, what is its pressure potential (Ψp)?", options: ["+4 bars", "-4 bars", "+20 bars", "0 bars"], exp: "At equilibrium, Ψw(cell) = Ψw(solution) = -8. Since Ψw = Ψs + Ψp, then -8 = -12 + Ψp. Therefore, Ψp = +4.", correct: "A" },
+        { q: "Phloem loading is an active process. If a metabolic inhibitor like Cyanide is applied to the leaf, which of the following will occur first?", options: ["Transpiration will stop", "Accumulation of sugar in mesophyll cells", "Increased rate of guttation", "Rapid movement of sap to the roots"], exp: "Loading requires ATP. If inhibited, sugars cannot enter the sieve tubes and will build up in the source (mesophyll).", correct: "B" },
+        { q: "Which of the following describes the correct ion-exchange during the closing of stomata in response to Abscisic Acid (ABA)?", options: ["K+ influx into guard cells", "Cl- influx into guard cells", "K+ efflux from guard cells", "H+ pumping out of guard cells"], exp: "ABA triggers the opening of efflux channels. K+ leaves the guard cells, followed by water, making them flaccid.", correct: "C" },
+        { q: "The 'Symplast' pathway of water movement is considered more 'regulated' than the 'Apoplast' because:", options: ["It moves through non-living spaces", "It must cross the plasma membrane of the endodermis", "It is driven by evaporation alone", "It occurs only at night"], exp: "Symplastic movement happens through the living cytoplasm and plasmodesmata, allowing the cell to control solute entry.", correct: "B" },
+        { q: "In the Cohesion-Tension theory, what is the 'driving force' that overcomes the gravitational pull in a 100-meter tall tree?", options: ["Positive root pressure", "Hydrostatic pressure from phloem", "Capillarity of narrow vessels", "Solar-powered evaporation"], exp: "Transpiration pull is driven by solar energy causing evaporation, creating a negative tension that pulls the water column.", correct: "D" },
+        { q: "If a gardener applies too much chemical fertilizer to the soil, the plants wilt. This is because the soil water potential becomes ________ than the root, causing ________.", options: ["Higher; Endosmosis", "Lower; Exosmosis", "Lower; Endosmosis", "Higher; Turgidity"], exp: "Excess fertilizer lowers the soil's water potential (more negative). Water leaves the roots (exosmosis), leading to wilting.", correct: "B" },
+        { q: "Which of the following is a structural adaptation of Xerophytes specifically designed to reduce the 'Vapor Pressure Gradient'?", options: ["Sunken stomata", "Broad leaf lamina", "Presence of lenticels", "Lack of cuticle"], exp: "Sunken stomata create a pocket of humid air near the pore, reducing the gradient between the leaf and the outside air.", correct: "A" },
+        { q: "Iron (Fe) deficiency is often confused with Magnesium (Mg) deficiency. However, Fe deficiency is unique because chlorosis appears in:", options: ["Old leaves first", "The whole plant simultaneously", "Young leaves first", "Roots only"], exp: "Iron is an immobile element. It cannot be translocated from old leaves to new growth, so young leaves show symptoms first.", correct: "C" },
+        { q: "The 'Pressure-Flow' (Munch) hypothesis explains that sap moves in phloem from source to sink due to:", options: ["Negative pressure pull", "A hydrostatic pressure gradient", "Active transport of water", "Ciliary movement of sieve plates"], exp: "High sugar at the source causes water entry (high turgor); unloading at sink causes water exit (low turgor). This gradient drives flow.", correct: "B" },
+        { q: "Which of the following provides the primary 'tensile strength' to the water column in xylem, preventing it from breaking (cavitation)?", options: ["Hydrogen bonding between water molecules", "Active pumping by companion cells", "Lignin in the vessel walls", "Atmospheric pressure"], exp: "Cohesion (hydrogen bonding) gives the water column the strength to be pulled upward without breaking.", correct: "A" },
+        { q: "During 'Phloem Unloading' at a storage sink (like a sugar beet root), sugar is converted to starch. Why?", options: ["To increase osmotic pressure", "To maintain a high water potential in the sink", "To keep the solute concentration low at the sink", "To stop water flow"], exp: "Converting sugar to starch maintains a low solute concentration, ensuring sucrose continues to flow toward the sink.", correct: "C" },
+        { q: "Nitrate Reductase, the enzyme that converts Nitrate to Nitrite, contains which metallic cofactor?", options: ["Magnesium", "Zinc", "Molybdenum", "Copper"], exp: "Molybdenum is a crucial trace element for nitrogen metabolism enzymes.", correct: "C" },
+        { q: "Which specific tissue is responsible for the 'Radial' (sideways) conduction of water and nutrients in a woody stem?", options: ["Sieve tubes", "Xylem rays", "Tracheids", "Vessels"], exp: "Xylem rays consist of parenchyma cells that move materials horizontally across the stem.", correct: "B" },
+        { q: "In 'Guttation', the liquid water is forced out of the leaf. This process is driven by ________ and occurs through ________.", options: ["Transpiration; Stomata", "Root pressure; Hydathodes", "Osmosis; Lenticels", "Active transport; Cuticle"], exp: "Positive root pressure at night (when transpiration is low) pushes water out through hydathodes.", correct: "B" },
+        { q: "What happens to the water potential (Ψw) of a cell when it undergoes plasmolysis?", options: ["It becomes more positive", "It stays at zero", "It becomes more negative", "It reaches infinity"], exp: "As the cell loses water, solutes become more concentrated, making the solute potential (and thus Ψw) more negative.", correct: "C" },
+        { q: "Companion cells are essential for the survival of Sieve Tube Elements because sieve tubes lack:", options: ["Cytoplasm", "Plasma membrane", "Nucleus and Ribosomes", "Cell walls"], exp: "Sieve tubes are living but lose their nucleus to make space for flow; companion cells provide metabolic support.", correct: "C" },
+        { q: "Which mineral is responsible for maintaining the structural integrity of the 'Middle Lamella' in plant tissues?", options: ["Sulfur", "Iron", "Calcium", "Phosphorus"], exp: "Calcium pectate is the main component of the middle lamella, acting as a cellular 'glue'.", correct: "C" },
+        { q: "The rate of 'Imbibition' increases with an increase in:", options: ["Light intensity", "Temperature", "Oxygen concentration", "CO2 concentration"], exp: "Imbibition is a physical adsorption process that speeds up with higher kinetic energy (temperature).", correct: "B" },
+        { q: "Which of the following represents the 'Water Potential' of pure water at atmospheric pressure?", options: ["100 bars", "-10 bars", "0 bars", "1 bar"], exp: "By standard scientific definition, the Ψw of pure water is zero.", correct: "C" },
+        { q: "In a 'Deciduous' tree during early spring (before leaves grow), the 'Source' of sugar is the:", options: ["Atmosphere", "Soil", "Roots/Stem storage", "Developing buds"], exp: "In spring, sugars stored in the roots move upward to support the growth of new buds (the new sinks).", correct: "C" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        hardMDCATPlants.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        hardMDCATPlants.forEach((data, index) => {
+            const ex = document.getElementById(`exp-${index}`);
+            ex.style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Score: ${score} / ${hardMDCATPlants.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

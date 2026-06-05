@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oscillations and Waves | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #ecfeff 0%, #cffafe 100%);
+            color: #155e75;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #0891b2;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #0f766e, #0d9488);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #a5f3fc;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(8, 145, 178, 0.08);
+            border-color: #67e8f9;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #155e75;
+            padding-left: 14px;
+            border-left: 4px solid #0891b2;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #0891b2;
+            background: #ecfeff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #0f766e;
+            color: white;
+            border-color: #0f766e;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #0891b2;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(8, 145, 178, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #0f766e;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(15, 118, 110, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #155e75, #0f766e);
+            color: #ecfeff;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #155e75;
+            display: none;
+            background: #ecfeff;
+            padding: 16px 22px;
+            border-left: 6px solid #0891b2;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Oscillations and Waves</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Oscillations and Waves MCQs (Physics FSC Part 1, Chapter 7)
+    const wavesMcqs = [
+        { q: "A mass-spring system oscillates with a period T. If the mass is doubled, the new period becomes:", options: ["T/2", "T/√2", "T√2", "2T"], exp: "Period T = 2π√(m/k). If m becomes 2m, T' = 2π√(2m/k) = √2 × 2π√(m/k) = T√2.", correct: "C" },
+        { q: "The frequency of a simple pendulum is f. If the length is increased four times, the new frequency becomes:", options: ["f/2", "f/4", "2f", "4f"], exp: "f = (1/(2π))√(g/L). If L becomes 4L, f' = (1/(2π))√(g/(4L)) = (1/2) × (1/(2π))√(g/L) = f/2.", correct: "A" },
+        { q: "A wave has a frequency of 50 Hz and a wavelength of 2 m. Its wave speed is:", options: ["25 m/s", "50 m/s", "100 m/s", "200 m/s"], exp: "v = fλ = 50 × 2 = 100 m/s.", correct: "C" },
+        { q: "The time period of a simple pendulum depends on:", options: ["Mass of bob", "Amplitude", "Length of pendulum", "All of these"], exp: "T = 2π√(L/g), independent of mass and amplitude (for small amplitudes).", correct: "C" },
+        { q: "A spring of force constant k is cut into two equal halves. The force constant of each half is:", options: ["k/2", "k", "2k", "4k"], exp: "For a spring, k ∝ 1/length. Halving the length doubles the force constant: k' = 2k.", correct: "C" },
+        { q: "The displacement of a particle in SHM is given by x = 5 sin(2πt). The amplitude of oscillation is:", options: ["2.5 m", "5 m", "10 m", "π m"], exp: "General equation: x = A sin(ωt). Amplitude A = 5 m.", correct: "B" },
+        { q: "The speed of sound in air is 340 m/s. The wavelength of a sound wave of frequency 680 Hz is:", options: ["0.25 m", "0.5 m", "1 m", "2 m"], exp: "λ = v/f = 340/680 = 0.5 m.", correct: "B" },
+        { q: "In a stationary wave, the points where the amplitude is maximum are called:", options: ["Nodes", "Antinodes", "Crests", "Troughs"], exp: "Antinodes are points of maximum displacement in a standing wave pattern.", correct: "B" },
+        { q: "The phase difference between displacement and acceleration in SHM is:", options: ["0°", "90°", "180°", "270°"], exp: "Acceleration a = -ω²x, so acceleration is opposite to displacement (phase difference of 180° or π radians).", correct: "C" },
+        { q: "A simple pendulum has a length of 1 m. Its time period on Earth is (g = 10 m/s²):", options: ["π s", "2π s", "π/2 s", "2 s"], exp: "T = 2π√(L/g) = 2π√(1/10) = 2π × 0.316 = 1.986 ≈ 2 s (closest). Actually 2π/√10 ≈ 1.986, but among options 2 s is given. π = 3.14, so π s is 3.14 s, too high. The correct approximate is 2 s.", correct: "D" },
+        { q: "The phenomenon of beats is due to:", options: ["Interference", "Diffraction", "Reflection", "Refraction"], exp: "Beats are produced by the superposition (interference) of two waves of slightly different frequencies.", correct: "A" },
+        { q: "The velocity of a wave on a stretched string is given by v = √(T/μ). If the tension is quadrupled, the velocity becomes:", options: ["v/2", "v", "2v", "4v"], exp: "v ∝ √T. If T becomes 4T, v' = √(4T/μ) = 2√(T/μ) = 2v.", correct: "C" },
+        { q: "The total energy of a body executing SHM is:", options: ["Constant", "Proportional to displacement", "Proportional to velocity", "Zero at mean position"], exp: "In SHM, total mechanical energy remains constant (kinetic + potential).", correct: "A" },
+        { q: "A wave is represented by y = 0.2 sin(4πt - 2πx). The wavelength is:", options: ["0.5 m", "1 m", "2 m", "4 m"], exp: "General form: y = A sin(ωt - kx). k = 2π/λ = 2π → λ = 1 m.", correct: "B" },
+        { q: "The resonance frequency of a closed organ pipe of length L is:", options: ["v/2L", "v/4L", "2v/L", "4v/L"], exp: "For a closed pipe, fundamental frequency f = v/4L (only odd harmonics).", correct: "B" },
+        { q: "The time period of a mass-spring system is T. If the spring constant is quadrupled, the new period is:", options: ["T/2", "T/4", "2T", "4T"], exp: "T = 2π√(m/k). If k becomes 4k, T' = 2π√(m/4k) = (1/2) × 2π√(m/k) = T/2.", correct: "A" },
+        { q: "The frequency of a tuning fork is 256 Hz. The time period is:", options: ["1/256 s", "256 s", "256/2 s", "2/256 s"], exp: "T = 1/f = 1/256 s.", correct: "A" },
+        { q: "The acceleration of a particle in SHM is maximum at:", options: ["Mean position", "Extreme position", "Anywhere", "None"], exp: "Acceleration a = -ω²x, so maximum when displacement x is maximum (extreme position).", correct: "B" },
+        { q: "Two waves of the same frequency and amplitude but opposite phase superimpose. The resultant amplitude is:", options: ["Zero", "2A", "A", "A/2"], exp: "When waves are out of phase by 180° (opposite phase), they cancel each other: resultant amplitude = 0.", correct: "A" },
+        { q: "A wave has an angular frequency of 20π rad/s. Its frequency is:", options: ["10 Hz", "20 Hz", "30 Hz", "40 Hz"], exp: "ω = 2πf → f = ω/(2π) = 20π/(2π) = 10 Hz.", correct: "A" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...wavesMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

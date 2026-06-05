@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session · Day 17 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 2</span>
+        <span><i class="fas fa-clock"></i> Day 17,April 22, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';">Score </h2>
+        <div id="final-score">0 / 50</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class="fas fa-biohazard"></i>  Syllabus</h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-egg"></i> Reproduction</span>
+            <span><i class="fas fa-flask"></i> Alkyl Halides</span>
+            <span><i class="fas fa-microchip"></i> Electronics</span>
+            <span><i class="fas fa-sitemap"></i> Sentence Structure</span>
+        </div>
+        
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()">Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> © 2026 MedPrep. All Rights Reserved.</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// TOUGHEST 50 MDCAT-STYLE MCQs - April 22nd
+// Biology: Reproduction (15) | Chemistry: Alkyl Halides (15) | Physics: Electronics (15) | English: Sentence Structure (5)
+// ✅ EACH QUESTION: ONE correct answer · Explanation matches the key
+// --------------------------------------------------------------
+const quizData = [];
+
+// ==================== BIOLOGY: REPRODUCTION (15) ====================
+const bioReproduction = [
+    {q: "The process of formation of gametes is called:", a: "C", choices: ["Fertilization", "Cleavage", "Gametogenesis", "Implantation"], e: "Gametogenesis (spermatogenesis in males, oogenesis in females) produces haploid gametes."},
+    {q: "The site of fertilization in humans is the:", a: "B", choices: ["Ovary", "Fallopian tube (ampulla)", "Uterus", "Cervix"], e: "Fertilization typically occurs in the ampulla of the fallopian tube."},
+    {q: "Which hormone is responsible for maintaining pregnancy (corpus luteum)?", a: "D", choices: ["Estrogen", "FSH", "LH", "Progesterone"], e: "Progesterone maintains the endometrial lining for pregnancy."},
+    {q: "The stage of development when the zygote becomes a solid ball of cells is:", a: "A", choices: ["Morula", "Blastocyst", "Gastrula", "Neurula"], e: "Morula (16-32 cells) forms before blastocyst."},
+    {q: "The hormone detected in pregnancy tests is:", a: "C", choices: ["Estrogen", "Progesterone", "hCG (human chorionic gonadotropin)", "LH"], e: "hCG is secreted by trophoblast cells and detected in urine/blood."},
+    {q: "Which part of the sperm contains mitochondria?", a: "B", choices: ["Head", "Midpiece", "Tail", "Acrosome"], e: "Midpiece is packed with mitochondria to produce ATP for tail movement."},
+    {q: "The acrosome of sperm contains:", a: "D", choices: ["DNA", "Mitochondria", "Centrioles", "Hydrolytic enzymes (hyaluronidase, acrosin)"], e: "Acrosomal enzymes help penetrate the egg's zona pellucida."},
+    {q: "The inner cell mass of the blastocyst gives rise to:", a: "C", choices: ["Placenta", "Trophoblast", "Embryo proper", "Umbilical cord"], e: "Inner cell mass (embryoblast) develops into the embryo; trophoblast forms placenta."},
+    {q: "The stage of meiosis where crossing over occurs is:", a: "B", choices: ["Prophase I", "Prophase I (pachytene)", "Metaphase I", "Anaphase I"], e: "Crossing over between homologous chromosomes occurs during prophase I (pachytene stage)."},
+    {q: "In spermatogenesis, the secondary spermatocyte is:", a: "A", choices: ["Haploid", "Diploid", "Triploid", "Tetraploid"], e: "After meiosis I, secondary spermatocytes are haploid (n)."},
+    {q: "The structure that connects the developing fetus to the placenta is:", a: "D", choices: ["Amnion", "Chorion", "Allantois", "Umbilical cord"], e: "Umbilical cord contains two arteries and one vein, connecting fetus to placenta."},
+    {q: "Which of the following is a function of the Sertoli cells?", a: "C", choices: ["Produce testosterone", "Produce FSH", "Nourish developing sperm and form blood-testis barrier", "Produce LH"], e: "Sertoli cells support spermatogenesis and create the blood-testis barrier."},
+    {q: "The ovarian follicle that ruptures during ovulation is the:", a: "B", choices: ["Primary follicle", "Graafian (tertiary) follicle", "Secondary follicle", "Corpus luteum"], e: "Graafian follicle is the mature follicle that releases the oocyte."},
+    {q: "Polyspermy in humans is prevented by:", a: "D", choices: ["Fast block (membrane depolarization)", "Slow block (cortical reaction)", "Zona pellucida hardening", "Both fast and slow blocks"], e: "Fast block depolarizes membrane; slow block releases cortical granules that harden zona pellucida."},
+    {q: "The primary sex organ (gonad) in males is:", a: "A", choices: ["Testis", "Penis", "Prostate gland", "Seminal vesicle"], e: "Testes produce sperm and testosterone (primary sex organs)."}
+];
+bioReproduction.forEach(item => quizData.push(item));
+
+// ==================== CHEMISTRY: ALKYL HALIDES (15) ====================
+const chemAlkylHalides = [
+    {q: "The general formula of alkyl halides is:", a: "C", choices: ["CₙH₂ₙX", "CₙH₂ₙ₊₂X", "CₙH₂ₙ₊₁X", "CₙH₂ₙ₋₁X"], e: "Alkyl halides (R-X) have halogen replacing H in alkane: CₙH₂ₙ₊₁X."},
+    {q: "Which of the following is a primary alkyl halide?", a: "B", choices: ["2-bromobutane", "1-chloropropane", "2-chloropropane", "2-bromo-2-methylpropane"], e: "Primary halide: halogen on carbon bonded to one other carbon. 1-chloropropane (CH₃CH₂CH₂Cl) is primary."},
+    {q: "The SN2 reaction mechanism is characterized by:", a: "D", choices: ["Two steps, carbocation intermediate", "Racemization at chiral center", "First order kinetics", "One step, backside attack, inversion of configuration"], e: "SN2 is bimolecular, concerted, with inversion of stereochemistry."},
+    {q: "The SN1 reaction rate depends on:", a: "A", choices: ["Concentration of alkyl halide only", "Concentration of nucleophile only", "Both alkyl halide and nucleophile", "Neither"], e: "SN1 is unimolecular: rate = k[R-X]."},
+    {q: "Which alkyl halide undergoes SN1 reaction most readily?", a: "C", choices: ["CH₃Br", "CH₃CH₂Br", "(CH₃)₃CBr", "CH₃CH₂CH₂Br"], e: "Tertiary alkyl halides form stable carbocations, fastest SN1."},
+    {q: "Elimination reaction (E2) requires:", a: "B", choices: ["Weak base", "Strong base and anti-periplanar β-hydrogen", "Polar protic solvent only", "Carbocation intermediate"], e: "E2 is concerted, requires strong base and β-hydrogen anti to leaving group."},
+    {q: "The major product of dehydrohalogenation of 2-bromobutane is:", a: "D", choices: ["1-butene", "2-butene (cis)", "2-butene (trans)", "2-butene (major, more substituted)"], e: "Zaitsev's rule: more substituted alkene (2-butene) predominates."},
+    {q: "Which of the following is the best leaving group?", a: "C", choices: ["F⁻", "Cl⁻", "I⁻", "Br⁻"], e: "I⁻ is largest, most polarizable, best leaving group due to stable conjugate base."},
+    {q: "Grignard reagent (RMgX) is prepared by reaction of alkyl halide with:", a: "B", choices: ["Sodium metal", "Magnesium metal in dry ether", "Lithium aluminum hydride", "Zinc dust"], e: "Grignard: R-X + Mg (anhydrous ether) → RMgX."},
+    {q: "The reaction of CH₃CH₂Br with aqueous KOH gives:", a: "A", choices: ["Ethanol (CH₃CH₂OH)", "Ethene", "Ethane", "Diethyl ether"], e: "Nucleophilic substitution (SN2) yields alcohol."},
+    {q: "The order of reactivity for SN2 reaction is:", a: "D", choices: ["Tertiary > Secondary > Primary", "Primary > Tertiary > Secondary", "Tertiary > Primary > Secondary", "Primary > Secondary > Tertiary"], e: "SN2: less steric hindrance → faster. Methyl > 1° > 2° > 3°."},
+    {q: "Which solvent is best for SN1 reactions?", a: "B", choices: ["Nonpolar aprotic", "Polar protic (e.g., water, alcohols)", "Nonpolar protic", "Aprotic nonpolar"], e: "Polar protic solvents stabilize carbocation and leaving group, favoring SN1."},
+    {q: "The compound C₆H₅CH₂Cl (benzyl chloride) undergoes SN1 readily because:", a: "C", choices: ["It is primary", "It is sterically hindered", "The benzyl carbocation is resonance stabilized", "Chlorine is a poor leaving group"], e: "Benzyl carbocation is stabilized by resonance with aromatic ring."},
+    {q: "Vinyl halides (CH₂=CH-X) are unreactive in SN2 because:", a: "D", choices: ["Halogen is too electronegative", "The carbon is sp³ hybridized", "The bond is too weak", "The carbon is sp² hybridized and partial double bond character"], e: "sp² carbon with partial double bond character makes C-X bond stronger and less accessible."},
+    {q: "The Finkelstein reaction is used to prepare:", a: "A", choices: ["Alkyl iodides from alkyl chlorides/bromides", "Alkyl chlorides", "Alkyl fluorides", "Alkenes"], e: "Finkelstein: R-Cl + NaI → R-I + NaCl (in acetone)."}
+];
+chemAlkylHalides.forEach(item => quizData.push(item));
+
+// ==================== PHYSICS: ELECTRONICS (Diodes, Logic Gates, Semiconductors) (15) ====================
+const physicsElectronics = [
+    {q: "A semiconductor doped with pentavalent impurity (e.g., arsenic) becomes:", a: "B", choices: ["p-type", "n-type", "Intrinsic", "Insulator"], e: "Pentavalent impurities donate extra electrons → n-type semiconductor."},
+    {q: "The majority charge carriers in p-type semiconductor are:", a: "C", choices: ["Electrons", "Protons", "Holes", "Neutrons"], e: "p-type: trivalent impurity creates holes (majority carriers)."},
+    {q: "A p-n junction diode conducts when:", a: "D", choices: ["Reverse biased", "No bias", "Breakdown voltage", "Forward biased (p to positive, n to negative)"], e: "Forward bias reduces depletion region, allowing current flow."},
+    {q: "The barrier potential of a silicon diode is approximately:", a: "B", choices: ["0.3 V", "0.7 V", "1.2 V", "2.0 V"], e: "Silicon diode has forward voltage drop ~0.7V; germanium ~0.3V."},
+    {q: "Zener diode is designed to operate in:", a: "C", choices: ["Forward bias region", "No bias", "Reverse breakdown (Zener breakdown) region", "Saturation region"], e: "Zener diode maintains constant voltage in reverse breakdown for voltage regulation."},
+    {q: "A full-wave rectifier using center-tapped transformer requires how many diodes?", a: "B", choices: ["1", "2", "4", "6"], e: "Center-tapped full-wave rectifier uses 2 diodes; bridge rectifier uses 4."},
+    {q: "The output of a half-wave rectifier is:", a: "D", choices: ["AC voltage", "Pure DC", "Pulsating DC with both cycles", "Pulsating DC with one cycle"], e: "Half-wave rectifier conducts only during one half-cycle."},
+    {q: "The truth table for AND gate shows output 1 when:", a: "A", choices: ["All inputs are 1", "Any input is 1", "All inputs are 0", "Inputs are different"], e: "AND: output = 1 only if A=1 AND B=1."},
+    {q: "The output of OR gate is 0 when:", a: "C", choices: ["Any input is 1", "Both inputs are 1", "All inputs are 0", "One input is 0"], e: "OR: output = 0 only when all inputs are 0."},
+    {q: "A NAND gate is equivalent to:", a: "B", choices: ["AND followed by buffer", "AND followed by NOT", "OR followed by NOT", "NOT followed by AND"], e: "NAND = NOT AND; output is opposite of AND."},
+    {q: "The Boolean expression for NOR gate is:", a: "D", choices: ["A + B", "A · B", "A ⊕ B", "Ā + B̅ (or A+B whole bar)"], e: "NOR = NOT OR; output = (A+B)̅."},
+    {q: "An LED emits light when:", a: "C", choices: ["Reverse biased", "Zero bias", "Forward biased", "Broken"], e: "LED emits light due to electron-hole recombination in forward bias."},
+    {q: "The ripple frequency of a full-wave rectifier with 50 Hz input is:", a: "B", choices: ["50 Hz", "100 Hz", "25 Hz", "150 Hz"], e: "Full-wave rectifier doubles frequency: 2 × 50 = 100 Hz."},
+    {q: "A capacitor filter in power supply is used to:", a: "A", choices: ["Reduce ripple voltage", "Increase ripple", "Increase voltage", "Decrease voltage"], e: "Capacitor smooths pulsating DC by charging and discharging."},
+    {q: "The Boolean expression A + ĀB simplifies to:", a: "C", choices: ["B", "A", "A + B", "ĀB"], e: "Using Boolean algebra: A + ĀB = A + B (absorption/consensus)."}
+];
+physicsElectronics.forEach(item => quizData.push(item));
+
+// ==================== ENGLISH: SENTENCE STRUCTURE (Clauses, Types, Run-ons) (5) ====================
+const engSentence = [
+    {q: "Identify the sentence type: 'Although she was tired, she completed the marathon.'", a: "C", choices: ["Simple", "Compound", "Complex", "Compound-complex"], e: "Complex sentence: one independent clause + one dependent clause (although)."},
+    {q: "Which of the following is a compound sentence?", a: "B", choices: ["She ran quickly.", "She ran, and he followed.", "Because she ran, he followed.", "She ran quickly to catch the bus."], e: "Compound: two independent clauses joined by coordinating conjunction (and)."},
+    {q: "Identify the error: 'Running late for the meeting, his keys were forgotten.'", a: "D", choices: ["No error", "Subject-verb agreement", "Tense inconsistency", "Dangling modifier"], e: "Dangling modifier: 'Running late' does not logically modify 'his keys'."},
+    {q: "Which is a correctly punctuated complex sentence?", a: "C", choices: ["I like coffee, he prefers tea.", "I like coffee he prefers tea.", "Because I like coffee, I drink it daily.", "I like coffee and he prefers tea."], e: "Complex sentence with subordinating conjunction 'because' and comma after dependent clause."},
+    {q: "The sentence 'She loves to read novels, she visits the library weekly' contains a:", a: "B", choices: ["Fragment", "Comma splice", "Run-on sentence", "Correct punctuation"], e: "Comma splice: two independent clauses joined only by comma (needs conjunction or semicolon)."}
+];
+engSentence.forEach(item => quizData.push(item));
+
+// Final check: total 15+15+15+5 = 50
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 50`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

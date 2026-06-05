@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT English Preparation Session · Infinitives (Full & Bare)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';"> Score</h2>
+        <div id="final-score">0 / 25</div>
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class=""></i> INFINITIVES (Full & Bare)</h3>
+        <div class="syllabus-grid">
+           
+        </div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span> MedPrep </span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// INFINITIVES (FULL & BARE) - 25 MCQs (April 28)
+// Covers: Full infinitive (to + verb), bare infinitive (without to), 
+// modals, let/make/see, split infinitive, error identification
+// ✅ EACH QUESTION: ONE correct answer · Explanation matches the key
+// --------------------------------------------------------------
+const quizData = [
+    // ==================== Full Infinitive ====================
+    {q: "Complete the sentence: 'He wants ___ a doctor.'", a: "A", choices: ["to become", "become", "becoming", "became"], e: "Verb 'wants' is followed by full infinitive: to + verb."},
+    {q: "Complete the sentence: 'They decided ___ the offer.'", a: "C", choices: ["accept", "accepting", "to accept", "accepted"], e: "Verb 'decided' takes full infinitive: to accept."},
+    {q: "Complete the sentence: 'It is important ___ on time.'", a: "B", choices: ["be", "to be", "being", "been"], e: "Impersonal 'it is + adjective' structure takes full infinitive."},
+    {q: "Complete the sentence: 'She was the first woman ___ the award.'", a: "D", choices: ["win", "winning", "won", "to win"], e: "Superlative/ordinal expressions (first, last, only) take full infinitive."},
+    
+    // ==================== Bare Infinitive ====================
+    {q: "Complete the sentence: 'You had better ___ a doctor immediately.'", a: "C", choices: ["to see", "seeing", "see", "saw"], e: "'Had better' is followed by bare infinitive (without to)."},
+    {q: "Complete the sentence: 'They would rather ___ at home than go out.'", a: "A", choices: ["stay", "to stay", "staying", "stayed"], e: "'Would rather' takes bare infinitive: stay."},
+    {q: "Complete the sentence: 'Let him ___ his own decision.'", a: "B", choices: ["to make", "make", "making", "made"], e: "Causative verb 'let' takes bare infinitive (object + base verb)."},
+    {q: "Complete the sentence: 'Why not ___ us?'", a: "D", choices: ["to join", "joining", "joined", "join"], e: "Suggestive 'why not' is followed by bare infinitive."},
+    {q: "Complete the sentence: 'She made me ___ the truth.'", a: "C", choices: ["to tell", "telling", "tell", "told"], e: "Causative verb 'made' + object + bare infinitive: made me tell."},
+    {q: "Complete the sentence: 'I heard her ___ a beautiful song.'", a: "B", choices: ["to sing", "sing", "singing", "sang"], e: "Verbs of perception (hear, see, watch) take bare infinitive for complete action."},
+    
+    // ==================== Modals + Bare Infinitive ====================
+    {q: "Complete the sentence: 'She can ___ very fast.'", a: "B", choices: ["to swim", "swim", "swimming", "swims"], e: "Modal verb 'can' is followed by bare infinitive: swim."},
+    {q: "Complete the sentence: 'You must ___ the form.'", a: "C", choices: ["to complete", "completing", "complete", "completed"], e: "Modal 'must' takes bare infinitive: complete."},
+    {q: "Complete the sentence: 'They should ___ earlier.'", a: "A", choices: ["arrive", "to arrive", "arriving", "arrived"], e: "Modal 'should' takes bare infinitive: arrive."},
+    
+    // ==================== Help (full or bare) ====================
+    {q: "Complete the sentence: 'She helped me ___ my homework.'", a: "D", choices: ["to finish", "finish", "finishing", "Both A and B are correct"], e: "Verb 'help' can be followed by full infinitive OR bare infinitive."},
+    
+    // ==================== Split Infinitive ====================
+    {q: "Which sentence contains a split infinitive?", a: "B", choices: ["He wants to go home.", "He wants to quickly finish the work.", "He finished the work quickly.", "He quickly finished the work."], e: "Split infinitive: adverb placed between 'to' and verb 'to quickly finish'."},
+    
+    // ==================== Perfect Infinitive ====================
+    {q: "Complete the sentence: 'She seems ___ the problem already.'", a: "C", choices: ["solve", "to solve", "to have solved", "solving"], e: "Perfect infinitive (to have + past participle) for action before main verb."},
+    {q: "Complete the sentence: 'He claimed ___ the thief.'", a: "A", choices: ["to have seen", "to see", "seeing", "saw"], e: "Perfect infinitive for past action relative to main verb."},
+    
+    // ==================== Passive Infinitive ====================
+    {q: "Complete the sentence: 'The report needs ___ carefully.'", a: "D", choices: ["to check", "checking", "check", "to be checked"], e: "Passive infinitive when subject receives action: to be checked."},
+    {q: "Complete the sentence: 'She expects ___ promoted soon.'", a: "B", choices: ["to promote", "to be promoted", "promoting", "promoted"], e: "Passive infinitive: to be + past participle."},
+    
+    // ==================== Verbs followed by Infinitive ====================
+    {q: "Complete the sentence: 'They refused ___ the invitation.'", a: "C", choices: ["accept", "accepting", "to accept", "accepted"], e: "Verbs like refuse, agree, promise, offer take full infinitive."},
+    {q: "Complete the sentence: 'She promised ___ me back soon.'", a: "D", choices: ["call", "calling", "called", "to call"], e: "'Promised' is followed by full infinitive: to call."},
+    {q: "Complete the sentence: 'He pretended ___ sick.'", a: "A", choices: ["to be", "be", "being", "been"], e: "'Pretended' takes full infinitive."},
+    
+    // ==================== Adjectives followed by Infinitive ====================
+    {q: "Complete the sentence: 'It is easy ___ mistakes.'", a: "B", choices: ["make", "to make", "making", "made"], e: "Adjective + full infinitive: easy to make."},
+    {q: "Complete the sentence: 'She is too tired ___.'", a: "C", choices: ["work", "working", "to work", "worked"], e: "'Too + adjective + to + infinitive' structure."},
+    
+    // ==================== Error Identification ====================
+    {q: "Identify the error: 'She made him to clean the room.'", a: "C", choices: ["She", "made him", "to clean", "the room"], e: "Causative 'made' takes bare infinitive: 'clean', not 'to clean'."},
+    
+];
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 25`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

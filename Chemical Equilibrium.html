@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemical Equilibrium </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #d97706;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #b45309, #d97706);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #fcd34d;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(217, 119, 6, 0.08);
+            border-color: #fbbf24;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #92400e;
+            padding-left: 14px;
+            border-left: 4px solid #d97706;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #d97706;
+            background: #fef3c7;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #b45309;
+            color: white;
+            border-color: #b45309;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #d97706;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(217, 119, 6, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #b45309;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(180, 83, 9, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #92400e, #b45309);
+            color: #fef3c7;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #92400e;
+            display: none;
+            background: #fef3c7;
+            padding: 16px 22px;
+            border-left: 6px solid #d97706;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Chemical Equilibrium</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 high-quality Chemical Equilibrium MCQs (FSC Part 1, Chapter 7)
+    const equilibriumMCQs = [
+        { q: "At equilibrium state, which of the following remains constant?", options: ["Concentration of reactants and products", "Rate of forward reaction", "Rate of reverse reaction", "All of these"], exp: "At equilibrium, both forward and reverse rates are equal and constant, and concentrations become constant.", correct: "D" },
+        { q: "For a reaction: aA + bB ⇌ cC + dD, the equilibrium constant Kc is:", options: ["[C]^c[D]^d / [A]^a[B]^b", "[A]^a[B]^b / [C]^c[D]^d", "[C][D] / [A][B]", "kf/kr"], exp: "Kc = [C]^c[D]^d / [A]^a[B]^b, and also equals kf/kr.", correct: "A" },
+        { q: "Le Chatelier's principle states that if a system at equilibrium is disturbed, it will shift to:", options: ["Oppose the change", "Enhance the change", "Remain unchanged", "Reverse the reaction"], exp: "The principle states the system shifts to counteract the disturbance and re-establish equilibrium.", correct: "A" },
+        { q: "For an exothermic reaction (ΔH < 0), increasing temperature will:", options: ["Increase Kc", "Decrease Kc", "No effect on Kc", "Double Kc"], exp: "Exothermic reactions favor products at low temperature; increasing T shifts equilibrium left, decreasing Kc.", correct: "B" },
+        { q: "The relationship between Kp and Kc is given by:", options: ["Kp = Kc (RT)^Δn", "Kp = Kc / (RT)^Δn", "Kp = Kc (RT)", "Kp = Kc / RT"], exp: "Kp = Kc (RT)^Δn, where Δn = (moles gaseous products - moles gaseous reactants).", correct: "A" },
+        { q: "For the reaction N₂(g) + 3H₂(g) ⇌ 2NH₃(g), the unit of Kc is:", options: ["mol⁻² L²", "mol² L⁻²", "L mol⁻¹", "No unit"], exp: "Δn = 2 - (1+3) = -2, so Kc has units (mol/L)^(-2) = mol⁻² L².", correct: "A" },
+        { q: "Which of the following will shift the equilibrium of N₂(g) + 3H₂(g) ⇌ 2NH₃(g) towards product side?", options: ["Increase pressure", "Decrease pressure", "Add inert gas at constant volume", "Decrease concentration of N₂"], exp: "Increase pressure favors side with fewer gas moles (products have 2, reactants 4).", correct: "A" },
+        { q: "The reaction quotient Qc is equal to Kc when:", options: ["Reaction is at equilibrium", "Reaction is fast", "Reactants are completely consumed", "Products are maximum"], exp: "At equilibrium, Qc = Kc. If Qc < Kc, forward reaction proceeds; if Qc > Kc, reverse proceeds.", correct: "A" },
+        { q: "For a reaction with Δn = 0, the value of Kp:", options: ["Equals Kc", "Greater than Kc", "Less than Kc", "Independent of temperature"], exp: "When Δn = 0, (RT)^0 = 1, so Kp = Kc.", correct: "A" },
+        { q: "In the Haber process for ammonia synthesis, the optimum conditions include:", options: ["High temperature and low pressure", "Low temperature and high pressure", "High temperature and high pressure", "Low temperature and low pressure"], exp: "High pressure favors product (less gas moles) and low temperature favors exothermic reaction, but moderate T is used for reasonable rate.", correct: "B" },
+        { q: "Which of the following will not affect the equilibrium constant Kc?", options: ["Temperature", "Concentration of reactants", "Catalyst", "Both B and C"], exp: "Only temperature changes Kc. Catalyst and concentration changes affect rate and position but not Kc.", correct: "D" },
+        { q: "For the reaction 2SO₂(g) + O₂(g) ⇌ 2SO₃(g) (exothermic), increasing temperature will:", options: ["Increase yield of SO₃", "Decrease yield of SO₃", "No effect", "Increase Kp"], exp: "Exothermic reaction: increasing T shifts equilibrium left, decreasing SO₃ yield and Kp.", correct: "B" },
+        { q: "The value of Kc for a reaction is 10⁵. This indicates:", options: ["Products are favored", "Reactants are favored", "Reaction is slow", "Reaction is at equilibrium"], exp: "Large Kc (>10³) indicates equilibrium lies far to the right, favoring products.", correct: "A" },
+        { q: "If Kc is very small (e.g., 10⁻⁵), the reaction:", options: ["Proceeds almost completely", "Hardly proceeds", "Is at equilibrium", "Has equal reactants and products"], exp: "Very small Kc means equilibrium favors reactants; reaction hardly proceeds forward.", correct: "B" },
+        { q: "Adding a catalyst to a reaction at equilibrium will:", options: ["Increase Kc", "Decrease Kc", "Increase rate of both forward and reverse reactions equally", "Shift equilibrium to right"], exp: "Catalyst lowers activation energy for both directions equally, so equilibrium position unchanged, but reached faster.", correct: "C" },
+        { q: "For a gaseous reaction at equilibrium, if volume is increased (pressure decreased), equilibrium shifts toward:", options: ["Side with more gas moles", "Side with fewer gas moles", "Side with solids", "No shift"], exp: "Decreasing pressure favors side with greater number of gas molecules.", correct: "A" },
+        { q: "The equilibrium constant for reverse reaction is:", options: ["1/Kc", "Kc", "-Kc", "Kc²"], exp: "Kc(reverse) = 1 / Kc(forward).", correct: "A" },
+        { q: "Which of the following reactions will have Kp = Kc?", options: ["H₂ + I₂ ⇌ 2HI", "N₂ + 3H₂ ⇌ 2NH₃", "2SO₂ + O₂ ⇌ 2SO₃", "PCl₅ ⇌ PCl₃ + Cl₂"], exp: "For H₂ + I₂ ⇌ 2HI, Δn = 2 - 2 = 0, so Kp = Kc.", correct: "A" },
+        { q: "If Qc < Kc for a reaction, the reaction will proceed:", options: ["Forward direction", "Reverse direction", "No reaction", "Explosively"], exp: "Qc < Kc means product concentration is less than equilibrium value; forward reaction proceeds to make more products.", correct: "A" },
+        { q: "The law of mass action was proposed by:", options: ["Arrhenius", "Guldberg and Waage", "Le Chatelier", "Van't Hoff"], exp: "Guldberg and Waage (1864) formulated the law of mass action describing equilibrium constants.", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...equilibriumMCQs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

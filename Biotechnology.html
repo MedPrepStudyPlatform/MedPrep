@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biotechnology: Randomized MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Theme: Biotech Cyan & Charcoal */
+        body { font-family: 'Inter', sans-serif; background: #f4f7f6; color: #2d3436; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 10px solid #00cec9; }
+        h1 { font-family: 'Outfit', sans-serif; color: #00b894; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #636e72; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        .question { margin-bottom: 35px; padding: 25px; border: 1px solid #dfe6e9; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 20px; color: #2c3e50; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #f1f2f6; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #ffffff; }
+        .option:hover { border-color: #00cec9; background: #f0fdfc; }
+        .option.selected { background: #2d3436; color: white; border-color: #2d3436; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #00b894; color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #00a884; transform: translateY(-2px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #2d3436; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #f0fdfc; padding: 18px; border-left: 6px solid #00cec9; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #1c2e36; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Biotechnology</h1>
+    
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+       
+    </div>
+</div>
+
+<script>
+    const biotechData = [
+        { q: "The 'Molecular Scissors' used to cut DNA at specific palindromic sequences are:", options: ["DNA Ligases", "Restriction Endonucleases", "Reverse Transcriptases", "DNA Polymerases"], exp: "Restriction enzymes cut DNA at specific recognition sites, essential for gene cloning.", correct: "B" },
+        { q: "Which enzyme is used to join the 'sticky ends' of DNA fragments together?", options: ["Helicase", "DNA Ligase", "Primase", "Exonuclease"], exp: "Ligase seals the sugar-phosphate backbone, creating a continuous DNA strand.", correct: "B" },
+        { q: "The Polymerase Chain Reaction (PCR) is used for:", options: ["Cutting DNA", "Amplifying DNA", "Separating DNA by size", "Sequencing DNA"], exp: "PCR can produce millions of copies of a specific DNA segment in a few hours.", correct: "B" },
+        { q: "In gel electrophoresis, DNA fragments move toward the positive electrode because DNA is:", options: ["Positively charged", "Negatively charged", "Neutral", "Hydrophobic"], exp: "The phosphate groups in the DNA backbone give it a net negative charge.", correct: "B" },
+        { q: "A small, circular DNA molecule found in bacteria that is used as a vector in gene cloning is a:", options: ["Bacteriophage", "Plasmid", "Cosmid", "Intron"], exp: "Plasmids are easily manipulated and can carry foreign genes into host bacteria.", correct: "B" },
+        { q: "Which enzyme is required to synthesize DNA from an RNA template?", options: ["DNA Polymerase I", "RNA Polymerase", "Reverse Transcriptase", "Topoisomerase"], exp: "Reverse transcriptase is used to create complementary DNA (cDNA) from mRNA.", correct: "C" },
+        { q: "The 'Heat-stable' DNA polymerase used in PCR is typically isolated from:", options: ["E. coli", "Thermus aquaticus", "Human cells", "Yeast"], exp: "Taq polymerase can withstand the high temperatures required to denature DNA during PCR.", correct: "B" },
+        { q: "Organisms that have had foreign genes inserted into their genome are called:", options: ["Mutants", "Clones", "Transgenic organisms", "Hybrid organisms"], exp: "Transgenic animals and plants (GMOs) express traits from other species.", correct: "C" },
+        { q: "DNA Fingerprinting (Profiling) relies on identifying variations in:", options: ["Exons", "Short Tandem Repeats (STRs)", "Ribosomes", "Histone proteins"], exp: "STRs are non-coding regions that vary significantly between individuals.", correct: "B" },
+        { q: "The process of introducing healthy genes into cells to treat a genetic disorder is:", options: ["Gene Splicing", "Gene Therapy", "Genomics", "DNA Microarray"], exp: "Gene therapy aims to correct underlying genetic causes of diseases like SCID or Cystic Fibrosis.", correct: "B" },
+        { q: "Which of the following is a potential application of 'Golden Rice'?", options: ["Pest resistance", "Herbicide tolerance", "Vitamin A enrichment", "Nitrogen fixation"], exp: "Golden Rice was engineered to produce beta-carotene to combat Vitamin A deficiency.", correct: "C" },
+        { q: "The use of an electric current to create temporary pores in cell membranes for DNA entry is:", options: ["Microinjection", "Electroporation", "Biolistics", "Transformation"], exp: "Electroporation is a common physical method for transfection.", correct: "B" },
+        { q: "In the Sanger method of DNA sequencing, what causes the termination of DNA chain elongation?", options: ["dNTPs", "ddNTPs", "RNA primers", "Magnesium ions"], exp: "Dideoxynucleotides (ddNTPs) lack the 3'-OH group needed for the next phosphodiester bond.", correct: "B" },
+        { q: "A 'Genomic Library' is a collection of:", options: ["Books on genetics", "Cloned DNA fragments representing an entire genome", "All the proteins in a cell", "All the mRNA in a tissue"], exp: "Libraries allow researchers to store and study the complete genetic information of an organism.", correct: "B" },
+        { q: "The first successfully cloned mammal, Dolly the sheep, was created using:", options: ["Embryo splitting", "Somatic Cell Nuclear Transfer (SCNT)", "Parthenogenesis", "In-vitro fertilization"], exp: "SCNT involves transferring a nucleus from an adult somatic cell into an enucleated egg cell.", correct: "B" },
+        { q: "Restriction enzymes that cut DNA and leave overhanging single-stranded ends produce:", options: ["Blunt ends", "Sticky ends", "Loop ends", "Primer ends"], exp: "Sticky ends allow for easier base-pairing between foreign DNA and the vector.", correct: "B" },
+        { q: "The CRISPR-Cas9 system is a revolutionary tool used for:", options: ["Protein synthesis", "Genome editing", "Cellular respiration", "DNA repair only"], exp: "CRISPR allows for precise, targeted changes to DNA sequences within living cells.", correct: "B" },
+        { q: "A 'Probes' in biotechnology is a:", options: ["Type of enzyme", "Radioactive or fluorescent single-stranded DNA/RNA", "Machine for PCR", "Vector for cloning"], exp: "Probes are used to detect specific sequences by hybridization.", correct: "B" },
+        { q: "Which of the following is NOT a component required for a standard PCR reaction?", options: ["Template DNA", "Primers", "Restriction enzymes", "dNTPs"], exp: "Restriction enzymes are used for cutting, not for the amplification process in PCR.", correct: "C" },
+        { q: "The use of biological systems or organisms to make or modify products is the definition of:", options: ["Biochemistry", "Biotechnology", "Bioinformatics", "Biophysics"], exp: "Biotechnology spans ancient techniques like brewing to modern genetic engineering.", correct: "B" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        biotechData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        biotechData.forEach((data, index) => {
+            document.getElementById(`exp-${index}`).style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${biotechData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

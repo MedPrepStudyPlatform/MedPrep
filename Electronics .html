@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electronics | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #ecfeff 0%, #cffafe 100%);
+            color: #155e75;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #0891b2;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #0f766e, #0d9488);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #a5f3fc;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(8, 145, 178, 0.08);
+            border-color: #67e8f9;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #155e75;
+            padding-left: 14px;
+            border-left: 4px solid #0891b2;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #0891b2;
+            background: #ecfeff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #0f766e;
+            color: white;
+            border-color: #0f766e;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #0891b2;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(8, 145, 178, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #0f766e;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(15, 118, 110, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #155e75, #0f766e);
+            color: #ecfeff;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #155e75;
+            display: none;
+            background: #ecfeff;
+            padding: 16px 22px;
+            border-left: 6px solid #0891b2;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Electronics</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Electronics MCQs (Physics FSC Part 2, Chapter 18)
+    const electronicsMcqs = [
+        { q: "A semiconductor doped with a pentavalent impurity (e.g., arsenic) becomes:", options: ["N-type semiconductor", "P-type semiconductor", "Intrinsic semiconductor", "Insulator"], exp: "Pentavalent impurities (group V) donate free electrons, creating N-type semiconductors.", correct: "A" },
+        { q: "The majority charge carriers in a P-type semiconductor are:", options: ["Electrons", "Holes", "Protons", "Ions"], exp: "In P-type (doped with trivalent impurity), holes are the majority carriers.", correct: "B" },
+        { q: "A diode conducts when it is:", options: ["Reverse biased", "Forward biased", "Not biased", "At breakdown"], exp: "A diode conducts in forward bias (P-side positive, N-side negative).", correct: "B" },
+        { q: "The barrier potential of a silicon diode is approximately:", options: ["0.3 V", "0.7 V", "1.2 V", "2.0 V"], exp: "Silicon diode has barrier potential ~0.7 V. Germanium ~0.3 V.", correct: "B" },
+        { q: "A full-wave rectifier using two diodes requires a center-tapped transformer. The number of diodes in a bridge rectifier is:", options: ["2", "3", "4", "1"], exp: "A bridge rectifier uses four diodes to achieve full-wave rectification without a center tap.", correct: "C" },
+        { q: "The output of a half-wave rectifier has ripple frequency (for 50 Hz input) of:", options: ["25 Hz", "50 Hz", "100 Hz", "150 Hz"], exp: "Half-wave rectifier output frequency equals input frequency (50 Hz).", correct: "B" },
+        { q: "The output of a full-wave rectifier has ripple frequency (for 50 Hz input) of:", options: ["25 Hz", "50 Hz", "100 Hz", "150 Hz"], exp: "Full-wave rectifier output frequency is double the input frequency: 100 Hz.", correct: "C" },
+        { q: "A Zener diode is used primarily for:", options: ["Rectification", "Voltage regulation", "Amplification", "Switching"], exp: "Zener diodes operate in reverse breakdown region to provide stable reference voltage.", correct: "B" },
+        { q: "In a common emitter transistor amplifier, the phase difference between input and output signals is:", options: ["0°", "90°", "180°", "360°"], exp: "Common emitter amplifier produces 180° phase inversion.", correct: "C" },
+        { q: "The three terminals of a bipolar junction transistor (BJT) are:", options: ["Anode, Cathode, Gate", "Emitter, Base, Collector", "Source, Drain, Gate", "Plus, Minus, Ground"], exp: "BJT has emitter (E), base (B), and collector (C).", correct: "B" },
+        { q: "The truth table for an AND gate shows output 1 only when:", options: ["All inputs are 0", "All inputs are 1", "At least one input is 1", "Inputs are different"], exp: "AND gate output is 1 only when all inputs are 1.", correct: "B" },
+        { q: "The truth table for an OR gate shows output 1 when:", options: ["All inputs are 0", "All inputs are 1", "At least one input is 1", "No input is 1"], exp: "OR gate output is 1 if any input is 1.", correct: "C" },
+        { q: "The output of a NOT gate is 1 when the input is:", options: ["0", "1", "Both", "None"], exp: "NOT gate inverts: input 0 gives output 1; input 1 gives output 0.", correct: "A" },
+        { q: "The NAND gate is equivalent to:", options: ["AND gate followed by NOT", "OR gate followed by NOT", "AND gate only", "OR gate only"], exp: "NAND = NOT AND (AND followed by inversion).", correct: "A" },
+        { q: "The NOR gate is equivalent to:", options: ["AND gate followed by NOT", "OR gate followed by NOT", "AND gate only", "OR gate only"], exp: "NOR = NOT OR (OR followed by inversion).", correct: "B" },
+        { q: "In an NPN transistor, the majority carriers in the emitter are:", options: ["Electrons", "Holes", "Both", "None"], exp: "In NPN, emitter is N-type, so majority carriers are electrons.", correct: "A" },
+        { q: "The current gain β of a transistor is defined as:", options: ["I_C/I_E", "I_C/I_B", "I_E/I_B", "I_B/I_C"], exp: "β = I_C / I_B (common emitter current gain).", correct: "B" },
+        { q: "The LED emits light when it is:", options: ["Forward biased", "Reverse biased", "Zero biased", "At breakdown"], exp: "LED emits light in forward bias when electrons recombine with holes.", correct: "A" },
+        { q: "The photovoltaic cell converts:", options: ["Light energy into electrical energy", "Electrical energy into light energy", "Heat into electricity", "Chemical energy into electricity"], exp: "Solar cell (photovoltaic) converts light directly into electrical energy.", correct: "A" },
+        { q: "The Boolean expression for XOR gate is:", options: ["A·B", "A+B", "A⊕B = A·B̅ + A̅·B", "A̅·B̅"], exp: "XOR output is 1 when inputs are different: A⊕B = A·B̅ + A̅·B.", correct: "C" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+    let quizSubmitted = false;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        randomizedQuestions = shuffleArray([...electronicsMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+        
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

@@ -1,0 +1,2464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT 2026 · FLP 2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        /* PM&DC Official Header */
+        .pmdc-header {
+            background: linear-gradient(135deg, #0a2c48 0%, #0e3a5c 100%);
+            color: white;
+            padding: 16px 20px;
+            text-align: center;
+            border-bottom: 4px solid #1ecbe1;
+        }
+        .pmdc-title {
+            font-size: clamp(1.4rem, 5vw, 1.8rem);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .pmdc-subtitle {
+            font-size: clamp(0.7rem, 3vw, 0.9rem);
+            opacity: 0.9;
+        }
+
+        /* Weightage Info Section */
+        .weightage-section {
+            max-width: 1000px;
+            width: 95%;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+        .weightage-card {
+            background: white;
+            border-radius: 24px;
+            border: 2px solid var(--med-accent);
+            overflow: hidden;
+            box-shadow: 0 15px 30px -12px rgba(0,0,0,0.15);
+        }
+        .weightage-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 18px;
+            text-align: center;
+        }
+        .weightage-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            margin-bottom: 5px;
+        }
+        .weightage-header p {
+            font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+            opacity: 0.8;
+        }
+        .weightage-table {
+            padding: 20px;
+        }
+        .weightage-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2edf2;
+            gap: 10px;
+        }
+        .weightage-subject {
+            font-weight: 700;
+            font-size: clamp(0.85rem, 3vw, 1rem);
+            color: var(--med-dark);
+        }
+        .weightage-stats {
+            display: flex;
+            gap: 20px;
+        }
+        .weightage-percent {
+            color: var(--med-accent);
+            font-weight: 800;
+            font-size: clamp(0.85rem, 3vw, 1rem);
+        }
+        .weightage-mcq {
+            color: #5a7b9a;
+            font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+        }
+        .total-row {
+            background: #e0f2fe;
+            margin-top: 12px;
+            padding: 12px 0;
+            border-radius: 14px;
+            font-weight: 800;
+        }
+
+        .difficulty-box {
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 18px;
+            margin-top: 18px;
+        }
+        .difficulty-box h4 {
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
+            margin-bottom: 12px;
+        }
+        .difficulty-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+        }
+        .difficulty-label {
+            width: 80px;
+            font-weight: 700;
+            font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+        }
+        .difficulty-bar {
+            flex: 1;
+            min-width: 120px;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .difficulty-bar div {
+            height: 100%;
+            border-radius: 6px;
+        }
+        .difficulty-item > div:last-child {
+            font-weight: 500;
+            font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+            min-width: 70px;
+        }
+        .easy-fill { width: 15%; background: #10b981; }
+        .moderate-fill { width: 70%; background: #f59e0b; }
+        .difficult-fill { width: 15%; background: #ef4444; }
+
+        .exam-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 18px;
+            padding-top: 15px;
+            border-top: 1px solid #e2edf2;
+        }
+        .exam-info-item {
+            text-align: center;
+            padding: 8px;
+        }
+        .exam-info-item i {
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+        }
+        .exam-info-item strong {
+            font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+            display: block;
+            margin: 5px 0;
+        }
+        .exam-info-item {
+            font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+        }
+
+        .start-btn-container {
+            text-align: center;
+            margin: 20px 0 30px;
+        }
+        .start-test-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 14px 40px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 6px 15px rgba(30,203,225,0.3);
+        }
+        .start-test-btn:hover {
+            transform: translateY(-2px);
+            background: #17b3c7;
+        }
+
+        .test-section {
+            display: none;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 12px 20px;
+            box-shadow: 0 10px 25px -8px rgba(10,44,72,0.4);
+            text-align: center;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 5px 18px;
+            border-radius: 50px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+        }
+        .logo-img {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .timer-bar {
+            background: var(--med-dark);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .timer-display {
+            font-family: 'Outfit', monospace;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1ecbe1;
+            letter-spacing: 2px;
+        }
+        .timer-label {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-right: 10px;
+        }
+
+        .container {
+            max-width: 950px;
+            width: 95%;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 20px;
+            border-radius: 28px;
+            margin-bottom: 25px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+        }
+        #final-score {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+        .score-detail {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 12px;
+            font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: clamp(0.9rem, 3.2vw, 1rem);
+            margin-bottom: 14px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            border: 1px solid #dce5ec;
+            border-radius: 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: clamp(0.85rem, 3vw, 0.92rem);
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.05);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 14px;
+            padding: 14px;
+            border-radius: 16px;
+            font-size: clamp(0.8rem, 2.8vw, 0.88rem);
+            background: #f8fafc;
+            border-left: 4px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 14px 25px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: clamp(1rem, 3.5vw, 1.2rem);
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            margin: 15px 0 25px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 8px;
+            margin: 12px 0 20px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 8px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 25px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+            margin-top: 35px;
+        }
+
+        @media (max-width: 768px) {
+            .weightage-table { padding: 15px; }
+            .weightage-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .weightage-stats { gap: 15px; }
+            .difficulty-item { flex-wrap: wrap; }
+            .difficulty-bar { min-width: 100%; order: 1; margin-top: 5px; }
+            .difficulty-label { width: auto; }
+            .exam-info { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .question-wrap { padding: 14px; }
+            .opt-label { padding: 8px 10px; }
+            .timer-display { font-size: 1.3rem; }
+        }
+
+        @media (max-width: 480px) {
+            .weightage-section { width: 98%; margin: 15px auto; }
+            .weightage-table { padding: 12px; }
+            .exam-info { grid-template-columns: 1fr; }
+            .score-detail { gap: 10px; }
+            .logo-img { height: 32px; }
+            .timer-display { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PM&DC Header -->
+<div class="pmdc-header">
+    <div class="pmdc-title">MedPrep</div>
+    <div class="pmdc-subtitle">Medical & Dental Colleges Admission Test (MDCAT) 2026</div>
+    <div class="pmdc-subtitle">FLP 2 </div>
+</div>
+
+<!-- WEIGHTAGE INFORMATION SECTION -->
+<div id="weightageSection" class="weightage-section">
+    <div class="weightage-card">
+        <div class="weightage-header">
+            <h2><i class="fas fa-chart-pie"></i> MDCAT 2026 </h2>
+            <p>Pakistan Medical & Dental Council · Official Curriculum Weightage</p>
+        </div>
+        <div class="weightage-table">
+            <div class="weightage-row">
+                <div class="weightage-subject"><i class="fas fa-dna"></i> Biology</div>
+                <div class="weightage-stats">
+                    <span class="weightage-percent">45%</span>
+                    <span class="weightage-mcq">81 MCQs</span>
+                </div>
+            </div>
+            <div class="weightage-row">
+                <div class="weightage-subject"><i class="fas fa-flask"></i> Chemistry</div>
+                <div class="weightage-stats">
+                    <span class="weightage-percent">25%</span>
+                    <span class="weightage-mcq">45 MCQs</span>
+                </div>
+            </div>
+            <div class="weightage-row">
+                <div class="weightage-subject"><i class="fas fa-bolt"></i> Physics</div>
+                <div class="weightage-stats">
+                    <span class="weightage-percent">20%</span>
+                    <span class="weightage-mcq">36 MCQs</span>
+                </div>
+            </div>
+            <div class="weightage-row">
+                <div class="weightage-subject"><i class="fas fa-language"></i> English</div>
+                <div class="weightage-stats">
+                    <span class="weightage-percent">5%</span>
+                    <span class="weightage-mcq">9 MCQs</span>
+                </div>
+            </div>
+            <div class="weightage-row">
+                <div class="weightage-subject"><i class="fas fa-brain"></i> Logical Reasoning</div>
+                <div class="weightage-stats">
+                    <span class="weightage-percent">5%</span>
+                    <span class="weightage-mcq">9 MCQs</span>
+                </div>
+            </div>
+            <div class="weightage-row total-row">
+                <div class="weightage-subject"><i class="fas fa-calculator"></i> TOTAL</div>
+                <div class="weightage-stats">
+                    <span class="weightage-percent">100%</span>
+                    <span class="weightage-mcq">180 MCQs</span>
+                </div>
+            </div>
+
+            <!-- Difficulty Level Distribution -->
+            <div class="difficulty-box">
+                <h4><i class="fas fa-chart-line"></i> Difficulty Level Distribution (PM&DC Guidelines)</h4>
+                <div class="difficulty-item">
+                    <div class="difficulty-label" style="color: #10b981;">Easy</div>
+                    <div class="difficulty-bar"><div class="easy-fill"></div></div>
+                    <div>15% (27 MCQs)</div>
+                </div>
+                <div class="difficulty-item">
+                    <div class="difficulty-label" style="color: #f59e0b;">Moderate</div>
+                    <div class="difficulty-bar"><div class="moderate-fill"></div></div>
+                    <div>70% (126 MCQs)</div>
+                </div>
+                <div class="difficulty-item">
+                    <div class="difficulty-label" style="color: #ef4444;">Difficult</div>
+                    <div class="difficulty-bar"><div class="difficult-fill"></div></div>
+                    <div>15% (27 MCQs)</div>
+                </div>
+            </div>
+
+            <!-- Exam Information -->
+            <div class="exam-info">
+                <div class="exam-info-item">
+                    <i class="fas fa-clock" style="color: var(--med-accent);"></i><br>
+                    <strong>Duration</strong><br>3 Hours (180 minutes)
+                </div>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+    <div class="start-btn-container">
+        <button class="start-test-btn" onclick="startTest()"><i class="fas fa-play"></i> Start</button>
+    </div>
+</div>
+
+<!-- TEST SECTION (Hidden initially) -->
+<div id="testSection" class="test-section">
+    <header class="main-header">
+        <div class="logo-wrapper">
+            <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+        </div>
+    </header>
+
+    <!-- Timer Bar - Sticky -->
+    <div class="timer-bar">
+        <span class="timer-label"><i class="fas fa-hourglass-half"></i> Time Remaining:</span>
+        <span class="timer-display" id="timerDisplay">03:00:00</span>
+    </div>
+
+    <div class="container">
+        <!-- Score Summary -->
+        <div id="score-summary">
+            <h2 style="font-family:'Outfit';">Score Card</h2>
+            <div id="final-score">0 / 180</div>
+            <div class="score-detail">
+                <span>Biology: <span id="bio-score">0</span>/81</span>
+                <span>Chemistry: <span id="chem-score">0</span>/45</span>
+                <span>Physics: <span id="phys-score">0</span>/36</span>
+                <span>English: <span id="eng-score">0</span>/9</span>
+                <span>Logical Reasoning: <span id="lr-score">0</span>/9</span>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- QUESTION CONTAINERS - EMPTY, READY TO BE POPULATED -->
+        <!-- IMPORTANT: Questions will be numbered automatically in sequence -->
+        <div id="biology-container"><!-- BIOLOGY PORTION - 81 CONCEPTUAL MCQs for FLP 2 -->
+<!-- Copy and paste this entire content into the biology-container div -->
+
+<div class="subject-title"><i class=""></i> </div>
+
+<!-- Question 1 -->
+<div class="question-wrap" id="q-bio-1">
+    <span class="q-text">1. Which structure in the chloroplast contains chlorophyll and is the site of light-dependent reactions?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_1" value="A"><span>A. Stroma</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_1" value="B"><span>B. Thylakoid membrane</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_1" value="C"><span>C. Grana</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_1" value="D"><span>D. Outer membrane</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Thylakoid membranes contain chlorophyll and photosynthetic pigments.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-2">
+    <span class="q-text">2. A patient with blood type B can safely receive blood from which donors?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_2" value="A"><span>A. B and AB</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_2" value="B"><span>B. B and O</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_2" value="C"><span>C. Only B</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_2" value="D"><span>D. A, B, and O</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Type B has anti-A antibodies, so cannot receive A or AB blood.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-3">
+    <span class="q-text">3. The primary function of the ribosome is to:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_3" value="A"><span>A. Synthesize ATP</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_3" value="B"><span>B. Store genetic information</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_3" value="C"><span>C. Synthesize proteins</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_3" value="D"><span>D. Modify and package proteins</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Ribosomes translate mRNA into polypeptide chains.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-4">
+    <span class="q-text">4. Which of the following is NOT a characteristic of enzymes?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_4" value="A"><span>A. They are specific in action</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_4" value="B"><span>B. They are consumed in the reaction</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_4" value="C"><span>C. They lower activation energy</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_4" value="D"><span>D. They are affected by temperature</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Enzymes are catalysts and are not consumed in reactions.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-5">
+    <span class="q-text">5. The type of RNA that carries the genetic code from DNA to the ribosome is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_5" value="A"><span>A. tRNA</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_5" value="B"><span>B. rRNA</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_5" value="C"><span>C. mRNA</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_5" value="D"><span>D. snRNA</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Messenger RNA carries the genetic code for protein synthesis.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-6">
+    <span class="q-text">6. Which hormone is responsible for the development of male secondary sexual characteristics?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_6" value="A"><span>A. Estrogen</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_6" value="B"><span>B. Progesterone</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_6" value="C"><span>C. Testosterone</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_6" value="D"><span>D. FSH</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Testosterone is the primary male sex hormone.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-7">
+    <span class="q-text">7. The process by which white blood cells engulf and destroy pathogens is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_7" value="A"><span>A. Pinocytosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_7" value="B"><span>B. Phagocytosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_7" value="C"><span>C. Exocytosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_7" value="D"><span>D. Osmosis</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Phagocytosis is the engulfment of large particles by cells.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-8">
+    <span class="q-text">8. In which stage of mitosis do sister chromatids separate and move to opposite poles?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_8" value="A"><span>A. Prophase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_8" value="B"><span>B. Metaphase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_8" value="C"><span>C. Anaphase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_8" value="D"><span>D. Telophase</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> During anaphase, centromeres split and chromatids separate.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-9">
+    <span class="q-text">9. Which vitamin is synthesized in the skin upon exposure to sunlight?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_9" value="A"><span>A. Vitamin A</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_9" value="B"><span>B. Vitamin C</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_9" value="C"><span>C. Vitamin D</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_9" value="D"><span>D. Vitamin K</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> UV light converts 7-dehydrocholesterol to vitamin D3.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-10">
+    <span class="q-text">10. The functional unit of a skeletal muscle is the:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_10" value="A"><span>A. Myofibril</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_10" value="B"><span>B. Sarcomere</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_10" value="C"><span>C. Muscle fiber</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_10" value="D"><span>D. Myosin filament</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Sarcomere is the repeating unit between Z-lines in muscle.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-11">
+    <span class="q-text">11. Which of the following is an example of a vestigial organ in humans?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_11" value="A"><span>A. Liver</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_11" value="B"><span>B. Appendix</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_11" value="C"><span>C. Heart</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_11" value="D"><span>D. Kidney</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Appendix is a vestigial organ with no significant function.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-12">
+    <span class="q-text">12. The layer of the atmosphere where the ozone layer is located is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_12" value="A"><span>A. Troposphere</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_12" value="B"><span>B. Stratosphere</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_12" value="C"><span>C. Mesosphere</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_12" value="D"><span>D. Thermosphere</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The ozone layer is in the stratosphere, 15-35 km above Earth.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-13">
+    <span class="q-text">13. The process of converting atmospheric nitrogen into ammonia is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_13" value="A"><span>A. Nitrification</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_13" value="B"><span>B. Denitrification</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_13" value="C"><span>C. Nitrogen fixation</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_13" value="D"><span>D. Ammonification</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Nitrogen fixation is carried out by Rhizobium bacteria.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-14">
+    <span class="q-text">14. Which part of the neuron receives signals from other neurons?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_14" value="A"><span>A. Axon</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_14" value="B"><span>B. Dendrite</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_14" value="C"><span>C. Cell body</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_14" value="D"><span>D. Synaptic knob</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Dendrites receive incoming signals from other neurons.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-15">
+    <span class="q-text">15. The plant hormone responsible for fruit ripening is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_15" value="A"><span>A. Auxin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_15" value="B"><span>B. Gibberellin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_15" value="C"><span>C. Cytokinin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_15" value="D"><span>D. Ethylene</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Ethylene promotes fruit ripening and senescence.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-16">
+    <span class="q-text">16. A person with blood type AB can receive blood from which donors?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_16" value="A"><span>A. Only AB</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_16" value="B"><span>B. A and B only</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_16" value="C"><span>C. A, B, AB, and O</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_16" value="D"><span>D. Only O</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> AB has no antibodies, making it the universal recipient.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-17">
+    <span class="q-text">17. The organelle that contains digestive enzymes and breaks down waste materials is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_17" value="A"><span>A. Peroxisome</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_17" value="B"><span>B. Lysosome</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_17" value="C"><span>C. Golgi apparatus</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_17" value="D"><span>D. Endoplasmic reticulum</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Lysosomes contain hydrolytic enzymes for intracellular digestion.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-18">
+    <span class="q-text">18. The process by which plants respond to light is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_18" value="A"><span>A. Geotropism</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_18" value="B"><span>B. Hydrotropism</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_18" value="C"><span>C. Thigmotropism</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_18" value="D"><span>D. Phototropism</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Phototropism is growth response toward light.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-19">
+    <span class="q-text">19. Which of the following is NOT a function of the liver?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_19" value="A"><span>A. Production of bile</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_19" value="B"><span>B. Detoxification of blood</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_19" value="C"><span>C. Storage of glycogen</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_19" value="D"><span>D. Filtration of blood</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Filtration of blood is performed by kidneys, not liver.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-20">
+    <span class="q-text">20. The neurotransmitter involved in muscle contraction and memory is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_20" value="A"><span>A. Dopamine</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_20" value="B"><span>B. Serotonin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_20" value="C"><span>C. Acetylcholine</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_20" value="D"><span>D. GABA</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Acetylcholine is released at neuromuscular junctions.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-21">
+    <span class="q-text">21. The main function of red blood cells is to:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_21" value="A"><span>A. Fight infection</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_21" value="B"><span>B. Carry oxygen</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_21" value="C"><span>C. Clot blood</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_21" value="D"><span>D. Produce antibodies</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Hemoglobin in RBCs binds and transports oxygen.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-22">
+    <span class="q-text">22. The stage of the cell cycle where DNA replication occurs is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_22" value="A"><span>A. G1 phase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_22" value="B"><span>B. S phase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_22" value="C"><span>C. G2 phase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_22" value="D"><span>D. M phase</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> S phase (synthesis) is when DNA is replicated.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-23">
+    <span class="q-text">23. Which of the following is an autoimmune disease?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_23" value="A"><span>A. Rheumatoid arthritis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_23" value="B"><span>B. Tuberculosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_23" value="C"><span>C. Malaria</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_23" value="D"><span>D. Cholera</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> In autoimmune diseases, the immune system attacks the body.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-24">
+    <span class="q-text">24. The process by which water moves from roots to leaves is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_24" value="A"><span>A. Osmosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_24" value="B"><span>B. Transpiration pull</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_24" value="C"><span>C. Diffusion</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_24" value="D"><span>D. Active transport</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Transpiration pull creates negative pressure drawing water up.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-25">
+    <span class="q-text">25. The part of the brain that controls body temperature is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_25" value="A"><span>A. Cerebrum</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_25" value="B"><span>B. Cerebellum</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_25" value="C"><span>C. Medulla oblongata</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_25" value="D"><span>D. Hypothalamus</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Hypothalamus acts as the body's thermostat.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-26">
+    <span class="q-text">26. Which enzyme breaks down proteins into peptides in the stomach?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_26" value="A"><span>A. Trypsin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_26" value="B"><span>B. Pepsin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_26" value="C"><span>C. Amylase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_26" value="D"><span>D. Lipase</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Pepsin is activated by HCl in the stomach.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-27">
+    <span class="q-text">27. The pigment that gives plants their green color is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_27" value="A"><span>A. Carotene</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_27" value="B"><span>B. Xanthophyll</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_27" value="C"><span>C. Chlorophyll</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_27" value="D"><span>D. Anthocyanin</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Chlorophyll absorbs red and blue light, reflecting green.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-28">
+    <span class="q-text">28. The condition where blood sugar level is abnormally low is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_28" value="A"><span>A. Hyperglycemia</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_28" value="B"><span>B. Hypoglycemia</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_28" value="C"><span>C. Diabetes mellitus</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_28" value="D"><span>D. Glycosuria</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Hypoglycemia is low blood glucose, often caused by excess insulin.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-29">
+    <span class="q-text">29. The longest bone in the human body is the:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_29" value="A"><span>A. Tibia</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_29" value="B"><span>B. Fibula</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_29" value="C"><span>C. Femur</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_29" value="D"><span>D. Humerus</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The femur (thigh bone) is the longest and strongest bone.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-30">
+    <span class="q-text">30. The process by which plants lose water vapor through their leaves is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_30" value="A"><span>A. Transpiration</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_30" value="B"><span>B. Guttation</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_30" value="C"><span>C. Condensation</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_30" value="D"><span>D. Evaporation</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Transpiration occurs mainly through stomata.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-31">
+    <span class="q-text">31. Which of the following is a function of the skeletal system?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_31" value="A"><span>A. Production of blood cells</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_31" value="B"><span>B. Digestion of food</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_31" value="C"><span>C. Absorption of nutrients</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_31" value="D"><span>D. Filtration of blood</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Bone marrow produces red and white blood cells.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-32">
+    <span class="q-text">32. The hormone that stimulates the release of bile from the gallbladder is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_32" value="A"><span>A. Gastrin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_32" value="B"><span>B. Secretin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_32" value="C"><span>C. Cholecystokinin (CCK)</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_32" value="D"><span>D. Insulin</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> CCK is released in response to fats in the small intestine.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-33">
+    <span class="q-text">33. The type of immunity that is present at birth is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_33" value="A"><span>A. Adaptive immunity</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_33" value="B"><span>B. Innate immunity</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_33" value="C"><span>C. Active immunity</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_33" value="D"><span>D. Passive immunity</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Innate immunity includes physical barriers and non-specific responses.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-34">
+    <span class="q-text">34. The structure that connects muscle to bone is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_34" value="A"><span>A. Ligament</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_34" value="B"><span>B. Tendon</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_34" value="C"><span>C. Cartilage</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_34" value="D"><span>D. Joint</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Tendons attach muscle to bone; ligaments attach bone to bone.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-35">
+    <span class="q-text">35. Which of the following is a fat-soluble vitamin?</span>
+    <label class="opt-label"><input type="radio" name="q_bio_35" value="A"><span>A. Vitamin B12</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_35" value="B"><span>B. Vitamin C</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_35" value="C"><span>C. Vitamin A</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_35" value="D"><span>D. Vitamin B6</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Vitamins A, D, E, and K are fat-soluble.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-36">
+    <span class="q-text">36. The part of the kidney where filtration of blood occurs is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_36" value="A"><span>A. Loop of Henle</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_36" value="B"><span>B. Glomerulus</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_36" value="C"><span>C. Collecting duct</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_36" value="D"><span>D. Distal tubule</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Glomerular filtration is the first step of urine formation.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-37">
+    <span class="q-text">37. The kingdom that includes unicellular eukaryotic organisms like Paramecium is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_37" value="A"><span>A. Monera</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_37" value="B"><span>B. Protista</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_37" value="C"><span>C. Fungi</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_37" value="D"><span>D. Plantae</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Protista includes unicellular eukaryotes like amoeba and paramecium.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-38">
+    <span class="q-text">38. The enzyme that converts angiotensinogen to angiotensin I is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_38" value="A"><span>A. ACE</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_38" value="B"><span>B. Renin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_38" value="C"><span>C. Aldosterone</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_38" value="D"><span>D. ADH</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Renin is released by kidneys in response to low blood pressure.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-39">
+    <span class="q-text">39. The process by which plants respond to touch is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_39" value="A"><span>A. Phototropism</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_39" value="B"><span>B. Geotropism</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_39" value="C"><span>C. Thigmotropism</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_39" value="D"><span>D. Hydrotropism</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Thigmotropism is response to touch (e.g., tendrils).</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-40">
+    <span class="q-text">40. The part of the eye that contains photoreceptor cells is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_40" value="A"><span>A. Cornea</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_40" value="B"><span>B. Lens</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_40" value="C"><span>C. Retina</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_40" value="D"><span>D. Iris</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Retina contains rods and cones for vision.</div></div>
+</div>
+
+
+
+<!-- Fixed question 41 -->
+<div class="question-wrap" id="q-bio-41">
+    <span class="q-text">41. The smallest blood vessels where exchange of materials occurs are:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_41" value="A"><span>A. Arteries</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_41" value="B"><span>B. Veins</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_41" value="C"><span>C. Capillaries</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_41" value="D"><span>D. Arterioles</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Capillaries have thin walls for exchange of nutrients and wastes.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-42">
+    <span class="q-text">42. The hormone that lowers blood glucose level is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_42" value="A"><span>A. Glucagon</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_42" value="B"><span>B. Insulin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_42" value="C"><span>C. Adrenaline</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_42" value="D"><span>D. Cortisol</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Insulin promotes glucose uptake by cells.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-43">
+    <span class="q-text">43. The structure that prevents food from entering the trachea during swallowing is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_43" value="A"><span>A. Epiglottis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_43" value="B"><span>B. Pharynx</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_43" value="C"><span>C. Larynx</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_43" value="D"><span>D. Glottis</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Epiglottis covers the trachea during swallowing.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-44">
+    <span class="q-text">44. The process of programmed cell death is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_44" value="A"><span>A. Necrosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_44" value="B"><span>B. Apoptosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_44" value="C"><span>C. Autolysis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_44" value="D"><span>D. Phagocytosis</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Apoptosis is controlled, genetically programmed cell death.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-45">
+    <span class="q-text">45. The pigment that gives color to the skin and protects from UV radiation is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_45" value="A"><span>A. Hemoglobin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_45" value="B"><span>B. Melanin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_45" value="C"><span>C. Keratin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_45" value="D"><span>D. Collagen</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Melanin absorbs UV radiation, protecting skin cells.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-46">
+    <span class="q-text">46. The structure that produces sound in humans is the:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_46" value="A"><span>A. Pharynx</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_46" value="B"><span>B. Larynx</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_46" value="C"><span>C. Trachea</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_46" value="D"><span>D. Bronchus</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Vocal cords in the larynx vibrate to produce sound.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-47">
+    <span class="q-text">47. The type of muscle found in the walls of the heart is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_47" value="A"><span>A. Skeletal muscle</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_47" value="B"><span>B. Smooth muscle</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_47" value="C"><span>C. Cardiac muscle</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_47" value="D"><span>D. Striated muscle</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Cardiac muscle is involuntary and found only in the heart.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-48">
+    <span class="q-text">48. The process by which carbon dioxide is transported in the blood is mainly as:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_48" value="A"><span>A. Dissolved CO2</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_48" value="B"><span>B. Carbaminohemoglobin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_48" value="C"><span>C. Bicarbonate ions (HCO3-)</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_48" value="D"><span>D. Carbonate ions</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> About 70% of CO2 is transported as bicarbonate.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-49">
+    <span class="q-text">49. The part of the brain that controls balance and coordination is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_49" value="A"><span>A. Cerebrum</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_49" value="B"><span>B. Cerebellum</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_49" value="C"><span>C. Medulla oblongata</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_49" value="D"><span>D. Hypothalamus</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Cerebellum coordinates voluntary movement and balance.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-50">
+    <span class="q-text">50. The type of white blood cell that produces antibodies is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_50" value="A"><span>A. T-lymphocytes</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_50" value="B"><span>B. B-lymphocytes</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_50" value="C"><span>C. Neutrophils</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_50" value="D"><span>D. Macrophages</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> B-cells differentiate into plasma cells that secrete antibodies.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-51">
+    <span class="q-text">51. The hormone that stimulates the growth of ovarian follicles is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_51" value="A"><span>A. LH</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_51" value="B"><span>B. FSH</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_51" value="C"><span>C. Estrogen</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_51" value="D"><span>D. Progesterone</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Follicle-stimulating hormone promotes follicle development.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-52">
+    <span class="q-text">52. The structure that carries sperm from the epididymis to the urethra is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_52" value="A"><span>A. Vas deferens</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_52" value="B"><span>B. Ejaculatory duct</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_52" value="C"><span>C. Seminiferous tubule</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_52" value="D"><span>D. Prostate gland</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Vas deferens transports sperm during ejaculation.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-53">
+    <span class="q-text">53. The process by which the embryo attaches to the uterine wall is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_53" value="A"><span>A. Gestation</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_53" value="B"><span>B. Parturition</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_53" value="C"><span>C. Implantation</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_53" value="D"><span>D. Fertilization</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Implantation occurs about 6-7 days after fertilization.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-54">
+    <span class="q-text">54. The enzyme that unwinds DNA during replication is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_54" value="A"><span>A. DNA polymerase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_54" value="B"><span>B. Helicase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_54" value="C"><span>C. Ligase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_54" value="D"><span>D. Primase</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Helicase breaks hydrogen bonds between DNA strands.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-55">
+    <span class="q-text">55. The part of the flower that develops into the fruit is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_55" value="A"><span>A. Ovary</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_55" value="B"><span>B. Ovule</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_55" value="C"><span>C. Stigma</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_55" value="D"><span>D. Anther</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> After fertilization, the ovary develops into the fruit.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-56">
+    <span class="q-text">56. The condition where a person has an extra chromosome 21 is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_56" value="A"><span>A. Turner syndrome</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_56" value="B"><span>B. Klinefelter syndrome</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_56" value="C"><span>C. Down syndrome</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_56" value="D"><span>D. Edward syndrome</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Trisomy 21 causes Down syndrome.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-57">
+    <span class="q-text">57. The organelle that modifies, sorts, and packages proteins is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_57" value="A"><span>A. Rough ER</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_57" value="B"><span>B. Smooth ER</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_57" value="C"><span>C. Golgi apparatus</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_57" value="D"><span>D. Nucleus</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Golgi apparatus modifies and packages proteins for transport.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-58">
+    <span class="q-text">58. The process by which cells take in large particles by engulfing them is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_58" value="A"><span>A. Pinocytosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_58" value="B"><span>B. Phagocytosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_58" value="C"><span>C. Exocytosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_58" value="D"><span>D. Receptor-mediated endocytosis</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Phagocytosis means "cell eating" of large particles.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-59">
+    <span class="q-text">59. The layer of skin that contains blood vessels and nerve endings is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_59" value="A"><span>A. Epidermis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_59" value="B"><span>B. Dermis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_59" value="C"><span>C. Hypodermis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_59" value="D"><span>D. Stratum corneum</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The dermis contains blood vessels, nerves, and hair follicles.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-60">
+    <span class="q-text">60. The process of formation of male gametes is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_60" value="A"><span>A. Oogenesis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_60" value="B"><span>B. Spermatogenesis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_60" value="C"><span>C. Gametogenesis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_60" value="D"><span>D. Meiosis</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Spermatogenesis produces sperm in the testes.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-61">
+    <span class="q-text">61. The part of the brain that controls breathing and heart rate is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_61" value="A"><span>A. Cerebrum</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_61" value="B"><span>B. Cerebellum</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_61" value="C"><span>C. Medulla oblongata</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_61" value="D"><span>D. Hypothalamus</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The medulla contains vital centers for breathing and heart rate.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-62">
+    <span class="q-text">62. The type of bond that holds amino acids together in a protein is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_62" value="A"><span>A. Hydrogen bond</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_62" value="B"><span>B. Peptide bond</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_62" value="C"><span>C. Glycosidic bond</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_62" value="D"><span>D. Ester bond</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Peptide bonds link amino acids in polypeptide chains.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-63">
+    <span class="q-text">63. The vitamin that is essential for blood clotting is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_63" value="A"><span>A. Vitamin A</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_63" value="B"><span>B. Vitamin C</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_63" value="C"><span>C. Vitamin D</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_63" value="D"><span>D. Vitamin K</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Vitamin K is required for synthesis of clotting factors.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-64">
+    <span class="q-text">64. The process by which plants convert light energy into chemical energy is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_64" value="A"><span>A. Respiration</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_64" value="B"><span>B. Transpiration</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_64" value="C"><span>C. Photosynthesis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_64" value="D"><span>D. Fermentation</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Photosynthesis converts light energy into glucose.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-65">
+    <span class="q-text">65. The organ that produces bile is the:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_65" value="A"><span>A. Stomach</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_65" value="B"><span>B. Pancreas</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_65" value="C"><span>C. Liver</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_65" value="D"><span>D. Gallbladder</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The liver produces bile; the gallbladder stores it.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-66">
+    <span class="q-text">66. The type of RNA that brings amino acids to the ribosome is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_66" value="A"><span>A. mRNA</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_66" value="B"><span>B. rRNA</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_66" value="C"><span>C. tRNA</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_66" value="D"><span>D. snRNA</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Transfer RNA carries specific amino acids to the ribosome.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-67">
+    <span class="q-text">67. The condition characterized by the inability to see distant objects clearly is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_67" value="A"><span>A. Myopia</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_67" value="B"><span>B. Hyperopia</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_67" value="C"><span>C. Astigmatism</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_67" value="D"><span>D. Presbyopia</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Myopia (nearsightedness) is corrected with concave lenses.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-68">
+    <span class="q-text">68. The hormone that promotes water reabsorption in the kidneys is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_68" value="A"><span>A. Aldosterone</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_68" value="B"><span>B. ADH</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_68" value="C"><span>C. Renin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_68" value="D"><span>D. Atrial natriuretic peptide</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Antidiuretic hormone increases water reabsorption in collecting ducts.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-69">
+    <span class="q-text">69. The part of the flower that produces pollen grains is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_69" value="A"><span>A. Stigma</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_69" value="B"><span>B. Style</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_69" value="C"><span>C. Anther</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_69" value="D"><span>D. Ovary</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The anther contains pollen sacs that produce pollen grains.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-70">
+    <span class="q-text">70. The process by which the body maintains a constant internal environment is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_70" value="A"><span>A. Metabolism</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_70" value="B"><span>B. Homeostasis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_70" value="C"><span>C. Osmoregulation</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_70" value="D"><span>D. Thermoregulation</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Homeostasis maintains stable internal conditions.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-71">
+    <span class="q-text">71. The enzyme that breaks down starch into maltose is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_71" value="A"><span>A. Amylase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_71" value="B"><span>B. Pepsin</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_71" value="C"><span>C. Lipase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_71" value="D"><span>D. Trypsin</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Amylase is produced in saliva and the pancreas.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-72">
+    <span class="q-text">72. The structure that carries oxygenated blood away from the heart is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_72" value="A"><span>A. Pulmonary artery</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_72" value="B"><span>B. Pulmonary vein</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_72" value="C"><span>C. Aorta</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_72" value="D"><span>D. Vena cava</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The aorta carries oxygenated blood from left ventricle to the body.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-73">
+    <span class="q-text">73. The stage of the menstrual cycle when the endometrium is shed is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_73" value="A"><span>A. Proliferative phase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_73" value="B"><span>B. Secretory phase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_73" value="C"><span>C. Menstrual phase</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_73" value="D"><span>D. Ovulation phase</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Menstruation is the shedding of the endometrial lining.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-74">
+    <span class="q-text">74. The part of the eye that controls the amount of light entering is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_74" value="A"><span>A. Cornea</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_74" value="B"><span>B. Iris</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_74" value="C"><span>C. Lens</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_74" value="D"><span>D. Retina</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The iris dilates and constricts to control pupil size.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-75">
+    <span class="q-text">75. The process by which glucose is broken down to pyruvate is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_75" value="A"><span>A. Glycolysis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_75" value="B"><span>B. Krebs cycle</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_75" value="C"><span>C. Electron transport chain</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_75" value="D"><span>D. Gluconeogenesis</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Glycolysis occurs in the cytoplasm and produces pyruvate.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-76">
+    <span class="q-text">76. The type of immunity that develops after vaccination is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_76" value="A"><span>A. Natural active immunity</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_76" value="B"><span>B. Artificial active immunity</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_76" value="C"><span>C. Natural passive immunity</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_76" value="D"><span>D. Artificial passive immunity</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Vaccination induces artificial active immunity by exposing to antigens.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-77">
+    <span class="q-text">77. The structure that filters blood in the kidney is the:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_77" value="A"><span>A. Bowman's capsule</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_77" value="B"><span>B. Glomerulus</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_77" value="C"><span>C. Loop of Henle</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_77" value="D"><span>D. Collecting duct</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The glomerulus filters blood under pressure.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-78">
+    <span class="q-text">78. The hormone that stimulates the release of cortisol is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_78" value="A"><span>A. ACTH</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_78" value="B"><span>B. TSH</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_78" value="C"><span>C. GH</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_78" value="D"><span>D. FSH</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Adrenocorticotropic hormone stimulates cortisol release from adrenal cortex.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-79">
+    <span class="q-text">79. The part of the digestive system where most nutrient absorption occurs is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_79" value="A"><span>A. Stomach</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_79" value="B"><span>B. Large intestine</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_79" value="C"><span>C. Small intestine</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_79" value="D"><span>D. Mouth</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The small intestine has villi for maximum absorption.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-80">
+    <span class="q-text">80. The molecule that stores energy in cells is:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_80" value="A"><span>A. DNA</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_80" value="B"><span>B. RNA</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_80" value="C"><span>C. ATP</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_80" value="D"><span>D. Glucose</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> ATP is the primary energy currency of the cell.</div></div>
+</div>
+
+<div class="question-wrap" id="q-bio-81">
+    <span class="q-text">81. The process by which white blood cells engulf bacteria is called:</span>
+    <label class="opt-label"><input type="radio" name="q_bio_81" value="A"><span>A. Pinocytosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_81" value="B"><span>B. Phagocytosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_81" value="C"><span>C. Exocytosis</span></label>
+    <label class="opt-label"><input type="radio" name="q_bio_81" value="D"><span>D. Osmosis</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Phagocytosis is used by macrophages and neutrophils to destroy pathogens.</div></div>
+</div></div>
+        <div id="chemistry-container"><!-- CHEMISTRY PORTION - 45 CONCEPTUAL MCQs for FLP 2 -->
+<!-- Copy and paste this entire content into the chemistry-container div -->
+
+<div class="subject-title"><i class="f"></i> </div>
+
+<div class="question-wrap" id="q-chem-1">
+    <span class="q-text">1. The number of moles in 36 grams of water is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_1" value="A"><span>A. 1</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_1" value="B"><span>B. 2</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_1" value="C"><span>C. 3</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_1" value="D"><span>D. 4</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Molar mass of H2O = 18 g/mol; 36/18 = 2 moles.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-2">
+    <span class="q-text">2. The shape of a molecule with sp3 hybridization is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_2" value="A"><span>A. Linear</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_2" value="B"><span>B. Trigonal planar</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_2" value="C"><span>C. Tetrahedral</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_2" value="D"><span>D. Octahedral</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> sp3 hybridization results in tetrahedral geometry (e.g., CH4).</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-3">
+    <span class="q-text">3. Which of the following is an example of a Lewis base?</span>
+    <label class="opt-label"><input type="radio" name="q_chem_3" value="A"><span>A. BF3</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_3" value="B"><span>B. NH3</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_3" value="C"><span>C. AlCl3</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_3" value="D"><span>D. H+</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> NH3 donates a lone pair of electrons, making it a Lewis base.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-4">
+    <span class="q-text">4. The pH of a 0.001 M HCl solution is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_4" value="A"><span>A. 1</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_4" value="B"><span>B. 2</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_4" value="C"><span>C. 3</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_4" value="D"><span>D. 4</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> pH = -log[H+] = -log(0.001) = 3.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-5">
+    <span class="q-text">5. The functional group of an aldehyde is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_5" value="A"><span>A. -OH</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_5" value="B"><span>B. -COOH</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_5" value="C"><span>C. -CHO</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_5" value="D"><span>D. -CO-</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Aldehydes contain the formyl group (-CHO) at the end of the chain.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-6">
+    <span class="q-text">6. Which of the following is a strong electrolyte?</span>
+    <label class="opt-label"><input type="radio" name="q_chem_6" value="A"><span>A. CH3COOH</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_6" value="B"><span>B. NH3</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_6" value="C"><span>C. NaCl</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_6" value="D"><span>D. C6H12O6</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> NaCl dissociates completely into ions in water.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-7">
+    <span class="q-text">7. The IUPAC name of CH3CH2CH2OH is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_7" value="A"><span>A. Methanol</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_7" value="B"><span>B. Ethanol</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_7" value="C"><span>C. Propanol</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_7" value="D"><span>D. Butanol</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Three-carbon chain with -OH gives propanol (1-propanol).</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-8">
+    <span class="q-text">8. The catalyst used in the Haber process is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_8" value="A"><span>A. Iron</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_8" value="B"><span>B. Vanadium pentoxide</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_8" value="C"><span>C. Nickel</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_8" value="D"><span>D. Platinum</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Iron with promoters is used in Haber process for ammonia synthesis.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-9">
+    <span class="q-text">9. Which of the following has the highest electronegativity?</span>
+    <label class="opt-label"><input type="radio" name="q_chem_9" value="A"><span>A. Oxygen</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_9" value="B"><span>B. Chlorine</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_9" value="C"><span>C. Fluorine</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_9" value="D"><span>D. Nitrogen</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Fluorine has the highest electronegativity (4.0 on Pauling scale).</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-10">
+    <span class="q-text">10. The process of rusting involves:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_10" value="A"><span>A. Oxidation</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_10" value="B"><span>B. Reduction</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_10" value="C"><span>C. Neutralization</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_10" value="D"><span>D. Precipitation</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Iron oxidizes to form iron oxide (Fe2O3) during rusting.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-11">
+    <span class="q-text">11. The bond angle in methane (CH4) is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_11" value="A"><span>A. 90°</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_11" value="B"><span>B. 104.5°</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_11" value="C"><span>C. 109.5°</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_11" value="D"><span>D. 120°</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Methane has tetrahedral geometry with bond angle 109.5°.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-12">
+    <span class="q-text">12. The oxidation state of manganese in KMnO4 is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_12" value="A"><span>A. +5</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_12" value="B"><span>B. +6</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_12" value="C"><span>C. +7</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_12" value="D"><span>D. +4</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> K=+1, O4=-8, total -7; Mn=+7.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-13">
+    <span class="q-text">13. Which of the following is NOT a green house gas?</span>
+    <label class="opt-label"><input type="radio" name="q_chem_13" value="A"><span>A. CO2</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_13" value="B"><span>B. CH4</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_13" value="C"><span>C. O2</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_13" value="D"><span>D. N2O</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Oxygen (O2) does not absorb infrared radiation.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-14">
+    <span class="q-text">14. The number of protons in a sodium atom is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_14" value="A"><span>A. 11</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_14" value="B"><span>B. 12</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_14" value="C"><span>C. 23</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_14" value="D"><span>D. 10</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Atomic number of sodium is 11, which equals number of protons.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-15">
+    <span class="q-text">15. The process of converting a solid directly into a gas is called:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_15" value="A"><span>A. Sublimation</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_15" value="B"><span>B. Condensation</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_15" value="C"><span>C. Evaporation</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_15" value="D"><span>D. Deposition</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Sublimation is solid → gas (e.g., dry ice, iodine).</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-16">
+    <span class="q-text">16. The chemical formula of baking soda is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_16" value="A"><span>A. Na2CO3</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_16" value="B"><span>B. NaHCO3</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_16" value="C"><span>C. NaOH</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_16" value="D"><span>D. NaCl</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Baking soda is sodium bicarbonate (NaHCO3).</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-17">
+    <span class="q-text">17. Which of the following is an example of a physical change?</span>
+    <label class="opt-label"><input type="radio" name="q_chem_17" value="A"><span>A. Rusting of iron</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_17" value="B"><span>B. Melting of ice</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_17" value="C"><span>C. Burning of wood</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_17" value="D"><span>D. Digestion of food</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Melting ice changes state but not chemical composition.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-18">
+    <span class="q-text">18. The acid found in lemons and oranges is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_18" value="A"><span>A. Acetic acid</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_18" value="B"><span>B. Lactic acid</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_18" value="C"><span>C. Citric acid</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_18" value="D"><span>D. Tartaric acid</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Citrus fruits contain citric acid.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-19">
+    <span class="q-text">19. The SI unit of temperature is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_19" value="A"><span>A. Celsius</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_19" value="B"><span>B. Fahrenheit</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_19" value="C"><span>C. Kelvin</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_19" value="D"><span>D. Rankine</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Kelvin is the SI base unit for temperature.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-20">
+    <span class="q-text">20. The gas used in fire extinguishers is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_20" value="A"><span>A. Oxygen</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_20" value="B"><span>B. Nitrogen</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_20" value="C"><span>C. Carbon dioxide</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_20" value="D"><span>D. Hydrogen</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> CO2 displaces oxygen, suffocating the fire.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-21">
+    <span class="q-text">21. Which of the following is a noble gas?</span>
+    <label class="opt-label"><input type="radio" name="q_chem_21" value="A"><span>A. Oxygen</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_21" value="B"><span>B. Helium</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_21" value="C"><span>C. Nitrogen</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_21" value="D"><span>D. Chlorine</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Helium (He) is a noble gas with a complete octet.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-22">
+    <span class="q-text">22. The number of valence electrons in carbon is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_22" value="A"><span>A. 2</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_22" value="B"><span>B. 3</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_22" value="C"><span>C. 4</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_22" value="D"><span>D. 5</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Carbon has 4 valence electrons in its outer shell (2s²2p²).</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-23">
+    <span class="q-text">23. The formula of plaster of Paris is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_23" value="A"><span>A. CaSO4·2H2O</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_23" value="B"><span>B. CaSO4·½H2O</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_23" value="C"><span>C. CaSO4</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_23" value="D"><span>D. CaCO3</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Plaster of Paris is calcium sulfate hemihydrate.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-24">
+    <span class="q-text">24. Which of the following is the most reactive metal?</span>
+    <label class="opt-label"><input type="radio" name="q_chem_24" value="A"><span>A. Iron</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_24" value="B"><span>B. Copper</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_24" value="C"><span>C. Potassium</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_24" value="D"><span>D. Gold</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Potassium is highly reactive, reacting violently with water.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-25">
+    <span class="q-text">25. The process of separating mixtures based on boiling points is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_25" value="A"><span>A. Filtration</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_25" value="B"><span>B. Distillation</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_25" value="C"><span>C. Chromatography</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_25" value="D"><span>D. Crystallization</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Distillation uses differences in boiling points to separate components.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-26">
+    <span class="q-text">26. The chemical symbol for gold is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_26" value="A"><span>A. Go</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_26" value="B"><span>B. Gd</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_26" value="C"><span>C. Au</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_26" value="D"><span>D. Ag</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Au comes from the Latin word "aurum" for gold.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-27">
+    <span class="q-text">27. The pH of a neutral solution is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_27" value="A"><span>A. 0</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_27" value="B"><span>B. 14</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_27" value="C"><span>C. 7</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_27" value="D"><span>D. 1</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> pH 7 is neutral (pure water at 25°C).</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-28">
+    <span class="q-text">28. Which element is liquid at room temperature?</span>
+    <label class="opt-label"><input type="radio" name="q_chem_28" value="A"><span>A. Mercury</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_28" value="B"><span>B. Bromine</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_28" value="C"><span>C. Both A and B</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_28" value="D"><span>D. Gallium</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Mercury (metal) and bromine (non-metal) are liquid at room temperature.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-29">
+    <span class="q-text">29. The formula of sulfuric acid is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_29" value="A"><span>A. HCl</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_29" value="B"><span>B. H2SO4</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_29" value="C"><span>C. HNO3</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_29" value="D"><span>D. CH3COOH</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Sulfuric acid is H2SO4, a strong diprotic acid.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-30">
+    <span class="q-text">30. The process of coating iron with zinc to prevent rusting is called:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_30" value="A"><span>A. Galvanization</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_30" value="B"><span>B. Anodizing</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_30" value="C"><span>C. Tinning</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_30" value="D"><span>D. Alloying</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Galvanization provides sacrificial protection to iron.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-31">
+    <span class="q-text">31. The number of atoms in one mole of a substance is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_31" value="A"><span>A. 6.02 × 10²²</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_31" value="B"><span>B. 6.02 × 10²³</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_31" value="C"><span>C. 6.02 × 10²⁴</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_31" value="D"><span>D. 6.02 × 10²¹</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Avogadro's number is 6.02 × 10²³ particles per mole.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-32">
+    <span class="q-text">32. Which of the following is an endothermic reaction?</span>
+    <label class="opt-label"><input type="radio" name="q_chem_32" value="A"><span>A. Combustion of methane</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_32" value="B"><span>B. Respiration</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_32" value="C"><span>C. Photosynthesis</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_32" value="D"><span>D. Neutralization</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Photosynthesis absorbs energy (ΔH > 0).</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-33">
+    <span class="q-text">33. The functional group of a ketone is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_33" value="A"><span>A. -OH</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_33" value="B"><span>B. -CHO</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_33" value="C"><span>C. -COOH</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_33" value="D"><span>D. -CO-</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Ketones have a carbonyl group (C=O) bonded to two carbon atoms.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-34">
+    <span class="q-text">34. The hardest naturally occurring substance is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_34" value="A"><span>A. Iron</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_34" value="B"><span>B. Diamond</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_34" value="C"><span>C. Gold</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_34" value="D"><span>D. Platinum</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Diamond is an allotrope of carbon with the highest hardness.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-35">
+    <span class="q-text">35. The process of electrolysis is used to:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_35" value="A"><span>A. Decompose compounds</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_35" value="B"><span>B. Mix compounds</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_35" value="C"><span>C. Create alloys</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_35" value="D"><span>D. Neutralize acids</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Electrolysis uses electric current to decompose compounds.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-36">
+    <span class="q-text">36. The IUPAC name of CH3CH=CH2 is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_36" value="A"><span>A. Propane</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_36" value="B"><span>B. Propene</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_36" value="C"><span>C. Propyne</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_36" value="D"><span>D. Propanol</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> CH3CH=CH2 is propene (alkene with three carbons).</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-37">
+    <span class="q-text">37. The atomic number of oxygen is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_37" value="A"><span>A. 6</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_37" value="B"><span>B. 7</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_37" value="C"><span>C. 8</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_37" value="D"><span>D. 9</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Oxygen has 8 protons, atomic number 8.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-38">
+    <span class="q-text">38. Which of the following is a reducing agent?</span>
+    <label class="opt-label"><input type="radio" name="q_chem_38" value="A"><span>A. H2</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_38" value="B"><span>B. O2</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_38" value="C"><span>C. Cl2</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_38" value="D"><span>D. F2</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Hydrogen donates electrons, acting as a reducing agent.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-39">
+    <span class="q-text">39. The process of rusting is accelerated by:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_39" value="A"><span>A. Presence of moisture</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_39" value="B"><span>B. Presence of salt</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_39" value="C"><span>C. Acidic conditions</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_39" value="D"><span>D. All of the above</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Water, electrolytes, and acids accelerate corrosion.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-40">
+    <span class="q-text">40. The law of conservation of mass was given by:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_40" value="A"><span>A. Dalton</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_40" value="B"><span>B. Lavoisier</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_40" value="C"><span>C. Avogadro</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_40" value="D"><span>D. Boyle</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Antoine Lavoisier established the law of conservation of mass.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-41">
+    <span class="q-text">41. The number of electrons in the outermost shell of noble gases is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_41" value="A"><span>A. 2</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_41" value="B"><span>B. 8</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_41" value="C"><span>C. 8 except helium which has 2</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_41" value="D"><span>D. 18</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Helium has 2 valence electrons; others have 8 (full octet).</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-42">
+    <span class="q-text">42. The chemical name of washing soda is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_42" value="A"><span>A. Sodium chloride</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_42" value="B"><span>B. Sodium bicarbonate</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_42" value="C"><span>C. Sodium carbonate decahydrate</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_42" value="D"><span>D. Sodium hydroxide</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Washing soda is Na2CO3·10H2O.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-43">
+    <span class="q-text">43. The most abundant element in the Earth's crust is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_43" value="A"><span>A. Silicon</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_43" value="B"><span>B. Aluminum</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_43" value="C"><span>C. Oxygen</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_43" value="D"><span>D. Iron</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Oxygen makes up about 46% of Earth's crust by mass.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-44">
+    <span class="q-text">44. The pH of a solution with [H+] = 1 × 10⁻⁴ M is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_44" value="A"><span>A. 2</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_44" value="B"><span>B. 3</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_44" value="C"><span>C. 4</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_44" value="D"><span>D. 5</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> pH = -log(1×10⁻⁴) = 4.</div></div>
+</div>
+
+<div class="question-wrap" id="q-chem-45">
+    <span class="q-text">45. The gas used in the production of ammonia is:</span>
+    <label class="opt-label"><input type="radio" name="q_chem_45" value="A"><span>A. Nitrogen</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_45" value="B"><span>B. Hydrogen</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_45" value="C"><span>C. Both nitrogen and hydrogen</span></label>
+    <label class="opt-label"><input type="radio" name="q_chem_45" value="D"><span>D. Oxygen</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Haber process combines N2 and H2 to produce NH3.</div></div>
+</div></div>
+        <div id="physics-container"><!-- PHYSICS PORTION - 36 CONCEPTUAL MCQs for FLP 2 -->
+<!-- Copy and paste this entire content into the physics-container div -->
+
+<div class="subject-title"><i class=""></i> </div>
+
+<div class="question-wrap" id="q-phys-1">
+    <span class="q-text">1. The SI unit of work is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_1" value="A"><span>A. Newton</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_1" value="B"><span>B. Watt</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_1" value="C"><span>C. Joule</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_1" value="D"><span>D. Pascal</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Work = Force × Displacement; SI unit is Joule (J).</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-2">
+    <span class="q-text">2. A ball is thrown vertically upward. At its highest point, its:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_2" value="A"><span>A. Velocity is zero</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_2" value="B"><span>B. Acceleration is zero</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_2" value="C"><span>C. Kinetic energy is maximum</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_2" value="D"><span>D. Potential energy is minimum</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> At the highest point, velocity becomes zero momentarily.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-3">
+    <span class="q-text">3. The unit of electric resistance is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_3" value="A"><span>A. Volt</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_3" value="B"><span>B. Ampere</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_3" value="C"><span>C. Ohm</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_3" value="D"><span>D. Watt</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Resistance is measured in ohms (Ω).</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-4">
+    <span class="q-text">4. The speed of sound is maximum in:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_4" value="A"><span>A. Air</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_4" value="B"><span>B. Water</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_4" value="C"><span>C. Steel</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_4" value="D"><span>D. Vacuum</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Sound travels fastest in solids due to closely packed particles.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-5">
+    <span class="q-text">5. Which law states that force is equal to mass times acceleration?</span>
+    <label class="opt-label"><input type="radio" name="q_phys_5" value="A"><span>A. Newton's first law</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_5" value="B"><span>B. Newton's second law</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_5" value="C"><span>C. Newton's third law</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_5" value="D"><span>D. Law of gravitation</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> F = ma is Newton's second law of motion.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-6">
+    <span class="q-text">6. The image formed by a convex mirror is always:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_6" value="A"><span>A. Real and inverted</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_6" value="B"><span>B. Virtual and erect</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_6" value="C"><span>C. Real and erect</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_6" value="D"><span>D. Virtual and inverted</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Convex mirrors always produce virtual, erect, diminished images.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-7">
+    <span class="q-text">7. The unit of power is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_7" value="A"><span>A. Joule</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_7" value="B"><span>B. Newton</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_7" value="C"><span>C. Watt</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_7" value="D"><span>D. Pascal</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Power = Work/Time; SI unit is Watt (W).</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-8">
+    <span class="q-text">8. The property of a body to resist a change in its state of motion is called:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_8" value="A"><span>A. Force</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_8" value="B"><span>B. Momentum</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_8" value="C"><span>C. Inertia</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_8" value="D"><span>D. Acceleration</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Inertia is the resistance to change in motion.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-9">
+    <span class="q-text">9. The value of g on the surface of the moon is approximately:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_9" value="A"><span>A. 9.8 m/s²</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_9" value="B"><span>B. 10 m/s²</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_9" value="C"><span>C. 1.6 m/s²</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_9" value="D"><span>D. 3.7 m/s²</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The moon's gravity is about 1/6 of Earth's gravity.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-10">
+    <span class="q-text">10. The bending of light when it passes from one medium to another is called:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_10" value="A"><span>A. Reflection</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_10" value="B"><span>B. Refraction</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_10" value="C"><span>C. Diffraction</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_10" value="D"><span>D. Dispersion</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Refraction occurs due to change in speed of light.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-11">
+    <span class="q-text">11. The frequency of AC current in Pakistan is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_11" value="A"><span>A. 60 Hz</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_11" value="B"><span>B. 50 Hz</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_11" value="C"><span>C. 220 Hz</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_11" value="D"><span>D. 110 Hz</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Pakistan uses 50 Hz AC mains frequency.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-12">
+    <span class="q-text">12. A transformer works on the principle of:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_12" value="A"><span>A. Self-induction</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_12" value="B"><span>B. Mutual induction</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_12" value="C"><span>C. Electromagnetic induction</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_12" value="D"><span>D. Both B and C</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Transformers work on mutual induction, a type of electromagnetic induction.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-13">
+    <span class="q-text">13. The unit of frequency is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_13" value="A"><span>A. Second</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_13" value="B"><span>B. Meter</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_13" value="C"><span>C. Hertz</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_13" value="D"><span>D. Watt</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Frequency is measured in Hertz (Hz), cycles per second.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-14">
+    <span class="q-text">14. The acceleration of a body moving with uniform velocity is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_14" value="A"><span>A. Positive</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_14" value="B"><span>B. Negative</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_14" value="C"><span>C. Zero</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_14" value="D"><span>D. Variable</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Uniform velocity means no change in velocity, so acceleration is zero.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-15">
+    <span class="q-text">15. A concave lens always produces an image that is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_15" value="A"><span>A. Real and inverted</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_15" value="B"><span>B. Virtual and erect</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_15" value="C"><span>C. Real and erect</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_15" value="D"><span>D. Virtual and inverted</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Concave lenses always produce virtual, erect, diminished images.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-16">
+    <span class="q-text">16. The law of conservation of energy states that energy:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_16" value="A"><span>A. Can be created</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_16" value="B"><span>B. Can be destroyed</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_16" value="C"><span>C. Cannot be created or destroyed</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_16" value="D"><span>D. Is always increasing</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Energy can only be transformed from one form to another.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-17">
+    <span class="q-text">17. The resistance of a conductor increases with:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_17" value="A"><span>A. Increase in length</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_17" value="B"><span>B. Decrease in temperature</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_17" value="C"><span>C. Increase in cross-sectional area</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_17" value="D"><span>D. Decrease in length</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> R = ρL/A, so resistance is directly proportional to length.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-18">
+    <span class="q-text">18. The energy stored in a stretched spring is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_18" value="A"><span>A. Kinetic energy</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_18" value="B"><span>B. Potential energy</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_18" value="C"><span>C. Heat energy</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_18" value="D"><span>D. Electrical energy</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Elastic potential energy is stored in a stretched spring.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-19">
+    <span class="q-text">19. The unit of magnetic flux is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_19" value="A"><span>A. Tesla</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_19" value="B"><span>B. Weber</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_19" value="C"><span>C. Henry</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_19" value="D"><span>D. Gauss</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Magnetic flux is measured in weber (Wb).</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-20">
+    <span class="q-text">20. The process of emission of electrons from a metal surface when light falls on it is called:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_20" value="A"><span>A. Photoelectric effect</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_20" value="B"><span>B. Compton effect</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_20" value="C"><span>C. Thermionic emission</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_20" value="D"><span>D. Pair production</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Photoelectric effect demonstrates the particle nature of light.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-21">
+    <span class="q-text">21. The wavelength of red light is approximately:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_21" value="A"><span>A. 400 nm</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_21" value="B"><span>B. 500 nm</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_21" value="C"><span>C. 600 nm</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_21" value="D"><span>D. 700 nm</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Red light has the longest wavelength in visible spectrum (≈700 nm).</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-22">
+    <span class="q-text">22. The device used to measure electric current is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_22" value="A"><span>A. Voltmeter</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_22" value="B"><span>B. Ammeter</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_22" value="C"><span>C. Galvanometer</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_22" value="D"><span>D. Ohmmeter</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Ammeter is connected in series to measure current.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-23">
+    <span class="q-text">23. The time taken for one complete oscillation is called:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_23" value="A"><span>A. Frequency</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_23" value="B"><span>B. Amplitude</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_23" value="C"><span>C. Period</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_23" value="D"><span>D. Wavelength</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Period (T) is the time for one complete cycle.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-24">
+    <span class="q-text">24. The force between two point charges is given by:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_24" value="A"><span>A. Coulomb's law</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_24" value="B"><span>B. Ohm's law</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_24" value="C"><span>C. Faraday's law</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_24" value="D"><span>D. Lenz's law</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Coulomb's law: F = k q1q2 / r².</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-25">
+    <span class="q-text">25. The color of light with the shortest wavelength is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_25" value="A"><span>A. Red</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_25" value="B"><span>B. Blue</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_25" value="C"><span>C. Green</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_25" value="D"><span>D. Violet</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Violet has the shortest wavelength (≈400 nm).</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-26">
+    <span class="q-text">26. The unit of capacitance is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_26" value="A"><span>A. Henry</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_26" value="B"><span>B. Farad</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_26" value="C"><span>C. Ohm</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_26" value="D"><span>D. Tesla</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Capacitance is measured in farads (F).</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-27">
+    <span class="q-text">27. The half-life of a radioactive substance is the time in which:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_27" value="A"><span>A. All atoms decay</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_27" value="B"><span>B. Half of the atoms decay</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_27" value="C"><span>C. The substance becomes stable</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_27" value="D"><span>D. The mass doubles</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Half-life is the time for half the nuclei to decay.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-28">
+    <span class="q-text">28. The splitting of white light into its constituent colors is called:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_28" value="A"><span>A. Refraction</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_28" value="B"><span>B. Reflection</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_28" value="C"><span>C. Dispersion</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_28" value="D"><span>D. Diffraction</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Dispersion occurs because different colors have different refractive indices.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-29">
+    <span class="q-text">29. A body is in equilibrium when:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_29" value="A"><span>A. Net force is zero</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_29" value="B"><span>B. Net torque is zero</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_29" value="C"><span>C. Both net force and net torque are zero</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_29" value="D"><span>D. Velocity is zero</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> For equilibrium, both translational and rotational equilibrium must hold.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-30">
+    <span class="q-text">30. The unit of momentum is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_30" value="A"><span>A. kg·m/s</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_30" value="B"><span>B. N·s</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_30" value="C"><span>C. Both A and B</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_30" value="D"><span>D. kg·m/s²</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Momentum = mass × velocity (kg·m/s) = impulse (N·s).</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-31">
+    <span class="q-text">31. The angle between the incident ray and the normal is called:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_31" value="A"><span>A. Angle of reflection</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_31" value="B"><span>B. Angle of incidence</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_31" value="C"><span>C. Critical angle</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_31" value="D"><span>D. Refracted angle</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Angle of incidence is the angle between incident ray and normal.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-32">
+    <span class="q-text">32. A wire of resistance R is stretched to double its length. Its new resistance becomes:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_32" value="A"><span>A. R/2</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_32" value="B"><span>B. R</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_32" value="C"><span>C. 2R</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_32" value="D"><span>D. 4R</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> R = ρL/A, when length doubles, area halves → R becomes 4R.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-33">
+    <span class="q-text">33. The phenomenon of generation of induced EMF due to change in magnetic flux is called:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_33" value="A"><span>A. Electrostatic induction</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_33" value="B"><span>B. Electromagnetic induction</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_33" value="C"><span>C. Mutual induction</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_33" value="D"><span>D. Self-induction</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Faraday's law describes electromagnetic induction.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-34">
+    <span class="q-text">34. The device used to convert AC into DC is called:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_34" value="A"><span>A. Transformer</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_34" value="B"><span>B. Inverter</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_34" value="C"><span>C. Rectifier</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_34" value="D"><span>D. Amplifier</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Rectifiers use diodes to convert AC to DC.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-35">
+    <span class="q-text">35. The energy of a photon is given by:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_35" value="A"><span>A. E = h/λ</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_35" value="B"><span>B. E = hc/λ</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_35" value="C"><span>C. E = mc²</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_35" value="D"><span>D. E = ½mv²</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Photon energy E = hf = hc/λ.</div></div>
+</div>
+
+<div class="question-wrap" id="q-phys-36">
+    <span class="q-text">36. The temperature at which the volume of an ideal gas becomes zero is:</span>
+    <label class="opt-label"><input type="radio" name="q_phys_36" value="A"><span>A. 0°C</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_36" value="B"><span>B. -273°C</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_36" value="C"><span>C. -100°C</span></label>
+    <label class="opt-label"><input type="radio" name="q_phys_36" value="D"><span>D. 273°C</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Absolute zero is -273.15°C, where gas volume theoretically becomes zero.</div></div>
+</div></div>
+        <div id="english-container"><!-- ENGLISH PORTION - 9 CONCEPTUAL MCQs for FLP 2 -->
+<!-- Copy and paste this entire content into the english-container div -->
+
+<div class="subject-title"><i class=""></i> </div>
+
+<div class="question-wrap" id="q-eng-1">
+    <span class="q-text">1. Choose the correctly spelled word:</span>
+    <label class="opt-label"><input type="radio" name="q_eng_1" value="A"><span>A. Recieve</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_1" value="B"><span>B. Deceive</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_1" value="C"><span>C. Receive</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_1" value="D"><span>D. Perceive</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> 'Receive' follows the rule 'i before e except after c'.</div></div>
+</div>
+
+<div class="question-wrap" id="q-eng-2">
+    <span class="q-text">2. The synonym of 'Abundant' is:</span>
+    <label class="opt-label"><input type="radio" name="q_eng_2" value="A"><span>A. Scarce</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_2" value="B"><span>B. Plentiful</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_2" value="C"><span>C. Limited</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_2" value="D"><span>D. Rare</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Abundant means existing in large quantities; plentiful.</div></div>
+</div>
+
+<div class="question-wrap" id="q-eng-3">
+    <span class="q-text">3. Complete the sentence: 'She ___ to the party last night.'</span>
+    <label class="opt-label"><input type="radio" name="q_eng_3" value="A"><span>A. go</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_3" value="B"><span>B. goes</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_3" value="C"><span>C. went</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_3" value="D"><span>D. going</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Past time 'last night' requires past tense 'went'.</div></div>
+</div>
+
+<div class="question-wrap" id="q-eng-4">
+    <span class="q-text">4. Identify the adverb in the sentence: 'He runs very fast.'</span>
+    <label class="opt-label"><input type="radio" name="q_eng_4" value="A"><span>A. He</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_4" value="B"><span>B. runs</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_4" value="C"><span>C. very</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_4" value="D"><span>D. fast</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>D</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> 'Fast' modifies the verb 'runs' (adverb of manner).</div></div>
+</div>
+
+<div class="question-wrap" id="q-eng-5">
+    <span class="q-text">5. The antonym of 'Generous' is:</span>
+    <label class="opt-label"><input type="radio" name="q_eng_5" value="A"><span>A. Kind</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_5" value="B"><span>B. Giving</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_5" value="C"><span>C. Stingy</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_5" value="D"><span>D. Charitable</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Stingy means unwilling to give, opposite of generous.</div></div>
+</div>
+
+<div class="question-wrap" id="q-eng-6">
+    <span class="q-text">6. Choose the correctly punctuated sentence:</span>
+    <label class="opt-label"><input type="radio" name="q_eng_6" value="A"><span>A. Where are you going</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_6" value="B"><span>B. Where are you going?</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_6" value="C"><span>C. Where are you going!</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_6" value="D"><span>D. Where are you going.</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Interrogative sentences require a question mark at the end.</div></div>
+</div>
+
+<div class="question-wrap" id="q-eng-7">
+    <span class="q-text">7. The plural of 'cactus' is:</span>
+    <label class="opt-label"><input type="radio" name="q_eng_7" value="A"><span>A. Cactuses</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_7" value="B"><span>B. Cacti</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_7" value="C"><span>C. Cactus</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_7" value="D"><span>D. Cactuss</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Cactus is a Latin-derived word; its plural is cacti.</div></div>
+</div>
+
+<div class="question-wrap" id="q-eng-8">
+    <span class="q-text">8. Identify the preposition in the sentence: 'The cat jumped off the table.'</span>
+    <label class="opt-label"><input type="radio" name="q_eng_8" value="A"><span>A. cat</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_8" value="B"><span>B. jumped</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_8" value="C"><span>C. off</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_8" value="D"><span>D. table</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> 'Off' shows the relationship between 'jumped' and 'table'.</div></div>
+</div>
+
+<div class="question-wrap" id="q-eng-9">
+    <span class="q-text">9. Complete the sentence: 'If he had studied harder, he ___ the exam.'</span>
+    <label class="opt-label"><input type="radio" name="q_eng_9" value="A"><span>A. would pass</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_9" value="B"><span>B. would have passed</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_9" value="C"><span>C. will pass</span></label>
+    <label class="opt-label"><input type="radio" name="q_eng_9" value="D"><span>D. passes</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Third conditional: past perfect + would have + past participle.</div></div>
+</div></div>
+        <div id="logical-reasoning-container"><!-- LOGICAL REASONING PORTION - 9 CONCEPTUAL MCQs for FLP 2 -->
+<!-- Copy and paste this entire content into the logical-reasoning-container div -->
+
+<div class="subject-title"><i class=""></i> </div>
+
+<div class="question-wrap" id="q-lr-1">
+    <span class="q-text">1. Complete the series: 5, 10, 20, 40, ?</span>
+    <label class="opt-label"><input type="radio" name="q_lr_1" value="A"><span>A. 60</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_1" value="B"><span>B. 80</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_1" value="C"><span>C. 100</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_1" value="D"><span>D. 120</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Each term is multiplied by 2: 40 × 2 = 80.</div></div>
+</div>
+
+<div class="question-wrap" id="q-lr-2">
+    <span class="q-text">2. If CLOCK is coded as XOLXP, then TIME is coded as:</span>
+    <label class="opt-label"><input type="radio" name="q_lr_2" value="A"><span>A. GRNV</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_2" value="B"><span>B. GRMV</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_2" value="C"><span>C. GRMW</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_2" value="D"><span>D. GSNV</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Each letter is replaced by the letter at the opposite position in the alphabet (A↔Z, B↔Y, etc.). T→G, I→R, M→N, E→V → GRNV.</div></div>
+</div>
+
+<div class="question-wrap" id="q-lr-3">
+    <span class="q-text">3. Find the odd one out: 3, 7, 11, 15, 19, 23</span>
+    <label class="opt-label"><input type="radio" name="q_lr_3" value="A"><span>A. 7</span></label>
+    <label class="opt-label"><input type="radio"name="q_lr_3" value="B"><span>B. 11</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_3" value="C"><span>C. 15</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_3" value="D"><span>D. 19</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>C</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> All others are prime numbers; 15 is composite (3×5).</div></div>
+</div>
+
+<div class="question-wrap" id="q-lr-4">
+    <span class="q-text">4. Statement: 'All trees are plants. Some plants are flowers. Therefore, some trees are flowers.' This argument is:</span>
+    <label class="opt-label"><input type="radio" name="q_lr_4" value="A"><span>A. Valid</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_4" value="B"><span>B. Invalid (fallacy)</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_4" value="C"><span>C. Sound</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_4" value="D"><span>D. True</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The conclusion does not necessarily follow; the flowers that are plants may not include trees.</div></div>
+</div>
+
+<div class="question-wrap" id="q-lr-5">
+    <span class="q-text">5. If 2 × 3 = 12, 3 × 4 = 20, 4 × 5 = 30, then 5 × 6 = ?</span>
+    <label class="opt-label"><input type="radio" name="q_lr_5" value="A"><span>A. 30</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_5" value="B"><span>B. 42</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_5" value="C"><span>C. 56</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_5" value="D"><span>D. 72</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> The pattern is (a × b) + (a + b) + 1. For 5 and 6: (5×6) + (5+6) + 1 = 30 + 11 + 1 = 42.</div></div>
+</div>
+
+<div class="question-wrap" id="q-lr-6">
+    <span class="q-text">6. A man walks 10 m north, then 15 m east, then 10 m south. How far is he from the starting point?</span>
+    <label class="opt-label"><input type="radio" name="q_lr_6" value="A"><span>A. 10 m</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_6" value="B"><span>B. 15 m east</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_6" value="C"><span>C. 25 m</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_6" value="D"><span>D. 35 m</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> North 10 m and south 10 m cancel each other. Net displacement is 15 m east.</div></div>
+</div>
+
+<div class="question-wrap" id="q-lr-7">
+    <span class="q-text">7. Complete the series: A, Z, B, Y, C, X, ?</span>
+    <label class="opt-label"><input type="radio" name="q_lr_7" value="A"><span>A. D</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_7" value="B"><span>B. W</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_7" value="C"><span>C. V</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_7" value="D"><span>D. E</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>A</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Two interleaved series: first series A,B,C → D; second series Z,Y,X → W.</div></div>
+</div>
+
+<div class="question-wrap" id="q-lr-8">
+    <span class="q-text">8. Statement: 'If you exercise regularly, you will stay healthy. You are healthy. Therefore, you exercise regularly.' This is a fallacy of:</span>
+    <label class="opt-label"><input type="radio" name="q_lr_8" value="A"><span>A. Denying the antecedent</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_8" value="B"><span>B. Affirming the consequent</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_8" value="C"><span>C. Modus ponens</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_8" value="D"><span>D. Modus tollens</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Affirming the consequent: If P then Q, Q is true, therefore P is true — invalid reasoning.</div></div>
+</div>
+
+<div class="question-wrap" id="q-lr-9">
+    <span class="q-text">9. Find the missing number: 2, 6, 12, 20, ?</span>
+    <label class="opt-label"><input type="radio" name="q_lr_9" value="A"><span>A. 28</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_9" value="B"><span>B. 30</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_9" value="C"><span>C. 32</span></label>
+    <label class="opt-label"><input type="radio" name="q_lr_9" value="D"><span>D. 36</span></label>
+    <div class="feedback-area"><div class="status"></div><div class="correct-was">✔ Answer: <b>B</b></div><div class="expl-text"><i class="fas fa-lightbulb"></i> Differences: 4, 6, 8, next difference 10 → 20 + 10 = 30.</div></div>
+</div></div>
+
+        <!-- Submit Button -->
+        <button type="button" id="submit-btn" onclick="submitTest()">Submit </button>
+    </div>
+
+    <footer class="main-footer">
+        <span>© MedPrep. All Rights Reserved.</span>
+    </footer>
+</div>
+
+<script>
+// ============================================================
+// FLP 2 FRAMEWORK - AUTO NUMBERING FEATURE
+// When you insert MCQs, they will be numbered sequentially:
+// Biology: 1-81, Chemistry: 82-126, Physics: 127-162, English: 163-171, LR: 172-180
+// ============================================================
+
+// Timer variables
+let timerInterval;
+let timeRemaining = 3 * 60 * 60; // 3 hours in seconds
+let totalQuestions = 0;
+
+function formatTime(seconds) {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function startTimer() {
+    const timerDisplay = document.getElementById('timerDisplay');
+    timerInterval = setInterval(() => {
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            timerDisplay.textContent = "00:00:00";
+            alert("Time is up! Your test will now be submitted automatically.");
+            submitTest();
+        } else {
+            timeRemaining--;
+            timerDisplay.textContent = formatTime(timeRemaining);
+        }
+    }, 1000);
+}
+
+function stopTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+}
+
+// Function to update progress bar
+function updateProgress() {
+    const allRadios = document.querySelectorAll('input[type="radio"]');
+    const radioGroups = new Set();
+    allRadios.forEach(radio => radioGroups.add(radio.name));
+    const answeredCount = radioGroups.size;
+    const percent = (answeredCount / totalQuestions) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+// Function to attach event listeners
+function attachRadioListeners() {
+    const allRadios = document.querySelectorAll('input[type="radio"]');
+    allRadios.forEach(radio => {
+        radio.removeEventListener('change', updateProgress);
+        radio.addEventListener('change', updateProgress);
+    });
+}
+
+// Function to renumber all questions sequentially
+function renumberQuestions() {
+    let globalCounter = 1;
+    
+    // Process Biology questions
+    const bioWraps = document.querySelectorAll('#biology-container .question-wrap');
+    bioWraps.forEach(wrap => {
+        const qTextSpan = wrap.querySelector('.q-text');
+        if (qTextSpan) {
+            const originalText = qTextSpan.innerHTML;
+            const textWithoutNumber = originalText.replace(/^\d+\.\s*/, '');
+            qTextSpan.innerHTML = `${globalCounter}. ${textWithoutNumber}`;
+        }
+        globalCounter++;
+    });
+    
+    // Process Chemistry questions
+    const chemWraps = document.querySelectorAll('#chemistry-container .question-wrap');
+    chemWraps.forEach(wrap => {
+        const qTextSpan = wrap.querySelector('.q-text');
+        if (qTextSpan) {
+            const originalText = qTextSpan.innerHTML;
+            const textWithoutNumber = originalText.replace(/^\d+\.\s*/, '');
+            qTextSpan.innerHTML = `${globalCounter}. ${textWithoutNumber}`;
+        }
+        globalCounter++;
+    });
+    
+    // Process Physics questions
+    const physWraps = document.querySelectorAll('#physics-container .question-wrap');
+    physWraps.forEach(wrap => {
+        const qTextSpan = wrap.querySelector('.q-text');
+        if (qTextSpan) {
+            const originalText = qTextSpan.innerHTML;
+            const textWithoutNumber = originalText.replace(/^\d+\.\s*/, '');
+            qTextSpan.innerHTML = `${globalCounter}. ${textWithoutNumber}`;
+        }
+        globalCounter++;
+    });
+    
+    // Process English questions
+    const engWraps = document.querySelectorAll('#english-container .question-wrap');
+    engWraps.forEach(wrap => {
+        const qTextSpan = wrap.querySelector('.q-text');
+        if (qTextSpan) {
+            const originalText = qTextSpan.innerHTML;
+            const textWithoutNumber = originalText.replace(/^\d+\.\s*/, '');
+            qTextSpan.innerHTML = `${globalCounter}. ${textWithoutNumber}`;
+        }
+        globalCounter++;
+    });
+    
+    // Process Logical Reasoning questions
+    const lrWraps = document.querySelectorAll('#logical-reasoning-container .question-wrap');
+    lrWraps.forEach(wrap => {
+        const qTextSpan = wrap.querySelector('.q-text');
+        if (qTextSpan) {
+            const originalText = qTextSpan.innerHTML;
+            const textWithoutNumber = originalText.replace(/^\d+\.\s*/, '');
+            qTextSpan.innerHTML = `${globalCounter}. ${textWithoutNumber}`;
+        }
+        globalCounter++;
+    });
+    
+    totalQuestions = globalCounter - 1;
+    console.log("Total questions after renumbering:", totalQuestions);
+}
+
+// Function to count section questions
+function countSectionQuestions() {
+    const bioCount = document.querySelectorAll('#biology-container .question-wrap').length;
+    const chemCount = document.querySelectorAll('#chemistry-container .question-wrap').length;
+    const physCount = document.querySelectorAll('#physics-container .question-wrap').length;
+    const engCount = document.querySelectorAll('#english-container .question-wrap').length;
+    const lrCount = document.querySelectorAll('#logical-reasoning-container .question-wrap').length;
+    
+    console.log(`Section counts - Bio: ${bioCount}, Chem: ${chemCount}, Phys: ${physCount}, Eng: ${engCount}, LR: ${lrCount}`);
+}
+
+// Function to calculate section scores
+function calculateSectionScores() {
+    let bioScore = 0, chemScore = 0, physScore = 0, engScore = 0, lrScore = 0;
+    
+    // Biology
+    const bioRadios = document.querySelectorAll('#biology-container input[type="radio"]:checked');
+    bioRadios.forEach(radio => {
+        const questionDiv = radio.closest('.question-wrap');
+        const correctAnswer = questionDiv?.querySelector('.correct-was b')?.innerText;
+        if (radio.value === correctAnswer) bioScore++;
+    });
+    
+    // Chemistry
+    const chemRadios = document.querySelectorAll('#chemistry-container input[type="radio"]:checked');
+    chemRadios.forEach(radio => {
+        const questionDiv = radio.closest('.question-wrap');
+        const correctAnswer = questionDiv?.querySelector('.correct-was b')?.innerText;
+        if (radio.value === correctAnswer) chemScore++;
+    });
+    
+    // Physics
+    const physRadios = document.querySelectorAll('#physics-container input[type="radio"]:checked');
+    physRadios.forEach(radio => {
+        const questionDiv = radio.closest('.question-wrap');
+        const correctAnswer = questionDiv?.querySelector('.correct-was b')?.innerText;
+        if (radio.value === correctAnswer) physScore++;
+    });
+    
+    // English
+    const engRadios = document.querySelectorAll('#english-container input[type="radio"]:checked');
+    engRadios.forEach(radio => {
+        const questionDiv = radio.closest('.question-wrap');
+        const correctAnswer = questionDiv?.querySelector('.correct-was b')?.innerText;
+        if (radio.value === correctAnswer) engScore++;
+    });
+    
+    // Logical Reasoning
+    const lrRadios = document.querySelectorAll('#logical-reasoning-container input[type="radio"]:checked');
+    lrRadios.forEach(radio => {
+        const questionDiv = radio.closest('.question-wrap');
+        const correctAnswer = questionDiv?.querySelector('.correct-was b')?.innerText;
+        if (radio.value === correctAnswer) lrScore++;
+    });
+    
+    return { bioScore, chemScore, physScore, engScore, lrScore };
+}
+
+// Function to display all answers
+function displayAllAnswers() {
+    const allQuestionWraps = document.querySelectorAll('.question-wrap');
+    allQuestionWraps.forEach(wrap => {
+        const feedbackArea = wrap.querySelector('.feedback-area');
+        if (feedbackArea) {
+            feedbackArea.style.display = 'block';
+            const selectedRadio = wrap.querySelector('input[type="radio"]:checked');
+            const statusDiv = feedbackArea.querySelector('.status');
+            const correctAnswerSpan = feedbackArea.querySelector('.correct-was b');
+            const correctAnswer = correctAnswerSpan ? correctAnswerSpan.innerText : '';
+            
+            if (selectedRadio) {
+                if (selectedRadio.value === correctAnswer) {
+                    statusDiv.innerHTML = '<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>';
+                    feedbackArea.style.borderLeftColor = "#059669";
+                } else {
+                    statusDiv.innerHTML = '<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong!</span>';
+                    feedbackArea.style.borderLeftColor = "#dc2626";
+                }
+            } else {
+                statusDiv.innerHTML = '<span class="wrong-ans"><i class="fas fa-exclamation-triangle"></i> Not answered!</span>';
+                feedbackArea.style.borderLeftColor = "#f59e0b";
+            }
+        }
+    });
+}
+
+// Main function to start the test
+function startTest() {
+    document.getElementById('weightageSection').style.display = 'none';
+    document.getElementById('testSection').style.display = 'block';
+    
+    // Renumber all questions sequentially
+    renumberQuestions();
+    countSectionQuestions();
+    
+    startTimer();
+    window.scrollTo(0, 0);
+    
+    setTimeout(() => {
+        attachRadioListeners();
+        updateProgress();
+    }, 100);
+}
+
+// Submit test function
+function submitTest() {
+    stopTimer();
+    displayAllAnswers();
+    const scores = calculateSectionScores();
+    const total = scores.bioScore + scores.chemScore + scores.physScore + scores.engScore + scores.lrScore;
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${total} / 180`;
+    document.getElementById('bio-score').innerText = scores.bioScore;
+    document.getElementById('chem-score').innerText = scores.chemScore;
+    document.getElementById('phys-score').innerText = scores.physScore;
+    document.getElementById('eng-score').innerText = scores.engScore;
+    document.getElementById('lr-score').innerText = scores.lrScore;
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+// ============================================================
+// INSTRUCTIONS FOR INSERTING MCQs:
+// 
+// 1. Paste Biology MCQs into <div id="biology-container"></div>
+// 2. Paste Chemistry MCQs into <div id="chemistry-container"></div>
+// 3. Paste Physics MCQs into <div id="physics-container"></div>
+// 4. Paste English MCQs into <div id="english-container"></div>
+// 5. Paste Logical Reasoning MCQs into <div id="logical-reasoning-container"></div>
+//
+// IMPORTANT: 
+// - Each question MUST have the class "question-wrap"
+// - Each question MUST have a unique id (e.g., id="q-bio-1", id="q-chem-1", etc.)
+// - Question numbers inside the .q-text span will be AUTOMATICALLY updated
+// - You can write any number (like 1., 2., etc.) or no number - it will be replaced
+//
+// The numbering will be:
+// Biology: 1 to 81
+// Chemistry: 82 to 126
+// Physics: 127 to 162
+// English: 163 to 171
+// Logical Reasoning: 172 to 180
+// ============================================================
+</script>
+</body>
+</html>

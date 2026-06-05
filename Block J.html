@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep · KMU Block J · Neurosciences II · Complete Syllabus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #f5fafd;
+            color: #15304c;
+            line-height: 1.45;
+        }
+        .print-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+        .med-header {
+            background: #0a2c48;
+            color: white;
+            padding: 20px 32px;
+            border-bottom: 4px solid #1ecbe1;
+        }
+        .header-flex {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            text-align: center;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 8px 32px;
+            border-radius: 80px;
+            display: inline-flex;
+            border: 2px solid #1ecbe1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        /* Logo made larger for clear view */
+        .logo-img {
+            height: 72px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .header-text h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .header-text p {
+            font-size: 14px;
+            opacity: 0.85;
+            margin-top: 4px;
+        }
+        .pill-badge {
+            background: rgba(255,255,255,0.12);
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            border: 1px solid #1ecbe180;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        .content {
+            padding: 32px 36px;
+        }
+        .section-card {
+            margin-bottom: 32px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e2edf2;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(10,44,72,0.04);
+        }
+        .section-title {
+            background: linear-gradient(135deg, #0a2c48 0%, #144d6e 100%);
+            color: white;
+            padding: 14px 24px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .section-title i {
+            color: #1ecbe1;
+            margin-right: 10px;
+        }
+        .section-inner {
+            padding: 20px 24px;
+        }
+        .subject-heading {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0a2c48;
+            background: #e8f3f8;
+            padding: 6px 14px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 14px;
+            border-left: 3px solid #1ecbe1;
+        }
+        .subject-heading i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+        .topic-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.5pt;
+            margin: 10px 0 16px;
+        }
+        .topic-table th {
+            text-align: left;
+            background: #f8fbfd;
+            padding: 10px 12px;
+            border: 1px solid #dde5ec;
+            font-weight: 700;
+            color: #1a4b6e;
+            width: 48%;
+        }
+        .topic-table td {
+            padding: 9px 12px;
+            border: 1px solid #e6edf2;
+            vertical-align: top;
+            background: white;
+        }
+        .ref-cell {
+            font-size: 9.2pt;
+            color: #2c6282;
+        }
+        .resource-note {
+            background: #f0f7fb;
+            border-left: 4px solid #1ecbe1;
+            padding: 12px 18px;
+            border-radius: 14px;
+            margin-top: 14px;
+            font-size: 9.2pt;
+            color: #1a4b6e;
+        }
+        .med-footer {
+            background: #0a2c48;
+            color: #cde3ef;
+            padding: 24px 32px;
+            text-align: center;
+            border-top: 3px solid #1ecbe1;
+            font-size: 10px;
+        }
+        .med-footer i {
+            color: #1ecbe1;
+            margin: 0 4px;
+        }
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .print-container {
+                box-shadow: none;
+                margin: 0;
+            }
+            .med-header {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .section-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+        @media (min-width: 768px) {
+            .header-flex {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+            .header-text {
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="print-container">
+    <div class="med-header">
+        <div class="header-flex">
+            <div class="logo-wrapper">
+                <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+            </div>
+            <div class="header-text">
+                <h1>KMU 4th Year MBBS · Block J</h1>
+                
+            
+        </div>
+    </div>
+    <div class="content">
+        <div class="section-card">
+            <div class="section-title"><i class="fas fa-capsules"></i> Pharmacology · MCQs = 20</div>
+            <div class="section-inner">
+                <div class="subject-heading"><i class="fas fa-brain"></i> CNS Pharmacology</div>
+                <table class="topic-table">
+                    <thead><tr><th>Topic / Subtopic</th><th>Reference </th></tr></thead>
+                    <tbody>
+                        <tr><td>Introduction to CNS Pharmacology (terminologies, BBB, neurotransmitters, ion channels)</td><td class="ref-cell">Lippincott 10th: Ch#21 pg#181; Mini Katzung 12th: p#176 Ch#5; Tara 5th: p#103-105</td></tr>
+                        <tr><td>Sedative-hypnotics (Minor tranquilizers): Benzodiazepines, Barbiturates, Buspirone, Ramelteon</td><td class="ref-cell">Lippincott: Ch#22 pg#188; Mini Katzung: Ch#9 pg#116; Tara: p#177-185, Buspirone p#240</td></tr>
+                        <tr><td>CNS stimulants/analytics (Doxapram, Nikethamide), Methylxanthines (Theophylline, Caffeine, Theobromine), Sibutramine</td><td class="ref-cell">Lippincott: Ch#15 pg#194; Mini Katzung: p#234 Ch#5; Tara: Ch#20 pg#175</td></tr>
+                        <tr><td>Depression (Monoamine hypothesis), Antidepressants (SSRIs, TCAs, MAOIs), Serotonin syndrome, Hypertensive Cheese reaction, St John's Wort, switching-over, Augmentation, ECT</td><td class="ref-cell">Lippincott: Ch#30 pg#249; Mini Katzung: Ch#10 pg#128; Tara: p#240-246 Ch#5</td></tr>
+                        <tr><td>Psychoses (Schizophrenia, Dopamine hypothesis), Antipsychotics</td><td class="ref-cell">Mini Katzung: Ch#11 pg#139; Lippincott: Ch#29 pg#241; Tara: p#235-240 Ch#5</td></tr>
+                        <tr><td>Bipolar affective disorder, Mood-stabilizing drugs: Lithium carbonate</td><td class="ref-cell">Lippincott: Ch#10 pg#136; Mini Katzung: Ch#23 p#196; Tara: p#246-248 Ch#5</td></tr>
+                        <tr><td>Alcohols (Ethyl Alcohol, Methyl Alcohol)</td><td class="ref-cell">Lippincott: Ch#31 pg#257; Mini Katzung: Ch#32 p#266; Tara: p#203-206 Ch#5</td></tr>
+                        <tr><td>Opioids: Morphine, Diamorphine, Codeine, Pethidine, Methadone, Pentazocine, Buprenorphine, Dextromethorphane, Tramadol; Drugs of abuse</td><td class="ref-cell">Lippincott: Ch#14 pg#180; Mini Katzung: Ch#24 pg#203; Tara: p#217-228 Ch#5</td></tr>
+                        <tr><td>Anti-seizure drugs: Carbamazepine, Phenytoin, Valproate, Ethosuximide, Phenobarbitone, Benzodiazepines, Lamotrigine, Topiramate; Management of status epilepticus</td><td class="ref-cell">Lippincott: Ch#12 pg#148; Mini Katzung: Ch#25 pg#212; Tara: p#206-216 Ch#5</td></tr>
+                        <tr><td>General anaesthetics: Inhaled (N2O, Halothane, Isoflurane, Sevoflurane, Desflurane); IV (Thiopentone, Propofol, Etomidate, Ketamine, Midazolam, Fentanyl)</td><td class="ref-cell">Lippincott: Ch#13 pg#161-173; Mini Katzung: Ch#26 pg#220; Tara: p#185-194 Ch#5</td></tr>
+                        <tr><td>Pre-anaesthetic medications, Obstetric analgesia</td><td class="ref-cell">Lippincott: Ch#13 pg#176; Tara: p#185-194</td></tr>
+                        <tr><td>Drugs for Parkinsonism: Levodopa (with Carbidopa), Bromocriptine, Selegiline, Apomorphine; Drug-induced Parkinsonism</td><td class="ref-cell">Lippincott: Ch#8 p#105-112; Mini Katzung: Ch#28 pg#233; Tara: p#228-234 Ch#5</td></tr>
+                        <tr><td>Migraine and Cluster headaches: Triptans, Ergot alkaloids, Ergotamine</td><td class="ref-cell">Lippincott: Ch#37 p#498; Mini Katzung: Ch#16 p#149; Tara: p#253-257 Ch#5</td></tr>
+                        <tr><td>Local anaesthetics (Lignocaine and others)</td><td class="ref-cell">Lippincott: Ch#13 p#174-177; Mini Katzung: Ch#26 pg#220; Tara: p#194-203 Ch#5</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section-card">
+            <div class="section-title"><i class="fas fa-microscope"></i> Pathology / Microbiology · MCQs = 22</div>
+            <div class="section-inner">
+                <div class="subject-heading"><i class="fas fa-brain"></i> Neuropathology & CNS Infections</div>
+                <table class="topic-table">
+                    <thead><tr><th>Topic / Subtopic</th><th>Reference </th></tr></thead>
+                    <tbody>
+                        <tr><td>Hypoxia, Ischemia, and Infarction</td><td class="ref-cell">Robbins 10th: Ch#23 p#852-857; Pathoma 2022: Ch#17 p#184; Goljan 5th: Ch#2 p#14+39</td></tr>
+                        <tr><td>Intracranial Hemorrhage</td><td class="ref-cell">Robbins: Ch#23 p#852-857</td></tr>
+                        <tr><td>Stroke Syndromes</td><td class="ref-cell">Robbins: Ch#23 p#852-857; Pathoma: Ch#17 p#185-186; Goljan: Ch#26 p#788-789</td></tr>
+                        <tr><td>Subarachnoid Hemorrhage (SAH)</td><td class="ref-cell">Robbins: Ch#23 p#852-857; Pathoma: Ch#17 p#186; Goljan: Ch#26 p#794</td></tr>
+                        <tr><td>Neurodegenerative disorders: Alzheimer's, Parkinson's, Huntington's, Spinocerebellar ataxias, Motor Neuron disease</td><td class="ref-cell">Robbins: Ch#23 p#874-880; Pathoma: Ch#17 p#187</td></tr>
+                        <tr><td>Meningitis</td><td class="ref-cell">Robbins: Ch#23 p#862-870; Pathoma: Ch#17 p#183; Goljan: Ch#26 p#796</td></tr>
+                        <tr><td>Encephalitis</td><td class="ref-cell">Robbins: Ch#23 p#862-870; Goljan: Ch#26 p#798</td></tr>
+                        <tr><td>Brain abscess</td><td class="ref-cell">Robbins: Ch#23 p#862-870; Goljan: Ch#26 p#798</td></tr>
+                        <tr><td>Cerebral Toxoplasmosis</td><td class="ref-cell">Goljan: Ch#26 p#801</td></tr>
+                        <tr><td>Tumours of CNS: Gliomas, Embryonal neoplasms, Meningioma, Other neoplasms</td><td class="ref-cell">Robbins: Ch#23 p#881-887; Pathoma: Ch#17 p#191; Goljan: Ch#26 p#811</td></tr>
+                        <tr><td>Multiple Sclerosis and other demyelinating disorders of CNS</td><td class="ref-cell">Robbins: Ch#23 p#870-873; Pathoma: Ch#17 p#188; Goljan: Ch#26 p#798</td></tr>
+                        <tr><td>Patterns and Types of Peripheral Nerves Injury</td><td class="ref-cell">Robbins: Ch#22 p#835-838</td></tr>
+                        <tr><td>Acute and Chronic Demyelinating Neuropathies</td><td class="ref-cell">Robbins: Ch#22 p#835-838; Pathoma: Ch#17 p#187; Goljan: Ch#26 p#798</td></tr>
+                        <tr><td>Myasthenia Gravis</td><td class="ref-cell">Robbins: Ch#22 p#839; Pathoma: Ch#18 p#202; Goljan: Ch#26 p#731</td></tr>
+                        <tr><td>Tumors of Peripheral nerve (Neurofibromatosis)</td><td class="ref-cell">Robbins: Ch#22 p#846-847; Goljan: Ch#26 p#816-817</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section-card">
+            <div class="section-title"><i class="fas fa-balance-scale"></i> Forensic Medicine · MCQs = 18</div>
+            <div class="section-inner">
+                <div class="subject-heading"><i class="fas fa-skull-crossbones"></i> Neurotoxins, Poisons & Legal Psychiatry</div>
+                <table class="topic-table">
+                    <thead><tr><th>Topic / Subtopic</th><th>Reference)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Classification of neurotoxins</td><td class="ref-cell">Jamiat: pg#179 Ch#15</td></tr>
+                        <tr><td>Cerebral Poisons / Somniferous Poisons: Morphine, Opium, Heroin</td><td class="ref-cell">Parikh 9th: Ch#48 p#617-621; Jamiat: Ch#15 p#229, 248-249, 245</td></tr>
+                        <tr><td>Inebriant Poisons: Ethyl Alcohol, Methyl Alcohol</td><td class="ref-cell">Parikh: Ch#50 p#629-642; Jamiat: Ch#15 p#229, 237, 247</td></tr>
+                        <tr><td>Sedative & Hypnotics: Chloral hydrate, Barbiturates</td><td class="ref-cell">Parikh: Ch#51 p#643-646; Jamiat: p#241, 239</td></tr>
+                        <tr><td>Fuels, Agrochemical poisons, Kerosene</td><td class="ref-cell">Parikh: Ch#52-53 p#647-659; Jamiat: p#222-224, 246</td></tr>
+                        <tr><td>Hallucinogens: LSD; Stimulants: Amphetamines</td><td class="ref-cell">Parikh: Ch#63-64 p#695-700; Jamiat: p#244, 237</td></tr>
+                        <tr><td>Drug Dependence</td><td class="ref-cell">Parikh: Ch#49 p#622-628</td></tr>
+                        <tr><td>Insanity and relationship to criminal charges (McNaghten rule, Durham's Rule, Impulse etc.)</td><td class="ref-cell">Parikh: Ch#33 p#478-480; Jamiat: Ch#14</td></tr>
+                        <tr><td>Forensic Psychiatry (definitions & Terminologies)</td><td class="ref-cell">Parikh: Ch#33 p#459-469; Jamiat: Ch#14</td></tr>
+                        <tr><td>Mental Health Act</td><td class="ref-cell">Parikh: Ch#33</td></tr>
+                        <tr><td>Will (Testamentary Capacity & Valid Will)</td><td class="ref-cell">Parikh: Ch#33 p#475-477; Jamiat: Ch#14</td></tr>
+                        <tr><td>Civil and criminal responsibility of mentally ill patients</td><td class="ref-cell">Parikh: Ch#33 p#475-477</td></tr>
+                        <tr><td>Deliriant Poisons: Dhatura, Hyoscyamus Nigra, Cannabis Indica</td><td class="ref-cell">Parikh: Ch#54 p#660-665; Jamiat: Ch#16 p#219-220, 228, 243, 245, 240</td></tr>
+                        <tr><td>Head Injury (Skull Fracture, hemorrhage, Injuries)</td><td class="ref-cell">Parikh: Ch#20 p#299-313; Jamiat: Ch#6 p#66-74</td></tr>
+                        <tr><td>Vertebral and spinal injuries</td><td class="ref-cell">Parikh: Ch#20 p#314-316</td></tr>
+                        <tr><td>Neurotoxins: spinal poison</td><td class="ref-cell">Parikh: Ch#55 p#666-668; Jamiat: Ch#16 p#220-222</td></tr>
+                        <tr><td>Snake bite Neurotoxins</td><td class="ref-cell">Parikh: Ch#45 p#599; Jamiat: scattered</td></tr>
+                        <tr><td>Botulism Toxins</td><td class="ref-cell">Parikh: Ch#47 p#609-610</td></tr>
+                        <tr><td>Neurotoxins: Peripheral Poison</td><td class="ref-cell">Parikh: Ch#56 p#669-670</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section-card">
+            <div class="section-title"><i class="fas fa-chart-line"></i> Community Medicine · MCQs = 27</div>
+            <div class="section-inner">
+                <div class="subject-heading"><i class="fas fa-chart-bar"></i> Epidemiology, Biostatistics & Public Health</div>
+                <table class="topic-table">
+                    <thead><tr><th>Topic / Subtopic</th><th>Reference </th></tr></thead>
+                    <tbody>
+                        <tr><td>Epidemiology, Study design</td><td class="ref-cell">Excel 13th: Ch#3 p#23 onward; Hayat: Ch#2 p#7, 26, 11+15</td></tr>
+                        <tr><td>Measures of mortality and morbidity</td><td class="ref-cell">Excel: Ch#3</td></tr>
+                        <tr><td>Screening</td><td class="ref-cell">Excel: Ch#7 p#143; Hayat: Ch#2 p#20</td></tr>
+                        <tr><td>Mental health</td><td class="ref-cell">Excel: Ch#23 p#339; Hayat: Ch#27 p#405</td></tr>
+                        <tr><td>Biostatistics: Introduction, Data and Variable Types, Sampling, Biases in epidemiological Studies</td><td class="ref-cell">Excel: Ch#8 p#151, 157; Hayat: Ch#3 p#41, 51, 63</td></tr>
+                        <tr><td>Measures of Central Tendency, Measures of Dispersion</td><td class="ref-cell">Excel: p#158; Hayat: Ch#3 p#54</td></tr>
+                        <tr><td>Normal Distribution (Percentile & Interquartile Range)</td><td class="ref-cell">Excel: p#162; Hayat: Ch#3 p#57-58</td></tr>
+                        <tr><td>Confidence Interval, Confidence level, Standard error</td><td class="ref-cell">Hayat: Ch#3 p#69</td></tr>
+                        <tr><td>P-Value, Critical Region, Rejection Region, Alpha Beta Errors, Z-Test & Its Application, Types/Shapes of Frequency Distribution</td><td class="ref-cell">Excel: p#162-163, 154-161; Hayat: Ch#3 p#71-72, 76</td></tr>
+                        <tr><td>t-Test & Its Application</td><td class="ref-cell">Excel: p#161; Hayat: Ch#3 p#74</td></tr>
+                        <tr><td>Chi Square Test & Its Application</td><td class="ref-cell">Excel: p#160; Hayat: Ch#3 p#72</td></tr>
+                        <tr><td>Correlation, Regression, Practical Problems in Biostatistics</td><td class="ref-cell">Excel: Ch#8</td></tr>
+                        <tr><td>Non-communicable diseases: Strokes</td><td class="ref-cell">Excel: p#127-128</td></tr>
+                        <tr><td>Rabies</td><td class="ref-cell">Excel: p#86; Hayat: p#155</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section-card">
+            <div class="section-title"><i class="fas fa-stethoscope"></i> Medicine (MCQs=11) & Psychiatry (MCQs=09)</div>
+            <div class="section-inner">
+                <div class="subject-heading"><i class="fas fa-heartbeat"></i> Clinical Neurology & Psychiatry</div>
+                <table class="topic-table">
+                    <thead><tr><th>Topic / Subtopic</th><th>Reference </th></tr></thead>
+                    <tbody>
+                        <tr><td>Alzheimer's disease and Dementia</td><td class="ref-cell">Step-up 6th: Ch#5 p#216-218; Irfan Masood 3rd: Ch#13 pg#618</td></tr>
+                        <tr><td>Stroke</td><td class="ref-cell">Step-up: Ch#5 p#205</td></tr>
+                        <tr><td>Seizures</td><td class="ref-cell">Step-up: Ch#5 p#231; Irfan Masood: Ch#13 p#587-598</td></tr>
+                        <tr><td>Parkinson's Disease</td><td class="ref-cell">Step-up: Ch#5 p#212; Irfan Masood: Ch#13 p#623</td></tr>
+                        <tr><td>Meningitis</td><td class="ref-cell">Step-up: Ch#10 p#372; Irfan Masood: Ch#13 p#631</td></tr>
+                        <tr><td>Multiple Sclerosis</td><td class="ref-cell">Step-up: Ch#5 p#222; Irfan Masood: Ch#13 p#612</td></tr>
+                        <tr><td>Transverse Myelitis</td><td class="ref-cell">Step-up: Ch#5 p#227; Irfan Masood: Ch#13 p#616</td></tr>
+                        <tr><td>Caries Spine</td><td class="ref-cell">Step-up</td></tr>
+                        <tr><td>Guillain Barre Syndrome (GBS)</td><td class="ref-cell">Step-up: Ch#5 p#223; Irfan Masood: Ch#13 p#647</td></tr>
+                        <tr><td>Neuropathies</td><td class="ref-cell">Step-up: Ch#5</td></tr>
+                        <tr><td>Myasthenia Gravis</td><td class="ref-cell">Step-up: Ch#5 p#224; Irfan Masood: Ch#13 p#650</td></tr>
+                        <tr><td>Sleep Disorders, Non-Organic Insomnia, Sleep Wake Cycle</td><td class="ref-cell">Kaplan or First Aid for Psychiatry</td></tr>
+                        <tr><td>Depressive Disorders, Bipolar Affective Disorder, Suicide</td><td class="ref-cell">Kaplan or First Aid for Psychiatry</td></tr>
+                        </tr><td>Anxiety Disorders, Dissociative Disorders, Stress related Disorders, Somatoform Disorders</td><td class="ref-cell">Kaplan or First Aid for Psychiatry</td></tr>
+                        <tr><td>Atypical Depression and Seasonal Affective Disorder, Personality Disorders</td><td class="ref-cell">Kaplan or First Aid for Psychiatry</td></tr>
+                        <tr><td>Psychotic Disorders (Organic & Non-Organic), Schizophrenia (Psychotherapy, ECT, Rehab), Delusional Disorders</td><td class="ref-cell">Kaplan or First Aid for Psychiatry</td></tr>
+                        <tr><td>Substance Abuse Disorder, Chronic daily headache</td><td class="ref-cell">Kaplan or First Aid for Psychiatry</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section-card">
+            <div class="section-title"><i class="fas fa-graduation-cap"></i> Minor Subjects</div>
+            <div class="section-inner">
+                <table class="topic-table">
+                    <thead><tr><th>Subject (MCQs)</th><th>Topics</th><th>Resources</th></tr></thead>
+                    <tbody>
+                        <tr><td>Neurosurgery (02)</td><td>Stroke & SAH Management, Neurodegenerative Disorders (Alzheimer's, Parkinson's, Huntington's, Spinocerebellar Ataxias, Motor Neuron dz), Traumatic Paraplegia Mgt, Spinal Tumors</td><td class="ref-cell">Lecture Slides / Standard books</td></tr>
+                        <tr><td>Pediatrics (05)</td><td>Cerebellar Ataxias (Friedreich's Ataxia), Meningitis (Pyogenic & TB Meningitis in Child & Neonate), Hereditary Neuropathies</td><td class="ref-cell">Standard Pediatrics text</td></tr>
+                        <tr><td>Anesthesia (03)</td><td>Introduction, General anaesthesia, Neuroaxis block (Spinal, Epidural, Caudal), Regional Anesthesia (Terminologies), Preoperative Evaluation & Risk Assessment, Monitoring (Invasive & Non Invasive)</td><td class="ref-cell">Standard texts / Lectures</td></tr>
+                        <tr><td>Family Medicine (01)</td><td>Rabies Prophylaxis (Immunization)</td><td class="ref-cell">Standard texts</td></tr>
+                        <tr><td>PRIME / Medical Education / Research (02)</td><td>Conflict resolution, Data analysis</td><td class="ref-cell">Standard texts / Lectures</td></tr>
+                        <tr><td>Orthopaedics (00)</td><td>Management of traumatic paraplegia, Peripheral nerve injury</td><td class="ref-cell">Standard texts</td></tr>
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+    <div class="med-footer">
+        <i class="fas fa-staff-aesculapius"></i> © MedPrep 2026 · All Rights Reserved.<br>
+        
+    </div>
+</div>
+</body>
+</html>

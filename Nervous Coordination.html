@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nervous Coordination: Randomized MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Theme: Electric Blue & Neon Cyan */
+        body { font-family: 'Inter', sans-serif; background: #f0f7ff; color: #2d3436; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 10px solid #0984e3; }
+        h1 { font-family: 'Outfit', sans-serif; color: #0984e3; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #636e72; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        .question { margin-bottom: 35px; padding: 25px; border: 1px solid #dfe6e9; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 20px; color: #2c3e50; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #f1f2f6; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #ffffff; }
+        .option:hover { border-color: #0984e3; background: #f0f8ff; }
+        .option.selected { background: #2d3436; color: white; border-color: #2d3436; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #0984e3; color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #0771c1; transform: translateY(-2px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #2d3436; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #f0f7ff; padding: 18px; border-left: 6px solid #0984e3; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #1c2e36; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Nervous Coordination</h1>
+    
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+      
+    </div>
+</div>
+
+<script>
+    const nervousData = [
+        { q: "The resting membrane potential of a neuron is typically around:", options: ["-40 mV", "-70 mV", "+30 mV", "0 mV"], exp: "At rest, the inside of the neuron is more negative compared to the outside, primarily due to K+ leakage and Na+/K+ pumps.", correct: "B" },
+        { q: "Which ions rush into the cell during the 'depolarization' phase of an action potential?", options: ["Potassium ions", "Chloride ions", "Sodium ions", "Calcium ions"], exp: "Voltage-gated sodium channels open, allowing Na+ to flow down its electrochemical gradient into the cell.", correct: "C" },
+        { q: "The gaps in the myelin sheath where action potentials are regenerated are called:", options: ["Synaptic clefts", "Dendrites", "Nodes of Ranvier", "Axon hillocks"], exp: "Nodes of Ranvier allow for saltatory conduction, which significantly speeds up impulse transmission.", correct: "C" },
+        { q: "Which part of the brain is responsible for high-level cognitive functions like reasoning and planning?", options: ["Cerebellum", "Medulla Oblongata", "Cerebrum", "Thalamus"], exp: "The cerebral cortex (part of the cerebrum) handles voluntary actions, memory, and reasoning.", correct: "C" },
+        { q: "The 'All-or-None' response means that:", options: ["All neurons fire at once", "A stimulus must reach threshold to trigger an action potential", "Larger stimuli create larger action potentials", "Action potentials can travel backward"], exp: "If a stimulus reaches threshold, a full action potential is fired; if not, nothing happens. Magnitude does not change with stimulus strength.", correct: "B" },
+        { q: "Chemical messengers released at the synaptic cleft are known as:", options: ["Hormones", "Neurotransmitters", "Enzymes", "Electrolytes"], exp: "Neurotransmitters like Acetylcholine or Dopamine bridge the gap between neurons chemically.", correct: "B" },
+        { q: "The primary function of the Cerebellum is:", options: ["Temperature regulation", "Balance and motor coordination", "Vision", "Heart rate control"], exp: "The cerebellum fine-tunes motor movements and maintains posture and balance.", correct: "B" },
+        { q: "Which division of the nervous system prepares the body for 'Fight or Flight'?", options: ["Parasympathetic", "Somatic", "Sympathetic", "Central"], exp: "The sympathetic nervous system increases heart rate, dilates pupils, and inhibits digestion during stress.", correct: "C" },
+        { q: "Saltatory conduction occurs in:", options: ["Unmyelinated axons", "Myelinated axons", "Dendrites only", "Cell bodies"], exp: "The impulse 'jumps' from one Node of Ranvier to the next in myelinated fibers.", correct: "B" },
+        { q: "The junction between two neurons is called a:", options: ["Synapse", "Ganglion", "Plexus", "Tract"], exp: "A synapse is the functional connection where information is passed from one neuron to another.", correct: "A" },
+        { q: "Which cells produce the myelin sheath in the Central Nervous System (CNS)?", options: ["Schwann cells", "Oligodendrocytes", "Astrocytes", "Microglia"], exp: "Oligodendrocytes myelinate CNS axons, while Schwann cells myelinate Peripheral Nervous System (PNS) axons.", correct: "B" },
+        { q: "Hyperpolarization of a membrane is typically caused by the exit of which ion?", options: ["Na+", "K+", "Ca2+", "Mg2+"], exp: "Delayed closing of K+ channels allows more positive charge to leave, making the interior even more negative than the resting state.", correct: "B" },
+        { q: "The 'Relay Center' that sorts sensory information before sending it to the cerebrum is the:", options: ["Hypothalamus", "Thalamus", "Pons", "Midbrain"], exp: "The thalamus acts as a switchboard for all sensory input except smell.", correct: "B" },
+        { q: "Reflex actions like the knee-jerk are controlled primarily by the:", options: ["Brainstem", "Spinal Cord", "Cerebral Cortex", "Hypothalamus"], exp: "Reflex arcs often involve only the spinal cord for a rapid, involuntary response.", correct: "B" },
+        { q: "The absolute refractory period is caused by the:", options: ["Opening of K+ channels", "Inactivation of Na+ channels", "Closing of Ca2+ channels", "Activation of the Na+/K+ pump"], exp: "During this time, voltage-gated Na+ channels are inactivated and cannot reopen, preventing another action potential.", correct: "B" },
+        { q: "Which neurotransmitter is primarily involved in the neuromuscular junction?", options: ["GABA", "Serotonin", "Acetylcholine", "Glutamate"], exp: "Acetylcholine (ACh) triggers the contraction of skeletal muscle fibers.", correct: "C" },
+        { q: "Damage to the Broca's area in the brain would primarily affect:", options: ["Hearing", "Vision", "Speech production", "Memory"], exp: "Broca's area (usually in the left frontal lobe) is critical for motor speech.", correct: "C" },
+        { q: "The 'Rest and Digest' state is mediated by the:", options: ["Sympathetic system", "Parasympathetic system", "Somatic system", "Sensory system"], exp: "The parasympathetic nervous system conserves energy and promotes housekeeping functions.", correct: "B" },
+        { q: "Nerve impulses travel in only one direction across a synapse because:", options: ["Myelin prevents backflow", "Receptors are only on the postsynaptic membrane", "Axons are too long", "Na+ channels are blocked"], exp: "The unidirectional flow is ensured because neurotransmitter vesicles are in the presynaptic terminal and receptors are on the postsynaptic side.", correct: "B" },
+        { q: "Which part of the brain controls vital autonomic functions like breathing and heart rate?", options: ["Cerebrum", "Hypothalamus", "Medulla Oblongata", "Pons"], exp: "The medulla oblongata contains cardiac, vasomotor, and respiratory centers.", correct: "C" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        nervousData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        nervousData.forEach((data, index) => {
+            document.getElementById(`exp-${index}`).style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${nervousData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

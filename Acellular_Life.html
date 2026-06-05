@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep Quiz: Acellular Life (Balanced)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f5fafd; color: #15304c; padding: 20px; margin: 0; }
+        .quiz-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 24px; box-shadow: 0 10px 25px rgba(10, 44, 72, 0.1); }
+        h1 { font-family: 'Outfit', sans-serif; color: #0a2c48; text-align: center; margin-bottom: 30px; }
+        .question { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #e0f2fe; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 15px; }
+        .options { display: grid; gap: 10px; }
+        .option { padding: 12px 15px; border: 2px solid #bbe0f0; border-radius: 12px; cursor: pointer; transition: 0.2s; }
+        .option:hover { background: #f0faff; border-color: #1ecbe1; }
+        .option.selected { background: #0a2c48; color: white; border-color: #0a2c48; }
+        .btn-submit { display: block; width: 100%; padding: 15px; background: #1ecbe1; color: #0a2c48; border: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .btn-submit:hover { background: #0a2c48; color: white; }
+        #results { display: none; margin-top: 30px; padding: 20px; border-radius: 15px; text-align: center; }
+        .explanation { margin-top: 10px; font-size: 0.9rem; color: #1f6a92; display: none; background: #eff9ff; padding: 10px; border-left: 4px solid #1ecbe1; border-radius: 4px; }
+        .correct { border-color: #2ecc71 !important; background: #eafff2; }
+        .wrong { border-color: #e74c3c !important; background: #fff2f0; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Acellular Life</h1>
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const balancedData = [
+        { q: "Obligate intracellular parasites lack:", options: ["DNA/RNA", "Cellular machinery", "Proteins", "Capsids"], exp: "They lack ribosomes and enzymes for independent life.", correct: "B" },
+        { q: "The protein coat of a virus is the:", options: ["Capsid", "Envelope", "Cell wall", "Plasma membrane"], exp: "The capsid is the protective protein shell.", correct: "A" },
+        { q: "Naked infectious RNA is known as a:", options: ["Prion", "Virus", "Phage", "Viroid"], exp: "Viroids are infectious agents consisting only of RNA.", correct: "D" },
+        { q: "Reverse transcriptase is found in:", options: ["Adenovirus", "Retroviruses", "T4 Phage", "Flu virus"], exp: "Retroviruses like HIV use it to make DNA from RNA.", correct: "B" },
+        { q: "Prions are infectious particles made of:", options: ["RNA", "DNA", "Protein", "Lipids"], exp: "Prions are misfolded infectious proteins.", correct: "C" },
+        { q: "The shape of Tobacco Mosaic Virus (TMV) is:", options: ["Helical", "Polyhedral", "Tadpole", "Spherical"], exp: "TMV has a rod-like helical structure.", correct: "A" },
+        { q: "Which of these is a DNA virus?", options: ["Hepatitis A", "Hepatitis B", "HIV", "Polio"], exp: "Hepatitis B is a DNA virus; the others listed are RNA viruses.", correct: "B" },
+        { q: "Viruses are measured using which unit?", options: ["Microns", "Meters", "Nanometers", "Inches"], exp: "Viral size is typically measured in nm.", correct: "C" },
+        { q: "Smallpox is caused by which group?", options: ["Poxvirus", "Myxovirus", "Retrovirus", "Phage"], exp: "The Poxvirus family causes smallpox.", correct: "A" },
+        { q: "Tetanus is a disease that is:", options: ["Viral", "Fungal", "Bacterial", "Acellular"], exp: "Tetanus is caused by Clostridium tetani, a bacterium.", correct: "C" },
+        { q: "HIV primarily targets which cells?", options: ["RBCs", "Helper T-cells", "Platelets", "Neurons"], exp: "HIV destroys CD4+ Helper T-lymphocytes.", correct: "B" },
+        { q: "Viral DNA integrated into the host genome is a:", options: ["Plasmid", "Prophage", "Capsid", "Viroid"], exp: "Integrated phage DNA is called a prophage.", correct: "B" },
+        { q: "The subunits of a capsid are called:", options: ["Proteins", "Lipids", "Capsomeres", "Nucleotides"], exp: "Capsomeres are the structural units of the capsid.", correct: "C" },
+        { q: "Which of these specifically infects bacteria?", options: ["Retrovirus", "Oncovirus", "Bacteriophage", "Viroid"], exp: "Bacteriophages are bacterial viruses.", correct: "C" },
+        { q: "Which is an example of an enveloped virus?", options: ["HIV", "Adenovirus", "T4 Phage", "TMV"], exp: "HIV has a lipid envelope.", correct: "A" },
+        { q: "Enveloped viruses exit the host cell via:", options: ["Lysis", "Injection", "Assembly", "Budding"], exp: "Budding allows them to acquire a lipid envelope.", correct: "D" },
+        { q: "The first virus ever discovered was:", options: ["HIV", "Flu", "TMV", "Polio"], exp: "TMV was the first identified virus.", correct: "C" },
+        { q: "Icosahedral viral symmetry is usually:", options: ["20-sided", "Rod-like", "Circular", "Square"], exp: "Icosahedral (polyhedral) viruses have 20 faces.", correct: "A" },
+        { q: "Which symmetry gives a virus a tube-like appearance?", options: ["Square", "Circle", "Triangle", "Helical"], exp: "Helical symmetry results in rod or tube shapes.", correct: "D" },
+        { q: "The latent infection cycle is known as:", options: ["Lytic", "Lysis", "Budding", "Lysogenic"], exp: "The lysogenic cycle is the non-lytic, latent phase.", correct: "D" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        balancedData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        balancedData.forEach((data, index) => {
+            const ex = document.getElementById(`exp-${index}`);
+            ex.style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${balancedData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

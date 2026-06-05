@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution: Randomized MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Theme: Earthy Green & Terracotta */
+        body { font-family: 'Inter', sans-serif; background: #fdfaf6; color: #2d3436; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 10px solid #6b8e23; }
+        h1 { font-family: 'Outfit', sans-serif; color: #6b8e23; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #a0522d; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        .question { margin-bottom: 35px; padding: 25px; border: 1px solid #dfe6e9; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 20px; color: #2c3e50; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #f1f2f6; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #ffffff; }
+        .option:hover { border-color: #6b8e23; background: #f8fbf0; }
+        .option.selected { background: #2d3436; color: white; border-color: #2d3436; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #6b8e23; color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #556b2f; transform: translateY(-2px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #2d3436; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #f8fbf0; padding: 18px; border-left: 6px solid #6b8e23; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #1c2e36; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Evolution</h1>
+    
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const evolutionData = [
+        { q: "The process by which individuals with favorable traits are more likely to survive and reproduce is:", options: ["Artificial Selection", "Natural Selection", "Genetic Drift", "Gene Flow"], exp: "Natural selection is the primary mechanism of evolution proposed by Charles Darwin.", correct: "B" },
+        { q: "Structures that have a similar underlying anatomy but different functions (e.g., human arm and bat wing) are:", options: ["Analogous structures", "Vestigial structures", "Homologous structures", "Rudimentary structures"], exp: "Homologous structures indicate common ancestry despite divergence in function.", correct: "C" },
+        { q: "Which of the following provides evidence for evolution from the fossil record?", options: ["Biogeography", "Comparative anatomy", "Archaeopteryx", "Molecular biology"], exp: "Archaeopteryx is a classic transitional fossil showing characteristics of both reptiles and birds.", correct: "C" },
+        { q: "The 'Inheritance of Acquired Characteristics' was a theory proposed by:", options: ["Charles Darwin", "Alfred Russel Wallace", "Jean-Baptiste Lamarck", "Gregor Mendel"], exp: "Lamarck incorrectly suggested that traits acquired during an organism's lifetime could be passed to offspring.", correct: "C" },
+        { q: "Which concept explains why wings of a bird and wings of a butterfly look similar despite no recent common ancestor?", options: ["Divergent evolution", "Convergent evolution", "Co-evolution", "Parallel evolution"], exp: "Convergent evolution leads to analogous structures in different lineages due to similar environmental pressures.", correct: "B" },
+        { q: "The total collection of all alleles in a population at any one time is known as the:", options: ["Genotype", "Phenotype", "Gene pool", "Genome"], exp: "Evolution can be defined as a change in the allele frequencies of a gene pool over generations.", correct: "C" },
+        { q: "Hardy-Weinberg equilibrium occurs only if which of the following conditions is met?", options: ["Small population size", "Non-random mating", "No mutations", "High gene flow"], exp: "Large population, random mating, no mutation, no migration, and no selection are required for genetic equilibrium.", correct: "C" },
+        { q: "A sudden reduction in population size due to a disaster, leading to a loss of genetic diversity, is called:", options: ["Founder effect", "Bottleneck effect", "Directional selection", "Mutation"], exp: "The bottleneck effect occurs when a small group of survivors has a different allele frequency than the original population.", correct: "B" },
+        { q: "Vestigial structures in humans include which of the following?", options: ["Heart", "Lungs", "Appendix", "Biceps"], exp: "Vestigial structures are remnants of organs that were functional in ancestors but are now reduced or non-functional.", correct: "C" },
+        { q: "The theory of 'Punctuated Equilibrium' suggests that evolution occurs:", options: ["Slowly and steadily over time", "In rapid bursts followed by long periods of stability", "Only in response to human interference", "Backwards"], exp: "Proposed by Gould and Eldredge, this theory contrasts with Darwinian gradualism.", correct: "B" },
+        { q: "The most direct evidence for the relationship between all living organisms comes from:", options: ["Fossil records", "Embryology", "DNA sequence similarity", "Anatomical comparisons"], exp: "Molecular biology and DNA comparisons provide the most precise measurements of evolutionary distance.", correct: "C" },
+        { q: "What is the primary source of new genetic variation in a population?", options: ["Natural selection", "Genetic drift", "Mutation", "Non-random mating"], exp: "Mutations are the ultimate source of new alleles, which selection then acts upon.", correct: "C" },
+        { q: "Darwin's finches in the Galápagos Islands are a classic example of:", options: ["Convergent evolution", "Adaptive radiation", "Artificial selection", "Extinction"], exp: "Adaptive radiation is the rapid diversification of a single ancestral line into many forms filling different niches.", correct: "B" },
+        { q: "Which type of selection favors the extreme phenotypes and acts against the intermediate phenotype?", options: ["Stabilizing selection", "Directional selection", "Disruptive selection", "Artificial selection"], exp: "Disruptive selection can lead to the formation of two distinct groups within a population.", correct: "C" },
+        { q: "The presence of gill slits in the early embryos of fish, birds, and humans is evidence from:", options: ["Biogeography", "Comparative Embryology", "Palentology", "Biochemistry"], exp: "Similar embryonic stages among vertebrates suggest they share a common genetic developmental program.", correct: "B" },
+        { q: "In the Hardy-Weinberg equation ($p^2 + 2pq + q^2 = 1$), what does $2pq$ represent?", options: ["Frequency of dominant homozygous", "Frequency of recessive homozygous", "Frequency of heterozygotes", "Total population size"], exp: "The term $2pq$ represents the proportion of the population that is heterozygous for a specific gene.", correct: "C" },
+        { q: "Speciation that occurs when populations are geographically isolated is called:", options: ["Sympatric speciation", "Allopatric speciation", "Artificial speciation", "Parapatric speciation"], exp: "Allopatric speciation involves a physical barrier that prevents gene flow between populations.", correct: "B" },
+        { q: "Which of the following is NOT a pre-zygotic isolating mechanism?", options: ["Temporal isolation", "Behavioral isolation", "Hybrid sterility", "Mechanical isolation"], exp: "Hybrid sterility is post-zygotic because the zygote has already formed and developed into an adult.", correct: "C" },
+        { q: "The 'Origin of Species' was published in:", options: ["1809", "1859", "1889", "1909"], exp: "Darwin published his landmark work in 1859 after decades of research.", correct: "B" },
+        { q: "Which gas was notably absent from Earth's early primitive atmosphere?", options: ["Methane", "Ammonia", "Oxygen", "Water vapor"], exp: "The early atmosphere was reducing; free oxygen only appeared after the evolution of photosynthesis.", correct: "C" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        evolutionData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        evolutionData.forEach((data, index) => {
+            document.getElementById(`exp-${index}`).style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${evolutionData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

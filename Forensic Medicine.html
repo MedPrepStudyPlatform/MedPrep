@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · Block-J  · Forensic Medicine  </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5fafd;
+            color: #15304c;
+            line-height: 1.5;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #f5fafd;
+            padding-top: 5px;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .main-header {
+            background: #0a2c48;
+            color: white;
+            width: 100%;
+            padding: 20px 0;
+            box-shadow: 0 12px 28px -10px rgba(10, 44, 72, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-wrapper {
+            background: white;
+            padding: 8px 28px;
+            border-radius: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #1ecbe1;
+            transition: transform 0.2s ease;
+        }
+
+        .logo-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-img {
+            height: 65px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .pill-nav {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 16px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(30, 203, 225, 0.5);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pill-nav span {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: white;
+            letter-spacing: 0.3px;
+        }
+
+        .pill-nav i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        .score-panel {
+            background: white;
+            border-radius: 60px;
+            padding: 16px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 18px -6px #b5d9f0;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .score-panel.hidden-panel {
+            display: none;
+        }
+
+        .score-title {
+            font-family: 'Outfit', sans-serif;
+            color: #0a2c48;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .score-value {
+            background: #0a2c48;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 40px;
+            padding: 12px 20px;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #0a2c48;
+            font-size: 0.9rem;
+        }
+
+        .progress-fill {
+            height: 10px;
+            background: #1ecbe1;
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-bg {
+            flex-grow: 1;
+            background: #e1f0fa;
+            border-radius: 20px;
+            height: 10px;
+            min-width: 100px;
+        }
+
+        .mcq-card {
+            background: white;
+            border-radius: 24px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #cde1f0;
+            box-shadow: 0 6px 14px -6px #aac9e2;
+            transition: all 0.2s ease;
+        }
+
+        .mcq-card:hover {
+            box-shadow: 0 10px 20px -8px #aac9e2;
+        }
+
+        .mcq-card.correct-ans {
+            border-left: 8px solid #10b981;
+            background: #f0fdf4;
+        }
+
+        .mcq-card.wrong-ans {
+            border-left: 8px solid #f44336;
+            background: #fff3f5;
+        }
+
+        .mcq-card.unanswered-ans {
+            border-left: 8px solid #ff9800;
+            background: #fff8e7;
+        }
+
+        .q-num {
+            font-weight: 700;
+            color: #0a2c48;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 18px;
+            color: #1a3a5a;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .option {
+            background: #f1f9ff;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: 1px solid #c3dcf2;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .option:hover {
+            background: #d7ecfd;
+            border-color: #1ecbe1;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1ecbe1;
+            color: #0a2c48;
+            border-color: #0a2c48;
+            font-weight: 600;
+        }
+
+        .option.correct-option {
+            background: #10b981;
+            color: white;
+            border-color: #0e6e4a;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .option.wrong-option {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+            pointer-events: none;
+        }
+
+        .explanation-box {
+            margin-top: 20px;
+            background: #f4f9ff;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #0a2c48;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .explanation-box.show {
+            display: block;
+        }
+
+        .exp-title {
+            font-weight: 700;
+            color: #0a2c48;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0 50px;
+        }
+
+        .primary-btn {
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            background: #0a2c48;
+            color: white;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .primary-btn:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+            transform: scale(1.02);
+        }
+
+        .primary-btn.disabled-btn,
+        .primary-btn:disabled {
+            background: #9aaebf;
+            color: #f0f4f8;
+            cursor: not-allowed;
+            transform: none;
+            pointer-events: none;
+        }
+
+        .main-footer {
+            background: #0a2c48;
+            color: #ffffffcc;
+            text-align: center;
+            padding: 24px 20px;
+            margin-top: 30px;
+            border-top: 1px solid #1ecbe1;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            .header-inner { padding: 0 15px; flex-direction: column; text-align: center; }
+            .logo-wrapper { padding: 6px 20px; }
+            .logo-img { height: 50px; }
+            .pill-nav { padding: 5px 12px; gap: 6px; }
+            .pill-nav span { font-size: 0.75rem; }
+            .score-panel { padding: 14px 18px; flex-direction: column; text-align: center; border-radius: 30px; }
+            .score-title { font-size: 1rem; justify-content: center; }
+            .score-value { font-size: 1rem; padding: 5px 16px; }
+            .options { gap: 10px; }
+            .option { padding: 10px 16px; font-size: 0.85rem; }
+            .question-text { font-size: 0.95rem; }
+            .mcq-card { padding: 18px; }
+            .primary-btn { padding: 12px 28px; font-size: 0.9rem; }
+            .progress-bar { flex-direction: column; text-align: center; }
+            .progress-bg { width: 100%; min-width: auto; }
+            .main-footer { padding: 20px 16px; font-size: 0.75rem; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 12px; }
+            .header-inner { padding: 0 12px; }
+            .logo-wrapper { padding: 5px 16px; }
+            .logo-img { height: 42px; }
+            .mcq-card { padding: 15px; border-radius: 20px; }
+            .question-text { font-size: 0.9rem; }
+            .option { padding: 8px 14px; font-size: 0.8rem; }
+            .explanation-box { padding: 12px 15px; font-size: 0.85rem; }
+            .score-value { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-inner">
+        <div class="logo-wrapper">
+            <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+        </div>
+        <div class="pill-nav">
+            <span><i class="fas fa-file-alt"></i> Block-J</span>
+            <span><i class="fas fa-gavel"></i> Forensic Medicine</span>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div id="scorePanelContainer" class="score-panel hidden-panel"></div>
+
+    <div class="progress-sticky">
+        <div class="progress-bar">
+            <span class="progress-text" id="progressText">0/100 Answered</span>
+            <div class="progress-bg">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <span class="progress-text" id="scorePreview"></span>
+        </div>
+    </div>
+
+    <div id="mcqContent"></div>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <i class=""></i> © MedPrep · All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+    
+
+    const questions = [
+        
+		
+		
+		
+	
+    {
+        "id": 1,
+        "question": "A 45-year-old man is found dead at the scene of a fire. Autopsy reveals cherry-red discoloration of the skin and viscera. Blood carboxyhemoglobin level is 65%. Which of the following is the most likely cause of death, and what is the mechanism of toxicity?",
+        "options": [
+            "Hydrogen cyanide poisoning; inhibition of cytochrome c oxidase",
+            "Carbon monoxide poisoning; formation of carboxyhemoglobin reducing oxygen-carrying capacity",
+            "Methanol poisoning; formic acid accumulation causing metabolic acidosis",
+            "Ethanol poisoning; CNS depression from GABA potentiation",
+            "Hydrogen sulfide poisoning; inhibition of cytochrome c oxidase"
+        ],
+        "correct": 1,
+        "explanation": "Carbon monoxide (CO) binds to hemoglobin with 240 times greater affinity than oxygen, forming carboxyhemoglobin and reducing oxygen delivery. Cherry-red discoloration is classic at levels >50%. CO also shifts the oxygen dissociation curve left, impairing oxygen release to tissues. Sources include fires, faulty heaters, and automobile exhaust."
+    },
+    {
+        "id": 2,
+        "question": "Which of the following best describes the medicolegal classification of a wound caused by a sharp-edged weapon where the length is greater than the depth? A 30-year-old man presents to the emergency department with a linear wound on his forearm that is 5 cm long but only 0.5 cm deep. The wound edges are clean and regular. Understanding wound classification is essential for determining the nature of the weapon used and the manner of injury.",
+        "options": [
+            "Incised wound",
+            "Lacerated wound",
+            "Stab wound",
+            "Penetrating wound",
+            "Perforating wound"
+        ],
+        "correct": 0,
+        "explanation": "An incised wound (cut) is caused by a sharp-edged weapon where the length exceeds the depth. Edges are clean and regular. A stab wound has depth greater than length. Laceration is caused by blunt force with irregular edges and tissue bridging. Proper classification helps differentiate self-inflicted from homicidal injuries."
+    },
+    {
+        "id": 3,
+        "question": "A 28-year-old woman is brought to the emergency department in a comatose state. Her friends report she ingested an unknown amount of a sedative medication 2 hours ago. Her respiratory rate is 6 breaths per minute, pupils are pinpoint, and she is unresponsive to painful stimuli. Naloxone is administered with no improvement. Which of the following is the most likely ingested substance?",
+        "options": [
+            "Heroin",
+            "Morphine",
+            "Methadone",
+            "Benzodiazepine",
+            "Fentanyl"
+        ],
+        "correct": 3,
+        "explanation": "Benzodiazepines cause CNS depression, coma, and respiratory depression but pinpoint pupils are more typical of opioids. However, lack of response to naloxone (opioid antagonist) rules out opioids. Benzodiazepine overdose presents with respiratory depression, coma, and normal or mildly constricted pupils. Flumazenil (benzodiazepine antagonist) may be used cautiously. Opioids (heroin, morphine, methadone, fentanyl) would respond to naloxone."
+    },
+    {
+        "id": 4,
+        "question": "A 55-year-old man is found hanging from a ceiling fan. The ligature mark around the neck is transverse, non-continuous, and has an inverted V-shaped area above the knot. The mark is located above the thyroid cartilage. There is no fracture of the hyoid bone. Which of the following is the most likely cause of death?",
+        "options": [
+            "Suicidal hanging",
+            "Judicial hanging",
+            "Manual strangulation",
+            "Ligature strangulation",
+            "Accidental hanging"
+        ],
+        "correct": 0,
+        "explanation": "Suicidal hanging typically produces a transverse, non-continuous ligature mark with an inverted V-shaped abrasion above the knot (where the knot was tied). Hyoid bone fracture is uncommon in hanging (more common in manual strangulation). Judicial hanging (long drop) causes cervical spine fracture. Ligature strangulation (homicidal) produces a horizontal, continuous mark around the neck."
+    },
+    {
+        "id": 5,
+        "question": "A 40-year-old man with a history of alcohol use disorder presents with acute-onset confusion, ataxia, and ophthalmoplegia. His family reports he has been eating poorly. He is diagnosed with Wernicke encephalopathy. If left untreated, which of the following conditions is he at highest risk of developing?",
+        "options": [
+            "Alzheimer's disease",
+            "Parkinson's disease",
+            "Korsakoff syndrome",
+            "Hepatic encephalopathy",
+            "Delirium tremens"
+        ],
+        "correct": 2,
+        "explanation": "Untreated Wernicke encephalopathy progresses to Korsakoff syndrome in up to 80% of patients, characterized by irreversible anterograde amnesia (inability to form new memories), confabulation, and apathy. Both are caused by thiamine (B1) deficiency, most commonly in alcohol use disorder. Treatment is IV thiamine 500 mg TID."
+    },
+    {
+        "id": 6,
+        "question": "A 60-year-old man with a history of alcohol use disorder is found dead in his apartment. Autopsy reveals yellow discoloration of the skin and sclerae, ascites, and a firm, nodular liver. Which of the following is the most likely cause of death, and what is the characteristic microscopic finding in the liver?",
+        "options": [
+            "Alcoholic hepatitis; Mallory-Denk bodies and neutrophilic infiltration",
+            "Cirrhosis with hepatocellular carcinoma; regenerative nodules and fibrous septa",
+            "Acute fatty liver; microvesicular steatosis",
+            "Hepatic adenoma; sheets of hepatocytes without portal tracts",
+            "Wilson disease; copper accumulation in periportal hepatocytes"
+        ],
+        "correct": 1,
+        "explanation": "Alcoholic cirrhosis presents with jaundice (yellow skin/sclerae), ascites, and a nodular liver (micronodular cirrhosis). Microscopically, cirrhosis shows regenerative nodules surrounded by fibrous septa, with loss of normal architecture. Hepatocellular carcinoma is a complication of cirrhosis. Mallory-Denk bodies are seen in alcoholic hepatitis, which may precede cirrhosis."
+    },
+    {
+        "id": 7,
+        "question": "A 35-year-old man is brought to the emergency department after a motor vehicle accident. He is conscious but confused. A CT scan of the head shows a biconvex, hyperdense, lens-shaped collection of blood that does not cross suture lines. He has a lucid interval followed by deterioration. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Subdural hematoma",
+            "Subarachnoid hemorrhage",
+            "Epidural hematoma",
+            "Intracerebral hemorrhage",
+            "Contusion"
+        ],
+        "correct": 2,
+        "explanation": "Epidural hematoma (EDH) is a biconvex (lens-shaped) collection of blood between the skull and dura mater, often caused by middle meningeal artery rupture due to temporal bone fracture. EDH does not cross suture lines. A classic but not universal lucid interval (initial recovery then deterioration) occurs as the hematoma expands. Subdural hematoma is crescent-shaped and crosses suture lines."
+    },
+    {
+        "id": 8,
+        "question": "Which of the following correctly describes the difference between homicide, suicide, and accidental death in medicolegal practice? A 25-year-old man is found dead with a gunshot wound to the head. The entrance wound is in the right temple with gunpowder stippling. No weapon is found at the scene. The wound characteristics suggest close-range firing. Understanding the classification of manner of death is essential for death certification.",
+        "options": [
+            "Homicide requires presence of a weapon; suicide requires absence of weapon",
+            "Accidental death occurs only in children; homicide occurs only in adults",
+            "Manner of death (natural, accident, suicide, homicide, undetermined) is based on circumstances, scene investigation, and autopsy findings",
+            "Suicide always leaves a suicide note; homicide never leaves a note",
+            "The manner of death is determined solely by the autopsy findings without scene investigation"
+        ],
+        "correct": 2,
+        "explanation": "Manner of death is classified as natural, accident, suicide, homicide, or undetermined based on integration of autopsy findings, scene investigation, and circumstances. A suicide requires evidence that the victim intentionally caused their own death. Homicide involves death at the hands of another person. The absence of a weapon at the scene raises suspicion of homicide. Gunpowder stippling indicates close-range firing."
+    },
+    {
+        "id": 9,
+        "question": "A 50-year-old man is found dead in his garage with the car engine running. Autopsy reveals cherry-red discoloration of the skin and viscera. Which of the following is the most appropriate confirmatory laboratory test?",
+        "options": [
+            "Blood ethanol level",
+            "Blood carboxyhemoglobin level",
+            "Blood cyanide level",
+            "Blood glucose level",
+            "Blood methanol level"
+        ],
+        "correct": 1,
+        "explanation": "Carbon monoxide poisoning from car exhaust is confirmed by elevated blood carboxyhemoglobin levels (>3% in non-smokers, >10% in smokers). Levels >50% are typically fatal. Pulse oximetry is inaccurate (falsely normal); arterial blood gas shows normal PaO2 but low measured oxygen saturation (co-oximetry needed). Treatment is 100% oxygen or hyperbaric oxygen."
+    },
+    {
+        "id": 10,
+        "question": "A 32-year-old woman is brought to the emergency department after intentional ingestion of an unknown amount of acetaminophen 12 hours ago. She has no symptoms currently. Her serum acetaminophen level is plotted on the Rumack-Matthew nomogram and falls in the probable hepatotoxic range. Which of the following is the most appropriate treatment, and what is its mechanism of action?",
+        "options": [
+            "Activated charcoal; adsorbs remaining drug in gut",
+            "N-acetylcysteine (NAC); replenishes hepatic glutathione stores",
+            "Fomepizole; inhibits alcohol dehydrogenase",
+            "Sodium bicarbonate; enhances urinary excretion",
+            "Hemodialysis; removes drug from blood"
+        ],
+        "correct": 1,
+        "explanation": "N-acetylcysteine (NAC) is the antidote for acetaminophen overdose, effective within 8-10 hours (but still beneficial up to 24 hours). NAC replenishes hepatic glutathione, which conjugates the toxic metabolite NAPQI. Activated charcoal is given within 1-2 hours of ingestion if patient presents early, but NAC is definitive treatment. The Rumack-Matthew nomogram guides treatment based on time from ingestion to level. Hepatotoxicity risk is high if level falls above the \"probable toxicity\" line. NAC works best when given before significant liver injury occurs (ALT elevation)."
+    },	
+		
+		
+		
+		
+		
+    {
+        "id": 11,
+        "question": "A 25-year-old man is brought to the emergency department after a blunt force injury to the head. He is unconscious with a Glasgow Coma Scale score of 6. CT scan reveals a crescent-shaped hyperdense collection over the left cerebral hemisphere that crosses suture lines. There is significant midline shift. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Epidural hematoma",
+            "Subdural hematoma",
+            "Subarachnoid hemorrhage",
+            "Intracerebral hemorrhage",
+            "Cerebral contusion"
+        ],
+        "correct": 1,
+        "explanation": "Subdural hematoma (SDH) is crescent-shaped, crosses suture lines (unlike epidural hematoma), and is caused by tearing of bridging veins. Acute SDH presents within 24 hours with rapid neurological deterioration. Chronic SDH (weeks to months) is common in elderly and alcoholics due to brain atrophy and falls."
+    },
+    {
+        "id": 12,
+        "question": "Which of the following best describes the medicolegal significance of the pattern of injuries in a case of suspected child abuse? A 2-year-old child is brought to the hospital with multiple bruises of different colors, a spiral fracture of the femur, and retinal hemorrhages on fundoscopic examination. The parents provide inconsistent explanations for the injuries. Understanding the medicolegal significance of these findings is essential for recognizing non-accidental trauma.",
+        "options": [
+            "Bruises of different colors indicate accidental injury from a single event",
+            "Spiral fractures are typical of accidental falls from height",
+            "The combination of retinal hemorrhages, subdural hematoma, and long bone fractures is highly suggestive of shaken baby syndrome",
+            "Child abuse can only be diagnosed if a witness admits to the abuse",
+            "Retinal hemorrhages are only seen in accidental head trauma"
+        ],
+        "correct": 2,
+        "explanation": "Shaken baby syndrome (abusive head trauma) classically presents with the triad: subdural hematoma, retinal hemorrhages, and encephalopathy, often with associated long bone fractures (especially spiral or metaphysical fractures). Bruises of different colors indicate injuries of different ages. Inconsistent parental explanations raise suspicion of non-accidental trauma."
+    },
+    {
+        "id": 13,
+        "question": "A 40-year-old man is found dead in his apartment with a needle mark in his antecubital fossa. Autopsy reveals pulmonary edema, congestion of viscera, and chemical analysis of blood detects 6-monoacetylmorphine. Which of the following is the most likely drug responsible for his death?",
+        "options": [
+            "Cocaine",
+            "Heroin",
+            "Methamphetamine",
+            "Fentanyl",
+            "Morphine"
+        ],
+        "correct": 1,
+        "explanation": "Heroin is rapidly metabolized to 6-monoacetylmorphine (unique to heroin) and then to morphine. Presence of 6-monoacetylmorphine confirms heroin use (distinguishes from morphine administration). Death from opioid overdose occurs due to respiratory depression. Pulmonary edema is a common autopsy finding. Naloxone is the antidote for opioid overdose."
+    },
+    {
+        "id": 14,
+        "question": "A 55-year-old man with chronic alcohol use disorder presents with acute-onset confusion, ataxia, and nystagmus. He is admitted and treated with IV thiamine. His symptoms improve partially, but he is discharged with persistent memory impairment and confabulation. Which of the following is the most likely diagnosis for his chronic memory impairment?",
+        "options": [
+            "Alzheimer's disease",
+            "Korsakoff syndrome",
+            "Frontotemporal dementia",
+            "Delirium tremens",
+            "Hepatic encephalopathy"
+        ],
+        "correct": 1,
+        "explanation": "Korsakoff syndrome is a chronic memory disorder caused by thiamine (B1) deficiency, often following Wernicke encephalopathy (confusion, ataxia, ophthalmoplegia). It is characterized by anterograde amnesia (inability to form new memories), retrograde amnesia, and confabulation. It is often irreversible despite thiamine replacement. Up to 80% of untreated Wernicke patients progress to Korsakoff syndrome."
+    },
+    {
+        "id": 15,
+        "question": "A 28-year-old woman is found unconscious with a empty bottle of sleeping pills beside her. She is intubated and given activated charcoal. Which of the following is an absolute contraindication to the administration of activated charcoal?",
+        "options": [
+            "Ingestion of acetaminophen",
+            "Ingestion of aspirin",
+            "Ingestion of a caustic substance (acid or alkali)",
+            "Ingestion of tricyclic antidepressants",
+            "Ingestion of benzodiazepines"
+        ],
+        "correct": 2,
+        "explanation": "Activated charcoal is contraindicated in caustic (acid or alkali) ingestions because it obscures endoscopic visualization and does not adsorb caustics effectively. It is also contraindicated in hydrocarbon ingestions (aspiration risk) and in patients without protected airway (risk of aspiration pneumonitis). Charcoal is effective for many drugs including acetaminophen, aspirin, TCAs, and benzodiazepines within 1-2 hours of ingestion."
+    },
+    {
+        "id": 16,
+        "question": "Which of the following correctly describes the difference between rigor mortis, livor mortis, and algor mortis? A 70-year-old man is found dead in his bed. The body is cold to touch, there is purple discoloration on the dependent parts of the body, and the limbs are stiff and fixed in position. Understanding the postmortem changes helps estimate the time since death (postmortem interval).",
+        "options": [
+            "Algor mortis is the stiffening of muscles; rigor mortis is the cooling of the body",
+            "Rigor mortis is the cooling of the body; livor mortis is the stiffening of muscles",
+            "Rigor mortis is the stiffening of muscles (starts 2-6 hours after death); livor mortis is the purple discoloration of dependent parts due to settling of blood; algor mortis is the cooling of the body",
+            "Livor mortis is the stiffening of muscles; algor mortis is the purple discoloration",
+            "All three terms refer to the same postmortem change"
+        ],
+        "correct": 2,
+        "explanation": "Rigor mortis (muscle stiffening) begins 2-6 hours after death and resolves 24-48 hours later. Livor mortis (purple discoloration) appears 30 minutes to 2 hours after death, is blanchable initially (1-4 hours), and becomes fixed after 8-12 hours (blood hemolysis). Algor mortis (body cooling) follows ambient temperature; the body cools approximately 1.5°F per hour (varies with environment). These findings help estimate time of death."
+    },
+    {
+        "id": 17,
+        "question": "A 35-year-old man is found unconscious with a sweetish odor on his breath. His blood glucose is 25 mg/dL. He is given IV dextrose and recovers. Which of the following is the most likely ingested substance?",
+        "options": [
+            "Ethanol",
+            "Methanol",
+            "Ethylene glycol",
+            "Sulfonylurea (oral hypoglycemic)",
+            "Isopropyl alcohol"
+        ],
+        "correct": 3,
+        "explanation": "Sulfonylureas (e.g., glipizide, glyburide) cause hypoglycemia by stimulating insulin release. They are the most common cause of drug-induced hypoglycemia requiring hospitalization. The sweetish odor (not specific) and profound hypoglycemia suggest sulfonylurea overdose. Treatment includes IV dextrose and octreotide (suppresses insulin release) or diazoxide. Ethanol causes hypoglycemia but usually in malnourished patients after prolonged ingestion, not typically with sweetish odor. Methanol and ethylene glycol cause metabolic acidosis, not hypoglycemia. Isopropyl alcohol causes ketosis but not hypoglycemia."
+    },
+    {
+        "id": 18,
+        "question": "A 50-year-old man is found dead at the scene of a fire. Autopsy reveals soot in the airways and a carboxyhemoglobin level of 15%. There are no other injuries. Which of the following is the most likely cause of death?",
+        "options": [
+            "Carbon monoxide poisoning",
+            "Thermal burns",
+            "Smoke inhalation without significant CO poisoning",
+            "Hydrogen cyanide poisoning",
+            "Traumatic asphyxia"
+        ],
+        "correct": 0,
+        "explanation": "A carboxyhemoglobin (COHb) level of 15% indicates mild to moderate CO poisoning. In fire victims, CO is a major cause of death, but levels >50% are typically fatal. However, COHb levels may be lower if death occurred quickly (e.g., from acute asphyxia or thermal burns). Soot in the airways indicates smoke inhalation. The absence of burns suggests death from CO poisoning rather than thermal injury. Cyanide poisoning from burning synthetic materials can also cause death with low COHb levels."
+    },
+    {
+        "id": 19,
+        "question": "A 22-year-old woman is brought to the emergency department after her friends report she ingested an unknown amount of a medication. She is confused, tachycardic, and has dilated pupils. ECG shows wide QRS complex (120 ms) and prolonged QT interval. Which of the following is the most likely ingested substance?",
+        "options": [
+            "Amitriptyline (tricyclic antidepressant)",
+            "Fluoxetine (SSRI)",
+            "Lithium",
+            "Valproic acid",
+            "Lamotrigine"
+        ],
+        "correct": 0,
+        "explanation": "Tricyclic antidepressants (TCAs) cause sodium channel blockade leading to widened QRS (>100 ms), prolonged QT, and rightward shift of the terminal 40 ms of the QRS axis (R wave in aVR >3 mm). Other features include confusion, seizures, dilated pupils, dry skin, urinary retention, and hypotension. Treatment is IV sodium bicarbonate (to overcome sodium channel blockade). Fluoxetine (SSRI) overdose typically causes serotonin syndrome (not sodium channel blockade). Lithium causes tremor, ataxia, and nephrogenic diabetes insipidus."
+    },
+    {
+        "id": 20,
+        "question": "Which of the following best describes the medicolegal importance of the \"lucid interval\" in head injury? A 45-year-old man sustains a head injury in a fall. He initially loses consciousness briefly, then recovers and is alert and oriented. Two hours later, he becomes drowsy, then unresponsive, and develops left-sided weakness. CT scan reveals a biconvex lens-shaped hematoma. Understanding the lucid interval is crucial for recognizing a surgically correctable lesion.",
+        "options": [
+            "A lucid interval is pathognomonic for subdural hematoma",
+            "A lucid interval occurs only in patients with skull fractures",
+            "A lucid interval (initial recovery followed by neurological deterioration) is classic for epidural hematoma but can occur in other intracranial hemorrhages",
+            "A lucid interval indicates a good prognosis regardless of the lesion",
+            "A lucid interval is only seen in children"
+        ],
+        "correct": 2,
+        "explanation": "A lucid interval (period of normal consciousness after initial injury followed by deterioration) is classic for epidural hematoma as the hematoma expands and causes mass effect. However, it can also occur in other intracranial hemorrhages. The lucid interval is a surgical emergency; prompt evacuation of the hematoma is life-saving. It is not pathognomonic for EDH but is highly suggestive, especially after a temporal bone fracture (middle meningeal artery tear)."
+    },
+    {
+        "id": 21,
+        "question": "A 30-year-old man is found unconscious with needle marks on his arms. He has pinpoint pupils, respiratory rate of 4 breaths per minute, and no response to naloxone. Which of the following is the most likely explanation for the lack of response to naloxone?",
+        "options": [
+            "The patient is not suffering from opioid overdose",
+            "The patient has overdosed on a non-opioid drug",
+            "The patient has overdosed on a synthetic opioid not reversed by naloxone",
+            "Naloxone dose was insufficient; repeat dosing or infusion may be needed",
+            "The patient is in a post-anoxic coma unrelated to the injection"
+        ],
+        "correct": 3,
+        "explanation": "Synthetic opioids such as fentanyl and its analogs (carfentanil) may require higher doses of naloxone than standard opioids (heroin, morphine). Initial naloxone dose (0.4-2 mg IV) may be insufficient; repeat doses or continuous infusion may be needed. Respiratory depression and pinpoint pupils indicate opioid effect. Lack of response to initial naloxone does not rule out opioid overdose, especially with potent synthetic opioids. Naloxone has a short half-life (30-60 minutes); repeated dosing may be required for long-acting opioids (methadone). Patients require observation for re-narcotization after naloxone wears off."
+    },
+    {
+        "id": 22,
+        "question": "A 65-year-old man with chronic alcohol use disorder is found dead in his apartment. Autopsy reveals a markedly enlarged liver with a yellow-tan appearance and greasy texture on cut section. Microscopy shows hepatocytes filled with large fat vacuoles displacing the nucleus to the periphery. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Alcoholic hepatitis",
+            "Macrovesicular steatosis (fatty liver)",
+            "Micronodular cirrhosis",
+            "Acute alcoholic hepatitis with Mallory bodies",
+            "Hepatocellular carcinoma"
+        ],
+        "correct": 1,
+        "explanation": "Macrovesicular steatosis (fatty liver) is characterized by hepatocytes containing large fat vacuoles that displace the nucleus peripherally (signet ring appearance). The liver is enlarged, yellow-tan, and greasy. It is reversible with alcohol cessation. Alcoholic hepatitis shows ballooning degeneration, Mallory-Denk bodies, and neutrophilic infiltration. Cirrhosis shows regenerative nodules with fibrous septa. Steatosis is the earliest and most common alcohol-induced liver change."
+    },
+    {
+        "id": 23,
+        "question": "A 28-year-old woman is found unresponsive in a nightclub. She has tachycardia, hypertension, hyperthermia (40°C), diaphoresis, and mydriasis. She is clenching her jaw and has rigidity. Which of the following is the most likely ingested substance?",
+        "options": [
+            "Heroin",
+            "MDMA (Ecstasy)",
+            "Alcohol",
+            "Benzodiazepine",
+            "Antipsychotic"
+        ],
+        "correct": 1,
+        "explanation": "MDMA (Ecstasy) is a synthetic amphetamine derivative that causes serotonin and norepinephrine release. Overdose presents with sympathomimetic effects (tachycardia, hypertension, hyperthermia, mydriasis, diaphoresis), trismus (jaw clenching), and rigidity. Severe hyperthermia is a major cause of death (can exceed 42°C). Other features include hyponatremia (from excessive water intake), serotonin syndrome, and rhabdomyolysis. Treatment includes cooling measures, benzodiazepines, and supportive care. Hyperthermia >39°C is a medical emergency."
+    },
+    {
+        "id": 24,
+        "question": "Which of the following correctly describes the medicolegal classification of burns? A 40-year-old man sustains burns from a house fire. On examination, he has areas of erythema without blistering, areas with blistering and intense pain, and areas that are charred and painless. Understanding the classification of burn depth is essential for determining prognosis and treatment, as well as for medicolegal documentation.",
+        "options": [
+            "First-degree (superficial): erythema only; second-degree (partial thickness): blistering and pain; third-degree (full thickness): charred, painless, leathery",
+            "First-degree: blistering; second-degree: erythema; third-degree: charring",
+            "First-degree: charred; second-degree: erythema; third-degree: blistering",
+            "First-degree: painless; second-degree: painful; third-degree: painful",
+            "Burn depth classification is the same as electrical burn classification"
+        ],
+        "correct": 0,
+        "explanation": "First-degree burns (superficial): erythema only, painful, heal without scarring (sunburn). Second-degree burns (partial thickness): blistering, moist, very painful (damage to epidermis and dermis). Third-degree burns (full thickness): charred, white or leathery, painless (nerve endings destroyed), requires grafting. Fourth-degree burns extend to muscle and bone. Burn depth guides fluid resuscitation, infection prevention, and surgical management. The Rule of Nines estimates total body surface area (TBSA) affected."
+    },
+    {
+        "id": 25,
+        "question": "A 50-year-old man with a history of alcohol use disorder presents with acute-onset confusion, vomiting, and visual disturbances. He admits to drinking homemade alcohol. He has tachypnea (respiratory rate 28) and his blood gas shows a high anion gap metabolic acidosis. Which of the following is the most likely diagnosis and treatment?",
+        "options": [
+            "Ethanol intoxication; supportive care",
+            "Methanol poisoning; fomepizole or ethanol and hemodialysis",
+            "Ethylene glycol poisoning; fomepizole and thiamine",
+            "Isopropyl alcohol poisoning; supportive care",
+            "Alcoholic ketoacidosis; IV dextrose and thiamine"
+        ],
+        "correct": 1,
+        "explanation": "Methanol poisoning (from adulterated alcohol) presents with confusion, visual disturbances (\"snowstorm\" vision, blindness from formic acid causing optic nerve damage), vomiting, and high anion gap metabolic acidosis. Treatment is fomepizole (or ethanol) to inhibit alcohol dehydrogenase (preventing formate formation), and hemodialysis for severe toxicity (high methanol level, visual symptoms, severe acidosis). Ethylene glycol poisoning causes calcium oxalate crystalluria and acute kidney injury. Isopropyl alcohol causes ketosis (acetone) without acidosis. Methanol is found in windshield washer fluid, paint thinner, and homemade spirits."
+    },
+    {
+        "id": 26,
+        "question": "A 32-year-old woman is brought to the emergency department after intentional ingestion of an unknown amount of amitriptyline. She is confused, tachycardic, and hypotensive. ECG shows wide QRS (140 ms). Which of the following is the most appropriate immediate treatment for the wide QRS?",
+        "options": [
+            "Lidocaine",
+            "IV sodium bicarbonate",
+            "Magnesium sulfate",
+            "Phenytoin",
+            "Amiodarone"
+        ],
+        "correct": 1,
+        "explanation": "IV sodium bicarbonate is first-line treatment for TCA-induced wide QRS complex (>100 ms). Bicarbonate increases serum pH, which accelerates dissociation of TCA from sodium channels, narrowing the QRS. Target pH is 7.45-7.55. Bicarbonate also provides sodium to overcome sodium channel blockade. Lidocaine and phenytoin are not effective and may worsen conduction abnormalities. Magnesium is for torsade de pointes. Amiodarone may cause QT prolongation and is not indicated. Seizures are treated with benzodiazepines, not phenytoin."
+    },
+    {
+        "id": 27,
+        "question": "A 45-year-old man is found dead in a closed garage with his car engine running. Autopsy reveals cherry-red lividity. Which of the following is the most likely cause of death?",
+        "options": [
+            "Cyanide poisoning",
+            "Carbon monoxide poisoning",
+            "Hydrogen sulfide poisoning",
+            "Methanol poisoning",
+            "Ethylene glycol poisoning"
+        ],
+        "correct": 1,
+        "explanation": "Carbon monoxide (CO) poisoning is common in suicides by car exhaust, garage with running engine, house fires, and faulty heaters. CO binds to hemoglobin with high affinity, forming cherry-red carboxyhemoglobin (COHb). Cherry-red lividity (postmortem discoloration) is classic for CO poisoning at levels >50%. Other autopsy findings include pulmonary edema and cerebral edema. Diagnosis is confirmed by elevated COHb. Treatment is 100% oxygen or hyperbaric oxygen."
+    },
+    {
+        "id": 28,
+        "question": "Which of the following best describes the medicolegal significance of determining the age of injuries? A 25-year-old woman presents to the emergency department with a bruise on her arm that is yellow-green in color. She reports the injury occurred 5 days ago. Understanding the color changes of a healing bruise helps estimate the age of injury, which is important in cases of alleged assault or child abuse.",
+        "options": [
+            "Fresh bruises are yellow-green; older bruises are red-blue",
+            "Bruises progress from blue-black to green to yellow (hemoglobin → biliverdin → bilirubin), approximately day 1-5: red-blue, day 5-7: green, day 7-10: yellow",
+            "All bruises are the same color regardless of age",
+            "Bruises never change color",
+            "The age of a bruise cannot be estimated by color"
+        ],
+        "correct": 1,
+        "explanation": "Bruises change color as hemoglobin breaks down: biliverdin (green) appears around day 5-7, and bilirubin (yellow) around day 7-10. Fresh bruises (day 1-5) are red-blue (deoxygenated hemoglobin). This color progression helps estimate age of injury, though estimation is imprecise due to individual variation, bruise depth, and severity. Color photographs are important for medicolegal documentation. Yellow-green bruises are at least 5-7 days old. This is especially important in child abuse cases where multiple bruises of different ages indicate repeated trauma."
+    },
+    {
+        "id": 29,
+        "question": "A 55-year-old man with chronic alcohol use disorder presents with acute-onset jaundice, ascites, and confusion. He is admitted and found to have elevated ammonia levels. Which of the following is the first-line treatment for hepatic encephalopathy?",
+        "options": [
+            "Rifaximin",
+            "Lactulose",
+            "Neomycin",
+            "Metronidazole",
+            "IV albumin"
+        ],
+        "correct": 1,
+        "explanation": "Lactulose is first-line treatment for hepatic encephalopathy (HE). It is a non-absorbable disaccharide that is metabolized by colonic bacteria to lactic and acetic acids, acidifying the colon. Acidification converts NH3 (ammonia, which crosses membranes) to NH4+ (ammonium, non-absorbable), trapping it in the gut for excretion. Lactulose also has cathartic effects. Rifaximin is a non-absorbable antibiotic used for secondary prophylaxis after initial response to lactulose. Neomycin is no longer first-line due to ototoxicity and nephrotoxicity."
+    },
+    {
+        "id": 30,
+        "question": "A 28-year-old woman is found unconscious with an empty bottle of acetaminophen beside her. She is brought to the emergency department approximately 4 hours after ingestion. Which of the following is the most appropriate immediate intervention?",
+        "options": [
+            "Gastric lavage",
+            "Activated charcoal",
+            "N-acetylcysteine (NAC)",
+            "Hemodialysis",
+            "IV fluids only"
+        ],
+        "correct": 1,
+        "explanation": "Activated charcoal is most effective within 1 hour of ingestion but may be beneficial up to 2-4 hours. It adsorbs remaining drug in the GI tract, reducing absorption. N-acetylcysteine (NAC) is the definitive treatment for acetaminophen overdose but is given based on the Rumack-Matthew nomogram after obtaining a 4-hour level (most accurate). Charcoal should be given immediately (if within 4 hours) while awaiting levels. NAC is effective within 8-10 hours of ingestion (maximal benefit) but can be given up to 24 hours (some benefit). Hemodialysis is rarely needed (massive overdose, severe acidosis, renal failure)."
+    },
+		
+		
+		
+		
+	
+    
+		
+		
+		
+		
+	
+	
+	
+	
+    {
+        "id": 31,
+        "question": "A 35-year-old man is found dead in a hotel room with a needle in his arm. Autopsy reveals pulmonary edema, acute tubular necrosis, and chemical analysis shows 6-monoacetylmorphine in blood. Which of the following is the most likely cause of death?",
+        "options": [
+            "Cocaine overdose",
+            "Methamphetamine toxicity",
+            "Fentanyl overdose",
+            "Morphine overdose",
+            "Heroin overdose"
+        ],
+        "correct": 4,
+        "explanation": "6-monoacetylmorphine is a unique metabolite of heroin, confirming heroin use. Death from heroin overdose occurs due to respiratory depression and pulmonary edema. Naloxone is the antidote. Acute tubular necrosis may result from hypotension and rhabdomyolysis."
+    },
+    {
+        "id": 32,
+        "question": "A 28-year-old woman is found unconscious after ingesting an unknown amount of benzodiazepines. She has a respiratory rate of 8 breaths per minute and is unresponsive. Which of the following is the most appropriate immediate intervention?",
+        "options": [
+            "Flumazenil",
+            "Naloxone",
+            "Activated charcoal",
+            "Intubation and mechanical ventilation",
+            "IV fluids"
+        ],
+        "correct": 3,
+        "explanation": "Respiratory depression from benzodiazepine overdose requires intubation and mechanical ventilation for airway protection. Flumazenil (benzodiazepine antagonist) is controversial due to risk of seizures in chronic benzodiazepine users and those with co-ingestants (TCAs). It is best avoided in unknown overdose."
+    },
+    {
+        "id": 33,
+        "question": "A 60-year-old man with a history of alcohol use disorder is found dead. Autopsy reveals a markedly enlarged liver weighing 2800 grams (normal 1500). Cut surface shows multiple yellow-green nodules with surrounding fibrous septa. Which of the following is the most likely cause of death?",
+        "options": [
+            "Cirrhosis with complications",
+            "Alcoholic hepatitis",
+            "Fatty liver",
+            "Hepatocellular carcinoma",
+            "Acute liver failure"
+        ],
+        "correct": 0,
+        "explanation": "The gross description of yellow-green nodules with fibrous septa is classic for cirrhosis (macronodular or mixed). Death in cirrhosis is usually due to complications: variceal hemorrhage, spontaneous bacterial peritonitis, hepatorenal syndrome, or hepatocellular carcinoma. Cirrhosis is irreversible and often leads to liver failure."
+    },
+    {
+        "id": 34,
+        "question": "Which of the following correctly describes the difference between antemortem and postmortem injuries? A 30-year-old man is found dead with multiple wounds. On autopsy, one wound shows everted edges with hemorrhagic infiltration, while another shows inverted edges with dry, yellow-white appearance. Understanding these differences helps determine whether an injury occurred before or after death.",
+        "options": [
+            "Both show similar appearance; cannot differentiate",
+            "Antemortem wounds: dry, yellow-white; postmortem wounds: everted, hemorrhagic",
+            "Antemortem wounds: everted edges, hemorrhage, inflammation; postmortem wounds: inverted edges, dry, yellow-white (no bleeding)",
+            "Antemortem wounds always show wound contraction; postmortem never show contraction",
+            "Postmortem wounds show cellular infiltrates; antemortem wounds show no infiltrates"
+        ],
+        "correct": 2,
+        "explanation": "Antemortem (before death) wounds show everted edges due to elastic tissue retraction, hemorrhage from bleeding heart, and vital reaction (inflammation, leukocyte infiltration). Postmortem (after death) wounds show inverted edges, dry yellowish-white appearance, no hemorrhage (non-pumping heart), and no inflammation. This distinction is critical in forensic pathology to determine if injury contributed to death or occurred after."
+    },
+    {
+        "id": 35,
+        "question": "A 45-year-old man is brought to the emergency department after a fall from a ladder. He is conscious but confused. CT head shows a small left frontal contusion. He is admitted for observation. Six hours later, his mental status deteriorates, and he becomes unresponsive. Repeat CT shows a large biconvex hematoma. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Subdural hematoma",
+            "Delayed epidural hematoma",
+            "Intracerebral hemorrhage",
+            "Subarachnoid hemorrhage",
+            "Cerebral edema"
+        ],
+        "correct": 1,
+        "explanation": "Delayed epidural hematoma (EDH) presents with a lucid interval followed by deterioration. Initial CT may show a small contusion or normal findings; repeat CT after deterioration reveals a biconvex (lens-shaped) hematoma. EDH is often arterial (middle meningeal artery) and expands rapidly. Prompt surgical evacuation is life-saving. Delayed EDH is less common but well-recognized."
+    },
+    {
+        "id": 36,
+        "question": "A 50-year-old man with chronic alcohol use disorder presents with confusion, vomiting, and abdominal pain. He admits to drinking antifreeze accidentally. He has tachypnea. Urinalysis shows calcium oxalate crystals. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Methanol poisoning",
+            "Isopropyl alcohol poisoning",
+            "Ethanol intoxication",
+            "Alcoholic ketoacidosis",
+            "Ethylene glycol poisoning"
+        ],
+        "correct": 4,
+        "explanation": "Ethylene glycol (antifreeze) poisoning causes high anion gap metabolic acidosis, calcium oxalate crystalluria, and acute kidney injury (due to crystal deposition in renal tubules). Treatment is fomepizole (or ethanol) to inhibit alcohol dehydrogenase, plus hemodialysis. Methanol causes visual disturbances without crystalluria. Isopropyl alcohol causes ketosis without acidosis (acetone)."
+    },
+    {
+        "id": 37,
+        "question": "A 22-year-old woman is found unconscious with empty medication bottles. She has tachycardia, widened QRS on ECG, and seizures. Which of the following is the most appropriate pharmacologic treatment for the seizures?",
+        "options": [
+            "Phenytoin",
+            "Valproate",
+            "Lorazepam (benzodiazepine)",
+            "Levetiracetam",
+            "Phenobarbital"
+        ],
+        "correct": 2,
+        "explanation": "Benzodiazepines (lorazepam, diazepam) are first-line for all types of seizure emergencies, including drug-induced seizures. In TCA overdose, phenytoin is contraindicated (may worsen cardiac conduction). The primary treatment for TCA-induced seizures is benzodiazepines, along with IV sodium bicarbonate for wide QRS. Valproate and levetiracetam are not first-line for acute seizure management."
+    },
+    {
+        "id": 38,
+        "question": "Which of the following best describes the medicolegal classification of asphyxial deaths? A 25-year-old man is found hanging from a tree. The ligature mark is oblique, non-continuous, and has an inverted V-shaped area. Understanding the different types of asphyxial deaths (hanging, strangulation, suffocation, drowning) is essential for determining the manner of death (suicide, homicide, accident).",
+        "options": [
+            "Ligature strangulation (homicidal) produces a horizontal, continuous mark around the neck; hanging (suicidal) produces an oblique, non-continuous mark with the apex at the knot",
+            "Hanging produces a horizontal, continuous ligature mark; strangulation produces an oblique, non-continuous mark",
+            "Both hanging and strangulation produce identical marks",
+            "Asphyxial deaths always show petechial hemorrhages",
+            "Hanging always fractures the hyoid bone; strangulation never fractures the hyoid"
+        ],
+        "correct": 0,
+        "explanation": "Suicidal hanging produces an oblique, non-continuous ligature mark with the inverted V-shaped apex at the knot (where the ligature is pulled upward by the weight of the body). Ligature strangulation (homicidal) produces a horizontal, continuous mark around the neck (circumferential). Manual strangulation (throttling) produces finger-tip bruising. Hyoid bone fracture is more common in manual strangulation (especially lateral compression) than in hanging."
+    },
+    {
+        "id": 39,
+        "question": "A 35-year-old man is found dead in a swimming pool. Autopsy reveals frothy fluid in the airways, over-inflated lungs with rib impressions (Paltauf spots), and fluid in the stomach. Diatom test is positive. Which of the following is the most likely cause of death?",
+        "options": [
+            "Dry drowning",
+            "Immersion syndrome",
+            "Secondary drowning",
+            "Wet drowning",
+            "Submersion injury"
+        ],
+        "correct": 3,
+        "explanation": "Wet drowning (typical drowning) involves aspiration of water into the lungs, causing frothy fluid in airways, over-inflated lungs with rib impressions (Paltauf spots), and fluid in the stomach (swallowed water). Diatom test (presence of diatoms in bone marrow/tissues) supports drowning but is not 100% sensitive. Drowning is death from submersion in liquid. Differentiation of wet vs dry drowning is based on presence or absence of aspirated fluid in lungs. Dry drowning (10-20%) occurs without aspiration (laryngospasm)."
+    },
+    {
+        "id": 40,
+        "question": "A 60-year-old man with a history of hypertension presents with sudden-onset severe headache, nausea, vomiting, and right-sided weakness. CT head shows a large left putamenal hemorrhage. Which of the following is the most common underlying pathology?",
+        "options": [
+            "Cerebral amyloid angiopathy",
+            "Hypertensive arteriolosclerosis (lipohyalinosis) with Charcot-Bouchard microaneurysm",
+            "Ruptured saccular aneurysm",
+            "Arteriovenous malformation",
+            "Trauma"
+        ],
+        "correct": 1,
+        "explanation": "Hypertensive intracerebral hemorrhage commonly occurs in the putamen (50%), thalamus, pons, and cerebellum. The underlying pathology is lipohyalinosis (fibrinoid necrosis) of small penetrating arteries (lenticulostriate arteries), leading to Charcot-Bouchard microaneurysms that rupture. Cerebral amyloid angiopathy causes lobar hemorrhages in elderly (usually not deep). Saccular aneurysms cause subarachnoid hemorrhage. Trauma causes contusions, subdural, or epidural hematoma."
+    },
+    {
+        "id": 41,
+        "question": "A 30-year-old woman presents with weakness, fatigue, and hyperpigmentation of the skin and gums. She has a history of chronic acetaminophen use for headaches. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Lead poisoning",
+            "Mercury poisoning",
+            "Iron overdose",
+            "Acetaminophen toxicity",
+            "Arsenic poisoning"
+        ],
+        "correct": 4,
+        "explanation": "Chronic arsenic poisoning (arsenicosis) causes hyperpigmentation (rain-drop pigmentation), hyperkeratosis of palms and soles, weakness, fatigue, and peripheral neuropathy. It can cause Mees lines (transverse white bands on nails). Sources include contaminated water, pesticides, and industrial exposure. Chronic acetaminophen toxicity causes hepatotoxicity, not hyperpigmentation. Lead causes lead lines on gums, not skin hyperpigmentation. Mercury causes neuropsychiatric symptoms and acrodynia (pink disease) in children."
+    },
+    {
+        "id": 42,
+        "question": "Which of the following best describes the medicolegal concept of 'insanity' (mental disorder) as it relates to criminal responsibility? A 25-year-old man with schizophrenia kills a stranger while experiencing command hallucinations telling him to kill. He understands that killing is legally wrong but was unable to control his actions due to his mental illness. Understanding the legal test for insanity (M'Naghten rule, irresistible impulse test) is essential for determining criminal responsibility.",
+        "options": [
+            "Insanity is a medical diagnosis; all mentally ill individuals are not criminally responsible",
+            "All persons with psychosis are automatically insane under the law",
+            "The M'Naghten rule states that a person is not criminally responsible if, at the time of the act, they did not know the nature and quality of the act or did not know it was wrong due to a mental disorder",
+            "Insanity and incompetency to stand trial are the same concept",
+            "The irresistible impulse test applies only to personality disorders"
+        ],
+        "correct": 2,
+        "explanation": "The M'Naghten rule (right-wrong test) is used in many jurisdictions to determine criminal responsibility: a person is not guilty by reason of insanity if, due to a mental disorder, they did not know the nature and quality of the act or did not know it was wrong. This patient met the criteria (did not know wrong due to command hallucinations). The irresistible impulse test (added in some states) addresses inability to control behavior even if the person knew the act was wrong. Insanity is a legal concept, not a medical diagnosis."
+    },
+    {
+        "id": 43,
+        "question": "A 45-year-old woman presents with acute-onset confusion, blurred vision, and headache after drinking homemade wine at a party. She develops rapid breathing and becomes obtunded. Arterial blood gas shows pH 7.1, pCO2 25, HCO3 10. Which of the following is the most appropriate treatment?",
+        "options": [
+            "IV ethanol",
+            "Fomepizole and hemodialysis",
+            "IV sodium bicarbonate",
+            "Thiamine",
+            "N-acetylcysteine"
+        ],
+        "correct": 1,
+        "explanation": "This patient has methanol poisoning (high anion gap metabolic acidosis with visual symptoms from homemade wine). Treatment is fomepizole (or IV ethanol) to inhibit alcohol dehydrogenase (preventing formate formation), plus hemodialysis for severe toxicity (high methanol level, visual symptoms, severe acidosis). Fomepizole is preferred due to fewer adverse effects. IV sodium bicarbonate treats acidosis but does not remove methanol. Thiamine is for Wernicke encephalopathy. NAC is for acetaminophen toxicity."
+    },
+    {
+        "id": 44,
+        "question": "A 55-year-old man with chronic alcohol use disorder presents with confusion, nystagmus, and ataxia. He is given IV thiamine. Which of the following statements about thiamine administration is most accurate?",
+        "options": [
+            "Thiamine should be given after glucose administration",
+            "Thiamine should be given before glucose to prevent precipitation of Wernicke encephalopathy",
+            "Oral thiamine is as effective as IV thiamine",
+            "Thiamine is contraindicated in patients with diabetes",
+            "Thiamine is only effective in alcoholic patients"
+        ],
+        "correct": 1,
+        "explanation": "Thiamine (vitamin B1) must be administered BEFORE glucose in suspected Wernicke encephalopathy. Glucose loading in a thiamine-deficient patient can precipitate acute Wernicke encephalopathy by utilizing remaining thiamine stores, worsening neurological symptoms. IV thiamine 500 mg TID for 3-5 days is first-line. Oral thiamine is inadequate in acute deficiency. Wernicke encephalopathy is not limited to alcoholics; it occurs in any thiamine-deficient state (malabsorption, hyperemesis gravidarum, bariatric surgery, starvation). Classic triad: confusion, ataxia, ophthalmoplegia."
+    },
+    {
+        "id": 45,
+        "question": "A 28-year-old woman is found dead in her apartment with a ligature around her neck. The ligature mark is horizontal, continuous, and completely encircles the neck. There is no inverted V-shaped area. The hyoid bone is fractured. Which of the following is the most likely manner of death?",
+        "options": [
+            "Suicidal hanging",
+            "Accidental strangulation",
+            "Judicial hanging",
+            "Manual strangulation",
+            "Homicidal strangulation (ligature strangulation)"
+        ],
+        "correct": 4,
+        "explanation": "Ligature strangulation (homicidal) produces a horizontal, continuous ligature mark that completely encircles the neck (no inverted V-shaped apex). Hyoid bone fracture is common (especially greater cornu). In suicidal hanging, the mark is oblique and non-continuous with an inverted V-shaped area above the knot (the apex of the ligature). Manual strangulation (throttling) produces finger-tip bruising, not a ligature mark. Judicial hanging (long drop) causes cervical spine fracture."
+    },
+    {
+        "id": 46,
+        "question": "Which of the following best describes the medicolegal significance of determining the time of death (postmortem interval)? A 50-year-old man is found dead in his apartment. The body is cold to touch (algor mortis), has purple discoloration on the dependent back that does not blanch (livor mortis), and the joints are completely stiff (rigor mortis). Understanding the sequence of postmortem changes helps estimate the time since death.",
+        "options": [
+            "Algor mortis is the most accurate method to determine time of death regardless of environmental conditions",
+            "Rigor mortis begins immediately after death and lasts indefinitely",
+            "Livor mortis is permanent immediately after death",
+            "The combination of body temperature, degree of rigor mortis, and livor mortis, along with environmental factors, gives an estimated postmortem interval",
+            "Postmortem changes are the same in all bodies regardless of cause of death"
+        ],
+        "correct": 3,
+        "explanation": "Estimating time of death (postmortem interval) uses multiple parameters: body cooling (algor mortis) approximately 1.5°F per hour (faster in thin, children; slower in obese, warm environment), rigor mortis (starts 2-6 hours, fully developed 6-12 hours, resolves 24-48 hours), and livor mortis (appears 30-120 minutes, fixed after 8-12 hours). No single method is precise; all are estimates affected by environmental temperature, body habitus, clothing, and cause of death. Forensic entomology (insect colonization) helps estimate longer intervals."
+    },
+    {
+        "id": 47,
+        "question": "A 60-year-old man with a history of chronic alcohol use disorder presents with jaundice, ascites, and asterixis. He is diagnosed with hepatic encephalopathy. Which of the following is the most appropriate first-line treatment?",
+        "options": [
+            "Rifaximin",
+            "Lactulose",
+            "Neomycin",
+            "Metronidazole",
+            "IV albumin"
+        ],
+        "correct": 1,
+        "explanation": "Lactulose is first-line treatment for hepatic encephalopathy. It acidifies the colon, converting NH3 (ammonia, which is absorbed) to NH4+ (ammonium, which is not absorbed), trapping it in the gut for excretion. Lactulose also has cathartic effects. Rifaximin (non-absorbable antibiotic) is used for secondary prophylaxis after initial response to lactulose. Neomycin is no longer first-line due to ototoxicity and nephrotoxicity."
+    },
+    {
+        "id": 48,
+        "question": "A 30-year-old man is found unconscious in a nightclub. He has tachycardia, hypertension, hyperthermia (41°C), and dilated pupils. He is aggressive and clenching his jaw. Which of the following is the most appropriate immediate treatment?",
+        "options": [
+            "IV benzodiazepines (e.g., lorazepam) and aggressive cooling",
+            "Naloxone",
+            "Flumazenil",
+            "Activated charcoal",
+            "IV dantrolene"
+        ],
+        "correct": 0,
+        "explanation": "This patient has MDMA (Ecstasy) overdose with sympathomimetic effects and severe hyperthermia (>40°C). First-line treatment is IV benzodiazepines (lorazepam, diazepam) to control agitation and seizures, plus aggressive cooling measures (ice packs, cold IV fluids, cooling blankets). Hyperthermia is the major cause of death. Dantrolene is for malignant hyperthermia and neuroleptic malignant syndrome, not MDMA toxicity. Hyperthermia >39°C requires immediate intervention; temperatures >42°C are often fatal. Rhabdomyolysis, hyponatremia (from excessive water intake), and serotonin syndrome are complications."
+    },
+    {
+        "id": 49,
+        "question": "A 45-year-old man presents with acute-onset confusion, abdominal pain, and vomiting after ingesting a clear liquid from a bottle in his garage. He has tachypnea and appears ill. Arterial blood gas shows pH 7.2, pCO2 30, HCO3 12. He has no visual symptoms. Urinalysis shows no crystals. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Methanol poisoning",
+            "Isopropyl alcohol poisoning",
+            "Ethylene glycol poisoning",
+            "Ethanol intoxication",
+            "Alcoholic ketoacidosis"
+        ],
+        "correct": 2,
+        "explanation": "This patient has ethylene glycol poisoning (antifreeze), presenting with high anion gap metabolic acidosis, without visual symptoms (methanol) and with no urinary crystals (calcium oxalate crystals may be absent early). Ethylene glycol is metabolized to glycoaldehyde, glycolate, and oxalate. Oxalate binds calcium, causing hypocalcemia and calcium oxalate crystalluria (present in 50% of cases, but may be absent early). Treatment is fomepizole (or ethanol) and hemodialysis. Features include acute kidney injury (day 2-3), cranial nerve deficits (late), and hypocalcemia."
+    },
+    {
+        "id": 50,
+        "question": "A 55-year-old man is found dead in his home. Autopsy reveals a subdural hematoma, multiple rib fractures at different stages of healing, and a healed skull fracture. The body is cachectic. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Accidental fall in elderly",
+            "Chronic child abuse (battered child syndrome)",
+            "Motor vehicle accident",
+            "Alcohol-related fall",
+            "Elder abuse (battered elderly syndrome)"
+        ],
+        "correct": 4,
+        "explanation": "This patient shows signs of chronic physical abuse: injuries at different stages of healing (acute subdural hematoma, healing rib fractures, healed skull fracture) and cachexia (malnutrition). Elder abuse (battered elderly syndrome) is often unrecognized. Risk factors include dementia, physical disability, and dependence on caregivers. Subdural hematoma is a common fatal injury in elder abuse. Child abuse (battered child syndrome) presents similarly in children. Accidental falls in elderly rarely cause multiple fractures at different stages of healing."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 51,
+        "question": "A 25-year-old man is found unconscious after a house fire. He has soot around his mouth and nose, and his skin shows cherry-red discoloration. Blood carboxyhemoglobin level is 45%. Which of the following is the most appropriate treatment?",
+        "options": [
+            "100% oxygen via non-rebreather mask",
+            "Hyperbaric oxygen therapy",
+            "100% oxygen via non-rebreather mask, plus hyperbaric oxygen if severe symptoms or COHb >25%",
+            "Room air with observation",
+            "IV sodium bicarbonate"
+        ],
+        "correct": 2,
+        "explanation": "High-flow 100% oxygen (via non-rebreather mask) is first-line for CO poisoning, reducing half-life from 4-5 hours to 90 minutes. Hyperbaric oxygen (HBO) is indicated for severe symptoms (coma, seizures, focal deficits, cardiac ischemia) or COHb >25%, reducing half-life to 30 minutes. HBO reduces risk of delayed neurological sequelae. This patient has cherry-red skin and COHb 45% with likely symptoms, so HBO is indicated."
+    },
+    {
+        "id": 52,
+        "question": "A 40-year-old man is found dead in his car with a hose connected to the exhaust pipe. Autopsy reveals cherry-red lividity. Which of the following is the most likely mechanism of death?",
+        "options": [
+            "Cyanide poisoning from burning plastic",
+            "Hydrogen sulfide poisoning from exhaust",
+            "Carbon monoxide binding to hemoglobin, reducing oxygen-carrying capacity",
+            "Thermal injury from exhaust heat",
+            "Traumatic asphyxia from confined space"
+        ],
+        "correct": 2,
+        "explanation": "Carbon monoxide binds to hemoglobin with 240 times greater affinity than oxygen, forming carboxyhemoglobin and reducing oxygen delivery. Cherry-red lividity is characteristic of CO poisoning. Sources include car exhaust, house fires, and faulty heaters. Treatment is high-flow oxygen and hyperbaric oxygen for severe cases. Cyanide poisoning from burning materials causes bright red blood (not cherry-red skin) and also occurs in fire victims but is less common than CO poisoning."
+    },
+    {
+        "id": 53,
+        "question": "A 50-year-old man with a history of alcohol use disorder presents with jaundice, ascites, and peripheral edema. Liver biopsy shows diffuse bridging fibrosis and regenerative nodules. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Cirrhosis",
+            "Alcoholic hepatitis",
+            "Fatty liver",
+            "Hepatocellular carcinoma",
+            "Portal vein thrombosis"
+        ],
+        "correct": 0,
+        "explanation": "Cirrhosis is characterized by diffuse bridging fibrosis and regenerative nodules that disrupt normal liver architecture. It is the end stage of chronic liver disease from alcohol, hepatitis B/C, NASH, etc. Clinical features include jaundice, ascites, peripheral edema (from hypoalbuminemia), varices, and encephalopathy. Alcoholic hepatitis shows Mallory-Denk bodies, ballooning degeneration, and neutrophilic infiltration. Fatty liver shows macrovesicular steatosis without fibrosis."
+    },
+    {
+        "id": 54,
+        "question": "A 28-year-old woman is found dead in her apartment with a ligature around her neck. The ligature mark is horizontal, continuous, and completely encircles the neck. There is no inverted V-shaped area. The hyoid bone is fractured. Which of the following is the most likely manner of death?",
+        "options": [
+            "Suicidal hanging",
+            "Judicial hanging",
+            "Manual strangulation",
+            "Homicidal strangulation (ligature strangulation)",
+            "Accidental strangulation"
+        ],
+        "correct": 3,
+        "explanation": "Ligature strangulation (homicidal) produces a horizontal, continuous ligature mark that completely encircles the neck (no inverted V-shaped apex). Hyoid bone fracture is common (especially greater cornu). In suicidal hanging, the mark is oblique and non-continuous with an inverted V-shaped area above the knot (the apex of the ligature). Manual strangulation (throttling) produces finger-tip bruising, not a ligature mark. Judicial hanging (long drop) causes cervical spine fracture."
+    },
+    {
+        "id": 55,
+        "question": "A 35-year-old man presents with acute-onset vomiting, abdominal pain, and diarrhea after eating seafood. He develops paresthesias around his mouth and in his fingertips. He has no fever. Which of the following is the most likely cause?",
+        "options": [
+            "Botulism",
+            "Scombroid fish poisoning",
+            "Ciguatera poisoning",
+            "Paralytic shellfish poisoning",
+            "Heavy metal poisoning"
+        ],
+        "correct": 2,
+        "explanation": "Ciguatera poisoning occurs from eating large reef fish (barracuda, grouper, snapper) containing ciguatoxin. Symptoms include gastrointestinal (vomiting, diarrhea, abdominal pain) and neurological (perioral paresthesias, temperature reversal, extremity paresthesias). Treatment is supportive; mannitol may reduce symptoms. Scombroid (histamine) poisoning causes flushing, headache, palpitations. Paralytic shellfish poisoning (saxitoxin) causes ascending paralysis. Botulism causes descending paralysis, diplopia, dysphagia, dry mouth, not paresthesias."
+    },
+    {
+        "id": 56,
+        "question": "A 60-year-old man is found dead in his home. Autopsy reveals a large subdural hematoma, multiple old rib fractures, and pressure ulcers (bedsores). Which of the following is the most likely diagnosis?",
+        "options": [
+            "Accidental fall in elderly",
+            "Motor vehicle accident",
+            "Elder abuse (battered elderly syndrome)",
+            "Alcohol-related fall",
+            "Natural causes"
+        ],
+        "correct": 2,
+        "explanation": "This patient shows signs of chronic physical abuse: injuries at different stages of healing (acute subdural hematoma, healing rib fractures) and neglect (pressure ulcers indicate immobility and poor care). Elder abuse (battered elderly syndrome) is often unrecognized. Risk factors include dementia, physical disability, and dependence on caregivers. Subdural hematoma is a common fatal injury in elder abuse. Pressure ulcers in a non-hospitalized patient raise suspicion of neglect."
+    },
+    {
+        "id": 57,
+        "question": "A 45-year-old man is found unconscious with an empty bottle of amitriptyline beside him. He has a wide QRS (140 ms) on ECG and is hypotensive. Which of the following is the most appropriate treatment for the wide QRS?",
+        "options": [
+            "Lidocaine",
+            "Phenytoin",
+            "Magnesium sulfate",
+            "Amiodarone",
+            "IV sodium bicarbonate"
+        ],
+        "correct": 4,
+        "explanation": "IV sodium bicarbonate is first-line treatment for TCA-induced wide QRS complex (>100 ms). Bicarbonate increases serum pH, which accelerates dissociation of TCA from sodium channels, narrowing the QRS. Target pH is 7.45-7.55. Bicarbonate also provides sodium to overcome sodium channel blockade. Lidocaine and phenytoin are not effective and may worsen conduction abnormalities. Magnesium is for torsade de pointes. Amiodarone may cause QT prolongation and is not indicated."
+    },
+    {
+        "id": 58,
+        "question": "A 30-year-old woman presents with acute-onset weakness, double vision, and difficulty swallowing after eating home-canned green beans. She has no fever or sensory loss. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Botulism",
+            "Myasthenia gravis",
+            "Guillain-Barré syndrome",
+            "Stroke",
+            "Tick paralysis"
+        ],
+        "correct": 0,
+        "explanation": "Foodborne botulism presents with acute-onset descending paralysis (diplopia, dysphagia, dysarthria, symmetric descending weakness), no fever, and no sensory loss. Caused by Clostridium botulinum toxin (home-canned foods). Treatment is botulinum antitoxin and supportive care (mechanical ventilation if needed). Electromyography shows characteristic pattern. Myasthenia gravis is fatigable weakness with improvement after rest, not acute after a meal. GBS presents with ascending weakness and areflexia."
+    },
+    {
+        "id": 59,
+        "question": "A 55-year-old man with a history of alcohol use disorder presents with acute-onset confusion, vomiting, and visual disturbances. He has tachypnea and a high anion gap metabolic acidosis. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Ethylene glycol poisoning",
+            "Methanol poisoning",
+            "Isopropyl alcohol poisoning",
+            "Alcoholic ketoacidosis",
+            "Uremia"
+        ],
+        "correct": 1,
+        "explanation": "Methanol poisoning presents with high anion gap metabolic acidosis, visual disturbances (\"snowstorm\" vision, blindness from formic acid causing optic nerve damage), and confusion. Sources include homemade alcohol, windshield washer fluid, and paint thinner. Treatment is fomepizole (or ethanol) to inhibit alcohol dehydrogenase, plus hemodialysis. Ethylene glycol causes calcium oxalate crystalluria and acute kidney injury (no visual symptoms). Isopropyl alcohol causes ketosis without acidosis (acetone)."
+    },
+    {
+        "id": 60,
+        "question": "A 25-year-old man is brought to the emergency department after a motor vehicle accident. He is conscious but confused. CT head shows a small left frontal contusion. He is admitted for observation. Twelve hours later, he becomes progressively more drowsy and then unresponsive. Repeat CT shows a large crescent-shaped hematoma over the left hemisphere crossing suture lines. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Epidural hematoma",
+            "Subarachnoid hemorrhage",
+            "Intracerebral hemorrhage",
+            "Subdural hematoma",
+            "Cerebral edema"
+        ],
+        "correct": 3,
+        "explanation": "Subdural hematoma (SDH) is crescent-shaped, crosses suture lines, and results from tearing of bridging veins. It can present with delayed deterioration (hours to days after injury). This patient had initial normal CT followed by delayed deterioration, which is typical for SDH. Epidural hematoma is biconvex (lens-shaped) and does not cross suture lines. SDH is common in elderly (brain atrophy) and anticoagulated patients. Surgical evacuation is indicated for symptomatic SDH with significant mass effect."
+    },
+    {
+        "id": 61,
+        "question": "A 40-year-old man is found dead in his apartment with a needle in his arm. Autopsy reveals pulmonary edema, fresh needle track marks, and chemical analysis shows 6-monoacetylmorphine in blood. Which of the following is the most likely cause of death?",
+        "options": [
+            "Fentanyl overdose",
+            "Cocaine overdose",
+            "Heroin overdose",
+            "Methamphetamine overdose",
+            "Morphine overdose"
+        ],
+        "correct": 2,
+        "explanation": "6-monoacetylmorphine is a unique metabolite of heroin, confirming heroin use. Death from heroin overdose occurs due to respiratory depression and pulmonary edema. Naloxone is the antidote (may require multiple doses or infusion due to short half-life). Pulmonary edema is a common autopsy finding in opioid overdose. Fentanyl and its analogs (carfentanil) are highly potent synthetic opioids that require higher doses of naloxone and may not produce 6-monoacetylmorphine as a metabolite."
+    },
+    {
+        "id": 62,
+        "question": "A 28-year-old woman presents with acute-onset weakness, double vision, and difficulty swallowing. She reports eating home-canned beans 2 days ago. On examination, she has ptosis, dysarthria, and descending weakness. She is afebrile. Which of the following is the most appropriate treatment?",
+        "options": [
+            "IV immunoglobulin",
+            "Plasma exchange",
+            "Pyridostigmine",
+            "Botulinum antitoxin",
+            "Corticosteroids"
+        ],
+        "correct": 3,
+        "explanation": "This patient has foodborne botulism from C. botulinum toxin. Treatment is botulinum antitoxin (heptavalent, equine-derived) as soon as possible, before respiratory failure develops. Antitoxin neutralizes circulating toxin but does not reverse existing paralysis. Supportive care includes mechanical ventilation if needed. Pyridostigmine is for myasthenia gravis. IVIG and plasma exchange are for Guillain-Barré syndrome. Corticosteroids are not effective for botulism."
+    },
+    {
+        "id": 63,
+        "question": "A 50-year-old man with chronic alcohol use disorder presents with confusion, ataxia, and nystagmus. He is given IV thiamine. Which of the following is the most likely consequence if this condition is left untreated?",
+        "options": [
+            "Hepatic encephalopathy",
+            "Korsakoff syndrome",
+            "Delirium tremens",
+            "Wernicke encephalopathy",
+            "Central pontine myelinolysis"
+        ],
+        "correct": 1,
+        "explanation": "Untreated Wernicke encephalopathy (confusion, ataxia, ophthalmoplegia) progresses to Korsakoff syndrome in up to 80% of patients. Korsakoff syndrome is characterized by irreversible anterograde amnesia (inability to form new memories), retrograde amnesia, and confabulation. Both are caused by thiamine (B1) deficiency, most commonly in alcohol use disorder. Treatment is IV thiamine 500 mg TID for 3-5 days. Korsakoff syndrome is often irreversible despite thiamine replacement. Delirium tremens is alcohol withdrawal."
+    },
+    {
+        "id": 64,
+        "question": "A 35-year-old woman is found unconscious after ingesting an unknown amount of acetaminophen. She is brought to the emergency department 6 hours after ingestion. Which of the following is the most appropriate next step?",
+        "options": [
+            "Obtain serum acetaminophen level and plot on Rumack-Matthew nomogram",
+            "Start N-acetylcysteine (NAC) immediately",
+            "Administer activated charcoal",
+            "Perform gastric lavage",
+            "Observe without treatment"
+        ],
+        "correct": 0,
+        "explanation": "The Rumack-Matthew nomogram is used to guide N-acetylcysteine (NAC) treatment after acetaminophen overdose. The nomogram requires a serum acetaminophen level drawn between 4 and 24 hours after ingestion (most accurate at 4 hours). If the level falls above the \"probable toxicity\" line, NAC is indicated. NAC is most effective within 8-10 hours of ingestion but may be given up to 24 hours. This patient is at 6 hours, so level should be drawn now. Activated charcoal is most effective within 1-2 hours of ingestion but may be considered up to 4 hours. NAC should not be started before checking the level unless the overdose is massive."
+    },
+    {
+        "id": 65,
+        "question": "A 60-year-old man is found dead in a closed garage with the car engine running. Autopsy reveals cherry-red discoloration of the skin and viscera. Which of the following confirmatory laboratory tests is most appropriate?",
+        "options": [
+            "Blood ethanol level",
+            "Blood cyanide level",
+            "Blood glucose level",
+            "Blood carboxyhemoglobin level",
+            "Blood methanol level"
+        ],
+        "correct": 3,
+        "explanation": "Carbon monoxide poisoning from car exhaust is confirmed by elevated blood carboxyhemoglobin (COHb) levels (>3% in non-smokers, >10% in smokers). Levels >50% are typically fatal. Cherry-red lividity is classic for CO poisoning at levels >50%. Pulse oximetry is inaccurate in CO poisoning (falsely normal reading because COHb is read as oxyhemoglobin). Arterial blood gas shows normal PaO2 but low measured oxygen saturation (co-oximetry needed). Treatment is 100% oxygen or hyperbaric oxygen for severe cases."
+    },
+    {
+        "id": 66,
+        "question": "A 45-year-old man presents with acute-onset confusion, vomiting, and abdominal pain after drinking a clear liquid from a bottle in his garage. He has tachypnea. Arterial blood gas shows pH 7.2, pCO2 30, HCO3 12. He has no visual symptoms. Urinalysis shows calcium oxalate crystals. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Methanol poisoning",
+            "Isopropyl alcohol poisoning",
+            "Ethylene glycol poisoning",
+            "Ethanol intoxication",
+            "Diabetic ketoacidosis"
+        ],
+        "correct": 2,
+        "explanation": "Ethylene glycol (antifreeze) poisoning causes high anion gap metabolic acidosis, calcium oxalate crystalluria, and acute kidney injury (due to crystal deposition in renal tubules). Treatment is fomepizole (or ethanol) to inhibit alcohol dehydrogenase, plus hemodialysis. Methanol causes visual disturbances without crystalluria. Isopropyl alcohol causes ketosis without acidosis (acetone). Ethylene glycol is metabolized to glycoaldehyde, glycolate, and oxalate. Oxalate binds calcium, causing hypocalcemia and calcium oxalate crystalluria (present in 50% of cases, may be absent early)."
+    },
+    {
+        "id": 67,
+        "question": "A 30-year-old woman is found unconscious in a nightclub. She has tachycardia, hypertension, hyperthermia (41°C), dilated pupils, and is clenching her jaw. Which of the following is the most likely ingested substance?",
+        "options": [
+            "Heroin",
+            "Alcohol",
+            "Benzodiazepine",
+            "Antipsychotic",
+            "MDMA (Ecstasy)"
+        ],
+        "correct": 4,
+        "explanation": "MDMA (Ecstasy) is a synthetic amphetamine derivative that causes serotonin and norepinephrine release. Overdose presents with sympathomimetic effects (tachycardia, hypertension, hyperthermia, mydriasis, diaphoresis), trismus (jaw clenching), and rigidity. Severe hyperthermia is a major cause of death (can exceed 42°C). Treatment includes cooling measures, benzodiazepines, and supportive care. Hyperthermia >39°C is a medical emergency. Rhabdomyolysis, hyponatremia (from excessive water intake), and serotonin syndrome are complications."
+    },
+    {
+        "id": 68,
+        "question": "A 25-year-old man is brought to the emergency department after a fall from a height. He is unconscious with a Glasgow Coma Scale score of 5. CT head shows a biconvex, hyperdense, lens-shaped collection of blood that does not cross suture lines. There is significant midline shift. Which of the following is the most appropriate immediate intervention?",
+        "options": [
+            "Observation with serial CT scans",
+            "Hyperventilation to reduce intracranial pressure",
+            "Emergency craniotomy for hematoma evacuation",
+            "IV mannitol",
+            "Placement of intracranial pressure monitor"
+        ],
+        "correct": 2,
+        "explanation": "Epidural hematoma (EDH) is a surgical emergency. Biconvex (lens-shaped) hematoma that does not cross suture lines, often from middle meningeal artery rupture (temporal bone fracture). Emergency craniotomy for evacuation is indicated for symptomatic EDH with mass effect (midline shift, neurological deterioration). Lucid interval (initial recovery then deterioration) is classic but not always present. Observation is not appropriate for symptomatic EDH. Mannitol and hyperventilation are temporizing measures before surgery, not definitive treatment. Time to evacuation is critical for prognosis."
+    },
+    {
+        "id": 69,
+        "question": "A 50-year-old man with a history of alcohol use disorder presents with acute-onset jaundice, ascites, and confusion. He is diagnosed with hepatic encephalopathy. Which of the following is the most appropriate first-line treatment?",
+        "options": [
+            "Lactulose",
+            "Rifaximin",
+            "Neomycin",
+            "Metronidazole",
+            "IV albumin"
+        ],
+        "correct": 0,
+        "explanation": "Lactulose is first-line treatment for hepatic encephalopathy. It is a non-absorbable disaccharide metabolized by colonic bacteria to lactic and acetic acids, acidifying the colon. Acidification converts NH3 (ammonia, which is absorbed) to NH4+ (ammonium, which is not absorbed), trapping it in the gut for excretion. Lactulose also has cathartic effects. Rifaximin (non-absorbable antibiotic) is used for secondary prophylaxis after initial response to lactulose. Neomycin is no longer first-line due to ototoxicity and nephrotoxicity."
+    },
+    {
+        "id": 70,
+        "question": "A 35-year-old woman is found unconscious with an empty bottle of acetaminophen beside her. She is brought to the emergency department approximately 3 hours after ingestion. Which of the following is the most appropriate immediate intervention?",
+        "options": [
+            "N-acetylcysteine (NAC) immediately",
+            "Activated charcoal",
+            "Gastric lavage",
+            "Obtain serum acetaminophen level",
+            "IV fluids only"
+        ],
+        "correct": 1,
+        "explanation": "Activated charcoal is most effective within 1 hour of ingestion but may be beneficial up to 2-4 hours. It adsorbs remaining drug in the GI tract, reducing absorption. This patient is at 3 hours, so charcoal is indicated. N-acetylcysteine (NAC) is the definitive treatment for acetaminophen overdose but is given based on the Rumack-Matthew nomogram after obtaining a 4-hour level (most accurate). Charcoal should be given immediately (if within 4 hours) while awaiting levels. Gastric lavage is no longer routinely recommended. NAC is most effective within 8-10 hours of ingestion (maximal benefit) but can be given up to 24 hours (some benefit)."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 71,
+        "question": "A 32-year-old man is found dead in his apartment with a ligature around his neck. The ligature mark is oblique, non-continuous, and has an inverted V-shaped area above the knot. The mark is located above the thyroid cartilage. The hyoid bone is intact. Which of the following is the most likely manner of death?",
+        "options": [
+            "Homicidal strangulation",
+            "Suicidal hanging",
+            "Accidental strangulation",
+            "Judicial hanging",
+            "Manual strangulation"
+        ],
+        "correct": 1,
+        "explanation": "Suicidal hanging produces an oblique, non-continuous ligature mark with the inverted V-shaped apex at the knot (where the ligature is pulled upward by the weight of the body). The mark is typically above the thyroid cartilage. Hyoid bone fracture is uncommon in hanging (more common in manual strangulation). Ligature strangulation (homicidal) produces a horizontal, continuous mark around the neck. Judicial hanging (long drop) causes cervical spine fracture."
+    },
+    {
+        "id": 72,
+        "question": "A 55-year-old man with chronic alcohol use disorder presents with confusion, ataxia, and nystagmus. He is given IV thiamine. Which of the following conditions is he at risk of developing if thiamine is not administered before glucose?",
+        "options": [
+            "Central pontine myelinolysis",
+            "Korsakoff syndrome",
+            "Hepatic encephalopathy",
+            "Precipitation of acute Wernicke encephalopathy",
+            "Delirium tremens"
+        ],
+        "correct": 3,
+        "explanation": "Thiamine (vitamin B1) must be administered BEFORE glucose in suspected Wernicke encephalopathy. Glucose loading in a thiamine-deficient patient can precipitate acute Wernicke encephalopathy by utilizing remaining thiamine stores, worsening neurological symptoms. The classic triad of Wernicke is confusion, ataxia, and ophthalmoplegia. Untreated Wernicke progresses to Korsakoff syndrome (irreversible memory impairment and confabulation). IV thiamine 500 mg TID for 3-5 days is first-line treatment. Oral thiamine is inadequate in acute deficiency."
+    },
+    {
+        "id": 73,
+        "question": "A 28-year-old man is found unconscious in a nightclub. He has tachycardia, hypertension, hyperthermia (40.5°C), dilated pupils, and is grinding his teeth. He is aggressive and agitated. Which of the following is the most appropriate immediate treatment?",
+        "options": [
+            "IV benzodiazepines and aggressive cooling",
+            "Naloxone",
+            "Flumazenil",
+            "IV dantrolene",
+            "Activated charcoal"
+        ],
+        "correct": 0,
+        "explanation": "This patient has MDMA (Ecstasy) overdose with sympathomimetic effects and severe hyperthermia (>40°C). First-line treatment is IV benzodiazepines (lorazepam, diazepam) to control agitation and seizures, plus aggressive cooling measures (ice packs, cold IV fluids, cooling blankets). Hyperthermia is the major cause of death. Dantrolene is for malignant hyperthermia and neuroleptic malignant syndrome, not MDMA toxicity. Hyperthermia >39°C requires immediate intervention; temperatures >42°C are often fatal. Rhabdomyolysis, hyponatremia (from excessive water intake), and serotonin syndrome are complications."
+    },
+    {
+        "id": 74,
+        "question": "A 45-year-old woman is found unconscious with an empty bottle of amitriptyline beside her. ECG shows wide QRS (150 ms) and prolonged QT interval. She has a seizure. Which of the following is the most appropriate treatment for the seizure?",
+        "options": [
+            "Phenytoin",
+            "Valproate",
+            "Lorazepam (benzodiazepine)",
+            "Levetiracetam",
+            "Phenobarbital"
+        ],
+        "correct": 2,
+        "explanation": "Benzodiazepines (lorazepam, diazepam) are first-line for all types of seizure emergencies, including drug-induced seizures. In TCA overdose, phenytoin is contraindicated (may worsen cardiac conduction). The primary treatment for TCA-induced seizures is benzodiazepines, along with IV sodium bicarbonate for wide QRS. Valproate and levetiracetam are not first-line for acute seizure management. Patients with TCA overdose require cardiac monitoring and IV sodium bicarbonate to narrow the QRS complex (target pH 7.45-7.55)."
+    },
+    {
+        "id": 75,
+        "question": "A 30-year-old man is found dead at the scene of a fire. Autopsy reveals soot in the airways, cherry-red discoloration of the skin, and a carboxyhemoglobin level of 55%. Which of the following is the most likely cause of death?",
+        "options": [
+            "Thermal burns",
+            "Smoke inhalation injury",
+            "Hydrogen cyanide poisoning",
+            "Traumatic injury",
+            "Carbon monoxide poisoning"
+        ],
+        "correct": 4,
+        "explanation": "Carbon monoxide (CO) poisoning is a common cause of death in fire victims. COHb >50% is typically fatal. Cherry-red discoloration is classic for CO poisoning at high levels. Soot in the airways indicates smoke inhalation. However, CO poisoning may coexist with cyanide poisoning (from burning synthetic materials). Treatment for fire victims includes high-flow oxygen and consideration of hyperbaric oxygen for severe CO poisoning. Cyanide poisoning causes bright red blood (not cherry-red skin) and may require hydroxocobalamin. This patient's COHb level of 55% is in the lethal range."
+    },
+    {
+        "id": 76,
+        "question": "A 25-year-old woman presents with acute-onset weakness, double vision, and difficulty swallowing after eating home-canned vegetables. She has no fever or sensory loss. Which of the following is the most appropriate confirmatory test?",
+        "options": [
+            "CT scan of the brain",
+            "Mouse bioassay for botulinum toxin in serum/stool",
+            "Lumbar puncture",
+            "Electromyography (EMG)",
+            "MRI of the brainstem"
+        ],
+        "correct": 1,
+        "explanation": "The mouse bioassay is the gold standard for confirming botulism. It detects botulinum toxin in patient serum, stool, or food sample. Treatment with botulinum antitoxin should not wait for confirmatory testing if clinical suspicion is high. Electromyography shows characteristic pattern (incremental response to high-frequency stimulation) but is not diagnostic. EMG helps distinguish botulism from myasthenia gravis (decremental response) and Guillain-Barré syndrome (demyelinating pattern). Foodborne botulism is caused by Clostridium botulinum toxin, which blocks acetylcholine release at the neuromuscular junction."
+    },
+    {
+        "id": 77,
+        "question": "A 60-year-old man with a history of chronic alcohol use disorder presents with jaundice, ascites, and asterixis. He is diagnosed with hepatic encephalopathy. Which of the following medications is used for secondary prophylaxis after initial response to lactulose?",
+        "options": [
+            "Neomycin",
+            "Metronidazole",
+            "IV albumin",
+            "Rifaximin",
+            "Spironolactone"
+        ],
+        "correct": 3,
+        "explanation": "Rifaximin is a non-absorbable antibiotic used for secondary prophylaxis of hepatic encephalopathy after initial response to lactulose. It reduces urease-producing bacteria in the gut, decreasing ammonia production. Rifaximin plus lactulose is more effective than lactulose alone for preventing recurrence. Neomycin was used previously but has significant ototoxicity and nephrotoxicity. Metronidazole is used for other indications but not first-line for HE prophylaxis. Spironolactone is for ascites management, not encephalopathy. Lactulose is first-line for acute HE and maintenance."
+    },
+    {
+        "id": 78,
+        "question": "A 40-year-old man is found unconscious with an empty bottle of acetaminophen beside him. He is brought to the emergency department approximately 14 hours after ingestion. Which of the following is the most appropriate treatment?",
+        "options": [
+            "N-acetylcysteine (NAC)",
+            "Activated charcoal",
+            "Gastric lavage",
+            "Hemodialysis",
+            "Observation without treatment"
+        ],
+        "correct": 0,
+        "explanation": "N-acetylcysteine (NAC) is the antidote for acetaminophen overdose, effective within 8-10 hours (maximal benefit) but still beneficial up to 24 hours after ingestion. NAC replenishes hepatic glutathione stores, which conjugate the toxic metabolite NAPQI. This patient is at 14 hours, well beyond the time when activated charcoal is effective (1-2 hours, up to 4 hours). NAC is indicated regardless of the acetaminophen level at this late presentation because liver injury may already be developing. The Rumack-Matthew nomogram is used for levels drawn between 4-24 hours. If level is not available or patient presents late, NAC is started empirically. NAC is also effective if started after hepatotoxicity has developed (improves survival)."
+    },
+    {
+        "id": 79,
+        "question": "A 35-year-old man is found dead in his apartment with multiple needle marks on his arms. Autopsy reveals pulmonary edema and fresh needle puncture sites. Chemical analysis of blood detects 6-monoacetylmorphine. Which of the following is the most likely cause of death?",
+        "options": [
+            "Cocaine overdose",
+            "Methamphetamine overdose",
+            "Fentanyl overdose",
+            "Heroin overdose",
+            "Morphine overdose"
+        ],
+        "correct": 3,
+        "explanation": "Heroin is rapidly metabolized to 6-monoacetylmorphine (unique to heroin) and then to morphine. Presence of 6-monoacetylmorphine confirms heroin use and distinguishes it from morphine administration. Death from opioid overdose occurs due to respiratory depression (central nervous system depression). Pulmonary edema is a common autopsy finding in opioid overdose. Naloxone is the antidote for opioid overdose. The half-life of naloxone (30-60 minutes) is shorter than many opioids (including heroin), so repeat dosing or continuous infusion may be required. Patients require observation for re-narcotization after naloxone wears off."
+    },
+    {
+        "id": 80,
+        "question": "A 50-year-old man with a history of alcohol use disorder presents with acute-onset confusion, vomiting, and abdominal pain. He admits to drinking antifreeze accidentally. He has tachypnea. Urinalysis shows calcium oxalate crystals. Which of the following is the most appropriate treatment?",
+        "options": [
+            "IV ethanol",
+            "Fomepizole and hemodialysis",
+            "IV sodium bicarbonate",
+            "Thiamine",
+            "N-acetylcysteine"
+        ],
+        "correct": 1,
+        "explanation": "Ethylene glycol (antifreeze) poisoning requires fomepizole (or IV ethanol) to inhibit alcohol dehydrogenase, preventing formation of toxic metabolites (glycoaldehyde, glycolate, oxalate). Hemodialysis is indicated for severe toxicity (high ethylene glycol level, severe acidosis, acute kidney injury, or visual symptoms). Fomepizole is preferred over ethanol due to fewer adverse effects and predictable dosing. Calcium oxalate crystalluria is characteristic of ethylene glycol poisoning. Methanol poisoning (differentiated by visual symptoms and absence of crystalluria) also requires fomepizole and hemodialysis. IV sodium bicarbonate treats metabolic acidosis but does not remove the toxin."
+    },
+    {
+        "id": 81,
+        "question": "A 28-year-old woman presents with acute-onset weakness, double vision, and difficulty swallowing after eating home-canned vegetables. She has no fever or sensory loss. Which of the following is the most appropriate treatment?",
+        "options": [
+            "Botulinum antitoxin",
+            "IV immunoglobulin",
+            "Plasma exchange",
+            "Pyridostigmine",
+            "Corticosteroids"
+        ],
+        "correct": 0,
+        "explanation": "Botulinum antitoxin (heptavalent, equine-derived) is the definitive treatment for botulism. It neutralizes circulating toxin but does not reverse existing paralysis. Antitoxin should be administered as soon as possible, before respiratory failure develops. Intubation and mechanical ventilation may be required for respiratory paralysis. Pyridostigmine is for myasthenia gravis. IVIG and plasma exchange are for Guillain-Barré syndrome. The prognosis for botulism is good with prompt antitoxin and supportive care; recovery may take weeks to months due to nerve terminal regeneration. Infant botulism is treated with human-derived botulism immune globulin (BabyBIG)."
+    },
+    {
+        "id": 82,
+        "question": "A 55-year-old man with a history of alcohol use disorder presents with acute-onset confusion, ataxia, and nystagmus. He is given IV thiamine. Which of the following statements about thiamine administration is most accurate?",
+        "options": [
+            "Thiamine should be given before glucose to prevent precipitation of Wernicke encephalopathy",
+            "Thiamine should be given after glucose administration",
+            "Oral thiamine is as effective as IV thiamine",
+            "Thiamine is contraindicated in patients with diabetes",
+            "Thiamine is only effective in alcoholic patients"
+        ],
+        "correct": 0,
+        "explanation": "Thiamine (vitamin B1) must be administered BEFORE glucose in suspected Wernicke encephalopathy. Glucose loading in a thiamine-deficient patient can precipitate acute Wernicke encephalopathy by utilizing remaining thiamine stores, worsening neurological symptoms. IV thiamine 500 mg TID for 3-5 days is first-line. Oral thiamine is inadequate in acute deficiency. Wernicke encephalopathy is not limited to alcoholics; it occurs in any thiamine-deficient state (malabsorption, hyperemesis gravidarum, bariatric surgery, starvation). Classic triad: confusion, ataxia, ophthalmoplegia. Untreated, up to 80% progress to Korsakoff syndrome (irreversible amnesia, confabulation)."
+    },
+    {
+        "id": 83,
+        "question": "A 30-year-old man is found unconscious after a house fire. He has soot around his mouth and nose, and his skin shows cherry-red discoloration. Blood carboxyhemoglobin level is 35%. He is confused and has ataxia. Which of the following is the most appropriate treatment?",
+        "options": [
+            "100% oxygen via non-rebreather mask",
+            "Room air with observation",
+            "IV sodium bicarbonate",
+            "Hyperbaric oxygen therapy",
+            "IV fluids only"
+        ],
+        "correct": 3,
+        "explanation": "Hyperbaric oxygen (HBO) therapy is indicated for CO poisoning with severe symptoms: coma, seizures, focal neurologic deficits, cardiac ischemia, or COHb >25%. HBO reduces the half-life of COHb from 4-5 hours (100% oxygen) to 30 minutes and reduces the risk of delayed neurological sequelae (cognitive impairment, parkinsonism, memory loss). This patient has confusion and ataxia (neurologic symptoms) with COHb 35%, so HBO is indicated. High-flow 100% oxygen via non-rebreather mask is first-line for less severe cases (mild symptoms, COHb <25%). CO poisoning causes impaired oxygen delivery and left shift of oxyhemoglobin dissociation curve."
+    },
+    {
+        "id": 84,
+        "question": "A 45-year-old man is found dead in his car with a hose connected to the exhaust pipe. Autopsy reveals cherry-red lividity. Which of the following is the most likely mechanism of death?",
+        "options": [
+            "Carbon monoxide binding to hemoglobin, reducing oxygen-carrying capacity",
+            "Cyanide poisoning from burning plastic",
+            "Hydrogen sulfide poisoning from exhaust",
+            "Thermal injury from exhaust heat",
+            "Traumatic asphyxia from confined space"
+        ],
+        "correct": 0,
+        "explanation": "Carbon monoxide binds to hemoglobin with 240 times greater affinity than oxygen, forming carboxyhemoglobin and reducing oxygen-carrying capacity of blood. CO also shifts the oxygen-hemoglobin dissociation curve left, impairing oxygen release to tissues. Cherry-red lividity is characteristic of CO poisoning. Sources include car exhaust, house fires, and faulty heaters. Treatment is 100% oxygen and hyperbaric oxygen for severe cases. Cyanide poisoning from burning synthetic materials causes bright red blood (not cherry-red skin) and also occurs in fire victims but is less common than CO poisoning. The combination of CO and cyanide can occur in fire victims and increases mortality."
+    },
+    {
+        "id": 85,
+        "question": "A 22-year-old woman is found unconscious with an empty bottle of acetaminophen beside her. She is brought to the emergency department approximately 3 hours after ingestion. Which of the following is the most appropriate immediate intervention?",
+        "options": [
+            "N-acetylcysteine (NAC) immediately",
+            "Gastric lavage",
+            "Obtain serum acetaminophen level",
+            "IV fluids only",
+            "Activated charcoal"
+        ],
+        "correct": 4,
+        "explanation": "Activated charcoal is most effective within 1 hour of ingestion but may be beneficial up to 2-4 hours. It adsorbs remaining drug in the GI tract, reducing absorption. This patient is at 3 hours, so charcoal is indicated. N-acetylcysteine (NAC) is the definitive treatment for acetaminophen overdose but is given based on the Rumack-Matthew nomogram after obtaining a 4-hour level (most accurate). Charcoal should be given immediately (if within 4 hours) while awaiting levels. Gastric lavage is no longer routinely recommended. NAC is most effective within 8-10 hours of ingestion (maximal benefit) but can be given up to 24 hours (some benefit). The Rumack-Matthew nomogram is used to determine NAC treatment (level above the \"probable toxicity\" line)."
+    },
+    {
+        "id": 86,
+        "question": "A 35-year-old woman presents with acute-onset vomiting, abdominal pain, and diarrhea after eating seafood. She develops paresthesias around her mouth and in her fingertips, and reports that cold things feel hot (temperature reversal). Which of the following is the most likely diagnosis?",
+        "options": [
+            "Scombroid fish poisoning",
+            "Paralytic shellfish poisoning",
+            "Botulism",
+            "Ciguatera poisoning",
+            "Heavy metal poisoning"
+        ],
+        "correct": 3,
+        "explanation": "Ciguatera poisoning occurs from eating large reef fish (barracuda, grouper, snapper, amberjack) containing ciguatoxin. Symptoms include gastrointestinal (vomiting, diarrhea, abdominal pain) and neurological (perioral paresthesias, temperature reversal, extremity paresthesias, myalgia). Temperature reversal (cold feels hot) is characteristic of ciguatera. Treatment is supportive; mannitol may reduce symptoms. Scombroid (histamine) poisoning causes flushing, headache, palpitations, and wheezing within minutes. Paralytic shellfish poisoning (saxitoxin) causes ascending paralysis without temperature reversal. Botulism causes descending paralysis, diplopia, dysphagia, dry mouth (no paresthesias)."
+    },
+    {
+        "id": 87,
+        "question": "A 60-year-old man is found dead in his home. Autopsy reveals a large subdural hematoma, multiple old rib fractures at different stages of healing, and pressure ulcers. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Elder abuse (battered elderly syndrome)",
+            "Accidental fall in elderly",
+            "Motor vehicle accident",
+            "Alcohol-related fall",
+            "Natural causes"
+        ],
+        "correct": 0,
+        "explanation": "This patient shows signs of chronic physical abuse: injuries at different stages of healing (acute subdural hematoma, healing rib fractures) and neglect (pressure ulcers indicate immobility and poor care). Elder abuse (battered elderly syndrome) is often unrecognized. Risk factors include dementia, physical disability, and dependence on caregivers. Subdural hematoma is a common fatal injury in elder abuse. Pressure ulcers in a non-hospitalized patient raise suspicion of neglect (failure to provide basic care). Accidental falls in elderly rarely cause multiple fractures at different stages of healing. Elder abuse may be physical, psychological, financial, or neglect (failure to provide care)."
+    },
+    {
+        "id": 88,
+        "question": "A 45-year-old man presents with acute-onset confusion, vomiting, and visual disturbances after drinking homemade alcohol. He has tachypnea and a high anion gap metabolic acidosis. Which of the following is the most appropriate treatment?",
+        "options": [
+            "IV ethanol",
+            "Fomepizole alone",
+            "Hemodialysis alone",
+            "Fomepizole and hemodialysis",
+            "IV sodium bicarbonate"
+        ],
+        "correct": 3,
+        "explanation": "Methanol poisoning (from homemade alcohol) with visual symptoms requires both fomepizole (or IV ethanol) to inhibit alcohol dehydrogenase (preventing formate formation) and hemodialysis to remove methanol and formate. Hemodialysis is indicated for severe toxicity: high methanol level (>50 mg/dL), visual symptoms, severe metabolic acidosis (pH <7.25), renal failure, or serum osmolar gap. Fomepizole is preferred over ethanol due to fewer adverse effects and predictable dosing. Methanol is metabolized to formaldehyde and then formic acid, which causes optic nerve damage (blindness) and metabolic acidosis. Formic acid has a long half-life (20 hours) and is effectively removed by hemodialysis. IV sodium bicarbonate treats acidosis but does not remove methanol or formate."
+    },
+    {
+        "id": 89,
+        "question": "A 28-year-old woman is found unconscious after ingesting an unknown amount of benzodiazepines. She has a respiratory rate of 8 breaths per minute and is unresponsive. Which of the following is the most appropriate immediate intervention?",
+        "options": [
+            "Flumazenil",
+            "Naloxone",
+            "Activated charcoal",
+            "Intubation and mechanical ventilation",
+            "IV fluids"
+        ],
+        "correct": 3,
+        "explanation": "Respiratory depression from benzodiazepine overdose requires intubation and mechanical ventilation for airway protection. Flumazenil (benzodiazepine antagonist) is controversial: it can precipitate seizures in chronic benzodiazepine users and in patients with co-ingestants that lower seizure threshold (TCAs, cocaine, bupropion). Flumazenil is best avoided in unknown overdose. It is used in pure benzodiazepine overdose in non-dependent patients (rare scenario). Naloxone is for opioid overdose. Activated charcoal is ineffective in the unconscious patient without airway protection (aspiration risk). The half-life of most benzodiazepines is long; flumazenil has a short half-life (1 hour), so re-sedation can occur after reversal."
+    },
+    {
+        "id": 90,
+        "question": "A 50-year-old man with a history of alcohol use disorder presents with acute-onset jaundice, ascites, and confusion. He is diagnosed with hepatic encephalopathy. Which of the following is the most appropriate first-line treatment?",
+        "options": [
+            "Rifaximin",
+            "Neomycin",
+            "Metronidazole",
+            "IV albumin",
+            "Lactulose"
+        ],
+        "correct": 4,
+        "explanation": "Lactulose is first-line treatment for hepatic encephalopathy. It is a non-absorbable disaccharide metabolized by colonic bacteria to lactic and acetic acids, acidifying the colon. Acidification converts NH3 (ammonia, which is absorbed) to NH4+ (ammonium, which is not absorbed), trapping it in the gut for excretion. Lactulose also has cathartic effects (increasing stool output). Dose is titrated to produce 2-3 soft stools per day. Rifaximin (non-absorbable antibiotic) is used for secondary prophylaxis after initial response to lactulose, not first-line. Neomycin is no longer first-line due to ototoxicity and nephrotoxicity. IV albumin is for spontaneous bacterial peritonitis and hepatorenal syndrome, not encephalopathy. Hepatic encephalopathy is triggered by gastrointestinal bleeding, infection, constipation, electrolyte imbalance, or medications (benzodiazepines, opioids)."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 91,
+        "question": "A 25-year-old man is brought to the emergency department after a motor vehicle accident. He is conscious but confused. CT head shows a small left frontal contusion. He is admitted for observation. Eight hours later, he becomes progressively more drowsy and then unresponsive. Repeat CT shows a large crescent-shaped hematoma over the left hemisphere that crosses suture lines. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Epidural hematoma",
+            "Subarachnoid hemorrhage",
+            "Subdural hematoma",
+            "Intracerebral hemorrhage",
+            "Cerebral edema"
+        ],
+        "correct": 2,
+        "explanation": "Subdural hematoma (SDH) is crescent-shaped, crosses suture lines, and results from tearing of bridging veins. It can present with delayed deterioration (hours to days after injury). This patient had initial normal CT followed by delayed deterioration, which is typical for SDH. Epidural hematoma is biconvex (lens-shaped) and does not cross suture lines. SDH is common in elderly (brain atrophy) and anticoagulated patients. Surgical evacuation is indicated for symptomatic SDH with significant mass effect. Subarachnoid hemorrhage shows blood in basal cisterns, not a crescent-shaped collection. Intracerebral hemorrhage is within the brain parenchyma."
+    },
+    {
+        "id": 92,
+        "question": "A 55-year-old man with chronic alcohol use disorder presents with jaundice, ascites, and asterixis. He is diagnosed with hepatic encephalopathy. Which of the following is the most common precipitating factor for hepatic encephalopathy in cirrhotic patients?",
+        "options": [
+            "Infection (especially spontaneous bacterial peritonitis)",
+            "High-protein meal",
+            "Constipation",
+            "Gastrointestinal bleeding",
+            "Hypokalemia"
+        ],
+        "correct": 3,
+        "explanation": "Gastrointestinal bleeding is the most common precipitating factor for hepatic encephalopathy. Blood in the gut is broken down to ammonia, which is absorbed and crosses the blood-brain barrier, causing encephalopathy. Other common precipitating factors include infection (SBP, pneumonia, urinary tract infection), constipation, electrolyte imbalance (hypokalemia, metabolic alkalosis), medications (benzodiazepines, opioids, diuretics), and high-protein diet (in susceptible patients). Treatment of the underlying precipitant is essential along with lactulose and rifaximin. In GI bleeding, clearing blood from the gut (lactulose enemas) is important. SBP is the second most common precipitant; IV antibiotics (ceftriaxone) and albumin are indicated."
+    },
+    {
+        "id": 93,
+        "question": "A 35-year-old woman is found unconscious after ingesting an unknown amount of amitriptyline. She has a wide QRS (150 ms) on ECG and is hypotensive. Which of the following is the most appropriate treatment for the wide QRS?",
+        "options": [
+            "Lidocaine",
+            "Phenytoin",
+            "Magnesium sulfate",
+            "Amiodarone",
+            "IV sodium bicarbonate"
+        ],
+        "correct": 4,
+        "explanation": "IV sodium bicarbonate is first-line treatment for TCA-induced wide QRS complex (>100 ms). Bicarbonate increases serum pH, which accelerates dissociation of TCA from sodium channels, narrowing the QRS. Target pH is 7.45-7.55. Bicarbonate also provides sodium to overcome sodium channel blockade. Lidocaine and phenytoin are not effective and may worsen conduction abnormalities. Magnesium is for torsade de pointes. Amiodarone may cause QT prolongation and is not indicated. TCA overdose also causes seizures (treated with benzodiazepines), hypotension (IV fluids, vasopressors), and cardiac arrhythmias. Sodium bicarbonate bolus (1-2 mEq/kg) may be repeated as needed to maintain QRS <100 ms."
+    },
+    {
+        "id": 94,
+        "question": "A 40-year-old man is found dead in his apartment with a needle in his arm. Autopsy reveals pulmonary edema and fresh needle track marks. Chemical analysis of blood detects 6-monoacetylmorphine. Which of the following is the most likely cause of death?",
+        "options": [
+            "Cocaine overdose",
+            "Heroin overdose",
+            "Fentanyl overdose",
+            "Methamphetamine overdose",
+            "Morphine overdose"
+        ],
+        "correct": 1,
+        "explanation": "Heroin is rapidly metabolized to 6-monoacetylmorphine (unique to heroin) and then to morphine. Presence of 6-monoacetylmorphine confirms heroin use and distinguishes it from morphine administration. Death from opioid overdose occurs due to respiratory depression (central nervous system depression). Pulmonary edema is a common autopsy finding in opioid overdose. Naloxone is the antidote for opioid overdose. The half-life of naloxone (30-60 minutes) is shorter than many opioids, so repeat dosing or continuous infusion may be required. Fentanyl and its analogs are highly potent synthetic opioids that require higher doses of naloxone and may not produce 6-monoacetylmorphine as a metabolite. Fentanyl overdose may show no 6-monoacetylmorphine but may have fentanyl and norfentanyl in blood."
+    },
+    {
+        "id": 95,
+        "question": "A 28-year-old woman presents with acute-onset weakness, double vision, and difficulty swallowing after eating home-canned vegetables. She has no fever or sensory loss. Examination reveals ptosis, dysarthria, and descending weakness. Which of the following is the most appropriate confirmatory test?",
+        "options": [
+            "CT scan of the brain",
+            "MRI of the brainstem",
+            "Lumbar puncture",
+            "Mouse bioassay for botulinum toxin",
+            "Electromyography (EMG)"
+        ],
+        "correct": 3,
+        "explanation": "The mouse bioassay is the gold standard for confirming botulism. It detects botulinum toxin in patient serum, stool, or food sample. Treatment with botulinum antitoxin should not wait for confirmatory testing if clinical suspicion is high. Electromyography (EMG) shows characteristic pattern (incremental response to high-frequency stimulation - post-tetanic facilitation) but is not diagnostic. EMG helps distinguish botulism from myasthenia gravis (decremental response) and Guillain-Barré syndrome (demyelinating pattern). Foodborne botulism is caused by Clostridium botulinum toxin, which blocks acetylcholine release at the neuromuscular junction. Results from mouse bioassay may take 24-48 hours, so treatment is initiated empirically. Polymerase chain reaction (PCR) can detect C. botulinum DNA in stool but does not confirm toxin presence."
+    },
+    {
+        "id": 96,
+        "question": "A 50-year-old man with a history of alcohol use disorder presents with acute-onset confusion, ataxia, and nystagmus. He is given IV thiamine. Which of the following conditions is he at risk of developing if untreated?",
+        "options": [
+            "Central pontine myelinolysis",
+            "Delirium tremens",
+            "Korsakoff syndrome",
+            "Hepatic encephalopathy",
+            "Marchiafava-Bignami disease"
+        ],
+        "correct": 2,
+        "explanation": "Untreated Wernicke encephalopathy (confusion, ataxia, ophthalmoplegia) progresses to Korsakoff syndrome in up to 80% of patients. Korsakoff syndrome is characterized by irreversible anterograde amnesia (inability to form new memories), retrograde amnesia, and confabulation (unconscious filling of memory gaps). Both are caused by thiamine (B1) deficiency, most commonly in alcohol use disorder. Treatment is IV thiamine 500 mg TID for 3-5 days. Korsakoff syndrome is often irreversible despite thiamine replacement. Central pontine myelinolysis is caused by rapid correction of hyponatremia. Delirium tremens is alcohol withdrawal. Marchiafava-Bignami disease is a rare complication of alcoholism affecting the corpus callosum. Thiamine must be given BEFORE glucose to prevent precipitation of acute Wernicke."
+    },
+    {
+        "id": 97,
+        "question": "A 30-year-old man is found dead at the scene of a fire. Autopsy reveals cherry-red discoloration of the skin and viscera. Blood carboxyhemoglobin level is 60%. Which of the following is the most likely cause of death?",
+        "options": [
+            "Thermal burns",
+            "Smoke inhalation injury",
+            "Hydrogen cyanide poisoning",
+            "Traumatic injury",
+            "Carbon monoxide poisoning"
+        ],
+        "correct": 4,
+        "explanation": "Carbon monoxide (CO) poisoning is a common cause of death in fire victims. COHb >50% is typically fatal. Cherry-red discoloration is classic for CO poisoning at high levels. CO binds to hemoglobin with 240 times greater affinity than oxygen, forming carboxyhemoglobin and reducing oxygen delivery. CO also shifts the oxygen-hemoglobin dissociation curve left, impairing oxygen release to tissues. Sources include car exhaust, house fires, and faulty heaters. Treatment is 100% oxygen and hyperbaric oxygen for severe cases. Cyanide poisoning from burning synthetic materials causes bright red blood (not cherry-red skin) and also occurs in fire victims. The combination of CO and cyanide can occur in fire victims and increases mortality; both toxins impair cellular oxygen utilization and may be treated with hydroxocobalamin (cyanide antidote) in addition to oxygen."
+    },
+    {
+        "id": 98,
+        "question": "A 45-year-old man presents with acute-onset confusion, vomiting, and visual disturbances after drinking homemade alcohol. He has tachypnea and a high anion gap metabolic acidosis. Which of the following is the most appropriate treatment?",
+        "options": [
+            "Fomepizole alone",
+            "Fomepizole and hemodialysis",
+            "IV sodium bicarbonate alone",
+            "Thiamine alone",
+            "N-acetylcysteine"
+        ],
+        "correct": 1,
+        "explanation": "Methanol poisoning (from homemade alcohol) with visual symptoms requires both fomepizole (or IV ethanol) to inhibit alcohol dehydrogenase (preventing formate formation) and hemodialysis to remove methanol and formate. Hemodialysis is indicated for severe toxicity: high methanol level (>50 mg/dL), visual symptoms, severe metabolic acidosis (pH <7.25), renal failure, or serum osmolar gap. Fomepizole is preferred over ethanol due to fewer adverse effects and predictable dosing. Methanol is metabolized to formaldehyde and then formic acid, which causes optic nerve damage (blindness) and metabolic acidosis. Formic acid has a long half-life (20 hours) and is effectively removed by hemodialysis. IV sodium bicarbonate treats acidosis but does not remove methanol or formate. Ethylene glycol poisoning (differentiated by calcium oxalate crystalluria and lack of visual symptoms) also requires fomepizole and hemodialysis but has different metabolites (glycolate, glyoxylate, oxalate) and causes acute kidney injury."
+    },
+    {
+        "id": 99,
+        "question": "A 22-year-old woman is found unconscious with an empty bottle of acetaminophen beside her. She is brought to the emergency department approximately 16 hours after ingestion. Which of the following is the most appropriate treatment?",
+        "options": [
+            "N-acetylcysteine (NAC)",
+            "Activated charcoal",
+            "Gastric lavage",
+            "Hemodialysis",
+            "Observation without treatment"
+        ],
+        "correct": 0,
+        "explanation": "N-acetylcysteine (NAC) is the antidote for acetaminophen overdose, effective within 8-10 hours (maximal benefit) but still beneficial up to 24-36 hours after ingestion. NAC replenishes hepatic glutathione stores, which conjugate the toxic metabolite NAPQI. This patient is at 16 hours, well beyond the time when activated charcoal is effective (1-2 hours, up to 4 hours). NAC is indicated regardless of the acetaminophen level at this late presentation because liver injury may already be developing or may be imminent. The Rumack-Matthew nomogram is used for levels drawn between 4-24 hours. If level is not available or patient presents late (as in this case), NAC is started empirically. NAC is also effective if started after hepatotoxicity has developed (improves survival and reduces progression to liver failure). Liver transplantation may be required for massive overdose with severe hepatotoxicity (INR >3, acidosis, renal failure)."
+    },
+    {
+        "id": 100,
+        "question": "A 35-year-old man is found dead in his apartment with multiple needle marks on his arms. Autopsy reveals pulmonary edema and fresh needle puncture sites. Chemical analysis of blood detects fentanyl and norfentanyl but no 6-monoacetylmorphine. Which of the following is the most likely cause of death?",
+        "options": [
+            "Heroin overdose",
+            "Morphine overdose",
+            "Cocaine overdose",
+            "Methamphetamine overdose",
+            "Fentanyl overdose"
+        ],
+        "correct": 4,
+        "explanation": "Fentanyl is a highly potent synthetic opioid (50-100 times more potent than morphine). Detection of fentanyl and its metabolite norfentanyl in blood confirms fentanyl use. Death from fentanyl overdose occurs due to respiratory depression and pulmonary edema. Fentanyl does not metabolize to 6-monoacetylmorphine (unique to heroin). Fentanyl and its analogs (carfentanil, sufentanil, alfentanil) are increasingly involved in overdose deaths due to high potency and rapid onset. Management requires higher doses of naloxone than heroin (often multiple doses or continuous infusion). Patients may require prolonged observation due to re-narcotization after naloxone wears off. The distribution of fentanyl into body fat (highly lipophilic) leads to prolonged duration despite short half-life. Pulmonary edema is a common autopsy finding in all opioid overdoses. Naloxone is an opioid antagonist that reverses respiratory depression; however, high-potency synthetic opioids may require higher naloxone doses (up to 10 mg or more) and continuous infusion."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    ];
+
+    // ============================================================
+    // DO NOT EDIT BELOW THIS LINE - The rendering engine works automatically
+    // ============================================================
+
+    let userAnswers = new Array(questions.length).fill(null);
+    let submitted = false;
+
+    function updateProgress() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        const percentage = questions.length ? (answered / questions.length) * 100 : 0;
+        document.getElementById('progressText').innerHTML = `${answered}/${questions.length} Answered`;
+        document.getElementById('progressFill').style.width = percentage + '%';
+    }
+
+    function renderScorePanel(correctCount = null) {
+        const container = document.getElementById('scorePanelContainer');
+        if (!submitted) {
+            container.classList.add('hidden-panel');
+            container.innerHTML = '';
+        } else {
+            const score = correctCount !== null ? correctCount : 0;
+            container.classList.remove('hidden-panel');
+            container.innerHTML = `
+                <div class="score-title"><i class="fas fa-chart-simple"></i> Score</div>
+                <div class="score-value">${score}/${questions.length}</div>
+            `;
+        }
+    }
+
+    function renderMCQs() {
+        if (!questions.length) {
+            document.getElementById('mcqContent').innerHTML = '<div style="text-align:center;padding:60px 20px;background:white;border-radius:24px;"><i class="fas fa-info-circle" style="font-size:3rem;color:#1ecbe1;"></i><p style="margin-top:20px;font-size:1.1rem;color:#15304c;">No MCQs loaded yet.</p><p style="margin-top:10px;color:#5a7d9a;">Paste your 100 Forensic Medicine questions into the "questions" array in the script section of this HTML file.</p></div>';
+            return;
+        }
+
+        let html = '';
+        questions.forEach((q, idx) => {
+            const number = idx + 1;
+            const saved = userAnswers[idx];
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                let optionClass = 'option';
+                if (submitted) {
+                    if (optIdx === q.correct) optionClass += ' correct-option';
+                    else if (saved === optIdx && saved !== q.correct) optionClass += ' wrong-option';
+                    else if (saved === optIdx) optionClass += ' selected';
+                } else {
+                    if (saved === optIdx) optionClass += ' selected';
+                }
+                optionsHtml += `<div class="${optionClass}" data-q="${idx}" data-opt="${optIdx}">${String.fromCharCode(65+optIdx)}. ${escapeHtml(opt)}</div>`;
+            });
+            
+            let explClass = 'explanation-box';
+            let cardClass = '';
+            if (submitted) {
+                explClass += ' show';
+                if (saved === null) {
+                    cardClass = 'unanswered-ans';
+                } else if (saved === q.correct) {
+                    cardClass = 'correct-ans';
+                } else {
+                    cardClass = 'wrong-ans';
+                }
+            }
+            
+            html += `
+            <div class="mcq-card ${cardClass}" id="card-${idx}">
+                <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q${number}</div>
+                <div class="question-text">${escapeHtml(q.question)}</div>
+                <div class="options">${optionsHtml}</div>
+                <div class="${explClass}" id="exp-${idx}">
+                    <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+                    ${escapeHtml(q.explanation)}
+                </div>
+            </div>`;
+        });
+        
+        html += `<div class="submit-wrapper"><button id="submitBtn" class="primary-btn"><i class=""></i> Submit </button></div>`;
+        document.getElementById('mcqContent').innerHTML = html;
+        
+        const btn = document.getElementById('submitBtn');
+        if (btn) {
+            if (submitted) {
+                btn.innerHTML = '<i class=""></i> Submitted';
+                btn.classList.add('disabled-btn');
+                btn.disabled = true;
+            } else {
+                btn.onclick = function() { submitMCQs(); };
+            }
+        }
+        
+        if (!submitted) {
+            document.querySelectorAll('#mcqContent .option').forEach(opt => {
+                opt.addEventListener('click', function(e) {
+                    if (submitted) return;
+                    const qIdx = this.dataset.q;
+                    const optIdx = parseInt(this.dataset.opt);
+                    const parentOptions = this.parentElement.children;
+                    for (let el of parentOptions) {
+                        el.classList.remove('selected');
+                    }
+                    this.classList.add('selected');
+                    userAnswers[qIdx] = optIdx;
+                    updateProgress();
+                });
+            });
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    window.submitMCQs = function() {
+        if (submitted) return;
+        submitted = true;
+        let correctCount = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) correctCount++;
+        }
+        renderScorePanel(correctCount);
+        renderMCQs();
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.onload = function() {
+        renderScorePanel();
+        renderMCQs();
+        updateProgress();
+    };
+</script>
+</body>
+</html>

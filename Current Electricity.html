@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Electricity | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #ecfdf5 0%, #d1fae5 100%);
+            color: #065f46;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #059669;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #047857, #059669);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #a7f3d0;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(5, 150, 105, 0.08);
+            border-color: #6ee7b7;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #065f46;
+            padding-left: 14px;
+            border-left: 4px solid #059669;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #059669;
+            background: #ecfdf5;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #047857;
+            color: white;
+            border-color: #047857;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(5, 150, 105, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(4, 120, 87, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #065f46, #047857);
+            color: #ecfdf5;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #065f46;
+            display: none;
+            background: #ecfdf5;
+            padding: 16px 22px;
+            border-left: 6px solid #059669;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Current Electricity</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Current Electricity MCQs (Physics FSC Part 2, Chapter 13)
+    const currentElectricityMcqs = [
+        { q: "The resistance of a wire is R. If its length is doubled and radius is halved, the new resistance becomes:", options: ["2R", "4R", "8R", "16R"], exp: "Resistance R = ρL/A. New length L' = 2L. New radius r' = r/2, so area A' = π(r/2)² = A/4. New resistance R' = ρ(2L)/(A/4) = 8ρL/A = 8R.", correct: "C" },
+        { q: "The drift velocity of electrons in a conductor is:", options: ["Directly proportional to current", "Inversely proportional to area of cross-section", "Directly proportional to electric field", "All of these"], exp: "Drift velocity v_d = I/(nAe) = μE, so it depends on I, A, and E. All three statements are correct.", correct: "D" },
+        { q: "Three resistors of 2 Ω, 3 Ω, and 6 Ω are connected in parallel. The equivalent resistance is:", options: ["1 Ω", "2 Ω", "3 Ω", "6 Ω"], exp: "1/R_eq = 1/2 + 1/3 + 1/6 = 3/6 + 2/6 + 1/6 = 6/6 = 1 → R_eq = 1 Ω.", correct: "A" },
+        { q: "The power dissipated in a resistor of resistance 10 Ω when a current of 2 A flows through it is:", options: ["20 W", "40 W", "100 W", "200 W"], exp: "P = I²R = (2)² × 10 = 4 × 10 = 40 W.", correct: "B" },
+        { q: "Kirchhoff's first law (junction rule) is based on conservation of:", options: ["Energy", "Charge", "Momentum", "Mass"], exp: "Kirchhoff's current law (junction rule) states that sum of currents entering a junction equals sum leaving, based on conservation of electric charge.", correct: "B" },
+        { q: "The internal resistance of a cell is 0.5 Ω and its emf is 2 V. When connected to an external resistance of 4.5 Ω, the terminal voltage is:", options: ["1.8 V", "2 V", "2.2 V", "1.5 V"], exp: "Current I = E/(R+r) = 2/(4.5+0.5) = 2/5 = 0.4 A. Terminal voltage V = IR = 0.4 × 4.5 = 1.8 V.", correct: "A" },
+        { q: "The resistivity of a material depends on:", options: ["Length of wire", "Cross-sectional area", "Temperature", "Both A and B"], exp: "Resistivity ρ is a material property that depends on temperature (and sometimes pressure), but not on dimensions of the wire.", correct: "C" },
+        { q: "A 100 W bulb operates at 220 V. The resistance of the bulb is:", options: ["220 Ω", "484 Ω", "100 Ω", "440 Ω"], exp: "P = V²/R → R = V²/P = (220)²/100 = 48400/100 = 484 Ω.", correct: "B" },
+        { q: "The Wheatstone bridge is balanced when:", options: ["P/Q = R/S", "P/Q = S/R", "P = Q = R = S", "P × Q = R × S"], exp: "For a balanced Wheatstone bridge, P/Q = R/S, where P, Q, R, S are the four resistances.", correct: "A" },
+        { q: "A wire of resistance 20 Ω is stretched to twice its original length. The new resistance becomes:", options: ["40 Ω", "80 Ω", "20 Ω", "10 Ω"], exp: "Volume constant. When length doubles, area halves. R' = ρ(2L)/(A/2) = 4ρL/A = 4R = 80 Ω.", correct: "B" },
+        { q: "The color code of a resistor is yellow, violet, brown, gold. Its resistance is:", options: ["470 Ω ± 5%", "47 Ω ± 5%", "4.7 kΩ ± 5%", "470 kΩ ± 5%"], exp: "Yellow = 4, Violet = 7, Brown = 10¹, Gold = ±5%. So 47 × 10¹ = 470 Ω ± 5%.", correct: "A" },
+        { q: "The equivalent resistance of two resistors connected in series is 9 Ω and in parallel is 2 Ω. The resistances are:", options: ["3 Ω and 6 Ω", "4 Ω and 5 Ω", "2 Ω and 7 Ω", "1 Ω and 8 Ω"], exp: "Let resistors be R₁ and R₂. R₁+R₂=9, R₁R₂/(R₁+R₂)=2 → R₁R₂=18. Solving: numbers whose sum is 9 and product 18 are 3 and 6.", correct: "A" },
+        { q: "The potential difference across a 10 Ω resistor carrying 0.5 A is:", options: ["5 V", "10 V", "20 V", "0.5 V"], exp: "V = IR = 0.5 × 10 = 5 V.", correct: "A" },
+        { q: "The SI unit of conductivity is:", options: ["Ω·m", "Ω⁻¹·m⁻¹", "Ω·m⁻¹", "Ω⁻¹·m"], exp: "Conductivity σ = 1/ρ, unit: (Ω·m)⁻¹ = Ω⁻¹·m⁻¹ or siemens per meter (S/m).", correct: "B" },
+        { q: "A cell of emf 1.5 V gives a current of 0.3 A when connected to a 4 Ω resistor. The internal resistance of the cell is:", options: ["0.5 Ω", "1 Ω", "1.5 Ω", "2 Ω"], exp: "E = I(R+r) → 1.5 = 0.3(4+r) → 1.5 = 1.2 + 0.3r → 0.3 = 0.3r → r = 1 Ω.", correct: "B" },
+        { q: "The resistivity constant of a material is 1.6 × 10⁻⁸ Ω·m. The resistance of a wire of length 10 m and cross-sectional area 1 mm² is:", options: ["0.16 Ω", "1.6 Ω", "16 Ω", "160 Ω"], exp: "R = ρL/A = (1.6 × 10⁻⁸ × 10)/(1 × 10⁻⁶) = 1.6 × 10⁻⁷/10⁻⁶ = 0.16 Ω.", correct: "A" },
+        { q: "The heating effect of current is given by Joule's law: H = I²Rt. The heat produced depends on:", options: ["Square of current", "Resistance", "Time", "All of these"], exp: "Joule's law: H = I²Rt, so depends on I², R, and t.", correct: "D" },
+        { q: "A 40 W bulb is used for 10 hours. The energy consumed is:", options: ["0.4 kWh", "0.04 kWh", "4 kWh", "40 kWh"], exp: "Energy = Power × time = 40 W × 10 h = 400 Wh = 0.4 kWh.", correct: "A" },
+        { q: "Kirchhoff's second law (loop rule) is based on conservation of:", options: ["Charge", "Energy", "Current", "Mass"], exp: "Kirchhoff's voltage law states that sum of potential differences around a closed loop is zero, based on conservation of energy.", correct: "B" },
+        { q: "The current through a 10 Ω resistor when connected to a 20 V battery is 2 A. The internal resistance of the battery is:", options: ["0 Ω", "5 Ω", "10 Ω", "20 Ω"], exp: "I = E/(R+r) → 2 = 20/(10+r) → 2(10+r)=20 → 20+2r=20 → 2r=0 → r=0 Ω.", correct: "A" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+    let quizSubmitted = false;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        randomizedQuestions = shuffleArray([...currentElectricityMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+        
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

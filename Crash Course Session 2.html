@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep · 30-Day MDCAT Sprint Syllabus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0a2c48;
+            --accent-cyan: #1ecbe1;
+            --bg-light: #f5fafd;
+            --text-main: #15304c;
+            --white: #ffffff;
+            --shadow: 0 15px 30px -10px rgba(10, 44, 72, 0.15);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: var(--primary-dark);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 16px 30px -10px rgba(10, 44, 72, 0.4);
+            text-align: center;
+            border-bottom: 4px solid var(--accent-cyan);
+        }
+
+        .logo-wrapper {
+            background: white;
+            padding: 8px 25px;
+            border-radius: 80px;
+            display: inline-flex;
+            border: 2px solid var(--accent-cyan);
+            margin-bottom: 10px;
+        }
+
+        .logo-img { height: 50px; width: auto; mix-blend-mode: multiply; }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .sprint-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .sprint-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.8rem;
+            color: var(--primary-dark);
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        .sprint-header p {
+            color: #5a7b9a;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        /* Phase Styling */
+        .phase-section {
+            background: var(--white);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 50px;
+            border: 1px solid rgba(30, 203, 225, 0.2);
+            box-shadow: var(--shadow);
+        }
+
+        .phase-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f4f8;
+        }
+
+        .phase-title i {
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            font-size: 1.4rem;
+        }
+
+        .phase-title h2 {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            color: var(--primary-dark);
+            font-size: 1.8rem;
+        }
+
+        /* Table Styling */
+        .table-wrapper { overflow-x: auto; border-radius: 20px; }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px;
+            color: #5a7b9a;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            font-weight: 800;
+        }
+
+        td {
+            background: #f8fbff;
+            padding: 18px 15px;
+            border-top: 1px solid #edf2f7;
+            border-bottom: 1px solid #edf2f7;
+            font-size: 0.95rem;
+        }
+
+        td:first-child { border-left: 1px solid #edf2f7; border-radius: 15px 0 0 15px; font-weight: 700; color: var(--primary-dark); min-width: 140px; }
+        td:last-child { border-right: 1px solid #edf2f7; border-radius: 0 15px 15px 0; }
+
+        .date-badge {
+            font-size: 0.85rem;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 6px 12px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .test-row td {
+            background: #fffbeb;
+            border: 2px dashed #fcd34d;
+            color: #92400e;
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .revision-row td {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+            color: #166534;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            border-top: 4px solid var(--accent-cyan);
+        }
+
+        @media (max-width: 992px) {
+            th { display: none; }
+            td { display: block; border: none !important; border-radius: 0 !important; width: 100% !important; }
+            td::before { content: attr(data-label); font-weight: 800; display: block; color: var(--accent-cyan); font-size: 0.75rem; margin-bottom: 4px; text-transform: uppercase; }
+            tr { display: block; margin-bottom: 25px; border: 1px solid #edf2f7; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+            .test-row td::before { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div style="font-weight: 700; letter-spacing: 2px; font-size: 0.8rem; opacity: 0.9;">MedPrep</div>
+</header>
+
+<div class="container">
+    <div class="sprint-header">
+        <h1>MDCAT 30-Day Crash Course Session 02</h1>
+        <p><i class="fas fa-bolt" style="color: #fbbf24;"></i>  April 6th-May 5th</p>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase-section">
+        <div class="phase-title">
+            <i class="fas fa-dna"></i>
+            <div>
+                <h2>Phase 1</h2>
+                
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Biology</th>
+                        <th>Chemistry</th>
+                        <th>Physics</th>
+                        <th>English & Logical Reasoning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Mon, Apr 6</span></td>
+                        <td>Cell Structure and Function</td>
+                        <td>Fundamentals of Chemistry</td>
+                        <td>Vectors/Equillibrium</td>
+                        <td>Tenses</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Tue, Apr 7</span></td>
+                        <td>Bioenergetics</td>
+                        <td>Atomic Structure</td>
+                        <td>Force & Motion</td>
+                        <td>Sub-Verb Agreement</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Wed, Apr 8</span></td>
+                        <td>Biological Molecules</td>
+                        <td>Gases</td>
+                        <td>Work & Energy</td>
+                        <td>Pronoun Agreement</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Thu, Apr 9</span></td>
+                        <td>Enzymes</td>
+                        <td>Liquids & Solids</td>
+                        <td>Rotational and Circular Motion</td>
+                        <td>Critical Thinking</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Fri, Apr 10</span></td>
+                        <td>Acellular Life</td>
+                        <td>Chemical Bonding</td>
+                        <td>Fluid Dynamics</td>
+                        <td>Punctuation</td>
+                    </tr>
+                    <tr class="revision-row"><td colspan="5">Saturday, Apr 11 · REVISION</td></tr>
+                    <tr class="test-row"><td colspan="5">Sunday, Apr 12 · WEEKLY TEST 1 </td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-section">
+        <div class="phase-title">
+            <i class="fas fa-lungs"></i>
+            <div>
+                <h2>Phase 2</h2>
+                
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Biology</th>
+                        <th>Chemistry</th>
+                        <th>Physics</th>
+                        <th>English & Logical Reasoning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Mon, Apr 13</span></td>
+                        <td>Digestion</td>
+                        <td>Equilibrium</td>
+                        <td>Waves/Oscillation</td>
+                        <td>Active and Passive</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Tue, Apr 14</span></td>
+                        <td>Circulation</td>
+                        <td>Reaction Kinetics</td>
+                        <td>Thermodynamics</td>
+                        <td>Direct and Indirect</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Wed, Apr 15</span></td>
+                        <td>Respiration</td>
+                        <td>Thermochemistry</td>
+                        <td>Electrostatics</td>
+                        <td>Gerunds and Infinitives</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Thu, Apr 16</span></td>
+                        <td>Immunity</td>
+                        <td>Electrochemistry</td>
+                        <td>Current Electricity</td>
+                        <td>Letter Series</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Fri, Apr 17</span></td>
+                        <td>Homeostasis</td>
+                        <td>S & P Block</td>
+                        <td>Electromagnetism</td>
+                        <td>Adverbs</td>
+                    </tr>
+                    <tr class="revision-row"><td colspan="5">Saturday, Apr 18 · REVISION</td></tr>
+                    <tr class="test-row"><td colspan="5">Sunday, Apr 19 · WEEKLY TEST 2 </td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase-section">
+        <div class="phase-title">
+            <i class="fas fa-brain"></i>
+            <div>
+                <h2>Phase 3</h2>
+               
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Biology</th>
+                        <th>Chemistry</th>
+                        <th>Physics</th>
+                        <th>English & Logical Reasoning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Mon, Apr 20</span></td>
+                        <td>Coordination & Control</td>
+                        <td>Organic Compounds</td>
+                        <td>Eletcromagnetic Induction</td>
+                        <td>Prepositions</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Tue, Apr 21</span></td>
+                        <td>Support and Movement</td>
+                        <td>Hydrocarbons</td>
+                        <td>Alternating Current</td>
+                        <td>Transitions</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Wed, Apr 22</span></td>
+                        <td>Reproduction</td>
+                        <td>Alkyl Halides</td>
+                        <td>Electronics</td>
+                        <td>Sentence Structure</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Thu, Apr 23</span></td>
+                        <td>Evolution</td>
+                        <td>Alcohols and Phenols</td>
+                        <td>Modern Physics</td>
+                        <td>Logical Deductions</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Fri, Apr 24</span></td>
+                        <td>Inheritance</td>
+                        <td>Aldehydes and Ketones</td>
+                        <td>Atomic Spectra</td>
+                        <td>Vocabulary</td>
+                    </tr>
+                    <tr class="revision-row"><td colspan="5">Saturday, Apr 25 · REVISION</td></tr>
+                    <tr class="test-row"><td colspan="5">Sunday, Apr 26 · WEEKLY TEST 3 </td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase-section" style="border-color: #fbbf24;">
+        <div class="phase-title">
+            <i class="fas fa-star" style="background: #fbbf24;"></i>
+            <div>
+                <h2>Phase 4</h2>
+                
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th colspan="4">Subject Coverage & Activity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Mon, Apr 27</span></td>
+                        <td colspan="4"><strong>Biology:</strong> Biotechnology | <strong>Chemistry:</strong> Carboxylic Acids, Macromolecules</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Tue, Apr 28</span></td>
+                        <td colspan="4"><strong>Chemistry:</strong> Industrial Chemistry | <strong>Physics:</strong> Nuclear Physics | <strong>Logical Reasoning:</strong> Cause & Effect</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Wed, Apr 29</span></td>
+                        <td colspan="4" style="color: #0369a1; font-weight: 600;">Full Syllabus Rapid Revision: Biology & English</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Thu, Apr 30</span></td>
+                        <td colspan="4" style="color: #0369a1; font-weight: 600;">Full Syllabus Rapid Revision: Chemistry, Physics & Logical Reasoning</td>
+                    </tr>
+                    <tr style="background: #e0f2fe; font-weight: 700;">
+                        <td><span class="date-badge" style="background: var(--primary-dark); color: white;">Fri, May 1</span></td>
+                        <td colspan="4">FLP 1</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Sat, May 2</span></td>
+                        <td colspan="4">Post-FLP Analysis: Error Correction & Weak Point Drill</td>
+                    </tr>
+                    <tr style="background: #e0f2fe; font-weight: 700;">
+                        <td><span class="date-badge" style="background: var(--primary-dark); color: white;">Sun, May 3</span></td>
+                        <td colspan="4">FLP 2</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Date"><span class="date-badge">Mon, May 4</span></td>
+                        <td colspan="4">The "Gap" Day: Formula Sheets, Grammar Rules & Reaction Charts Review</td>
+                    </tr>
+                    <tr class="test-row">
+                        <td><span class="date-badge" style="background: #92400e; color: white;">Tue, May 5</span></td>
+                        <td colspan="4"> GRAND MOCK TEST</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div style="margin-bottom: 20px;">
+        <i class="fas fa-user-md" style="font-size: 2rem; color: var(--accent-cyan);"></i>
+    </div>
+    <p style="font-weight: 700; margin: 0;">MedPrep · 2026</p>
+    <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 5px;">Empowering Future Doctors Through Strategic Preparation.</p>
+</footer>
+
+</body>
+</html>

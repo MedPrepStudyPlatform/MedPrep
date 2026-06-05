@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macromolecules | FSC Chemistry MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #ecfdf5 0%, #d1fae5 100%);
+            color: #065f46;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #059669;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #047857, #059669);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #a7f3d0;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(5, 150, 105, 0.08);
+            border-color: #6ee7b7;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #065f46;
+            padding-left: 14px;
+            border-left: 4px solid #059669;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #059669;
+            background: #ecfdf5;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #047857;
+            color: white;
+            border-color: #047857;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(5, 150, 105, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(4, 120, 87, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #065f46, #047857);
+            color: #ecfdf5;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #065f46;
+            display: none;
+            background: #ecfdf5;
+            padding: 16px 22px;
+            border-left: 6px solid #059669;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Macromolecules</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual, high-difficulty Macromolecules MCQs (FSC Part 2, Chapter 14 - Macromolecules)
+    const macromoleculesMcqs = [
+        { q: "Which of the following is a condensation polymer?", options: ["Polyethylene", "Polyvinyl chloride", "Nylon 6,6", "Polystyrene"], exp: "Nylon 6,6 is formed by condensation polymerization of hexamethylenediamine and adipic acid with elimination of water. The others are addition polymers formed from alkenes.", correct: "C" },
+        { q: "The monomer of natural rubber is:", options: ["Isoprene", "Chloroprene", "Styrene", "Ethylene"], exp: "Natural rubber is polyisoprene (cis-1,4-polyisoprene), and its monomer is isoprene (2-methyl-1,3-butadiene).", correct: "A" },
+        { q: "Which level of protein structure refers to the three-dimensional arrangement of a single polypeptide chain including alpha-helices and beta-sheets?", options: ["Primary structure", "Secondary structure", "Tertiary structure", "Quaternary structure"], exp: "Secondary structure involves local folding patterns like alpha-helices and beta-sheets stabilized by hydrogen bonds. Tertiary structure is the overall 3D shape of a single chain, but alpha-helices and beta-sheets are specifically secondary structure elements.", correct: "B" },
+        { q: "The glycosidic bond in sucrose is between which carbons of glucose and fructose?", options: ["C1 of glucose and C1 of fructose", "C1 of glucose and C2 of fructose", "C1 of glucose and C4 of fructose", "C6 of glucose and C1 of fructose"], exp: "Sucrose (table sugar) has an alpha-1,2-beta-glycosidic bond: C1 of alpha-D-glucose linked to C2 of beta-D-fructose. This bond makes sucrose a non-reducing sugar.", correct: "B" },
+        { q: "Which of the following is not a reducing sugar?", options: ["Glucose", "Fructose", "Sucrose", "Maltose"], exp: "Sucrose has its anomeric carbons of both glucose and fructose involved in the glycosidic bond, so it cannot open to a free aldehyde or ketone form. Hence it is a non-reducing sugar. Glucose, fructose, and maltose are reducing sugars.", correct: "C" },
+        { q: "The type of linkage that joins amino acids in a protein is called:", options: ["Glycosidic bond", "Ester bond", "Peptide bond", "Phosphodiester bond"], exp: "Amino acids are linked by peptide bonds (amide bonds) formed between the carboxyl group of one amino acid and the amino group of another.", correct: "C" },
+        { q: "Which of the following is a homopolymer?", options: ["DNA", "Protein", "Starch", "Nylon 6,6"], exp: "Starch is a homopolymer of glucose monomers (only one type of monomer). DNA and proteins are heteropolymers (multiple monomers). Nylon 6,6 is a copolymer of two different monomers (diamine and diacid).", correct: "C" },
+        { q: "The process of vulcanization of rubber involves:", options: ["Addition of carbon black", "Cross-linking with sulfur", "Heating with oxygen", "Addition of plasticizers"], exp: "Vulcanization, discovered by Charles Goodyear, involves heating natural rubber with sulfur to form cross-links between polymer chains, improving elasticity, strength, and heat resistance.", correct: "B" },
+        { q: "Which of the following is an example of a biodegradable polymer?", options: ["Polythene", "Polystyrene", "Polyvinyl chloride", "Polyhydroxybutyrate (PHB)"], exp: "Polyhydroxybutyrate (PHB) is a biodegradable polyester produced by bacteria. The others are non-biodegradable synthetic polymers.", correct: "D" },
+        { q: "The basic unit of nucleic acids is:", options: ["Amino acid", "Monosaccharide", "Nucleotide", "Fatty acid"], exp: "Nucleic acids (DNA and RNA) are polymers of nucleotides. Each nucleotide consists of a nitrogenous base, a pentose sugar, and a phosphate group.", correct: "C" },
+        { q: "Which of the following is NOT a function of proteins?", options: ["Catalysis of biochemical reactions", "Storage of genetic information", "Transport of oxygen (hemoglobin)", "Immune defense (antibodies)"], exp: "Storage of genetic information is the function of nucleic acids (DNA/RNA). Proteins function as enzymes (catalysis), transporters, structural components, and antibodies.", correct: "B" },
+        { q: "The linkage between monomers in cellulose is:", options: ["α-1,4-glycosidic bond", "β-1,4-glycosidic bond", "α-1,6-glycosidic bond", "β-1,6-glycosidic bond"], exp: "Cellulose is a linear polymer of glucose units linked by β-1,4-glycosidic bonds. This gives cellulose its structural rigidity and makes it indigestible to humans (lack of cellulase enzyme).", correct: "B" },
+        { q: "Which of the following polymers is thermoplastic?", options: ["Bakelite", "Melamine-formaldehyde", "Polythene", "Epoxy resin"], exp: "Thermoplastics soften on heating and harden on cooling reversibly. Polythene (polyethylene) is a thermoplastic. Bakelite, melamine-formaldehyde, and epoxy resins are thermosetting polymers (irreversible cross-linking).", correct: "C" },
+        { q: "The monomer of Teflon is:", options: ["Vinyl chloride", "Styrene", "Tetrafluoroethylene", "Acrylonitrile"], exp: "Teflon (PTFE - polytetrafluoroethylene) is made by addition polymerization of tetrafluoroethylene (CF₂=CF₂).", correct: "C" },
+        { q: "The coenzyme NAD+ is derived from which vitamin?", options: ["Vitamin B1 (Thiamine)", "Vitamin B2 (Riboflavin)", "Vitamin B3 (Niacin)", "Vitamin B12 (Cobalamin)"], exp: "NAD+ (Nicotinamide adenine dinucleotide) is derived from niacin (vitamin B3). It plays a crucial role in redox reactions in metabolism.", correct: "C" },
+        { q: "Which of the following statements about DNA is incorrect?", options: ["DNA contains deoxyribose sugar", "DNA contains thymine instead of uracil", "DNA is usually double-stranded", "DNA contains the base uracil"], exp: "DNA contains thymine, not uracil. Uracil is found in RNA. So statement D is incorrect.", correct: "D" },
+        { q: "The process of denaturation of protein involves disruption of:", options: ["Peptide bonds only", "Secondary and tertiary structures only", "Primary structure only", "All levels of structure"], exp: "Denaturation disrupts secondary, tertiary, and quaternary structures (hydrogen bonds, hydrophobic interactions, disulfide bridges) but does not break peptide bonds (primary structure).", correct: "B" },
+        { q: "Which of the following is a polysaccharide stored in animals?", options: ["Starch", "Cellulose", "Glycogen", "Chitin"], exp: "Glycogen is the storage polysaccharide in animals (liver and muscles). Starch is plant storage, cellulose is plant structural, chitin is fungal exoskeleton.", correct: "C" },
+        { q: "The monomer of polyvinyl chloride (PVC) is:", options: ["Vinyl chloride (CH₂=CHCl)", "Vinyl acetate", "Chloroethene", "Both A and C"], exp: "Vinyl chloride and chloroethene are the same compound (CH₂=CHCl). So both A and C are correct.", correct: "D" },
+        { q: "Which level of protein structure is stabilized primarily by hydrophobic interactions, hydrogen bonds, ionic bonds, and disulfide bridges between side chains?", options: ["Primary", "Secondary", "Tertiary", "Quaternary"], exp: "Tertiary structure involves interactions between amino acid side chains (R-groups) including hydrophobic interactions, hydrogen bonding, ionic bonds, and disulfide bridges, giving the protein its overall 3D shape.", correct: "C" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...macromoleculesMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

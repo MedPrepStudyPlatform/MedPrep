@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electromagnetic Induction | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fefce8 0%, #fef3c7 100%);
+            color: #854d0e;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #eab308;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #a16207, #eab308);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #fde047;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(234, 179, 8, 0.08);
+            border-color: #facc15;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #854d0e;
+            padding-left: 14px;
+            border-left: 4px solid #eab308;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #eab308;
+            background: #fefce8;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #a16207;
+            color: white;
+            border-color: #a16207;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #eab308;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(234, 179, 8, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #a16207;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(161, 98, 7, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #854d0e, #a16207);
+            color: #fefce8;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #854d0e;
+            display: none;
+            background: #fefce8;
+            padding: 16px 22px;
+            border-left: 6px solid #eab308;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Electromagnetic Induction</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Electromagnetic Induction MCQs (Physics FSC Part 2, Chapter 15)
+    const emiMcqs = [
+        { q: "The induced EMF in a coil is given by Faraday's law as:", options: ["ε = -dΦ/dt", "ε = dΦ/dt", "ε = -N dΦ/dt", "Both A and C"], exp: "Faraday's law: ε = -N dΦ/dt, where N is number of turns. The negative sign indicates Lenz's law.", correct: "D" },
+        { q: "A magnetic flux of 0.2 Wb passes through a coil of 100 turns. If the flux is reduced to zero in 0.05 s, the average induced EMF is:", options: ["200 V", "400 V", "600 V", "800 V"], exp: "ε = -N ΔΦ/Δt = -100 × (0 - 0.2)/0.05 = -100 × (-0.2)/0.05 = 20/0.05 = 400 V.", correct: "B" },
+        { q: "Lenz's law is a consequence of the principle of conservation of:", options: ["Charge", "Energy", "Momentum", "Mass"], exp: "Lenz's law states that induced current opposes the change causing it, which follows conservation of energy.", correct: "B" },
+        { q: "The self-inductance of a coil is 2 H. If the current changes from 3 A to 1 A in 0.2 s, the induced EMF is:", options: ["10 V", "20 V", "30 V", "40 V"], exp: "ε = -L dI/dt = -2 × (1-3)/0.2 = -2 × (-2)/0.2 = 4/0.2 = 20 V.", correct: "B" },
+        { q: "The mutual inductance between two coils is 0.5 H. If the current in the primary coil changes at the rate of 4 A/s, the induced EMF in the secondary coil is:", options: ["1 V", "2 V", "3 V", "4 V"], exp: "ε_s = -M dI_p/dt = -0.5 × 4 = -2 V (magnitude 2 V).", correct: "B" },
+        { q: "An AC generator converts:", options: ["Electrical energy to mechanical energy", "Mechanical energy to electrical energy", "Chemical energy to electrical energy", "Heat energy to electrical energy"], exp: "An AC generator (alternator) converts mechanical energy into electrical energy via electromagnetic induction.", correct: "B" },
+        { q: "The transformer works on the principle of:", options: ["Self-induction", "Mutual induction", "Eddy currents", "Hysteresis"], exp: "A transformer transfers energy between two coils via mutual induction.", correct: "B" },
+        { q: "A step-up transformer has a turns ratio of 1:20. If the input voltage is 220 V, the output voltage is:", options: ["11 V", "220 V", "4400 V", "2200 V"], exp: "V_s/V_p = N_s/N_p = 20/1 = 20 → V_s = 220 × 20 = 4400 V.", correct: "C" },
+        { q: "The eddy currents are minimized by:", options: ["Using laminated cores", "Using thick wires", "Increasing voltage", "Decreasing frequency"], exp: "Laminating the core increases resistance and reduces eddy current losses.", correct: "A" },
+        { q: "A coil of area 0.1 m² has 50 turns and is placed in a magnetic field of 0.2 T perpendicular to the field. If the coil is rotated through 90° in 0.1 s, the average induced EMF is:", options: ["5 V", "10 V", "15 V", "20 V"], exp: "Initial flux = NBA cos0° = 50 × 0.2 × 0.1 = 1 Wb. Final flux = 0. ΔΦ = 1 Wb. ε = NΔΦ/Δt = 1/0.1 = 10 V.", correct: "B" },
+        { q: "The direction of induced current in a coil can be found using:", options: ["Fleming's left-hand rule", "Fleming's right-hand rule", "Right-hand thumb rule", "Ampere's rule"], exp: "Fleming's right-hand rule (generator rule) gives direction of induced current.", correct: "B" },
+        { q: "The coefficient of self-inductance depends on:", options: ["Number of turns", "Area of cross-section", "Core material", "All of these"], exp: "Self-inductance L = μN²A/l, so depends on N, A, μ (core material), and length.", correct: "D" },
+        { q: "A transformer with efficiency 80% has input power 500 W. The output power is:", options: ["400 W", "500 W", "625 W", "100 W"], exp: "Efficiency = P_out/P_in → 0.8 = P_out/500 → P_out = 400 W.", correct: "A" },
+        { q: "The induced EMF in a coil is maximum when the rate of change of flux is:", options: ["Zero", "Minimum", "Maximum", "Constant"], exp: "ε ∝ dΦ/dt, so maximum when rate of change of flux is maximum.", correct: "C" },
+        { q: "A magnet is moved towards a stationary coil. The induced current in the coil will be such that it:", options: ["Attracts the magnet", "Repels the magnet", "Has no effect on magnet", "Depends on magnet strength"], exp: "Lenz's law: induced current opposes the motion causing it, so it repels the approaching magnet.", correct: "B" },
+        { q: "The energy stored in an inductor of inductance L carrying current I is:", options: ["½ LI²", "LI²", "½ L²I", "½ I²/L"], exp: "Energy stored in an inductor = ½ LI².", correct: "A" },
+        { q: "A coil has self-inductance of 4 H. The energy stored when it carries a current of 2 A is:", options: ["4 J", "8 J", "16 J", "32 J"], exp: "U = ½ LI² = 0.5 × 4 × 4 = 8 J.", correct: "B" },
+        { q: "The core of a transformer is laminated to reduce:", options: ["Copper losses", "Hysteresis losses", "Eddy current losses", "Dielectric losses"], exp: "Laminations reduce eddy current losses by increasing resistance to circulating currents.", correct: "C" },
+        { q: "An alternating current of frequency 50 Hz produces an EMF of 100 V in a coil. If the frequency is doubled, the induced EMF becomes:", options: ["50 V", "100 V", "200 V", "400 V"], exp: "ε ∝ f (induced EMF = NBAω = NBA·2πf), so doubling frequency doubles EMF to 200 V.", correct: "C" },
+        { q: "The back EMF in a motor is maximum when:", options: ["Motor starts", "Motor runs at full speed", "Motor is stalled", "At all times"], exp: "Back EMF is proportional to speed. At full speed, back EMF is maximum.", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+    let quizSubmitted = false;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        randomizedQuestions = shuffleArray([...emiMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+        
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

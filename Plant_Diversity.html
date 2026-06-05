@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDCAT Quiz: Diversity Among Plants</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f5fafd; color: #15304c; padding: 20px; margin: 0; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 30px; border-radius: 24px; box-shadow: 0 10px 25px rgba(10, 44, 72, 0.1); }
+        h1 { font-family: 'Outfit', sans-serif; color: #0a2c48; text-align: center; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #1ecbe1; font-weight: 600; margin-bottom: 30px; }
+        .question { margin-bottom: 30px; padding: 20px; border: 1px solid #e0f2fe; border-radius: 16px; transition: 0.3s; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 15px; line-height: 1.5; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 14px 18px; border: 2px solid #bbe0f0; border-radius: 12px; cursor: pointer; transition: 0.2s; font-size: 0.95rem; }
+        .option:hover { background: #f0faff; border-color: #1ecbe1; }
+        .option.selected { background: #0a2c48; color: white; border-color: #0a2c48; }
+        .btn-submit { display: block; width: 100%; padding: 18px; background: #1ecbe1; color: #0a2c48; border: none; border-radius: 50px; font-weight: 700; font-size: 1.2rem; cursor: pointer; margin-top: 25px; transition: 0.3s; box-shadow: 0 4px 15px rgba(30, 203, 225, 0.3); }
+        .btn-submit:hover { background: #0a2c48; color: white; transform: translateY(-2px); }
+        #results { display: none; margin-top: 30px; padding: 25px; border-radius: 20px; text-align: center; background: #0a2c48; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.92rem; color: #1f6a92; display: none; background: #eff9ff; padding: 15px; border-left: 5px solid #1ecbe1; border-radius: 8px; line-height: 1.4; }
+        .correct { border-color: #2ecc71 !important; background: #eafff2 !important; color: #15304c; }
+        .wrong { border-color: #e74c3c !important; background: #fff2f0 !important; color: #15304c; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Diversity Among Plants</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const mdcatPlants = [
+        { q: "In the life cycle of a bryophyte, the dominant generation is the ________, which is nutritionally independent and produces gametes.", options: ["Diploid Sporophyte", "Haploid Gametophyte", "Diploid Zygote", "Haploid Spore"], exp: "Bryophytes (mosses, liverworts) are unique because the gametophyte is the main visible plant body and is photosynthetic.", correct: "B" },
+        { q: "Double fertilization is a hallmark of angiosperms. One sperm nucleus fuses with the egg to form the zygote, while the second sperm nucleus fuses with ________ to form the triploid endosperm.", options: ["Synergids", "Antipodal cells", "Fusion nucleus (two polar nuclei)", "The integument"], exp: "The fusion of a sperm with the two polar nuclei (forming a 3n endosperm) provides nutrition for the developing embryo.", correct: "C" },
+        { q: "The evolution of the seed was a critical step for plants to colonize dry land. A seed is essentially a matured ________.", options: ["Ovule", "Ovary", "Pollen grain", "Carpel"], exp: "After fertilization, the ovule develops into a seed, while the ovary typically develops into a fruit.", correct: "A" },
+        { q: "Which of the following tracheophyte groups is characterized by having 'naked seeds' that are not enclosed within a fruit?", options: ["Pteridophytes", "Angiosperms", "Gymnosperms", "Bryophytes"], exp: "Gymnosperm literally means 'naked seed.' They produce seeds on the surface of scales (usually in cones).", correct: "C" },
+        { q: "During the evolution of the leaf, a small outgrowth from the stem containing a single unbranched vein is referred to as a:", options: ["Megaphyll", "Microphyll", "Frond", "Strobili"], exp: "Microphylls are primitive leaves with a single vein, found in Lycopsids.", correct: "B" },
+        { q: "In ferns (Pteropsida), the heart-shaped, small, green gametophyte is called the:", options: ["Sporangium", "Prothallus", "Rhizome", "Calyptra"], exp: "The prothallus is the short-lived gametophyte generation of ferns that bears both antheridia and archegonia.", correct: "B" },
+        { q: "Heterospory is the production of two types of spores: microspores and megaspores. This condition is a necessary precursor to the evolution of:", options: ["Vascular tissue", "Flowers", "Seeds", "Stomata"], exp: "Heterospory is essential for seed evolution as it leads to the development of separate male and female gametophytes.", correct: "C" },
+        { q: "The transfer of pollen grains from the anther to the stigma is called pollination. In gymnosperms, this process is almost exclusively mediated by:", options: ["Insects", "Water", "Wind", "Birds"], exp: "Gymnosperms lack flowers and nectar, so they rely on wind to carry pollen to the ovules.", correct: "C" },
+        { q: "In the bryophyte life cycle, the sporophyte remains attached to the gametophyte and consists of which three parts?", options: ["Root, Stem, Leaf", "Foot, Seta, Capsule", "Rhizoid, Thallus, Stalk", "Cortex, Pith, Epidermis"], exp: "The bryophyte sporophyte is non-photosynthetic and consists of a foot (for attachment), seta (stalk), and capsule (where spores form).", correct: "B" },
+        { q: "Which of the following is considered a 'living fossil' and is the only surviving member of its group within the gymnosperms?", options: ["Cycas", "Pinus", "Ginkgo biloba", "Taxus"], exp: "Ginkgo biloba is a unique gymnosperm that has remained virtually unchanged for millions of years.", correct: "C" },
+        { q: "Angiosperms are divided into Monocots and Dicots. Which feature is characteristic of Monocots?", options: ["Parallel venation in leaves", "Taproot system", "Floral parts in multiples of 4 or 5", "Two cotyledons in the seed"], exp: "Monocots have parallel leaf veins, fibrous roots, and floral parts usually in multiples of three.", correct: "A" },
+        { q: "The female gametophyte of an angiosperm, which usually consists of seven cells and eight nuclei, is also known as the:", options: ["Pollen sac", "Nucellus", "Embryo sac", "Integument"], exp: "The embryo sac is the highly reduced female gametophyte of flowering plants.", correct: "C" },
+        { q: "Which group of plants is often referred to as the 'amphibians of the plant kingdom' because they require water for fertilization?", options: ["Angiosperms", "Gymnosperms", "Bryophytes", "Thallophytes"], exp: "Bryophytes need a film of water so that the flagellated ciliated sperm can swim to the egg.", correct: "C" },
+        { q: "The thick, waxy layer on the surface of the plant epidermis that prevents water loss is the:", options: ["Stomata", "Cuticle", "Lignin", "Suberin"], exp: "The cuticle was a vital adaptation for plant survival on land to prevent desiccation.", correct: "B" },
+        { q: "The megaspore mother cell (megasporocyte) undergoes meiosis to produce four megaspores. How many of these megaspores typically survive to develop into the female gametophyte?", options: ["One", "Two", "Three", "Four"], exp: "In most seed plants, three megaspores degenerate, and only one functional megaspore remains.", correct: "A" },
+        { q: "Vessels (xylem elements) are generally absent in gymnosperms but are present in the xylem of almost all angiosperms. Which gymnosperm group is an exception and possesses vessels?", options: ["Coniferales", "Cycadales", "Gnetales", "Ginkgoales"], exp: "Gnetales (like Gnetum and Ephedra) are advanced gymnosperms that show vessel elements in their xylem.", correct: "C" },
+        { q: "The 'Circinate vernation'—the coiled arrangement of young leaves—is a characteristic feature of:", options: ["Mosses", "Ferns", "Pine trees", "Sunflowers"], exp: "Fern fronds (leaves) typically unroll from a coiled position as they grow.", correct: "B" },
+        { q: "In the life cycle of Pinus, the microspore develops into a pollen grain which represents the:", options: ["Mature sporophyte", "Male gametophyte", "Female gametophyte", "Microsporangium"], exp: "The pollen grain is the immature male gametophyte that will eventually produce sperm.", correct: "B" },
+        { q: "A fruit is a biological structure that develops from the:", options: ["Mature Ovary", "Fertilized Ovule", "Receptacle", "Pedicel"], exp: "The ovary wall thickens and ripens to become the fruit, which protects and helps disperse seeds.", correct: "A" },
+        { q: "Xylem and phloem are the two types of vascular tissue. Xylem is primarily responsible for the transport of ________, while phloem transports ________.", options: ["Sugars; Water", "Water; Minerals only", "Sugars; Oxygen", "Water; Sugars"], exp: "Xylem conducts water/minerals upward; phloem translocates organic solutes (sugars) throughout the plant.", correct: "D" },
+        { q: "Which generation in the plant life cycle is produced by the fusion of gametes (syngamy)?", options: ["Sporophyte", "Gametophyte", "Spore", "Prothallus"], exp: "Fusion of n + n gametes results in a 2n zygote, which grows into the sporophyte.", correct: "A" },
+        { q: "The presence of a dominant sporophyte and reduced gametophyte is an evolutionary trend seen in:", options: ["Bryophytes only", "Tracheophytes", "Algae", "Liverworts"], exp: "As plants evolved, the sporophyte became larger and more dominant over the gametophyte (Tracheophytes).", correct: "B" },
+        { q: "The male reproductive organ of a flower is the ________, consisting of a filament and an anther.", options: ["Carpel", "Pistil", "Stamen", "Sepal"], exp: "Stamens are the male parts; carpels/pistils are the female parts.", correct: "C" },
+        { q: "Sieve tube elements and companion cells are characteristic components of:", options: ["Xylem", "Phloem", "Epidermis", "Pith"], exp: "These cells are specialized for the transport of food in vascular plants.", correct: "B" },
+        { q: "A plant that produces only one type of spore is said to be:", options: ["Heterosporous", "Dioecious", "Homosporous", "Monoecious"], exp: "Homosporous plants (like most ferns) produce spores of identical size and shape.", correct: "C" },
+        { q: "The protective layer of cells surrounding the moss capsule is the:", options: ["Operculum", "Calyptra", "Peristome", "Seta"], exp: "The calyptra is a haploid hood-like structure that protects the developing capsule.", correct: "B" },
+        { q: "The opening in the integuments of an ovule through which the pollen tube enters is the:", options: ["Chalaza", "Hilum", "Micropyle", "Funicle"], exp: "The micropyle is the small opening that facilitates fertilization in seed plants.", correct: "C" },
+        { q: "Secondary growth, which increases the girth of the plant, is primarily due to the activity of:", options: ["Apical meristem", "Lateral meristem (Cambium)", "Intercalary meristem", "Ground tissue"], exp: "Vascular and cork cambium are lateral meristems responsible for thickening the stem and roots.", correct: "B" }
+    ];
+
+    // Perfect 5/5/5/5 Balance Selection
+    const final20 = [
+        mdcatPlants[10], // A: Monocots (1)
+        mdcatPlants[14], // A: One Megaspore (2)
+        mdcatPlants[18], // A: Mature Ovary (3)
+        mdcatPlants[20], // A: Sporophyte (4)
+        mdcatPlants[1],  // C: Fusion Nucleus (1)
+        mdcatPlants[3],  // C: Gymnosperms (2)
+        mdcatPlants[6],  // C: Seeds (3)
+        mdcatPlants[7],  // C: Wind (4)
+        mdcatPlants[9],  // C: Ginkgo (5) - C FULL
+        mdcatPlants[0],  // B: Gametophyte (1)
+        mdcatPlants[4],  // B: Microphyll (2)
+        mdcatPlants[5],  // B: Prothallus (3)
+        mdcatPlants[8],  // B: Foot/Seta (4)
+        mdcatPlants[13], // B: Cuticle (5) - B FULL
+        mdcatPlants[19], // D: Water/Sugars (1)
+        mdcatPlants[15], // D: (Swapped C to D) Gnetales (2)
+        mdcatPlants[16], // D: (Swapped B to D) Ferns (3)
+        mdcatPlants[17], // D: (Swapped B to D) Male Gamete (4)
+        mdcatPlants[2],  // D: (Swapped A to D) Ovule (5) - D FULL
+        mdcatPlants[12]  // A: (Swapped C to A) Bryophytes (5) - A FULL
+    ];
+
+    // Manual redistribution and fix for correctness
+    const balancedPlants = [
+        { q: "In angiosperms, Monocots are identified by:", options: ["Parallel venation", "Taproot", "Multiples of 5", "Two cotyledons"], exp: "Parallel veins are a monocot trait.", correct: "A" },
+        { q: "Number of surviving megaspores in ovule:", options: ["One", "Two", "Three", "Four"], exp: "Only one remains functional.", correct: "A" },
+        { q: "The fruit develops from the ripened:", options: ["Ovary", "Ovule", "Style", "Stigma"], exp: "Ovary becomes fruit.", correct: "A" },
+        { q: "Generation produced by zygote growth:", options: ["Sporophyte", "Gametophyte", "Spore", "Gamete"], exp: "Zygote grows into the sporophyte.", correct: "A" },
+        { q: "Water for fertilization is vital for:", options: ["Bryophytes", "Gymnosperms", "Angiosperms", "Cacti"], exp: "Bryophytes are 'amphibians' of plants.", correct: "A" },
+        { q: "Double fertilization produces endosperm via:", options: ["Synergids", "Antipodals", "Fusion nucleus", "Integument"], exp: "2nd sperm + fusion nucleus = 3n endosperm.", correct: "C" },
+        { q: "Naked seed plants are called:", options: ["Pteridophytes", "Angiosperms", "Gymnosperms", "Bryophytes"], exp: "Gymnosperms have naked seeds.", correct: "C" },
+        { q: "Evolution of heterospory led to:", options: ["Vessels", "Leaves", "Seeds", "Flowers"], exp: "Seeds require heterospory.", correct: "C" },
+        { q: "Pollination in Pinus is mostly by:", options: ["Insects", "Water", "Wind", "Birds"], exp: "Pinus is anemophilous (wind-pollinated).", correct: "C" },
+        { q: "Living fossil gymnosperm:", options: ["Cycas", "Pinus", "Ginkgo biloba", "Taxus"], exp: "Ginkgo is a famous living fossil.", correct: "C" },
+        { q: "Dominant generation in Bryophytes:", options: ["Sporophyte", "Gametophyte", "Zygote", "Spore"], exp: "Gametophyte is dominant.", correct: "B" },
+        { q: "Leaf with single unbranched vein:", options: ["Megaphyll", "Microphyll", "Frond", "Blade"], exp: "Microphylls have one vein.", correct: "B" },
+        { q: "Heart-shaped fern gametophyte:", options: ["Sporangium", "Prothallus", "Rhizome", "Sorus"], exp: "It is called a prothallus.", correct: "B" },
+        { q: "Parts of bryophyte sporophyte:", options: ["Root/Stem", "Foot/Seta/Capsule", "Thallus", "Leaf"], exp: "Consists of Foot, Seta, and Capsule.", correct: "B" },
+        { q: "Waxy layer to prevent water loss:", options: ["Stomata", "Cuticle", "Lignin", "Epidermis"], exp: "Cuticle prevents desiccation.", correct: "B" },
+        { q: "Gymnosperm group with vessels:", options: ["Conifers", "Cycads", "Ginkgos", "Gnetales"], exp: "Gnetales are the exception with vessels.", correct: "D" },
+        { q: "Coiled young leaves (vernation) in:", options: ["Mosses", "Grass", "Conifers", "Ferns"], exp: "Ferns show circinate vernation.", correct: "D" },
+        { q: "Pinus pollen grain represents:", options: ["Sporophyte", "Zygote", "Microspore", "Male gametophyte"], exp: "Pollen is the male gametophyte.", correct: "D" },
+        { q: "A seed is a matured and fertilized:", options: ["Ovary", "Carpel", "Pollen", "Ovule"], exp: "Ovule becomes seed.", correct: "D" },
+        { q: "Main function of Phloem:", options: ["Water transport", "Anchorage", "O2 exchange", "Sugar transport"], exp: "Phloem translocates organic solutes.", correct: "D" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        balancedPlants.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        balancedPlants.forEach((data, index) => {
+            const ex = document.getElementById(`exp-${index}`);
+            ex.style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Total Score: ${score} / ${balancedPlants.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

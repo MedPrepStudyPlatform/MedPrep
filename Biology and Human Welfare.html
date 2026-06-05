@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biology and Human Welfare: Randomized MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Theme: Health Teal & Sunshine Yellow */
+        body { font-family: 'Inter', sans-serif; background: #f0f7f8; color: #2d3436; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 10px solid #008080; }
+        h1 { font-family: 'Outfit', sans-serif; color: #008080; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #f39c12; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        .question { margin-bottom: 35px; padding: 25px; border: 1px solid #dfe6e9; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 20px; color: #2c3e50; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #f1f2f6; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #ffffff; }
+        .option:hover { border-color: #008080; background: #f0f7f8; }
+        .option.selected { background: #2d3436; color: white; border-color: #2d3436; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #008080; color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #006666; transform: translateY(-2px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #2d3436; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #fff9e6; padding: 18px; border-left: 6px solid #f39c12; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #1c2e36; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Biology and Human Welfare</h1>
+    
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+       
+    </div>
+</div>
+
+<script>
+    const welfareData = [
+        { q: "The type of immunity acquired by injecting pre-formed antibodies (e.g., anti-tetanus serum) is:", options: ["Natural Active", "Artificial Active", "Natural Passive", "Artificial Passive"], exp: "Passive immunity involves receiving antibodies directly, providing immediate but short-term protection.", correct: "D" },
+        { q: "Which of the following is a viral disease?", options: ["Typhoid", "Tuberculosis", "Hepatitis", "Cholera"], exp: "Hepatitis is caused by viruses (A, B, C, etc.), while the others are bacterial.", correct: "C" },
+        { q: "The use of living organisms to control pests and diseases is known as:", options: ["Chemical control", "Biological control", "Integrated management", "Physical control"], exp: "Biological control (e.g., using Gambusia fish to eat mosquito larvae) reduces reliance on toxic pesticides.", correct: "B" },
+        { q: "Antibiotics are ineffective against which of the following?", options: ["Bacteria", "Fungi", "Viruses", "Protozoa"], exp: "Viruses use host cell machinery; antibiotics target bacterial structures like cell walls or 70S ribosomes.", correct: "C" },
+        { q: "Vaccines provide protection by stimulating the production of:", options: ["Antigens", "Antibodies and Memory cells", "Red Blood Cells", "Histamines"], exp: "Vaccination triggers a primary immune response, creating memory cells for a faster secondary response.", correct: "B" },
+        { q: "Which of the following is an autoimmune disease?", options: ["AIDS", "Diabetes Mellitus Type 1", "Malaria", "Scurvy"], exp: "Type 1 Diabetes occurs when the immune system attacks insulin-producing beta cells in the pancreas.", correct: "B" },
+        { q: "The 'Master' cells of the immune system that are targeted by the HIV virus are:", options: ["B-lymphocytes", "Helper T-cells (CD4)", "Cytotoxic T-cells", "Natural Killer cells"], exp: "HIV destroys Helper T-cells, collapsing the body's ability to coordinate an immune response.", correct: "B" },
+        { q: "Pasteurization is a process used to kill pathogens in milk by using:", options: ["High pressure", "Heat", "Radiation", "Chemicals"], exp: "Developed by Louis Pasteur, heat treatment kills most harmful microbes without spoiling the food.", correct: "B" },
+        { q: "Which diagnostic test is commonly used to detect HIV antibodies?", options: ["Widal Test", "ELISA", "MRI", "Biopsy"], exp: "ELISA is the primary screening tool for HIV and many other viral infections.", correct: "B" },
+        { q: "The first antibiotic to be discovered was:", options: ["Streptomycin", "Tetracycline", "Penicillin", "Ampicillin"], exp: "Alexander Fleming discovered Penicillin from the mold Penicillium notatum in 1928.", correct: "C" },
+        { q: "Which disease is transmitted by the female Anopheles mosquito?", options: ["Dengue", "Malaria", "Yellow Fever", "Filariasis"], exp: "Malaria is caused by the Plasmodium parasite and spread by Anopheles mosquitoes.", correct: "B" },
+        { q: "A state of complete physical, mental, and social well-being is defined by the WHO as:", options: ["Fitness", "Health", "Immunity", "Hygiene"], exp: "Health is not merely the absence of disease or infirmity.", correct: "B" },
+        { q: "Which organ is primarily affected by the Hepatitis virus?", options: ["Lungs", "Heart", "Liver", "Kidneys"], exp: "Hepatitis literally translates to 'inflammation of the liver'.", correct: "C" },
+        { q: "The chemical substances produced by some microbes that can kill or inhibit other microbes are:", options: ["Antigens", "Antibodies", "Antibiotics", "Interferons"], exp: "Antibiotics are natural or synthetic substances used primarily against bacteria.", correct: "C" },
+        { q: "Oral Rehydration Salt (ORS) is primarily used to treat dehydration caused by:", options: ["Tuberculosis", "Cholera", "Influenza", "Tetanus"], exp: "Cholera causes severe watery diarrhea; ORS is vital for restoring electrolytes.", correct: "B" },
+        { q: "The malignant growth of cells that can spread to other parts of the body is called:", options: ["Benign tumor", "Hyperplasia", "Metastasis", "Atrophy"], exp: "Metastasis is the hallmark of cancerous (malignant) tumors.", correct: "C" },
+        { q: "Which of the following is a non-communicable (chronic) disease?", options: ["Pneumonia", "Measles", "Hypertension", "Syphilis"], exp: "Hypertension (high blood pressure) is caused by lifestyle and genetics, not a pathogen.", correct: "C" },
+        { q: "The process by which a person becomes protected against a disease through vaccination is:", options: ["Infection", "Immunization", "Incubation", "Infestation"], exp: "Immunization is the successful outcome of the vaccination process.", correct: "B" },
+        { q: "BCG vaccine is used to provide protection against:", options: ["Polio", "Tuberculosis", "Diphtheria", "Mumps"], exp: "The Bacillus Calmette-Guérin (BCG) vaccine is specifically for TB.", correct: "B" },
+        { q: "Smallpox has been officially declared eradicated worldwide due to:", options: ["Antibiotics", "Global vaccination programs", "Improved sanitation", "Natural immunity"], exp: "Smallpox is the only human infectious disease to be completely eradicated through vaccination.", correct: "B" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        welfareData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        welfareData.forEach((data, index) => {
+            document.getElementById(`exp-${index}`).style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${welfareData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

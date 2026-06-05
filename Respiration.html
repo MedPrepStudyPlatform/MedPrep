@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respiration: Randomized MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Theme: Deep Teal & Coral */
+        body { font-family: 'Inter', sans-serif; background: #f0f4f7; color: #2d3436; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 10px solid #1289a7; }
+        h1 { font-family: 'Outfit', sans-serif; color: #1289a7; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #636e72; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        .question { margin-bottom: 35px; padding: 25px; border: 1px solid #dfe6e9; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 20px; color: #2c3e50; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #f1f2f6; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #ffffff; }
+        .option:hover { border-color: #1289a7; background: #f0f9fa; }
+        .option.selected { background: #2d3436; color: white; border-color: #2d3436; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #1289a7; color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #0b6c84; transform: translateY(-2px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #2d3436; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #eef9fb; padding: 18px; border-left: 6px solid #1289a7; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #1c2e36; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Respiration</h1>
+    
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const respirationData = [
+        { q: "Which of the following is the final electron acceptor in the aerobic respiratory chain?", options: ["Pyruvate", "NAD+", "Oxygen", "Water"], exp: "Oxygen acts as the final acceptor of electrons and protons to form water.", correct: "C" },
+        { q: "How many net ATP molecules are generated during the glycolysis of one glucose molecule?", options: ["1 ATP", "2 ATP", "4 ATP", "36 ATP"], exp: "4 ATP are produced, but 2 are consumed in the preparatory phase, leaving a net gain of 2.", correct: "B" },
+        { q: "The conversion of Pyruvate to Acetyl-CoA occurs in the:", options: ["Cytosol", "Mitochondrial Matrix", "Inner Mitochondrial Membrane", "Intermembrane Space"], exp: "Pyruvate oxidation (the link reaction) takes place within the matrix of the mitochondria.", correct: "B" },
+        { q: "During the Krebs cycle, the combination of Acetyl-CoA (2C) and Oxaloacetate (4C) forms:", options: ["Succinate", "Citrate", "Malate", "Alpha-ketoglutarate"], exp: "The first step of the Krebs cycle is the formation of Citric acid (6C).", correct: "B" },
+        { q: "Which enzyme is responsible for the synthesis of ATP driven by a proton gradient?", options: ["Hexokinase", "ATP Synthase", "Cytochrome Oxidase", "Pyruvate Dehydrogenase"], exp: "ATP Synthase uses the energy of the proton motive force to phosphorylate ADP to ATP.", correct: "B" },
+        { q: "The process of anaerobic respiration in human muscle cells produces:", options: ["Ethanol and CO2", "Lactic Acid", "Pyruvate and O2", "Acetyl-CoA"], exp: "In the absence of oxygen, muscles reduce pyruvate to lactic acid to regenerate NAD+.", correct: "B" },
+        { q: "How many NADH molecules are produced in a single turn of the Krebs cycle?", options: ["1", "2", "3", "6"], exp: "One turn produces 3 NADH, 1 FADH2, and 1 ATP (via GTP).", correct: "C" },
+        { q: "Each FADH2 molecule entering the Electron Transport Chain typically yields how many ATP?", options: ["1 ATP", "2 ATP", "3 ATP", "4 ATP"], exp: "FADH2 enters at Complex II and pumps fewer protons, yielding approximately 2 ATP.", correct: "B" },
+        { q: "Which stage of cellular respiration releases the most Carbon Dioxide?", options: ["Glycolysis", "Pyruvate Oxidation", "Krebs Cycle", "Electron Transport Chain"], exp: "Two CO2 molecules are released per turn (four per glucose) during the Krebs cycle.", correct: "C" },
+        { q: "The 'Chemiosmotic' theory of ATP synthesis was proposed by:", options: ["Hans Krebs", "Peter Mitchell", "Louis Pasteur", "Melvin Calvin"], exp: "Peter Mitchell proposed that ATP synthesis is driven by a proton gradient.", correct: "B" },
+        { q: "Cytochromes are iron-containing proteins that act as electron carriers in the:", options: ["Cytoplasm", "Chloroplast Stroma", "Inner Mitochondrial Membrane", "Nucleus"], exp: "The ETC consists of cytochromes embedded in the cristae.", correct: "C" },
+        { q: "Which of the following is a 5-carbon intermediate in the Krebs cycle?", options: ["Citrate", "Alpha-ketoglutarate", "Succinate", "Fumarate"], exp: "Alpha-ketoglutarate is the only 5-carbon compound in the cycle.", correct: "B" },
+        { q: "The primary purpose of fermentation is to:", options: ["Produce large amounts of ATP", "Produce Oxygen", "Regenerate NAD+", "Break down lipids"], exp: "Fermentation oxidizes NADH back to NAD+ so glycolysis can continue in anaerobic conditions.", correct: "C" },
+        { q: "What is the total theoretical yield of ATP from the complete aerobic oxidation of one glucose in heart/liver cells?", options: ["2 ATP", "32 ATP", "36 ATP", "38 ATP"], exp: "Using the malate-aspartate shuttle, the maximum yield is 38 ATP.", correct: "D" },
+        { q: "During glycolysis, the enzyme that converts Fructose-6-phosphate to Fructose-1,6-bisphosphate is:", options: ["Hexokinase", "Phosphofructokinase", "Aldolase", "Pyruvate Kinase"], exp: "Phosphofructokinase (PFK) is a key regulatory enzyme in glycolysis.", correct: "B" },
+        { q: "Protons are pumped into which area to create a gradient during ETC?", options: ["Matrix", "Intermembrane space", "Cytosol", "Outer membrane"], exp: "Energy from electrons is used to pump H+ ions into the intermembrane space.", correct: "B" },
+        { q: "Which respiratory substrate has the highest Respiratory Quotient (RQ)?", options: ["Carbohydrates", "Fats", "Proteins", "Organic Acids"], exp: "Carbohydrates have an RQ of 1.0, while fats are approx 0.7.", correct: "A" },
+        { q: "The breakdown of a 6-carbon glucose into two 3-carbon pyruvates is called:", options: ["Krebs Cycle", "Glycolysis", "Fermentation", "Electron Transport"], exp: "Glycolysis literally means 'sugar splitting'.", correct: "B" },
+        { q: "Which of the following is NOT produced during the link reaction?", options: ["Acetyl-CoA", "CO2", "NADH", "ATP"], exp: "The link reaction produces Acetyl-CoA, CO2, and NADH, but no ATP is formed directly.", correct: "D" },
+        { q: "The folds of the inner mitochondrial membrane are known as:", options: ["Stroma", "Thylakoids", "Cristae", "Matrix"], exp: "Cristae increase the surface area for respiratory enzymes and the ETC.", correct: "C" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        respirationData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        respirationData.forEach((data, index) => {
+            document.getElementById(`exp-${index}`).style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${respirationData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

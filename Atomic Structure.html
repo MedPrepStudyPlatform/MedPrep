@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomic Structure </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #eef2fc 0%, #dfe6f0 100%);
+            color: #1a2c3e;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #3b5c8a;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #1e3a5f, #2c5a8c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #2c5a8c;
+            font-weight: 600;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            background: #e8eff9;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 6px 20px;
+            border-radius: 60px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #e0e8f0;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(43, 78, 118, 0.08);
+            border-color: #bdd4e8;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #1e3a5f;
+            padding-left: 14px;
+            border-left: 4px solid #3b5c8a;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e4ebf3;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e2f3a;
+        }
+
+        .option:hover {
+            border-color: #3b5c8a;
+            background: #f0f5fd;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #1e3a5f;
+            color: white;
+            border-color: #1e3a5f;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #2c5a8c;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(44, 90, 140, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #1e3f64;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(30, 63, 100, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #1e2f3f, #1e3a5f);
+            color: #f5f9f0;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #1c3c5c;
+            display: none;
+            background: #f0f6fe;
+            padding: 16px 22px;
+            border-left: 6px solid #3b5c8a;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #2ecc71 !important;
+            background: #e1f7ea !important;
+            color: #0f4428 !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #e67e22 !important;
+            background: #feeddf !important;
+            color: #a33c0e !important;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #5c7f9e;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>⚛️ Atomic Structure</h1>
+    <div style="text-align: center;">
+        
+    </div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()"> SUBMIT</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+       
+    </div>
+    
+</div>
+
+<script>
+    // 20 high-quality Atomic Structure MCQs (FSC Part 1, Chapter 2)
+    const atomicStructureMCQs = [
+        { q: "The concept of 'stationary orbits' was introduced by which scientist?", options: ["Rutherford", "Bohr", "Planck", "de Broglie"], exp: "Niels Bohr proposed that electrons revolve in fixed energy levels (stationary orbits) without radiating energy.", correct: "B" },
+        { q: "The maximum number of electrons that can be accommodated in a subshell with azimuthal quantum number l = 2 is:", options: ["2", "6", "10", "14"], exp: "For l=2 (d-subshell), magnetic quantum numbers = 5 orbitals, each holds 2 electrons → max 10 electrons.", correct: "C" },
+        { q: "Which quantum number determines the shape of an orbital?", options: ["Principal (n)", "Azimuthal (l)", "Magnetic (m)", "Spin (s)"], exp: "Azimuthal quantum number (l) defines the subshell and shape (s, p, d, f).", correct: "B" },
+        { q: "The wavelength of a particle with mass m and velocity v is given by:", options: ["λ = h/mv", "λ = mv/h", "λ = h/√(2mE)", "Both A and C"], exp: "de Broglie equation: λ = h/p = h/(mv). Also λ = h/√(2mE) is equivalent form.", correct: "D" },
+        { q: "The Balmer series of hydrogen atom lies in which region of electromagnetic spectrum?", options: ["Ultraviolet", "Visible", "Infrared", "Microwave"], exp: "Balmer series (n=2 → n=3,4,5...) falls in visible region (Hα, Hβ lines).", correct: "B" },
+        { q: "The number of unpaired electrons in a nitrogen atom (Z=7) in ground state is:", options: ["1", "2", "3", "4"], exp: "Electronic configuration: 1s² 2s² 2p³. According to Hund's rule, three unpaired electrons in 2p orbitals.", correct: "C" },
+        { q: "Which of the following orbitals has the highest energy in a multi-electron atom?", options: ["4s", "4p", "4d", "4f"], exp: "For same principal quantum number, energy increases with l: s < p < d < f. So 4f has highest energy.", correct: "D" },
+        { q: "The shape of p-orbital is:", options: ["Spherical", "Dumbbell", "Double dumbbell", "Complex"], exp: "p-orbitals are dumbbell-shaped with two lobes along axes (px, py, pz).", correct: "B" },
+        { q: "The total number of orbitals in a shell with principal quantum number n = 3 is:", options: ["3", "5", "7", "9"], exp: "Number of orbitals = n² = 9 (3s:1, 3p:3, 3d:5).", correct: "D" },
+        { q: "The 'probability density' of finding an electron in a given region is given by:", options: ["ψ", "ψ²", "|ψ|²", "Both B and C"], exp: "Probability density is ψ² (or |ψ|² for complex wavefunctions).", correct: "D" },
+        { q: "Which series of hydrogen spectrum lies in the ultraviolet region?", options: ["Lyman", "Balmer", "Paschen", "Brackett"], exp: "Lyman series (transitions from n≥2 to n=1) falls in UV region.", correct: "A" },
+        { q: "The orbital angular momentum of an electron in 3p orbital is:", options: ["0", "h/2π", "√2 (h/2π)", "√6 (h/2π)"], exp: "Angular momentum = √[l(l+1)] (h/2π). For p-orbital l=1 → √[1×2] = √2 (h/2π).", correct: "C" },
+        { q: "Pauli's exclusion principle states that:", options: ["Electrons fill lower energy orbitals first", "No two electrons in an atom can have same set of four quantum numbers", "Electrons pair only after each orbital is half-filled", "Energy of orbital increases with n+l"], exp: "Pauli's principle: each electron has unique set of n, l, m, s.", correct: "B" },
+        { q: "The value of azimuthal quantum number for the outermost electron of sodium (Z=11) is:", options: ["0", "1", "2", "3"], exp: "Na: 1s²2s²2p⁶3s¹, outermost electron in 3s → l=0.", correct: "A" },
+        { q: "The Rydberg constant (RH) for hydrogen is approximately:", options: ["1.097 × 10⁷ m⁻¹", "1.097 × 10⁵ m⁻¹", "2.18 × 10⁻¹⁸ J", "Both A and C"], exp: "RH = 1.097×10⁷ m⁻¹ in wavenumber, and also Rydberg energy = 2.18×10⁻¹⁸ J per atom.", correct: "D" },
+        { q: "Which of the following violates Hund's rule?", options: ["[He] 2s² 2p² (both p electrons in same orbital)", "[He] 2s² 2p² (one electron in each of two p orbitals)", "[He] 2s² 2p³", "[Ne] 3s¹"], exp: "Hund's rule: electrons occupy degenerate orbitals singly before pairing. Putting two electrons in same p orbital without singly occupying all violates Hund's rule.", correct: "A" },
+        { q: "The maximum number of electrons that can have spin quantum number +½ in an atom with n=3 is:", options: ["5", "9", "10", "18"], exp: "Total electrons in n=3 = 18 (including all subshells). Half can have +½ spin → 9 electrons.", correct: "B" },
+        { q: "The ionization energy of hydrogen atom in its ground state is:", options: ["-13.6 eV", "13.6 eV", "10.2 eV", "3.4 eV"], exp: "Ground state energy = -13.6 eV, ionization energy = +13.6 eV (energy required to remove electron).", correct: "B" },
+        { q: "The number of radial nodes for a 3s orbital is:", options: ["0", "1", "2", "3"], exp: "Number of radial nodes = n - l - 1. For 3s: n=3, l=0 → nodes = 3-0-1 = 2 radial nodes.", correct: "C" },
+        { q: "The phenomenon that particles exhibit wave-like behavior is known as:", options: ["Photoelectric effect", "Compton effect", "Wave-particle duality", "Heisenberg uncertainty"], exp: "Wave-particle duality (de Broglie) states that matter has both particle and wave nature.", correct: "C" }
+    ];
+
+    // Shuffle questions array for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};     // stores selected option letter per question index
+
+    function loadQuiz() {
+        // create fresh shuffled copy of the 20 questions
+        randomizedQuestions = shuffleArray([...atomicStructureMCQs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>💡 Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        // remove selected class from siblings
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        // store user answer
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        // reveal explanations and highlight correct/wrong answers
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            // Highlight the correct option in green
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                // If user selected wrong and this option matches their wrong pick, mark as wrong
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            // Check correctness
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = ` Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        // Smooth scroll to results
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    // Initialize quiz with randomized order
+    loadQuiz();
+</script>
+</body>
+</html>

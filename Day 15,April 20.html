@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 2· Day 15 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 2</span>
+        <span><i class="fas fa-clock"></i> Day 15,April 20, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';">Score</h2>
+        <div id="final-score">0 / 50</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class="fas fa-biohazard"></i> Syllabus </h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-brain"></i> Coordination & Control </span>
+            <span><i class="fas fa-leaf"></i> Organic Compounds </span>
+            <span><i class="fas fa-magnet"></i> Electromagnetic Induction</span>
+            <span><i class="fas fa-location-dot"></i> Prepositions</span>
+        </div>
+        
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> © MedPrep 2026 · All Rights Reserved.</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// TOUGHEST 50 MDCAT-STYLE MCQs - April 20th
+// Biology: Coordination & Control (15) | Chemistry: Organic Compounds (15) | Physics: Electromagnetic Induction (15) | English: Prepositions (5)
+// ✅ EACH QUESTION: Correct answer letter matches the explanation precisely
+// --------------------------------------------------------------
+const quizData = [];
+
+// ==================== BIOLOGY: COORDINATION & CONTROL (15) ====================
+const bioCoord = [
+    {q: "The basic structural and functional unit of the nervous system is:", a: "C", choices: ["Axon", "Dendrite", "Neuron", "Synapse"], e: "Neuron is the specialized cell that transmits electrical and chemical signals."},
+    {q: "The part of the neuron that receives signals from other neurons is:", a: "B", choices: ["Axon", "Dendrite", "Cell body", "Myelin sheath"], e: "Dendrites receive incoming signals and transmit them toward the cell body."},
+    {q: "The gap between two neurons where communication occurs is called:", a: "D", choices: ["Node of Ranvier", "Axon hillock", "Neuroglia", "Synapse"], e: "Synapse is the junction where neurotransmitters are released to pass signal."},
+    {q: "Which part of the brain is responsible for balance and coordination of movement?", a: "C", choices: ["Cerebrum", "Hypothalamus", "Cerebellum", "Medulla oblongata"], e: "Cerebellum coordinates voluntary movements, balance, and fine motor control."},
+    {q: "The largest part of the human brain responsible for higher cognitive functions is:", a: "A", choices: ["Cerebrum", "Cerebellum", "Brainstem", "Thalamus"], e: "Cerebrum controls reasoning, memory, emotions, and voluntary actions."},
+    {q: "The medulla oblongata controls:", a: "D", choices: ["Thinking and memory", "Vision", "Body temperature", "Heartbeat and breathing"], e: "Medulla oblongata regulates vital autonomic functions: cardiac, respiratory, and vasomotor centers."},
+    {q: "The hormone secreted by the adrenal medulla during stress response is:", a: "B", choices: ["Cortisol", "Adrenaline (epinephrine)", "Aldosterone", "Insulin"], e: "Adrenaline (epinephrine) triggers 'fight-or-flight' response."},
+    {q: "Which gland is known as the 'master gland' of the endocrine system?", a: "C", choices: ["Thyroid", "Adrenal", "Pituitary", "Pancreas"], e: "Pituitary gland secretes hormones that regulate other endocrine glands."},
+    {q: "The hormone that regulates blood calcium levels is:", a: "D", choices: ["Insulin", "Glucagon", "Thyroxine", "Parathyroid hormone (PTH)"], e: "PTH increases blood calcium by releasing from bones and increasing absorption."},
+    {q: "The part of the brain that connects the nervous system to the endocrine system is:", a: "B", choices: ["Cerebrum", "Hypothalamus", "Pons", "Corpus callosum"], e: "Hypothalamus controls pituitary gland, linking neural and hormonal systems."},
+    {q: "A reflex arc involves:", a: "A", choices: ["Sensory neuron → interneuron → motor neuron", "Motor neuron → sensory neuron", "Brain directly controlling response", "Only motor neurons"], e: "Reflex arc: stimulus → receptor → sensory neuron → spinal cord → motor neuron → effector."},
+    {q: "Which neurotransmitter is involved in muscle contraction and memory?", a: "C", choices: ["Dopamine", "Serotonin", "Acetylcholine", "GABA"], e: "Acetylcholine (ACh) is released at neuromuscular junctions and in brain for memory."},
+    {q: "The sympathetic nervous system primarily:", a: "D", choices: ["Rest and digest", "Controls voluntary movement", "Slows heart rate", "Prepares body for stress (fight-or-flight)"], e: "Sympathetic activation increases heart rate, blood pressure, and energy availability."},
+    {q: "The hormone insulin is produced by:", a: "B", choices: ["Liver", "Pancreas (beta cells)", "Pituitary", "Adrenal cortex"], e: "Beta cells of islets of Langerhans in pancreas secrete insulin."},
+    {q: "Myelin sheath is produced by:", a: "C", choices: ["Neurons", "Synapses", "Oligodendrocytes (CNS) and Schwann cells (PNS)", "Astrocytes"], e: "Myelin insulates axons, increasing conduction velocity."}
+];
+bioCoord.forEach(item => quizData.push(item));
+
+// ==================== CHEMISTRY: ORGANIC COMPOUNDS (15) ====================
+const chemOrganic = [
+    {q: "The branch of chemistry that deals with carbon compounds is called:", a: "B", choices: ["Inorganic chemistry", "Organic chemistry", "Physical chemistry", "Analytical chemistry"], e: "Organic chemistry studies carbon-containing compounds (except CO, CO₂, carbonates)."},
+    {q: "The general formula for alkanes is:", a: "C", choices: ["CₙH₂ₙ", "CₙH₂ₙ₊₂", "CₙH₂ₙ₊₂", "CₙH₂ₙ₋₂"], e: "Alkanes (saturated hydrocarbons): CₙH₂ₙ₊₂, e.g., methane CH₄, ethane C₂H₆."},
+    {q: "The functional group of alcohols is:", a: "D", choices: ["-CHO", "-COOH", "-NH₂", "-OH"], e: "Hydroxyl group (-OH) characterizes alcohols (e.g., methanol, ethanol)."},
+    {q: "Which compound is an example of an alkene?", a: "A", choices: ["Ethene (C₂H₄)", "Ethane (C₂H₆)", "Ethyne (C₂H₂)", "Benzene (C₆H₆)"], e: "Alkenes contain C=C double bond; ethene is simplest alkene."},
+    {q: "The IUPAC name of CH₃CH₂CH₂CH₃ is:", a: "B", choices: ["Methane", "Butane", "Propane", "Pentane"], e: "Four carbon chain → butane."},
+    {q: "Which of the following is an aromatic hydrocarbon?", a: "C", choices: ["Cyclohexane", "Hexane", "Benzene", "Ethene"], e: "Benzene (C₆H₆) has delocalized π electrons and aromatic stability."},
+    {q: "The functional group of carboxylic acids is:", a: "D", choices: ["-OH", "-CHO", "-CO-", "-COOH"], e: "Carboxyl group (-COOH) gives acidic properties."},
+    {q: "The compound CH₃CHO is called:", a: "A", choices: ["Acetaldehyde (ethanal)", "Acetone", "Ethanol", "Acetic acid"], e: "Aldehyde functional group (-CHO): ethanal (acetaldehyde)."},
+    {q: "Isomers are compounds that have:", a: "B", choices: ["Same molecular formula but different structural formula", "Same molecular formula but different structural formula", "Different molecular formulas", "Same physical properties"], e: "Isomers: same molecular formula, different arrangement of atoms."},
+    {q: "The reaction of an alkene with hydrogen in presence of catalyst is called:", a: "C", choices: ["Hydration", "Halogenation", "Hydrogenation", "Combustion"], e: "Hydrogenation adds H₂ across double bond to form alkane."},
+    {q: "Which of the following is a saturated hydrocarbon?", a: "D", choices: ["Ethene", "Ethyne", "Benzene", "Propane"], e: "Propane (C₃H₈) is an alkane (single bonds only)."},
+    {q: "The IUPAC name of CH₃CH(OH)CH₃ is:", a: "B", choices: ["1-propanol", "2-propanol", "Propanal", "Acetone"], e: "OH on second carbon of 3-carbon chain → 2-propanol (isopropyl alcohol)."},
+    {q: "The process of converting alkene to alcohol is called:", a: "A", choices: ["Hydration", "Dehydration", "Hydrogenation", "Oxidation"], e: "Hydration adds water (H-OH) across double bond in presence of acid."},
+    {q: "Which compound gives positive iodoform test?", a: "C", choices: ["Methanol", "1-propanol", "Ethanol", "Butanol"], e: "Ethanol (and methyl ketones) give yellow precipitate of CHI₃ with I₂/NaOH."},
+    {q: "The general formula for alkynes is:", a: "D", choices: ["CₙH₂ₙ", "CₙH₂ₙ₊₂", "CₙH₂ₙ₊₂", "CₙH₂ₙ₋₂"], e: "Alkynes have triple bond: CₙH₂ₙ₋₂ (e.g., ethyne C₂H₂)."}
+];
+chemOrganic.forEach(item => quizData.push(item));
+
+// ==================== PHYSICS: ELECTROMAGNETIC INDUCTION (15) ====================
+const physicsEMI = [
+    {q: "Electromagnetic induction was discovered by:", a: "C", choices: ["Oersted", "Ampere", "Faraday", "Maxwell"], e: "Michael Faraday (1831) discovered that changing magnetic field induces EMF."},
+    {q: "Faraday's law of electromagnetic induction states that induced EMF is:", a: "D", choices: ["Proportional to magnetic field", "Proportional to current", "Proportional to area", "Proportional to rate of change of magnetic flux"], e: "ε = -dΦ/dt; faster flux change → greater induced EMF."},
+    {q: "Lenz's law is a consequence of the conservation of:", a: "B", choices: ["Charge", "Energy", "Momentum", "Mass"], e: "Lenz's law (opposing flux change) ensures energy conservation."},
+    {q: "The SI unit of magnetic flux is:", a: "C", choices: ["Tesla", "Henry", "Weber", "Gauss"], e: "Weber (Wb) = 1 T·m²; 1 Wb = 10⁸ maxwell."},
+    {q: "A coil of 100 turns has magnetic flux changing at 0.05 Wb/s. Induced EMF is:", a: "B", choices: ["0.5 V", "5 V", "50 V", "0.05 V"], e: "ε = -N dΦ/dt = -100 × 0.05 = -5 V; magnitude 5 V."},
+    {q: "The direction of induced current is given by:", a: "D", choices: ["Right-hand thumb rule", "Fleming's left-hand rule", "Right-hand palm rule", "Lenz's law"], e: "Lenz's law determines direction: induced current opposes change in flux."},
+    {q: "A transformer works on the principle of:", a: "B", choices: ["Self-induction", "Mutual induction", "Electrostatic induction", "Magnetic effect of current"], e: "Changing current in primary induces EMF in secondary via mutual induction."},
+    {q: "The induced EMF in a moving rod in a magnetic field is given by:", a: "C", choices: ["ε = BIL", "ε = BvL", "ε = BvL", "ε = BL/v"], e: "Motional EMF: ε = Bℓv (where ℓ is length perpendicular to motion)."},
+    {q: "If the number of turns in a coil is doubled, the induced EMF becomes:", a: "A", choices: ["Double", "Half", "Four times", "Unchanged"], e: "ε ∝ N; doubling turns doubles induced EMF."},
+    {q: "Eddy currents are:", a: "D", choices: ["Currents in primary coil", "Currents in secondary coil", "Useful for heating", "Circulating currents induced in bulk metal"], e: "Eddy currents cause energy loss (heating) in transformer cores."},
+    {q: "Laminating the core of a transformer reduces:", a: "B", choices: ["Mutual inductance", "Eddy current losses", "Hysteresis losses", "Copper losses"], e: "Laminations increase resistance to eddy currents, reducing heat loss."},
+    {q: "Self-inductance of a coil depends on:", a: "C", choices: ["Current only", "Voltage only", "Number of turns, area, core material", "Resistance"], e: "L = μN²A/ℓ; geometry and core permeability determine inductance."},
+    {q: "The back EMF in a motor is maximum when:", a: "D", choices: ["Motor starts", "Motor is stalled", "Motor is overloaded", "Motor runs at full speed"], e: "Back EMF ∝ ω; at full speed, back EMF is maximum."},
+    {q: "A step-up transformer has:", a: "A", choices: ["Nₛ > Nₚ", "Nₚ > Nₛ", "Nₚ = Nₛ", "No core"], e: "Step-up: secondary voltage higher → more turns in secondary."},
+    {q: "The unit of self-inductance is:", a: "C", choices: ["Weber", "Tesla", "Henry", "Farad"], e: "Henry (H) = V·s/A."}
+];
+physicsEMI.forEach(item => quizData.push(item));
+
+// ==================== ENGLISH: PREPOSITIONS (5) ====================
+const engPrepositions = [
+    {q: "Choose the correct preposition: 'She is interested ___ learning new languages.'", a: "C", choices: ["for", "to", "in", "about"], e: "'Interested in' is the correct collocation."},
+    {q: "Complete the sentence: 'He apologized ___ being late.'", a: "B", choices: ["about", "for", "with", "of"], e: "'Apologize for' is used to express regret about something."},
+    {q: "Select the correct preposition: 'The book was written ___ Shakespeare.'", a: "D", choices: ["from", "with", "of", "by"], e: "'Written by' indicates the author/creator."},
+    {q: "Fill in the blank: 'I prefer coffee ___ tea.'", a: "A", choices: ["to", "than", "over", "from"], e: "'Prefer X to Y' is standard comparative structure."},
+    {q: "Choose the correct sentence:", a: "C", choices: ["He is good in mathematics.", "He is good at mathematics.", "He is good at mathematics.", "He is good for mathematics."], e: "'Good at' is used for skills and abilities."}
+];
+engPrepositions.forEach(item => quizData.push(item));
+
+// Final check: total 15+15+15+5 = 50
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 50`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = "Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

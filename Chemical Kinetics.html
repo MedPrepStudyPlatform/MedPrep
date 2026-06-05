@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemical Kinetics | FSC Chemistry MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f3e8ff 0%, #e9d5ff 100%);
+            color: #5b21b6;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #8b5cf6;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #d8b4fe;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(139, 92, 246, 0.08);
+            border-color: #c084fc;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #5b21b6;
+            padding-left: 14px;
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #8b5cf6;
+            background: #f3e8ff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #6d28d9;
+            color: white;
+            border-color: #6d28d9;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(139, 92, 246, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #6d28d9;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(109, 40, 217, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #5b21b6, #6d28d9);
+            color: #f3e8ff;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #5b21b6;
+            display: none;
+            background: #f3e8ff;
+            padding: 16px 22px;
+            border-left: 6px solid #8b5cf6;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Chemical Kinetics</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 high-quality Chemical Kinetics MCQs (FSC Part 1, Chapter 10)
+    const kineticsMCQs = [
+        { q: "The branch of chemistry that deals with the rate of chemical reactions is called:", options: ["Thermochemistry", "Electrochemistry", "Chemical Kinetics", "Quantum Chemistry"], exp: "Chemical kinetics is the study of reaction rates, mechanisms, and factors affecting them.", correct: "C" },
+        { q: "The rate of a reaction is defined as:", options: ["Change in concentration per unit time", "Change in pressure per unit time", "Change in temperature per unit time", "Change in volume per unit time"], exp: "Reaction rate = Δ[concentration]/Δt, usually in mol L⁻¹ s⁻¹.", correct: "A" },
+        { q: "For a reaction A → B, the instantaneous rate is given by:", options: ["-d[A]/dt", "+d[B]/dt", "Both A and B", "d[A]/dt"], exp: "Rate = -d[A]/dt = +d[B]/dt (since A decreases, B increases).", correct: "C" },
+        { q: "The rate law for a reaction is determined by:", options: ["Stoichiometric coefficients", "Experimentally", "Temperature only", "Activation energy"], exp: "Rate law is determined experimentally from initial rate data, not from balanced equation.", correct: "B" },
+        { q: "For a zero-order reaction, the rate is:", options: ["Proportional to concentration", "Independent of concentration", "Proportional to square of concentration", "Proportional to 1/concentration"], exp: "Zero-order: rate = k, independent of reactant concentration.", correct: "B" },
+        { q: "The half-life of a first-order reaction is:", options: ["Directly proportional to initial concentration", "Independent of initial concentration", "Inversely proportional to initial concentration", "Proportional to k"], exp: "For first-order: t₁/₂ = 0.693/k, independent of initial concentration.", correct: "B" },
+        { q: "The activation energy (Ea) of a reaction can be calculated using:", options: ["Arrhenius equation", "Hess's law", "Le Chatelier's principle", "Boyle's law"], exp: "Arrhenius equation: k = A e^(-Ea/RT).", correct: "A" },
+        { q: "A catalyst increases the rate of a reaction by:", options: ["Increasing temperature", "Decreasing activation energy", "Increasing concentration of reactants", "Changing equilibrium constant"], exp: "Catalyst provides an alternative pathway with lower activation energy.", correct: "B" },
+        { q: "The molecularity of a reaction is:", options: ["Number of molecules involved in rate-determining step", "Order of reaction", "Always an integer", "Both A and C"], exp: "Molecularity is the number of reacting species in the elementary step, always a positive integer (1,2,3).", correct: "D" },
+        { q: "The unit of rate constant for a first-order reaction is:", options: ["mol L⁻¹ s⁻¹", "s⁻¹", "L mol⁻¹ s⁻¹", "L² mol⁻² s⁻¹"], exp: "For first order: rate = k[A], so k has units s⁻¹.", correct: "B" },
+        { q: "Which factor does NOT affect the rate of a reaction?", options: ["Temperature", "Concentration", "Activation energy", "ΔG of reaction"], exp: "ΔG determines spontaneity but not rate. Activation energy affects rate.", correct: "D" },
+        { q: "According to collision theory, for a reaction to occur, the colliding molecules must have:", options: ["Sufficient energy", "Proper orientation", "Both A and B", "High molecular weight"], exp: "Effective collisions require both sufficient energy (≥ Ea) and correct orientation.", correct: "C" },
+        { q: "The rate constant of a reaction doubles when temperature is increased from 300 K to 310 K. The activation energy is approximately:", options: ["~50 kJ/mol", "~100 kJ/mol", "~25 kJ/mol", "~10 kJ/mol"], exp: "Using Arrhenius: ln(k₂/k₁) = Ea/R (1/T₁ - 1/T₂). Approx Ea ≈ 53 kJ/mol.", correct: "A" },
+        { q: "For a reaction A + B → C, if doubling [A] doubles the rate and doubling [B] has no effect, the rate law is:", options: ["rate = k[A]²", "rate = k[A][B]", "rate = k[A]", "rate = k[B]"], exp: "Rate ∝ [A]¹ and independent of [B], so rate = k[A] (first order in A, zero in B).", correct: "C" },
+        { q: "The half-life of a zero-order reaction is:", options: ["[A]₀/2k", "0.693/k", "k/[A]₀", "2k/[A]₀"], exp: "For zero-order: t₁/₂ = [A]₀/(2k), directly proportional to initial concentration.", correct: "A" },
+        { q: "The energy difference between reactants and the transition state is called:", options: ["Enthalpy of reaction", "Activation energy", "Free energy", "Ionization energy"], exp: "Activation energy is the minimum energy required to reach the transition state.", correct: "B" },
+        { q: "A reaction that proceeds through two or more steps is called:", options: ["Elementary reaction", "Complex reaction", "Ordered reaction", "Chain reaction"], exp: "Complex reactions have multiple elementary steps and a reaction mechanism.", correct: "B" },
+        { q: "The rate-determining step is the step with:", options: ["Lowest activation energy", "Highest activation energy", "Fastest rate", "Largest molecularity"], exp: "The slowest step (highest activation energy) determines the overall rate.", correct: "B" },
+        { q: "For a first-order reaction, the time for 99.9% completion is approximately:", options: ["3 × t₁/₂", "6 × t₁/₂", "10 × t₁/₂", "2 × t₁/₂"], exp: "For first order: t = (2.303/k) log([A]₀/[A]). For 99.9%, [A]₀/[A]=1000, t ≈ 6.91 × t₁/₂ ≈ 10 t₁/₂.", correct: "C" },
+        { q: "A catalyst that exists in the same phase as the reactants is called:", options: ["Homogeneous catalyst", "Heterogeneous catalyst", "Enzyme", "Promoter"], exp: "Homogeneous catalyst is in the same phase (e.g., aqueous acid catalyzing ester hydrolysis).", correct: "A" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...kineticsMCQs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

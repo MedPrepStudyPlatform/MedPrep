@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Force and Motion | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fff7ed 0%, #ffedd5 100%);
+            color: #9a3412;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #ea580c;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #c2410c, #ea580c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #fed7aa;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(234, 88, 12, 0.08);
+            border-color: #fdba74;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #9a3412;
+            padding-left: 14px;
+            border-left: 4px solid #ea580c;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #ea580c;
+            background: #fff7ed;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #c2410c;
+            color: white;
+            border-color: #c2410c;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #ea580c;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(234, 88, 12, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #c2410c;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(194, 65, 12, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #9a3412, #c2410c);
+            color: #fff7ed;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #9a3412;
+            display: none;
+            background: #fff7ed;
+            padding: 16px 22px;
+            border-left: 6px solid #ea580c;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Force and Motion</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Force and Motion MCQs (Physics FSC Part 1, Chapter 3)
+    const forceMotionMcqs = [
+        { q: "A ball of mass 0.5 kg is thrown vertically upward with a speed of 20 m/s. The magnitude of the net force acting on the ball at the highest point of its trajectory is (neglect air resistance):", options: ["0 N", "4.9 N", "9.8 N", "19.6 N"], exp: "At the highest point, velocity becomes zero but acceleration due to gravity (g = 9.8 m/s²) still acts downward. Net force = mg = 0.5 × 9.8 = 4.9 N. Velocity being zero does not mean no force.", correct: "B" },
+        { q: "A car of mass 1000 kg is moving with a velocity of 20 m/s. It is brought to rest by applying brakes in 5 seconds. The average retarding force is:", options: ["2000 N", "4000 N", "5000 N", "10000 N"], exp: "Acceleration = (v - u)/t = (0 - 20)/5 = -4 m/s². Force = m × a = 1000 × 4 = 4000 N (retarding).", correct: "B" },
+        { q: "A bullet of mass 20 g is fired from a gun of mass 5 kg. If the muzzle velocity of the bullet is 300 m/s, the recoil velocity of the gun is:", options: ["1.2 m/s", "1.5 m/s", "2.0 m/s", "3.0 m/s"], exp: "Conservation of momentum: m₁v₁ + m₂v₂ = 0. (20/1000) × 300 + 5 × v = 0 → 6 + 5v = 0 → v = -1.2 m/s. Magnitude = 1.2 m/s.", correct: "A" },
+        { q: "The slope of velocity-time graph gives:", options: ["Distance", "Displacement", "Acceleration", "Force"], exp: "Slope of velocity-time graph = change in velocity / change in time = acceleration.", correct: "C" },
+        { q: "A ball is dropped from a height of 45 m. The time taken to reach the ground is (g = 10 m/s²):", options: ["2 s", "3 s", "4 s", "5 s"], exp: "Using h = ½gt², 45 = ½ × 10 × t² → 45 = 5t² → t² = 9 → t = 3 s.", correct: "B" },
+        { q: "Newton's first law of motion is also known as:", options: ["Law of inertia", "Law of acceleration", "Law of action-reaction", "Law of gravitation"], exp: "Newton's first law states that a body remains at rest or in uniform motion unless acted upon by an external force. This is called the law of inertia.", correct: "A" },
+        { q: "The impulse experienced by a body is equal to:", options: ["Change in kinetic energy", "Change in momentum", "Change in velocity", "Change in acceleration"], exp: "Impulse = Force × time = change in momentum (Δp = mΔv).", correct: "B" },
+        { q: "A projectile is fired at an angle of 45° with the horizontal. The ratio of its maximum height to horizontal range is:", options: ["1:2", "1:4", "1:8", "1:16"], exp: "Maximum height H = (u² sin²θ)/(2g), Range R = (u² sin2θ)/g. For θ=45°, sin45° = 1/√2, sin²45° = 1/2, sin90°=1. So H/R = (1/2)/(2) = 1/4. Ratio H:R = 1:4.", correct: "B" },
+        { q: "A body of mass 2 kg is moving with a velocity of 5 m/s. A constant force of 4 N acts on it in the direction opposite to motion for 4 seconds. The final velocity is:", options: ["1 m/s", "2 m/s", "3 m/s", "4 m/s"], exp: "Acceleration = F/m = -4/2 = -2 m/s². v = u + at = 5 + (-2)×4 = 5 - 8 = -3 m/s. Magnitude 3 m/s in opposite direction.", correct: "C" },
+        { q: "The time of flight of a projectile on horizontal ground is T. The time taken to reach the maximum height is:", options: ["T", "T/2", "2T", "T/4"], exp: "Due to symmetry, time of ascent equals time of descent, so time to maximum height = T/2.", correct: "B" },
+        { q: "Which of the following statements about friction is correct?", options: ["Kinetic friction is greater than static friction", "Static friction is always constant", "Friction always opposes motion", "Friction depends on the area of contact"], exp: "Friction always opposes relative motion (or tendency of motion). Kinetic friction is less than static friction. Static friction varies up to a maximum. Friction is independent of area of contact (for the same normal force). So correct is that friction opposes motion.", correct: "C" },
+        { q: "A stone is thrown horizontally with a speed of 10 m/s from the top of a 20 m high building. The horizontal distance traveled before hitting the ground is (g = 10 m/s²):", options: ["10 m", "20 m", "30 m", "40 m"], exp: "Time to fall: h = ½gt² → 20 = 5t² → t = 2 s. Horizontal distance = u × t = 10 × 2 = 20 m.", correct: "B" },
+        { q: "A body of mass 5 kg is acted upon by two perpendicular forces of 3 N and 4 N. The magnitude of the acceleration of the body is:", options: ["0.6 m/s²", "0.8 m/s²", "1.0 m/s²", "1.4 m/s²"], exp: "Resultant force = √(3²+4²) = 5 N. Acceleration = F/m = 5/5 = 1.0 m/s².", correct: "C" },
+        { q: "The principle of conservation of linear momentum is derived from:", options: ["Newton's first law", "Newton's second law", "Newton's third law", "Law of gravitation"], exp: "Conservation of momentum follows from Newton's third law (action-reaction pairs).", correct: "C" },
+        { q: "A 1000 kg car is moving at 20 m/s. It collides with a stationary 500 kg car and they stick together. The common velocity after collision is:", options: ["10 m/s", "13.3 m/s", "15 m/s", "20 m/s"], exp: "Conservation of momentum: m₁u₁ + m₂u₂ = (m₁+m₂)v → 1000×20 + 0 = 1500v → 20000 = 1500v → v = 13.33 m/s ≈ 13.3 m/s.", correct: "B" },
+        { q: "The acceleration of a body sliding down a frictionless inclined plane of angle θ is:", options: ["g", "g sinθ", "g cosθ", "g tanθ"], exp: "On a frictionless incline, the component of gravity along the plane is mg sinθ, so acceleration = g sinθ.", correct: "B" },
+        { q: "A body is projected vertically upward. At its highest point, which of the following is zero?", options: ["Velocity", "Acceleration", "Force", "Both A and C"], exp: "At highest point, velocity becomes zero momentarily. Acceleration remains g downward, so force = mg is also present. Only velocity is zero.", correct: "A" },
+        { q: "A force of 10 N acts on a body of mass 2 kg for 3 seconds. The impulse imparted is:", options: ["6 Ns", "15 Ns", "30 Ns", "60 Ns"], exp: "Impulse = Force × time = 10 × 3 = 30 Ns.", correct: "C" },
+        { q: "If the coefficient of static friction between a block of mass 10 kg and the floor is 0.4, the minimum horizontal force required to just move the block is (g = 10 m/s²):", options: ["20 N", "30 N", "40 N", "50 N"], exp: "Maximum static friction = μs × N = 0.4 × (10×10) = 0.4 × 100 = 40 N. Force required to overcome static friction is 40 N.", correct: "C" },
+        { q: "A ball is thrown at an angle of 30° with the horizontal with a speed of 20 m/s. The maximum height attained is (g = 10 m/s²):", options: ["2 m", "5 m", "10 m", "20 m"], exp: "H = (u² sin²θ)/(2g) = (400 × (1/2)²)/(20) = (400 × 1/4)/20 = 100/20 = 5 m.", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...forceMotionMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

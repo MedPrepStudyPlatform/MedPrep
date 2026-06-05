@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep Quiz: Cell Structure & Function</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f5fafd; color: #15304c; padding: 20px; margin: 0; }
+        .quiz-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 24px; box-shadow: 0 10px 25px rgba(10, 44, 72, 0.1); }
+        h1 { font-family: 'Outfit', sans-serif; color: #0a2c48; text-align: center; margin-bottom: 30px; }
+        .question { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #e0f2fe; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 15px; }
+        .options { display: grid; gap: 10px; }
+        .option { padding: 12px 15px; border: 2px solid #bbe0f0; border-radius: 12px; cursor: pointer; transition: 0.2s; }
+        .option:hover { background: #f0faff; border-color: #1ecbe1; }
+        .option.selected { background: #0a2c48; color: white; border-color: #0a2c48; }
+        
+        .btn-submit { display: block; width: 100%; padding: 15px; background: #1ecbe1; color: #0a2c48; border: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .btn-submit:hover { background: #0a2c48; color: white; }
+
+        #results { display: none; margin-top: 30px; padding: 20px; border-radius: 15px; text-align: center; }
+        .explanation { margin-top: 10px; font-size: 0.9rem; color: #1f6a92; display: none; background: #eff9ff; padding: 10px; border-left: 4px solid #1ecbe1; border-radius: 4px; }
+        .correct { border-color: #2ecc71 !important; background: #eafff2; }
+        .wrong { border-color: #e74c3c !important; background: #fff2f0; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Cell Structure & Function</h1>
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        { q: "Which organelle is known as the 'powerhouse' of the cell?", a: "Mitochondria", options: ["Nucleus", "Ribosome", "Mitochondria", "Lysosome"], exp: "Mitochondria generate ATP through cellular respiration.", correct: "C" },
+        { q: "The cell wall of fungi is primarily composed of:", a: "Chitin", options: ["Cellulose", "Chitin", "Peptidoglycan", "Pectin"], exp: "Chitin is a tough polysaccharide found in fungal cell walls.", correct: "B" },
+        { q: "Which of the following lacks a membrane-bound nucleus?", a: "Bacteria", options: ["Amoeba", "Yeast", "Bacteria", "Plant Cell"], exp: "Bacteria are prokaryotes and do not have a defined nucleus.", correct: "C" },
+        { q: "Fluid mosaic model of plasma membrane was proposed by:", a: "Singer and Nicolson", options: ["Robert Brown", "Singer and Nicolson", "Schleiden and Schwann", "Hooke"], exp: "Proposed in 1972, it describes the membrane as a lipid bilayer with floating proteins.", correct: "B" },
+        { q: "Lysosomes are produced by which organelle?", a: "Golgi apparatus", options: ["Smooth ER", "Nucleus", "Golgi apparatus", "Mitochondria"], exp: "The Golgi complex processes and packages enzymes into lysosomes.", correct: "C" },
+        { q: "The site of ribosomal RNA (rRNA) synthesis is:", a: "Nucleolus", options: ["Cytoplasm", "Nucleolus", "Rough ER", "Nuclear Pore"], exp: "The nucleolus is a dense region inside the nucleus dedicated to rRNA production.", correct: "B" },
+        { q: "Which organelle is involved in lipid synthesis and detoxification?", a: "Smooth ER", options: ["Smooth ER", "Rough ER", "Ribosome", "Centriole"], exp: "Smooth ER lacks ribosomes and synthesizes lipids and steroids.", correct: "A" },
+        { q: "Plant cell vacuole is surrounded by a membrane called:", a: "Tonoplast", options: ["Plasmodesmata", "Chloroplast", "Tonoplast", "Cell wall"], exp: "The tonoplast regulates the movement of ions and water into the vacuole.", correct: "C" },
+        { q: "In plants, the cell wall is primarily made of:", a: "Cellulose", options: ["Glycogen", "Cellulose", "Starch", "Protein"], exp: "Cellulose provides structural support and rigidity to plant cells.", correct: "B" },
+        { q: "Which organelle is responsible for autophagy (self-eating)?", a: "Lysosome", options: ["Lysosome", "Peroxisome", "Glyoxysome", "Vacuole"], exp: "Lysosomes contain digestive enzymes that break down old cellular components.", correct: "A" },
+        { q: "Microtubules are composed of which protein?", a: "Tubulin", options: ["Actin", "Myosin", "Tubulin", "Keratin"], exp: "Tubulin dimers polymerize to form hollow microtubules.", correct: "C" },
+        { q: "Which organelle is double-membrane bound and contains its own DNA?", a: "Chloroplast", options: ["Ribosome", "Chloroplast", "Lysosome", "ER"], exp: "Chloroplasts (and Mitochondria) have their own circular DNA and ribosomes.", correct: "B" },
+        { q: "The movement of molecules from high to low concentration via a protein carrier is:", a: "Facilitated diffusion", options: ["Active transport", "Simple diffusion", "Facilitated diffusion", "Exocytosis"], exp: "It uses carrier proteins but does not require energy (ATP).", correct: "C" },
+        { q: "Which of the following is found only in animal cells?", a: "Centriole", options: ["Centriole", "Cell Wall", "Large Vacuole", "Chloroplast"], exp: "Centrioles are part of the centrosome used in animal cell division.", correct: "A" },
+        { q: "The primary function of the Golgi apparatus is:", a: "Packaging and secretion", options: ["Energy production", "Protein synthesis", "Packaging and secretion", "DNA replication"], exp: "It modifies, sorts, and packages proteins for secretion.", correct: "C" },
+        { q: "Peroxisomes help in the breakdown of:", a: "Hydrogen peroxide", options: ["Hydrogen peroxide", "Glucose", "Cellulose", "ATP"], exp: "They contain catalase enzymes to detoxify H2O2.", correct: "A" },
+        { q: "Chromosomes are made of:", a: "DNA and Histones", options: ["RNA and Lipids", "DNA and Histones", "Pure Protein", "Carbohydrates"], exp: "Chromatin consists of DNA wrapped around histone proteins.", correct: "B" },
+        { q: "Gap junctions in animal cells are similar to ______ in plant cells.", a: "Plasmodesmata", options: ["Cell plate", "Tonoplast", "Plasmodesmata", "Cuticle"], exp: "Both allow direct communication between adjacent cells.", correct: "C" },
+        { q: "Ribosomes are composed of:", a: "RNA and Protein", options: ["DNA and RNA", "RNA and Protein", "Lipids and Protein", "DNA and Protein"], exp: "They are ribonucleoprotein particles.", correct: "B" },
+        { q: "The semi-fluid substance filling the cell is called:", a: "Cytosol", options: ["Nucleoplasm", "Cytosol", "Matrix", "Stroma"], exp: "Cytosol is the liquid component of the cytoplasm.", correct: "B" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        quizData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        quizData.forEach((data, index) => {
+            const ex = document.getElementById(`exp-${index}`);
+            ex.style.display = 'block';
+            
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `You scored ${score} out of ${quizData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    loadQuiz();
+</script>
+
+</body>
+</html>

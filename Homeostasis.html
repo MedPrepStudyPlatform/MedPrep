@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homeostasis: Randomized MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Theme: Royal Purple & Lavender */
+        body { font-family: 'Inter', sans-serif; background: #f3f0f7; color: #2d3436; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 10px solid #6c5ce7; }
+        h1 { font-family: 'Outfit', sans-serif; color: #6c5ce7; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #636e72; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        .question { margin-bottom: 35px; padding: 25px; border: 1px solid #dfe6e9; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 20px; color: #2c3e50; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #f1f2f6; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #ffffff; }
+        .option:hover { border-color: #6c5ce7; background: #f8f7ff; }
+        .option.selected { background: #2d3436; color: white; border-color: #2d3436; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #6c5ce7; color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #5849d4; transform: translateY(-2px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #2d3436; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #f4f2ff; padding: 18px; border-left: 6px solid #6c5ce7; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #1c2e36; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Homeostasis</h1>
+    
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const homeostasisData = [
+        { q: "In a cold environment, the body reduces heat loss through which mechanism?", options: ["Vasodilation", "Vasoconstriction", "Increased Sweating", "Decreased Metabolic Rate"], exp: "Vasoconstriction of skin capillaries reduces blood flow to the surface, conserving core body heat.", correct: "B" },
+        { q: "Which of the following nitrogenous wastes requires the maximum amount of water for its excretion?", options: ["Urea", "Uric Acid", "Ammonia", "Creatinine"], exp: "Ammonia is highly toxic and requires about 500ml of water to excrete 1g of nitrogen.", correct: "C" },
+        { q: "The functional unit of the human kidney is the:", options: ["Nephron", "Neuron", "Ureter", "Bowman's Capsule"], exp: "The nephron is the structural and functional unit responsible for filtering blood and forming urine.", correct: "A" },
+        { q: "Animals that maintain a constant internal body temperature regardless of environmental changes are called:", options: ["Poikilotherms", "Ectotherms", "Endotherms", "Isotherms"], exp: "Endotherms (like birds and mammals) generate their own heat metabolically.", correct: "C" },
+        { q: "Antidiuretic hormone (ADH) acts primarily on which part of the nephron?", options: ["Proximal Tubule", "Loop of Henle", "Collecting Duct", "Glomerulus"], exp: "ADH increases the permeability of the collecting ducts to water, promoting water reabsorption.", correct: "C" },
+        { q: "The process of removing metabolic wastes from the body is known as:", options: ["Secretions", "Egestion", "Excretion", "Osmoregulation"], exp: "Excretion specifically refers to the removal of nitrogenous wastes and metabolic byproducts.", correct: "C" },
+        { q: "Which organ in the human body is considered the 'thermostat'?", options: ["Medulla", "Pituitary", "Hypothalamus", "Thalamus"], exp: "The hypothalamus monitors blood temperature and initiates heating or cooling responses.", correct: "C" },
+        { q: "Uric acid is the primary excretory product in:", options: ["Mammals", "Amphibians", "Birds and Reptiles", "Bony Fish"], exp: "Uric acid is an adaptation for water conservation in egg-laying animals.", correct: "C" },
+        { q: "Ultrafiltration in the nephron occurs specifically at the:", options: ["Proximal Convoluted Tubule", "Glomerulus", "Loop of Henle", "Distal Tubule"], exp: "High hydrostatic pressure in the glomerulus forces water and solutes into Bowman's capsule.", correct: "B" },
+        { q: "Freshwater fish face the osmotic problem of:", options: ["Losing water and gaining salts", "Gaining water and losing salts", "Dehydration", "Salt accumulation"], exp: "In hypotonic freshwater, water enters the fish by osmosis, while salts are lost by diffusion.", correct: "B" },
+        { q: "The hormone Aldosterone promotes the reabsorption of:", options: ["Water only", "Sodium ions", "Potassium ions", "Glucose"], exp: "Aldosterone causes the kidneys to retain sodium, which subsequently leads to water retention.", correct: "B" },
+        { q: "Plants that are adapted to live in salty environments are known as:", options: ["Hydrophytes", "Mesophytes", "Xerophytes", "Halophytes"], exp: "Halophytes have special adaptations to excrete or sequester excess salts.", correct: "D" },
+        { q: "In the human liver, ammonia is converted into urea through the:", options: ["Krebs Cycle", "Ornithine Cycle", "Glycolysis", "Calvin Cycle"], exp: "The urea cycle (or Ornithine cycle) converts toxic ammonia into less toxic urea.", correct: "B" },
+        { q: "The cluster of capillaries within the Bowman's capsule is called the:", options: ["Cortex", "Pyramid", "Glomerulus", "Pelvis"], exp: "The glomerulus is the site where the primary filtrate is formed.", correct: "C" },
+        { q: "What is the primary function of the Loop of Henle?", options: ["Glucose reabsorption", "Maintaining a concentration gradient", "Hormone secretion", "Filtration"], exp: "The Loop of Henle creates an osmotic gradient in the medulla to allow for water conservation.", correct: "B" },
+        { q: "Which of the following is a symptom of Diabetes Insipidus?", options: ["High blood sugar", "Production of dilute urine", "Glucose in urine", "High blood pressure"], exp: "Diabetes Insipidus is caused by a lack of ADH, leading to excessive, dilute urination.", correct: "B" },
+        { q: "Marine bony fishes drink large amounts of seawater to:", options: ["Gain salts", "Compensate for water loss", "Dilute their urine", "Stay buoyant"], exp: "Seawater is hypertonic to the fish, so they lose water constantly and must drink to stay hydrated.", correct: "B" },
+        { q: "Stomata in plants close during high temperatures primarily to prevent:", options: ["Photorespiration", "Transpiration", "Respiration", "Photosynthesis"], exp: "Closing stomata reduces water loss via transpiration during heat stress.", correct: "B" },
+        { q: "The 'Counter-current multiplier' mechanism occurs in the:", options: ["Vasa recta", "Loop of Henle", "Ureter", "Urethra"], exp: "The opposing flow in the ascending and descending limbs of the Loop of Henle multiplies the salt concentration.", correct: "B" },
+        { q: "Non-shivering thermogenesis is achieved primarily through the metabolism of:", options: ["White fat", "Brown fat", "Glycogen", "Muscle protein"], exp: "Brown fat is specialized for heat production in infants and hibernating mammals.", correct: "B" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        homeostasisData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        homeostasisData.forEach((data, index) => {
+            document.getElementById(`exp-${index}`).style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${homeostasisData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

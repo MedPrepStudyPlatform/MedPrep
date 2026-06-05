@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · Block-J · Pathology </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5fafd;
+            color: #15304c;
+            line-height: 1.5;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #f5fafd;
+            padding-top: 5px;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .main-header {
+            background: #0a2c48;
+            color: white;
+            width: 100%;
+            padding: 20px 0;
+            box-shadow: 0 12px 28px -10px rgba(10, 44, 72, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-wrapper {
+            background: white;
+            padding: 8px 28px;
+            border-radius: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #1ecbe1;
+            transition: transform 0.2s ease;
+        }
+
+        .logo-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-img {
+            height: 65px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .pill-nav {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 16px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(30, 203, 225, 0.5);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pill-nav span {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: white;
+            letter-spacing: 0.3px;
+        }
+
+        .pill-nav i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        .score-panel {
+            background: white;
+            border-radius: 60px;
+            padding: 16px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 18px -6px #b5d9f0;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .score-panel.hidden-panel {
+            display: none;
+        }
+
+        .score-title {
+            font-family: 'Outfit', sans-serif;
+            color: #0a2c48;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .score-value {
+            background: #0a2c48;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 40px;
+            padding: 12px 20px;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #0a2c48;
+            font-size: 0.9rem;
+        }
+
+        .progress-fill {
+            height: 10px;
+            background: #1ecbe1;
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-bg {
+            flex-grow: 1;
+            background: #e1f0fa;
+            border-radius: 20px;
+            height: 10px;
+            min-width: 100px;
+        }
+
+        .mcq-card {
+            background: white;
+            border-radius: 24px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #cde1f0;
+            box-shadow: 0 6px 14px -6px #aac9e2;
+            transition: all 0.2s ease;
+        }
+
+        .mcq-card:hover {
+            box-shadow: 0 10px 20px -8px #aac9e2;
+        }
+
+        .mcq-card.correct-ans {
+            border-left: 8px solid #10b981;
+            background: #f0fdf4;
+        }
+
+        .mcq-card.wrong-ans {
+            border-left: 8px solid #f44336;
+            background: #fff3f5;
+        }
+
+        .mcq-card.unanswered-ans {
+            border-left: 8px solid #ff9800;
+            background: #fff8e7;
+        }
+
+        .q-num {
+            font-weight: 700;
+            color: #0a2c48;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 18px;
+            color: #1a3a5a;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .option {
+            background: #f1f9ff;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: 1px solid #c3dcf2;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .option:hover {
+            background: #d7ecfd;
+            border-color: #1ecbe1;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1ecbe1;
+            color: #0a2c48;
+            border-color: #0a2c48;
+            font-weight: 600;
+        }
+
+        .option.correct-option {
+            background: #10b981;
+            color: white;
+            border-color: #0e6e4a;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .option.wrong-option {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+            pointer-events: none;
+        }
+
+        .explanation-box {
+            margin-top: 20px;
+            background: #f4f9ff;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #0a2c48;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .explanation-box.show {
+            display: block;
+        }
+
+        .exp-title {
+            font-weight: 700;
+            color: #0a2c48;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0 50px;
+        }
+
+        .primary-btn {
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            background: #0a2c48;
+            color: white;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .primary-btn:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+            transform: scale(1.02);
+        }
+
+        .primary-btn.disabled-btn,
+        .primary-btn:disabled {
+            background: #9aaebf;
+            color: #f0f4f8;
+            cursor: not-allowed;
+            transform: none;
+            pointer-events: none;
+        }
+
+        .main-footer {
+            background: #0a2c48;
+            color: #ffffffcc;
+            text-align: center;
+            padding: 24px 20px;
+            margin-top: 30px;
+            border-top: 1px solid #1ecbe1;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            .header-inner { padding: 0 15px; flex-direction: column; text-align: center; }
+            .logo-wrapper { padding: 6px 20px; }
+            .logo-img { height: 50px; }
+            .pill-nav { padding: 5px 12px; gap: 6px; }
+            .pill-nav span { font-size: 0.75rem; }
+            .score-panel { padding: 14px 18px; flex-direction: column; text-align: center; border-radius: 30px; }
+            .score-title { font-size: 1rem; justify-content: center; }
+            .score-value { font-size: 1rem; padding: 5px 16px; }
+            .options { gap: 10px; }
+            .option { padding: 10px 16px; font-size: 0.85rem; }
+            .question-text { font-size: 0.95rem; }
+            .mcq-card { padding: 18px; }
+            .primary-btn { padding: 12px 28px; font-size: 0.9rem; }
+            .progress-bar { flex-direction: column; text-align: center; }
+            .progress-bg { width: 100%; min-width: auto; }
+            .main-footer { padding: 20px 16px; font-size: 0.75rem; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 12px; }
+            .header-inner { padding: 0 12px; }
+            .logo-wrapper { padding: 5px 16px; }
+            .logo-img { height: 42px; }
+            .mcq-card { padding: 15px; border-radius: 20px; }
+            .question-text { font-size: 0.9rem; }
+            .option { padding: 8px 14px; font-size: 0.8rem; }
+            .explanation-box { padding: 12px 15px; font-size: 0.85rem; }
+            .score-value { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-inner">
+        <div class="logo-wrapper">
+            <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+        </div>
+        <div class="pill-nav">
+            <span><i class="fas fa-microscope"></i> Block-J</span>
+            <span><i class="fas fa-file-alt"></i> Pathology</span>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div id="scorePanelContainer" class="score-panel hidden-panel"></div>
+
+    <div class="progress-sticky">
+        <div class="progress-bar">
+            <span class="progress-text" id="progressText">0/100 Answered</span>
+            <div class="progress-bg">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <span class="progress-text" id="scorePreview"></span>
+        </div>
+    </div>
+
+    <div id="mcqContent"></div>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <i class=""></i> © MedPrep · All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+    
+
+    const questions = [
+        
+    {
+        "id": 1,
+        "question": "A 72-year-old man presents with progressive memory loss, difficulty finding words, and personality changes over the past 3 years. His symptoms have gradually worsened, and he now requires assistance with daily activities. MRI brain shows generalized cortical atrophy with prominent medial temporal lobe involvement. Microscopic examination of brain tissue at autopsy would most likely reveal which characteristic finding?",
+        "options": [
+            "Lewy bodies composed of alpha-synuclein",
+            "Neurofibrillary tangles and senile plaques",
+            "Tau-positive inclusions in oligodendrocytes",
+            "Neuronal loss with spongiform change",
+            "Huntingtin-positive intranuclear inclusions"
+        ],
+        "correct": 1,
+        "explanation": "Alzheimer's disease is the most common cause of dementia in elderly patients. The characteristic histopathologic findings are neurofibrillary tangles (hyperphosphorylated tau protein within neurons) and senile (neuritic) plaques (amyloid-beta aggregates surrounded by dystrophic neurites). Medial temporal lobe (hippocampus) involvement explains early memory impairment. Lewy bodies are seen in dementia with Lewy bodies and Parkinson's disease dementia. Tau inclusions in oligodendrocytes are characteristic of progressive supranuclear palsy and multiple system atrophy. Spongiform change occurs in Creutzfeldt-Jakob disease. Huntingtin inclusions are seen in Huntington's disease."
+    },
+    {
+        "id": 2,
+        "question": "A 58-year-old man with long-standing hypertension and diabetes presents with sudden-onset right-sided weakness and inability to speak. Non-contrast CT head shows a hyperdense left middle cerebral artery sign. Which of the following best describes the expected gross and microscopic appearance of the brain tissue 48 hours after symptom onset?",
+        "options": [
+            "Pale, soft tissue with loss of gray-white matter distinction and early neutrophilic infiltration",
+            "Hemorrhagic red-brown tissue with persistent red blood cells",
+            "Cystic cavity with surrounding gliosis",
+            "Yellow-brown discoloration with hemosiderin-laden macrophages",
+            "Normal-appearing brain with no visible changes"
+        ],
+        "correct": 0,
+        "explanation": "Ischemic stroke due to middle cerebral artery occlusion. At 48 hours, the brain shows pale, softened tissue with loss of distinction between gray and white matter (pale or anemic infarct). Microscopically, early neutrophilic infiltration begins at 24-48 hours, with red neurons (eosinophilic cytoplasm and pyknotic nuclei) visible by 12-24 hours. Hemorrhagic transformation may occur but typically later. Cystic cavitation appears after weeks to months. Hemosiderin-laden macrophages appear after 1-2 weeks. The hyperdense MCA sign on CT indicates thrombus within the vessel."
+    },
+    {
+        "id": 3,
+        "question": "Which of the following correctly describes the pathogenesis of multiple sclerosis (MS) and the characteristic histopathological finding that distinguishes active from chronic inactive plaques? Multiple sclerosis is the most common demyelinating disorder of the central nervous system, typically presenting in young adults with relapsing-remitting neurological deficits. The disease involves both inflammatory and degenerative components.",
+        "options": [
+            "Axonal degeneration without inflammation; glial scarring only",
+            "T-cell mediated autoimmune attack on myelin sheaths; active plaques show perivascular lymphocytic infiltration and foamy macrophages",
+            "B-cell mediated antibody production against oligodendrocytes; active plaques show plasma cell aggregates",
+            "Viral-induced oligodendrocyte death; active plaques show viral inclusion bodies",
+            "Mitochondrial dysfunction in astrocytes; active plaques show astrocytic swelling"
+        ],
+        "correct": 1,
+        "explanation": "Multiple sclerosis is an autoimmune demyelinating disease primarily mediated by CD4+ T-cells that recognize myelin antigens (MBP, PLP, MOG). Active plaques (acute MS lesions) show perivascular lymphocytic cuffing (T-cells and B-cells), foamy macrophages containing myelin debris, reactive astrocytes, and relative preservation of axons. Chronic inactive plaques show dense gliosis, almost complete loss of oligodendrocytes, and no inflammatory cells. The relapsing-remitting pattern reflects episodes of inflammation followed by resolution, but axonal loss accumulates with each relapse contributing to long-term disability."
+    },
+    {
+        "id": 4,
+        "question": "A 65-year-old man with a 20-year history of Parkinson's disease comes to autopsy. He was diagnosed based on resting tremor, bradykinesia, rigidity, and postural instability. Which of the following describes the characteristic gross and microscopic pathologic findings expected in the substantia nigra of this patient?",
+        "options": [
+            "Grossly normal substantia nigra with microscopic neurofibrillary tangles",
+            "Loss of brown-black pigmentation (pallor) of the substantia nigra pars compacta with microscopic eosinophilic intracytoplasmic Lewy bodies",
+            "Atrophy of the caudate nucleus with microscopic huntingtin-positive inclusions",
+            "Symmetrical atrophy of the frontal and temporal lobes with Pick bodies",
+            "Cystic cavitation of the basal ganglia with mineral deposition"
+        ],
+        "correct": 1,
+        "explanation": "Parkinson's disease is characterized by loss of pigmented dopaminergic neurons in the substantia nigra pars compacta. Grossly, the substantia nigra shows loss of the normal dark brown-black color (due to neuromelanin pigment), appearing pale or depigmented. Microscopically, remaining neurons contain eosinophilic intracytoplasmic inclusions called Lewy bodies, which are composed of aggregated alpha-synuclein protein. Lewy bodies have a characteristic dense eosinophilic core surrounded by a pale halo. Neurofibrillary tangles are seen in Alzheimer's disease. Huntingtin inclusions are seen in Huntington's disease. Pick bodies are seen in Pick's disease (frontotemporal dementia)."
+    },
+    {
+        "id": 5,
+        "question": "A 45-year-old woman presents with subacute onset of ascending weakness over 5 days. She initially noticed tingling in her feet, followed by difficulty walking, and now has weakness in her hands. Examination shows areflexia and symmetric weakness. Lumbar puncture shows elevated protein with normal cell count (albuminocytologic dissociation). Which of the following best describes the underlying pathologic process in this condition?",
+        "options": [
+            "Demyelination of central nervous system white matter",
+            "Autoimmune demyelination of peripheral nerves with lymphocytic and macrophage infiltration",
+            "Axonal degeneration of motor neurons in the anterior horn",
+            "Viral infection of dorsal root ganglia",
+            "Ischemic injury to peripheral nerves from vasculitis"
+        ],
+        "correct": 1,
+        "explanation": "Guillain-Barré syndrome (acute inflammatory demyelinating polyneuropathy) is an autoimmune disorder typically triggered by preceding infection (Campylobacter jejuni, CMV, EBV, Zika). Pathologically, there is segmental demyelination of peripheral nerves due to lymphocytic and macrophage infiltration. Macrophages invade Schwann cell basement membranes and strip myelin, sparing axons initially (demyelinating form). The albuminocytologic dissociation (elevated CSF protein with normal white count) results from leakage of protein through inflamed nerve roots. In severe cases, secondary axonal degeneration may occur (axonal variants like AMAN). Most patients recover with immunotherapy, but residual weakness is common."
+    },
+    {
+        "id": 6,
+        "question": "Which of the following correctly describes the pathologic changes seen in the brain of a patient with Huntington's disease, and what is the genetic abnormality responsible for this disorder? Huntington's disease is an autosomal dominant neurodegenerative disorder that typically presents in mid-adulthood with choreiform movements, cognitive decline, and psychiatric disturbances. The disease is relentlessly progressive and ultimately fatal. Understanding the pathology helps explain the clinical features.",
+        "options": [
+            "Lewy bodies in substantia nigra; CAG repeat expansion in huntingtin gene",
+            "Neurofibrillary tangles in hippocampus; APP gene mutation",
+            "Atrophy of caudate nucleus and putamen; CAG repeat expansion in HTT gene on chromosome 4",
+            "Tau inclusions in frontal lobe; MAPT gene mutation",
+            "Spongiform change in cortex; PRNP gene mutation"
+        ],
+        "correct": 2,
+        "explanation": "Huntington's disease is caused by autosomal dominant CAG trinucleotide repeat expansion in the HTT gene on chromosome 4, encoding huntingtin protein with an expanded polyglutamine tract. Pathologically, there is severe atrophy of the caudate nucleus and putamen (striatum), grossly visible as loss of the normal convex contour of the caudate head. Microscopically, medium spiny GABAergic neurons are lost, and intranuclear huntingtin inclusions are present (though not required for diagnosis). The loss of indirect pathway striatal neurons (which inhibit the globus pallidus externus) leads to disinhibition of thalamocortical circuits, causing chorea. CAG repeat length inversely correlates with age of onset and directly correlates with disease severity. Lewy bodies are seen in Parkinson's disease. Neurofibrillary tangles are seen in Alzheimer's. Spongiform change is seen in prion diseases."
+    },
+    {
+        "id": 7,
+        "question": "A 62-year-old man with a history of hypertension presents with sudden onset of the worst headache of his life, followed by nausea, vomiting, and photophobia. CT head without contrast shows hyperdense blood in the basal cisterns. Which of the following is the most common cause of this condition, and what is the characteristic histologic finding in the affected vessel wall?",
+        "options": [
+            "Hypertensive arteriolosclerosis; onion-skin thickening of vessel wall",
+            "Atherosclerosis; cholesterol clefts and fibrofatty plaque",
+            "Saccular (berry) aneurysm; absence of internal elastic lamina and media at branch points",
+            "Arteriovenous malformation; abnormal vascular channels without intervening brain",
+            "Amyloid angiopathy; apple-green birefringence with Congo red"
+        ],
+        "correct": 2,
+        "explanation": "Subarachnoid hemorrhage most commonly results from rupture of a saccular (berry) aneurysm. These aneurysms occur at arterial branch points in the circle of Willis (anterior communicating, posterior communicating, middle cerebral bifurcation). Histologically, berry aneurysms show a defect in the internal elastic lamina and a thin or absent tunica media at the apex, leaving only intima and adventitia. This congenital weakness combined with hemodynamic stress leads to progressive dilation and eventual rupture. Multiple aneurysms occur in 20-30% of patients, and associations include autosomal dominant polycystic kidney disease, Ehlers-Danlos syndrome, and Marfan syndrome. CT shows blood in subarachnoid space (basal cisterns, sylvian fissures). Hypertensive arteriolosclerosis causes intracerebral (not subarachnoid) hemorrhage."
+    },
+    {
+        "id": 8,
+        "question": "Which of the following best describes the morphologic changes that occur in the brain following global cerebral ischemia (hypoxic-ischemic encephalopathy) after cardiac arrest? A 55-year-old man collapses from ventricular fibrillation and is resuscitated after 10 minutes. He remains comatose for 3 days and then dies. The family consents to autopsy. Understanding the selective vulnerability of different neuronal populations is key to predicting the pathologic findings in such cases.",
+        "options": [
+            "Diffuse cortical infarction with hemorrhagic necrosis",
+            "Selective neuronal necrosis in hippocampus (CA1 sector), Purkinje cells of cerebellum, and pyramidal neurons of cortex layers 3,5,6",
+            "White matter myelin loss with relative gray matter sparing",
+            "Global cerebral edema without specific neuronal changes",
+            "Multiple small lacunar infarcts in basal ganglia"
+        ],
+        "correct": 1,
+        "explanation": "Global cerebral ischemia produces selective neuronal necrosis in vulnerable populations due to excitotoxicity (glutamate-mediated calcium influx). Neurons most sensitive to hypoxia/ischemia are: hippocampal CA1 pyramidal neurons (Sommer sector), cerebellar Purkinje cells, and pyramidal neurons in cortical layers 3, 5, and 6. These neurons show red neuron change (eosinophilic cytoplasm, pyknotic nucleus) by 12-24 hours. Following cardiac arrest, patients may survive with severe memory impairment (hippocampal damage) and motor deficits (Purkinje cell loss). Border zone (watershed) infarcts occur in hypotensive episodes but differ from global ischemia. Neuronal necrosis requires 24-48 hours to become histologically evident. Patients who die within hours may show no light microscopic changes. Diffuse cortical necrosis occurs in severe prolonged ischemia."
+    },
+    {
+        "id": 9,
+        "question": "A 35-year-old woman with systemic lupus erythematosus presents with subacute onset of confusion, headache, and seizures. MRI shows multiple white matter lesions. Brain biopsy reveals perivascular lymphocytic infiltration, demyelination, and relative axonal preservation. Which of the following is the most likely diagnosis, and what distinguishes it from multiple sclerosis on histopathology?",
+        "options": [
+            "Progressive multifocal leukoencephalopathy; presence of JC virus-infected oligodendrocytes",
+            "Acute disseminated encephalomyelitis (ADEM); perivenular demyelination with relative sparing of subcortical U-fibers",
+            "Multiple sclerosis; sharp demarcation of plaques with complete demyelination",
+            "Neuromyelitis optica; loss of aquaporin-4 expression in astrocytes",
+            "Virchow-Robin space inflammation; thickened perivascular spaces"
+        ],
+        "correct": 1,
+        "explanation": "Acute disseminated encephalomyelitis (ADEM) is an immune-mediated demyelinating disorder typically following infection or vaccination. Histologically, ADEM shows perivenular (perivenous) demyelination with lymphocytic and macrophage infiltration centered around small veins, often with relative sparing of subcortical U-fibers. Unlike multiple sclerosis where plaques are sharply demarcated and confluent, ADEM lesions are more numerous, smaller, and of similar age (monophasic). The perivenular distribution of demyelination is a key distinguishing feature. ADEM typically presents with encephalopathy (unlike first MS attack) and has a monophasic course with recovery often after immunotherapy. Progressive multifocal leukoencephalopathy shows JC virus-infected oligodendrocytes with enlarged nuclei and bizarre astrocytes. Neuromyelitis optica shows loss of aquaporin-4 on astrocytes."
+    },
+    {
+        "id": 10,
+        "question": "A 70-year-old man presents with a 6-month history of progressive gait disturbance, urinary incontinence, and cognitive decline. MRI shows significant enlargement of the lateral and third ventricles out of proportion to the degree of cortical atrophy. Lumbar puncture following large volume tap results in temporary improvement of his gait. Which of the following best describes the pathophysiology of this condition at the microscopic level?",
+        "options": [
+            "Obstruction of CSF flow at the foramen of Monro",
+            "Impaired CSF absorption at the arachnoid granulations due to chronic meningitis or subarachnoid hemorrhage",
+            "Overproduction of CSF by choroid plexus papilloma",
+            "Loss of brain parenchyma with compensatory ventricular enlargement",
+            "Congenital aqueductal stenosis"
+        ],
+        "correct": 1,
+        "explanation": "Normal pressure hydrocephalus (NPH) is a communicating hydrocephalus characterized by impaired CSF absorption at the arachnoid granulations, often due to prior subarachnoid hemorrhage, meningitis, or trauma (idiopathic in many elderly patients). The shunt obstruction leads to ventricular dilation out of proportion to cortical atrophy, stretching periventricular white matter tracts causing the classic triad: gait apraxia (magnetic gait), urinary incontinence, and cognitive decline (\"wet, wacky, and wobbly\"). Microscopically, there is periventricular white matter edema, axonal degeneration, and reactive gliosis. The key diagnostic feature is clinical improvement after large volume lumbar puncture (removing 30-50 mL CSF). Treatment is ventriculoperitoneal shunting. In contrast, non-communicating hydrocephalus has intraventricular obstruction (aqueductal stenosis, tumor). Hydrocephalus ex vacuo shows ventricular enlargement secondary to brain atrophy, not due to impaired CSF dynamics, and does not improve with shunting."
+    },
+	
+	
+    {
+        "id": 11,
+        "question": "A 45-year-old woman presents with progressive weakness and sensory loss in her legs over the past 6 months. She also reports urinary urgency and constipation. MRI reveals an intradural, extramedullary mass at the T8 level that enhances homogeneously with contrast. Which of the following is the most likely diagnosis, and what is the characteristic histologic finding of this tumor?",
+        "options": [
+            "Ependymoma; perivascular pseudorosettes",
+            "Meningioma; whorled pattern with psammoma bodies",
+            "Schwannoma; Antoni A and Antoni B patterns with Verocay bodies",
+            "Astrocytoma; gemistocytic astrocytes with eosinophilic cytoplasm",
+            "Oligodendroglioma; fried egg appearance of cells"
+        ],
+        "correct": 2,
+        "explanation": "Schwannomas are benign nerve sheath tumors that arise from Schwann cells of peripheral nerves. Intraspinally, they are typically intradural and extramedullary, often arising from dorsal sensory roots. Histologically, schwannomas show alternating Antoni A (cellular, palisading spindle cells) and Antoni B (loose, myxoid) areas. Verocay bodies are nuclear palisades around eosinophilic processes, characteristic but not always present. S-100 immunostain is strongly positive. Meningiomas can also be intradural extramedullary but are more commonly thoracic and show whorled pattern with psammoma bodies. Ependymomas are intramedullary (within spinal cord substance). Schwannomas are benign and cure is possible with complete surgical resection. Malignant transformation is rare."
+    },
+    {
+        "id": 12,
+        "question": "A 68-year-old man with a history of atrial fibrillation presents with sudden-onset left-sided weakness and neglect. CT head performed 6 hours after symptom onset shows no evidence of hemorrhage but demonstrates subtle loss of gray-white matter differentiation in the right middle cerebral artery territory. Which of the following best describes the cellular change that will be visible microscopically in this region 24 hours after symptom onset?",
+        "options": [
+            "Coagulative necrosis with ghost neurons",
+            "Red neurons with eosinophilic cytoplasm and pyknotic nuclei",
+            "Neutrophilic infiltration with liquefactive necrosis",
+            "Macrophage infiltration with hemosiderin deposition",
+            "Reactive gliosis with gemistocytic astrocytes"
+        ],
+        "correct": 1,
+        "explanation": "Red neurons are the earliest histologic sign of irreversible ischemic neuronal injury, visible within 12 to 24 hours after stroke onset. They show eosinophilic (red) cytoplasm, pyknotic (shrunken and dark) nuclei, and loss of Nissl substance. This change reflects cytoplasmic protein denaturation and degradation of ribosomal RNA. Coagulative necrosis with ghost neurons appears later (24-72 hours). Neutrophilic infiltration peaks at 2-3 days. Macrophage infiltration occurs at 1-2 weeks. Reactive gliosis occurs over weeks. The CT finding of subtle loss of gray-white matter differentiation represents early cytotoxic edema. The hyperdense MCA sign (thrombus in MCA) may also be visible. This patient's risk factor (atrial fibrillation) suggests cardioembolic stroke. Thrombolysis with tPA is time-sensitive (within 3-4.5 hours)."
+    },
+    {
+        "id": 13,
+        "question": "Which of the following correctly describes the gross and microscopic findings in a patient with multi-infarct dementia (vascular dementia) compared to Alzheimer's disease? A 75-year-old man with hypertension and diabetes presents with stepwise decline in cognitive function over several years. His symptoms began suddenly on multiple occasions, each associated with a new focal neurological deficit, rather than the gradual progressive decline seen in Alzheimer's disease. The patient eventually dies of a myocardial infarction, and autopsy is performed.",
+        "options": [
+            "Generalized cortical atrophy with hippocampal sparing; neurofibrillary tangles",
+            "Multiple small cystic cavities (lacunes) and cortical infarcts; white matter changes without specific neuronal inclusions",
+            "Frontotemporal lobar atrophy; Pick bodies and tau inclusions",
+            "Lewy bodies in brainstem and cortex; alpha-synuclein aggregates",
+            "Caudate atrophy and enlarged lateral ventricles; huntingtin inclusions"
+        ],
+        "correct": 1,
+        "explanation": "Multi-infarct dementia (vascular dementia) results from cumulative damage from multiple small infarcts (lacunes) and larger cortical infarcts. Grossly, the brain shows multiple cystic cavities (lacunes, 1-15 mm) in the basal ganglia, thalamus, internal capsule, and deep white matter, plus cortical wedge-shaped old infarcts. Microscopically, there are gliotic scars, hemosiderin-laden macrophages, and perivascular spaces (etat lacunaire), but no specific neuronal inclusions like neurofibrillary tangles (Alzheimer's) or Lewy bodies (dementia with Lewy bodies). White matter changes (leukoaraiosis) are common. The stepwise clinical course with focal deficits distinguishes vascular dementia from the gradual progressive decline of Alzheimer's disease. Risk factors include hypertension, diabetes, and atherosclerosis. Mixed dementia (Alzheimer's plus vascular) is common in elderly patients."
+    },
+    {
+        "id": 14,
+        "question": "A 30-year-old man presents with progressive ataxia, dysarthria, and frequent falls over the past 2 years. He also has a cardiomyopathy and diabetes mellitus. Family history reveals that his older brother died of similar neurological symptoms in his 40s. Genetic testing shows a trinucleotide repeat expansion. Which of the following best describes the expected neuropathologic findings in this patient's brain and spinal cord?",
+        "options": [
+            "Loss of Purkinje cells in cerebellum and degeneration of spinocerebellar tracts",
+            "Lewy bodies in substantia nigra and locus coeruleus",
+            "Caudate and putamen atrophy with intranuclear huntingtin inclusions",
+            "Multiple sclerosis plaques in periventricular white matter",
+            "Anterior horn cell loss with Bunina bodies"
+        ],
+        "correct": 0,
+        "explanation": "Friedreich's ataxia is the most common inherited ataxia, caused by GAA trinucleotide repeat expansion in the FXN gene on chromosome 9, leading to frataxin deficiency and mitochondrial iron accumulation. Neuropathologically, there is degeneration of the spinocerebellar tracts (posterior columns, corticospinal tracts, spinocerebellar tracts), dorsal root ganglia, and cerebellar dentate nucleus. Purkinje cells are lost in the cerebellum. The dorsal columns become pale (loss of myelinated fibers). Unlike other ataxias, the cerebellum itself is not prominently atrophic grossly. The condition also causes cardiomyopathy (hypertrophic), diabetes mellitus, and scoliosis. Onset is typically before age 25. Other spinocerebellar ataxias (SCA1-40) have different genetic causes and pathology (olivopontocerebellar atrophy in some). Lewy bodies are seen in Parkinson disease. Caudate atrophy is seen in Huntington disease. Anterior horn cell loss is seen in amyotrophic lateral sclerosis."
+    },
+    {
+        "id": 15,
+        "question": "A 55-year-old woman presents with unilateral headache, jaw claudication, and vision loss in her left eye. ESR is 110 mm/hr. Temporal artery biopsy is performed. Which of the following histologic findings is most characteristic of this condition, and what is the most serious potential complication if left untreated?",
+        "options": [
+            "Granulomatous inflammation with giant cells and fragmentation of internal elastic lamina; blindness",
+            "Lymphocytic vasculitis with fibrinoid necrosis of vessel wall; stroke",
+            "Eosinophilic infiltration with Charcot-Leyden crystals; cardiac arrhythmias",
+            "Neutrophilic infiltration with vessel thrombosis; pulmonary embolism",
+            "Amyloid deposition with apple-green birefringence; renal failure"
+        ],
+        "correct": 0,
+        "explanation": "Giant cell (temporal) arteritis is a granulomatous vasculitis of medium and large arteries, classically affecting the temporal artery but also the ophthalmic artery, aorta, and other branches. Histology shows transmural inflammation with lymphocytes, macrophages, and multinucleated giant cells, with characteristic fragmentation of the internal elastic lamina. Intimal thickening leads to luminal stenosis and ischemia. The most serious complication is permanent blindness due to involvement of the ophthalmic artery or posterior ciliary arteries, which can be prevented by prompt initiation of high-dose corticosteroids. Jaw claudication is a specific symptom due to involvement of the facial artery branches. ESR and CRP are markedly elevated. The condition is strongly associated with polymyalgia rheumatica (shoulder and hip girdle pain). Unlike other vasculitides, giant cell arteritis rarely involves the kidneys or lungs. Treatment with prednisone should not wait for biopsy confirmation in suspected cases."
+    },
+    {
+        "id": 16,
+        "question": "Which of the following best describes the characteristic histologic features of glioblastoma multiforme (IDH-wildtype), the most common and aggressive primary brain tumor in adults? A 65-year-old man presents with new-onset seizures and progressive headache over 3 weeks. MRI shows a ring-enhancing mass in the right temporal lobe with surrounding vasogenic edema and central necrosis. The patient undergoes stereotactic biopsy. Understanding the micro and macroscopic features of this tumor is essential for diagnosis and prognosis.",
+        "options": [
+            "Perivascular pseudorosettes and true ependymal rosettes; positive for GFAP and EMA",
+            "Microvascular proliferation (glomeruloid bodies), pseudopalisading necrosis, and atypical astrocytes; IDH-wildtype status predicts poor prognosis",
+            "Monomorphic small blue cells with Homer-Wright rosettes; positive for synaptophysin and NSE",
+            "Whorled pattern with psammoma bodies; positive for EMA and vimentin",
+            "Antoni A and Antoni B patterns with Verocay bodies; strong S-100 positivity"
+        ],
+        "correct": 1,
+        "explanation": "Glioblastoma (Grade IV astrocytoma) is characterized by marked cellular atypia, mitotic activity, microvascular proliferation (glomeruloid bodies, which distinguish it from Grade III anaplastic astrocytoma), and pseudopalisading necrosis (tumor cells aligning around areas of necrosis). IDH-wildtype glioblastomas (90% of cases, typically older patients) have a worse prognosis (median survival 12-15 months) than IDH-mutant glioblastomas (younger patients, better prognosis). The ring-enhancing appearance on MRI corresponds to the hypercellular tumor rim with central necrosis. Grossly, glioblastomas are often hemorrhagic and necrotic, with a butterfly pattern when crossing the corpus callosum. GFAP (glial fibrillary acidic protein) is positive but not specific. Perivascular pseudorosettes with positive EMA are seen in ependymomas. Homer-Wright rosettes are seen in medulloblastoma. Whorled pattern with psammoma bodies is seen in meningioma. Antoni A/B patterns are seen in schwannoma."
+    },
+    {
+        "id": 17,
+        "question": "A 60-year-old man with a history of hypertension and hyperlipidemia presents with sudden onset of severe left-sided headache and vomiting. He is found to have a blood pressure of 220/130 mmHg. Non-contrast CT head shows an intraparenchymal hemorrhage in the left putamen. Which of the following best describes the microscopic appearance of the small cerebral arteries in this patient's brain, which is the underlying cause of his hemorrhage?",
+        "options": [
+            "Atherosclerotic plaque with cholesterol clefts and fibrous cap",
+            "Lipohyalinosis (fibrinoid necrosis) and microaneurysm (Charcot-Bouchard aneurysm) formation",
+            "Granulomatous inflammation with giant cells and elastic lamina fragmentation",
+            "Amyloid deposition in vessel walls with apple-green birefringence",
+            "Vascular malformation with abnormal thin-walled channels"
+        ],
+        "correct": 1,
+        "explanation": "Hypertensive intracerebral hemorrhage typically occurs in the putamen (50%), thalamus, pons, and cerebellum. The underlying pathology is hypertensive arteriolosclerosis, particularly lipohyalinosis (fibrinoid necrosis) of small penetrating arteries (lenticulostriate arteries from the MCA). Lipohyalinosis involves deposition of plasma proteins, lipids, and fibrin in the vessel wall, leading to weakness and formation of Charcot-Bouchard microaneurysms. Rupture of these microaneurysms causes hemorrhage. Grossly, the putamen shows a large hematoma, often with rupture into the lateral ventricle. Atherosclerosis affects larger arteries, not the penetrating arterioles. Amyloid angiopathy causes lobar (not deep) hemorrhages in elderly patients. Vasculitis causes inflammation with giant cells. Cerebral amyloid angiopathy is more common in lobar hemorrhages and is associated with Alzheimer's disease."
+    },
+    {
+        "id": 18,
+        "question": "A 25-year-old man presents with new-onset generalized tonic-clonic seizure. MRI reveals a well-circumscribed, partially cystic lesion in the frontal lobe with a mural nodule that enhances with contrast. Surgical resection is performed, revealing a low-grade tumor composed of a mixture of neoplastic astrocytes and neurons, with cells floating in a mucopolysaccharide-rich matrix. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Pilocytic astrocytoma; Rosenthal fibers and eosinophilic granular bodies",
+            "Dysembryoplastic neuroepithelial tumor (DNET); multinodular architecture with floating neurons",
+            "Oligodendroglioma; fried egg cells with perinuclear halos and minigemistocytes",
+            "Ependymoma; perivascular pseudorosettes and ependymal rosettes",
+            "Central neurocytoma; perivascular anuclear zones"
+        ],
+        "correct": 1,
+        "explanation": "Dysembryoplastic neuroepithelial tumor (DNET) is a benign, mixed neuronal-glial tumor that typically presents in children and young adults with partial seizures. Grossly, DNETs are well-circumscribed, cortical-based, and often cystic. Histologically, they show a characteristic multinodular architecture with gliovascular cores and floating neurons (neoplastic neurons suspended in a mucopolysaccharide-rich matrix). There is no significant mitotic activity or necrosis. DNETs are WHO Grade I with excellent prognosis; complete surgical resection is often curative. Pilocytic astrocytoma shows Rosenthal fibers and eosinophilic granular bodies but lacks neuronal component. Oligodendroglioma shows perinuclear halos (fried egg appearance) and chicken wire vasculature. Ependymoma shows perivascular pseudorosettes. Central neurocytoma occurs in the lateral ventricles. Unlike DNET, pilocytic astrocytoma (also Grade I) typically occurs in posterior fossa (cerebellum) and optic pathway in children and shows biphasic pattern (solid and cystic areas with Rosenthal fibers)."
+    },
+    {
+        "id": 19,
+        "question": "Which of the following correctly describes the gross and microscopic pathology of a brain abscess? A 45-year-old man with infective endocarditis presents with fever, headache, and focal neurological deficit over 5 days. MRI shows a rim-enhancing lesion with central restricted diffusion in the frontal lobe. The patient undergoes stereotactic aspiration, and the pus is sent for culture. Understanding the evolution of an abscess from early cerebritis to mature abscess is important for diagnosis and treatment timing.",
+        "options": [
+            "Central liquefactive necrosis surrounded by a fibrous capsule, with neutrophilic infiltration and granulation tissue",
+            "Caseating necrosis with Langhans giant cells and epithelioid histiocytes",
+            "Eosinophilic central necrosis with Charcot-Leyden crystals and eosinophils",
+            "Tumor-like growth with nuclear atypia and mitotic figures",
+            "Demyelination with perivascular lymphocytic cuffing and foamy macrophages"
+        ],
+        "correct": 0,
+        "explanation": "A brain abscess evolves through stages over 1-2 weeks: early cerebritis (days 1-3, poorly demarcated, neutrophilic infiltration), late cerebritis (days 4-9, central necrosis with peripheral granulation tissue), and mature abscess (10-14 days, central liquefactive necrosis surrounded by a well-developed fibrous capsule derived from fibroblasts and glial cells). The capsule is thickest toward the white matter and thinner toward the cortex. Histologically, the abscess shows central necrotic debris with neutrophils, surrounded by granulation tissue, lymphocytes, plasma cells, and an outermost fibrous capsule. Bacterial pathogens in endocarditis commonly include Streptococcus viridans, Staphylococcus aureus, and Streptococcus agalactiae. MRI shows rim enhancement and central restricted diffusion (pus). Caseating necrosis is seen in tuberculoma. Demyelination is seen in MS. Charcot-Leyden crystals are seen in parasitic infections (cysticercosis, toxoplasmosis)."
+    },
+    {
+        "id": 20,
+        "question": "A 50-year-old woman presents with progressive bilateral ptosis, diplopia, and dysphagia that worsens as the day progresses. She has difficulty chewing food and feels weaker after repeated muscle use. Acetylcholine receptor antibodies are positive. Which of the following best describes the pathology of the neuromuscular junction in this patient, and what is the characteristic histologic finding in the thymus of affected patients?",
+        "options": [
+            "Presynaptic voltage-gated calcium channel antibodies; thymic carcinoma",
+            "Postsynaptic nicotinic acetylcholine receptor antibodies; thymic follicular hyperplasia or thymoma",
+            "Acetylcholinesterase deficiency; normal thymus",
+            "Lambert-Eaton syndrome antibody; small cell lung cancer",
+            "Muscle-specific kinase (MuSK) antibodies; thymic atrophy"
+        ],
+        "correct": 1,
+        "explanation": "Myasthenia gravis is an autoimmune disorder caused by antibodies against the postsynaptic nicotinic acetylcholine receptor (AChR) at the neuromuscular junction, leading to reduced AChR number and altered folding of the postsynaptic membrane (simplified junctional folds). Thymic pathology is present in most patients: 65% have thymic follicular hyperplasia (germinal centers in the medulla), and 10-15% have thymoma (usually benign spindle cell type). Thymectomy improves symptoms in both groups despite distinct pathologies. The clinical hallmark is fluctuating weakness that worsens with activity (fatigable weakness) and improves with rest or acetylcholinesterase inhibitors (pyridostigmine). Ocular symptoms (ptosis, diplopia) predominate initially, but many progress to generalized disease. MuSK antibodies (muscle-specific kinase) are seen in a subset of AChR-negative patients. Lambert-Eaton syndrome is presynaptic (VGCC antibodies) and associated with small cell lung cancer. Thymic carcinoma is rare and more aggressive."
+    },
+	
+	
+	
+	
+    {
+        "id": 21,
+        "question": "A 62-year-old woman presents with progressive difficulty walking, clumsiness in her hands, and urinary incontinence over the past 8 months. Examination reveals spastic paraparesis, ataxia, and impaired vibration sense in both legs. MRI shows T2 hyperintensity in the lateral and posterior columns of the cervical spinal cord without significant cord expansion. Serum vitamin B12 level is low. Which of the following best describes the histopathologic findings expected in the spinal cord?",
+        "options": [
+            "Inflammatory demyelination with perivascular lymphocytic cuffing",
+            "Vacuolar degeneration (spongiform change) of white matter tracts",
+            "Axonal loss with secondary demyelination and foamy macrophages",
+            "Subacute combined degeneration: myelin and axonal loss in posterior and lateral columns",
+            "Proliferation of gemistocytic astrocytes with Rosenthal fibers"
+        ],
+        "correct": 3,
+        "explanation": "Subacute combined degeneration (SCD) results from vitamin B12 deficiency, which impairs methionine synthase and ultimately myelin synthesis. The condition shows bilaterally symmetric degeneration of the posterior columns (dorsal columns, causing loss of vibration and proprioception), lateral corticospinal tracts (causing spasticity), and sometimes spinocerebellar tracts. Histopathology shows vacuolation (myelin swelling), myelin breakdown, axonal degeneration, and foamy macrophages. The vacuolated appearance on gross sections is characteristic. Unlike multiple sclerosis, there is no inflammation (no perivascular lymphocytes). Demyelination is secondary to axonal damage, not primary. Peripheral neuropathy is also common. Early treatment with B12 halts progression but does not fully reverse established deficits. Pernicious anemia (autoimmune destruction of gastric parietal cells and intrinsic factor deficiency) is the most common cause. Posterior column loss explains the sensory ataxia (positive Romberg) and impaired vibration/proprioception."
+    },
+    {
+        "id": 22,
+        "question": "Which of the following best describes the characteristic histologic features of a meningioma, the most common primary intracranial tumor in adults? A 55-year-old woman presents with progressive headaches and new-onset seizures. MRI shows a dural-based, homogeneously enhancing extra-axial mass in the frontal convexity with a dural tail sign. The tumor is surgically resected. Understanding the varied histologic patterns of meningioma is important for correct diagnosis, as the tumor can mimic other central nervous system neoplasms.",
+        "options": [
+            "Whorled pattern of cells with psammoma bodies; positive for EMA and vimentin",
+            "Perivascular pseudorosettes and ependymal rosettes; positive for GFAP and EMA",
+            "Biphasic pattern with epithelial and mesenchymal elements; positive for cytokeratin and S-100",
+            "Small blue cells with Homer-Wright rosettes; positive for synaptophysin",
+            "Spindle cells with nuclear palisading (Verocay bodies); strong S-100 positivity"
+        ],
+        "correct": 0,
+        "explanation": "Meningiomas arise from meningothelial (arachnoid cap) cells and are most commonly WHO Grade I. Histologically, they show a whorled pattern (concentric whorls of cells) with psammoma bodies (calcified concentric lamellated structures resulting from degenerating whorls). Meningiomas are typically positive for EMA (epithelial membrane antigen) and vimentin, and negative for GFAP (glial marker) and S-100 (except some variants). The dural tail sign on MRI (linear enhancement extending from the mass along the dura) is characteristic but not specific. Common variants include meningothelial, fibrous, transitional (mixed), and psammomatous. Atypical (Grade II) and anaplastic/malignant (Grade III) meningiomas show increased mitoses, brain invasion, and necrosis. Multiple meningiomas occur in neurofibromatosis type 2. Perivascular pseudorosettes are seen in ependymomas. Biphasic pattern is seen in schwannomas. Homer-Wright rosettes are seen in medulloblastoma. Verocay bodies are seen in schwannomas."
+    },
+    {
+        "id": 23,
+        "question": "A 70-year-old man with a history of hypertension and diabetes presents with sudden-onset right-sided weakness and aphasia. CT head performed 8 hours after symptom onset shows a hypodense area in the left middle cerebral artery territory. He dies 5 days later from aspiration pneumonia. At autopsy, the affected brain region is soft, pale, and friable with loss of gray-white matter distinction. Which of the following best describes the microscopic appearance of this region at this time point?",
+        "options": [
+            "Red neurons with pyknotic nuclei and eosinophilic cytoplasm",
+            "Coagulative necrosis with ghost neurons and early neutrophilic infiltration",
+            "Liquefactive necrosis with macrophage infiltration and cavitation",
+            "Reactive gliosis with gemistocytic astrocytes",
+            "Hemorrhagic transformation with extravasated red blood cells"
+        ],
+        "correct": 2,
+        "explanation": "By day 5 after ischemic stroke, the infarct has evolved through coagulative necrosis (days 1-2) to liquefactive necrosis. Liquefactive necrosis is the characteristic pattern of infarction in the central nervous system, where dead brain tissue is broken down by phagocytic cells and converted to a liquid consistency that can be easily aspirated or drained. Microscopically at day 5, there are numerous foamy macrophages (lipid-laden phagocytes) and early cavitation (cystic spaces). Neutrophils are maximal at days 2-3 and are decreasing by day 5. Red neurons were visible at 12-24 hours. Ghost neurons (outline of necrotic neurons) are visible at day 2-3. Reactive gliosis and glial scar formation occur over weeks to months. The cavity eventually becomes fluid-filled (cystic infarct cavity). The pale appearance grossly (pale infarct) is due to absence of hemorrhage. Hemorrhagic transformation (red infarct) occurs more commonly with embolic strokes or reperfusion after thrombolysis. This patient's risk factors (hypertension, diabetes, atrial fibrillation) predispose to atherothrombotic or cardioembolic stroke."
+    },
+    {
+        "id": 24,
+        "question": "Which of the following correctly describes the characteristic histopathologic findings in amyotrophic lateral sclerosis (ALS), a neurodegenerative disorder affecting both upper and lower motor neurons? A 60-year-old man presents with progressive weakness in his hands, muscle atrophy, fasciculations, and hyperreflexia. Over the next 2 years, he develops dysphagia and respiratory difficulty. He dies from respiratory failure. Autopsy is performed to confirm the diagnosis and rule out other motor neuron diseases.",
+        "options": [
+            "Loss of Betz cells in motor cortex and anterior horn cells; Bunina bodies and TDP-43 positive inclusions",
+            "Lewy bodies in substantia nigra and locus coeruleus; alpha-synuclein aggregates",
+            "Caudate and putamen atrophy; huntingtin-positive intranuclear inclusions",
+            "Loss of Purkinje cells in cerebellum and spinocerebellar tract degeneration",
+            "Demyelination in lateral and posterior columns; vacuolar myelin degeneration"
+        ],
+        "correct": 0,
+        "explanation": "Amyotrophic lateral sclerosis (ALS) shows degeneration of both upper motor neurons (Betz cells in precentral gyrus of frontal lobe) and lower motor neurons (anterior horn cells in spinal cord and cranial nerve motor nuclei in brainstem). Histologically, affected regions show neuronal loss, axonal degeneration, and reactive gliosis. Bunina bodies (small eosinophilic cystatin C-containing inclusions in remaining motor neurons) and TDP-43 positive cytoplasmic inclusions (transactivation response DNA-binding protein) are characteristic. TDP-43 negative inclusions occur in a small subset (SOD1 mutation cases). The combined upper motor neuron signs (hyperreflexia, Babinski sign, spasticity) and lower motor neuron signs (fasciculations, muscle atrophy, weakness, hyporeflexia) are diagnostic. Cognitive impairment (frontotemporal dementia) occurs in some patients (C9orf72 repeat expansion). Lewy bodies are seen in Parkinson's disease. Caudate atrophy is seen in Huntington's disease. Purkinje cell loss is seen in spinocerebellar ataxias. Subacute combined degeneration is seen in vitamin B12 deficiency."
+    },
+    {
+        "id": 25,
+        "question": "A 35-year-old HIV-positive man presents with new-onset headache, confusion, and focal seizures over the past 3 weeks. MRI shows multiple ring-enhancing lesions in the basal ganglia and corticomedullary junction, surrounded by significant vasogenic edema. Brain biopsy reveals organisms that stain positively with Grocott methenamine silver (GMS) stain, and the surrounding tissue shows a necrotizing inflammatory response. Which of the following is the most likely diagnosis, and what is the characteristic histologic finding at the periphery of the lesion?",
+        "options": [
+            "Toxoplasmosis; bradyzoite cysts with surrounding vasculitis",
+            "Primary CNS lymphoma; perivascular lymphocytic cuffing with large atypical B-cells",
+            "Progressive multifocal leukoencephalopathy; enlarged oligodendrocyte nuclei with JC virus inclusions",
+            "Tuberculoma; caseating granulomas with Langhans giant cells",
+            "Cryptococcoma; mucicarmine-positive yeast with narrow-based budding"
+        ],
+        "correct": 0,
+        "explanation": "Cerebral toxoplasmosis is the most common opportunistic infection of the CNS in AIDS patients (CD4 count <100). Histologically, the organism (Toxoplasma gondii) exists as tachyzoites (proliferative stage) in necrotic areas and bradyzoites in cysts (true cysts containing hundreds of organisms) in the periphery of lesions. The classic histologic triad is: central necrosis (liquefactive), peripheral inflammation (lymphocytes, plasma cells, macrophages), and encysted organisms at the periphery. GMS and PAS stains highlight the organisms. The ring-enhancing MRI appearance correlates with the necrotic center and viable organisms at the rim. PCR on CSF is diagnostic and sensitive. Treatment is with pyrimethamine, sulfadiazine, and leucovorin. Primary CNS lymphoma in HIV patients is EBV-associated, usually B-cell type, shows perivascular cuffing, and is often non-enhancing due to immunosuppression. PML shows JC virus-infected oligodendrocytes with enlarged nuclei (ground glass inclusions). Cryptococcus is a yeast with mucicarmine-positive capsule and narrow-based budding. Tuberculosis shows caseating granulomas with Langhans giant cells."
+    },
+    {
+        "id": 26,
+        "question": "Which of the following best describes the gross and microscopic pathology of tuberculous meningitis? A 45-year-old man from an endemic region presents with subacute onset of headache, low-grade fever, neck stiffness, and confusion over 2 weeks. Lumbar puncture shows lymphocytic pleocytosis, elevated protein, and low glucose. CSF PCR is positive for Mycobacterium tuberculosis. The patient dies despite treatment, and autopsy is performed. Understanding the pattern of inflammation is important for distinguishing tuberculous from pyogenic (bacterial) meningitis.",
+        "options": [
+            "Purulent exudate filling the subarachnoid space, predominantly in the basal cisterns, with caseating granulomas",
+            "Thick fibrous exudate covering the cerebral convexities with no basal involvement",
+            "Diffuse lymphocytic infiltration of meninges with no granuloma formation",
+            "Eosinophilic meningitis with Charcot-Leyden crystals",
+            "Hemorrhagic meningeal exudate with vessel thrombosis"
+        ],
+        "correct": 0,
+        "explanation": "Tuberculous meningitis typically produces a thick, gelatinous, yellowish exudate that predominantly involves the basal cisterns (interpeduncular, chiasmatic, and ambient cisterns) and base of the brain. This exudate can entrap cranial nerves (particularly III, VI, VII) and obstruct CSF flow, leading to hydrocephalus. Microscopically, the exudate shows caseating granulomas (central caseous necrosis surrounded by epithelioid histiocytes, Langhans giant cells, and lymphocytes) set in a purulent background (neutrophils, fibrin). Acid-fast bacilli (AFB) may be seen with Ziehl-Neelsen stain but are often sparse. Vasculitis of penetrating arteries (due to direct extension of inflammation through adventitia) can cause ischemic infarcts (particularly basal ganglia, thalamus). In contrast, acute pyogenic meningitis (e.g., from Streptococcus pneumoniae, Neisseria meningitidis) produces purulent exudate over the cerebral convexities, not predominantly basal. The low CSF glucose in tuberculous meningitis is due to impaired glucose transport and consumption by inflammatory cells. Eosinophilic meningitis suggests parasitic infection (e.g., Angiostrongylus cantonensis)."
+    },
+    {
+        "id": 27,
+        "question": "A 52-year-old woman presents with progressive memory loss, personality changes, and gait disturbance over 2 years. She has no history of hypertension or diabetes. MRI shows generalized cerebral atrophy with prominent parietal and occipital involvement. She develops myoclonus and startle myoclonus. CSF 14-3-3 protein is elevated, and RT-QuIC (real-time quaking-induced conversion) assay is positive. Which of the following best describes the neuropathologic findings expected in this patient's brain?",
+        "options": [
+            "Neurofibrillary tangles and senile plaques",
+            "Spongiform change (vacuolation) in the cerebral cortex and basal ganglia; prion protein (PrPSc) deposition",
+            "Lewy bodies in brainstem and cortical neurons",
+            "Caudate and putamen atrophy with intranuclear huntingtin inclusions",
+            "TDP-43 positive inclusions in frontal and temporal lobes"
+        ],
+        "correct": 1,
+        "explanation": "Creutzfeldt-Jakob disease (CJD) is a prion disease caused by misfolded prion protein (PrPSc). Microscopically, the hallmark is spongiform change: multiple small, round, non-membrane-bound vacuoles (often perineuronal and within neuropil) in the cerebral cortex, basal ganglia, thalamus, and cerebellum. This gives the tissue a spongy, sieve-like appearance. Neuronal loss, reactive gliosis, and prion protein deposition (plaque-like or diffuse) are also present. The rapid progression (months to 1-2 years) with myoclonus, cerebellar ataxia, akinetic mutism, and characteristic MRI findings (cortical ribboning, basal ganglia hyperintensity on DWI) is typical. Abnormal CSF 14-3-3 protein is supportive but not specific. RT-QuIC (detects PrPSc seeding activity) is highly specific and sensitive. Variant CJD (vCJD, associated with bovine spongiform encephalopathy) shows abundant florid plaques (\"daisy\" plaques) in the cerebellum. Familial forms occur with PRNP gene mutations (e.g., E200K). Iatrogenic transmission occurs via contaminated surgical instruments, corneal transplants, cadaveric dura mater, or growth hormone. Neurofibrillary tangles/senile plaques are Alzheimer's. Lewy bodies are Parkinson's/Lewy body dementia. Caudate atrophy is Huntington's. TDP-43 inclusions are seen in ALS/frontotemporal lobar degeneration."
+    },
+    {
+        "id": 28,
+        "question": "A 68-year-old woman with a history of chronic alcohol use disorder and cirrhosis presents with progressive ataxia, nystagmus, and ophthalmoplegia over 3 weeks. She is confused and disoriented. She is diagnosed with Wernicke encephalopathy and treated with high-dose thiamine. She improves partially but is discharged with persistent gait ataxia and memory impairment. Which of the following best describes the neuropathologic findings in the mammillary bodies and periaqueductal gray matter of this patient had she died before treatment?",
+        "options": [
+            "Hemorrhagic necrosis with petechial hemorrhages and neuronal loss",
+            "Lacunar infarcts with cystic cavitation",
+            "Demyelinating plaques with perivascular lymphocytic cuffing",
+            "Lewy bodies and neuronal loss in substantia nigra",
+            "Neurofibrillary tangles and granulovacuolar degeneration"
+        ],
+        "correct": 0,
+        "explanation": "Wernicke encephalopathy (thiamine deficiency) typically shows hemorrhagic necrosis of the mammillary bodies (bilaterally), periaqueductal gray matter, thalamus (mediodorsal nucleus), hypothalamus, and cerebellar vermis. Grossly, the mammillary bodies are shrunken and often show red-brown discoloration. Microscopically, there is neuronal loss, reactive gliosis, demyelination, and petechial hemorrhages. The characteristic finding is small petechial hemorrhages (red blood cell extravasation) and microglial proliferation. Capillary endothelial damage due to thiamine deficiency increases vascular permeability, predisposing to hemorrhage. Chronic alcohol use disorder is the most common cause of thiamine deficiency due to poor nutrition and impaired absorption. The classic triad (confusion, ataxia, ophthalmoplegia) does not always present fully. Untreated, approximately 80 percent progress to Korsakoff syndrome (irreversible anterograde amnesia, confabulation, apathy) due to medial thalamic and mammillary body damage. Treatment is IV thiamine 500 mg TID; critical to give thiamine BEFORE glucose to avoid precipitating deficiency. Hemorrhagic necrosis distinguishes Wernicke from other metabolic encephalopathies. Lacunar infarcts are due to hypertension. Demyelinating plaques are multiple sclerosis. Lewy bodies are Parkinson's disease. Neurofibrillary tangles are Alzheimer's disease."
+    },
+    {
+        "id": 29,
+        "question": "Which of the following correctly describes the histopathologic features of pilocytic astrocytoma? A 10-year-old boy presents with headache, nausea, and vomiting for 2 weeks. MRI reveals a cystic lesion with an enhancing mural nodule in the cerebellum. The tumor is surgically resected. Understanding the characteristic microscopic features of this tumor, which is the most common glioma in children, is important for accurate diagnosis and prognosis.",
+        "options": [
+            "Multinodular architecture with floating neurons in myxoid matrix",
+            "Perivascular pseudorosettes and ependymal rosettes with blepharoplasts",
+            "Biphasic pattern with compact (piloid) areas containing Rosenthal fibers and loose (microcystic) areas with eosinophilic granular bodies",
+            "Fried egg cells with perinuclear halos and chicken wire vasculature",
+            "Small blue cells with Homer-Wright rosettes"
+        ],
+        "correct": 2,
+        "explanation": "Pilocytic astrocytoma (WHO Grade I) is the most common glioma in children, typically occurring in the cerebellum, optic pathway, hypothalamus, and brainstem. Histologically, it has a characteristic biphasic pattern with alternating compact and loose areas. Compact areas (piloid) contain bipolar spindle cells with long, hair-like processes (Rosenthal fibers - thick, corkscrew-shaped eosinophilic structures composed of glial fibrillary acidic protein and heat shock proteins). Loose (microcystic) areas contain multipolar cells, microcysts, and eosinophilic granular bodies (EGBs - eosinophilic granular inclusions within astrocytes). Rosenthal fibers and EGBs are diagnostic clues but not entirely specific. Mitotic figures are rare; necrosis is typically absent. The tumor is slow-growing, well-circumscribed, and often cystic (with an enhancing mural nodule). Prognosis is excellent with complete surgical resection. DNET shows floating neurons. Ependymoma shows perivascular pseudorosettes. Oligodendroglioma shows fried egg cells. Medulloblastoma (small blue cell tumor) shows Homer-Wright rosettes. Unlike infiltrative astrocytomas (WHO Grades II-IV), pilocytic astrocytoma is typically non-infiltrative and does not degenerate to higher grades."
+    },
+    {
+        "id": 30,
+        "question": "A 55-year-old man presents with a 6-month history of progressive difficulty initiating movements, resting tremor, and postural instability. He is diagnosed with Parkinson's disease. He dies 10 years later from complications of the disease. At autopsy, the pathologist notes depigmentation of the substantia nigra and the presence of eosinophilic intracytoplasmic inclusions in remaining neurons. In addition to the substantia nigra, which of the following brain regions also typically shows significant Lewy body pathology in Parkinson's disease, explaining the patient's later development of dementia and autonomic dysfunction?",
+        "options": [
+            "Hippocampus and entorhinal cortex only",
+            "Frontal and temporal neocortex with sparing of brainstem",
+            "Locus coeruleus, dorsal motor nucleus of vagus, and neocortex (Braak Lewy body staging)",
+            "Cerebellar Purkinje cells and dentate nucleus",
+            "Basal ganglia and thalamus with no cortical involvement"
+        ],
+        "correct": 2,
+        "explanation": "Parkinson's disease Lewy body pathology follows a predictable ascending pattern (Braak staging). Stage 1: dorsal motor nucleus of vagus and anterior olfactory nucleus. Stage 2: locus coeruleus and raphe nuclei. Stage 3: substantia nigra pars compacta (motor symptoms begin when 50-70% of neurons lost). Stage 4: limbic system (transentorhinal cortex, amygdala, hippocampus) (mild cognitive impairment may appear). Stage 5-6: neocortex (frontal, temporal, parietal) (dementia, hallucinations, autonomic dysfunction). The widespread involvement beyond substantia nigra explains the non-motor features of advanced Parkinson's disease: dementia (cortical Lewy bodies), autonomic failure (vagal, sympathetic ganglia), sleep disturbance (locus coeruleus), and depression (raphe nuclei). Lewy bodies are composed of aggregated alpha-synuclein. Dementia with Lewy bodies shows Lewy bodies in neocortex and brainstem, with earlier cognitive decline (within 1 year of motor onset). Understanding this staging helps clinicians anticipate progression of non-motor symptoms. In contrast, the hippocampus is primarily involved in Alzheimer's disease (neurofibrillary tangles). Cerebellar Purkinje cell loss is seen in spinocerebellar ataxias. Basal ganglia involvement alone without cortical Lewy bodies would not explain dementia."
+    },
+	
+	
+	
+	
+    {
+        "id": 31,
+        "question": "A 45-year-old woman presents with progressive weakness in her right arm and leg over 6 months. MRI shows an intramedullary spinal cord lesion that expands the cord and enhances heterogeneously. Histopathology shows ependymal cells forming perivascular pseudorosettes and true ependymal rosettes. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Subependymoma",
+            "Myxopapillary ependymoma",
+            "Ependymoma",
+            "Astrocytoma",
+            "Oligodendroglioma"
+        ],
+        "correct": 2,
+        "explanation": "Ependymomas show perivascular pseudorosettes (tumor cells around blood vessels) and true ependymal rosettes (canal-like lumens). They are GFAP-positive and occur in the spinal cord. Myxopapillary ependymomas occur in the filum terminale. Astrocytomas and oligodendrogliomas lack true rosettes."
+    },
+    {
+        "id": 32,
+        "question": "Which of the following best describes the histopathologic feature of central pontine myelinolysis (CPM)? This condition typically occurs after rapid correction of chronic hyponatremia, especially in malnourished or alcoholic patients. The classic MRI finding is a trident-shaped lesion in the central pons. Understanding the pathology helps prevent this iatrogenic complication.",
+        "options": [
+            "Inflammatory demyelination with perivascular lymphocytic cuffing",
+            "Lacunar infarcts from hypertensive arteriolosclerosis",
+            "Non-inflammatory symmetric demyelination sparing axons",
+            "Viral infection of oligodendrocytes with intranuclear inclusions",
+            "Hemosiderin deposition from prior hemorrhage"
+        ],
+        "correct": 2,
+        "explanation": "CPM shows non-inflammatory, symmetric demyelination in the central pons with sparing of axons and neurons. There is no significant inflammation (unlike MS). Prevention requires slow correction of chronic hyponatremia (max 8-12 mEq/L per 24 hours)."
+    },
+    {
+        "id": 33,
+        "question": "A 60-year-old man with a 10-year history of Parkinson's disease develops progressive cognitive decline and visual hallucinations. He is diagnosed with dementia with Lewy bodies (DLB). Which of the following best describes the distribution of Lewy bodies in DLB compared to Parkinson's disease dementia (PDD)?",
+        "options": [
+            "DLB has brainstem-predominant; PDD has cortical-predominant",
+            "DLB has neocortical and limbic Lewy bodies with early dementia",
+            "DLB is associated with tau pathology; PDD has only alpha-synuclein",
+            "DLB has Lewy bodies in cerebellum; PDD spares cerebellum",
+            "DLB has neurofibrillary tangles; PDD has only Lewy bodies"
+        ],
+        "correct": 1,
+        "explanation": "According to the one-year rule: if dementia occurs within 1 year of motor symptoms, it is DLB; if after more than 1 year, it is PDD. Both show cortical Lewy bodies, but DLB has earlier cognitive decline. DLB also shows severe neuroleptic sensitivity."
+    },
+    {
+        "id": 34,
+        "question": "A 35-year-old woman presents with new-onset seizures and slowly progressive hemiparesis over 2 years. MRI shows a poorly demarcated, non-enhancing infiltrative mass in the left frontal lobe. Biopsy reveals diffusely infiltrating astrocytes with mild nuclear atypia and rare mitotic figures. No microvascular proliferation or necrosis is seen. What is the most likely WHO grade?",
+        "options": [
+            "WHO Grade I",
+            "WHO Grade II",
+            "WHO Grade III",
+            "WHO Grade IV",
+            "WHO Grade II but oligodendroglioma"
+        ],
+        "correct": 1,
+        "explanation": "Diffuse astrocytoma (WHO Grade II) shows increased cellularity, nuclear atypia, no mitoses (or rare), no microvascular proliferation, and no necrosis. It is infiltrative and progresses to higher grade over 5-10 years. IDH mutation confers better prognosis."
+    },
+    {
+        "id": 35,
+        "question": "A 25-year-old man presents with progressive headaches, nausea, and visual disturbances. MRI reveals a contrast-enhancing mass in the fourth ventricle with hydrocephalus. Histopathology shows a papillary tumor with cuboidal cells lining fibrovascular cores. The tumor cells are positive for cytokeratin and negative for GFAP. What is the most likely diagnosis?",
+        "options": [
+            "Ependymoma",
+            "Medulloblastoma",
+            "Choroid plexus papilloma",
+            "Meningioma",
+            "Hemangioblastoma"
+        ],
+        "correct": 2,
+        "explanation": "Choroid plexus papilloma (WHO Grade I) is a benign papillary tumor arising from choroid plexus epithelium. It is cytokeratin-positive, GFAP-negative, and occurs in the fourth ventricle in adults. Complete resection is curative."
+    },
+    {
+        "id": 36,
+        "question": "Which of the following best describes the characteristic histologic features of oligodendroglioma? A 42-year-old woman presents with new-onset seizures. MRI shows a calcified mass in the left frontal lobe. Biopsy reveals uniform round nuclei with perinuclear halos and a delicate branching capillary network. Genetic testing is sent to guide prognosis.",
+        "options": [
+            "Rosenthal fibers; IDH1 mutation",
+            "Perivascular pseudorosettes; 1p/19q codeletion",
+            "Fried egg cells; 1p/19q codeletion",
+            "Biphasic pattern; BRAF duplication",
+            "Perinuclear halos; IDH2 mutation only"
+        ],
+        "correct": 2,
+        "explanation": "Oligodendroglioma shows fried egg cells (perinuclear halos) and chicken wire vasculature. The presence of 1p/19q codeletion defines oligodendroglioma and predicts better prognosis and chemosensitivity (PCV regimen)."
+    },
+    {
+        "id": 37,
+        "question": "A 65-year-old man with Waldenström macroglobulinemia presents with progressive headache, confusion, and multiple cranial nerve palsies. MRI shows thickened and enhancing leptomeninges without an intraparenchymal mass. CSF cytology reveals malignant lymphoplasmacytoid cells. What is the most likely diagnosis?",
+        "options": [
+            "Carcinomatous meningitis",
+            "Lymphomatous meningitis",
+            "Tuberculous meningitis",
+            "Cryptococcal meningitis",
+            "Bacterial meningitis"
+        ],
+        "correct": 1,
+        "explanation": "Lymphomatous meningitis shows diffuse or nodular leptomeningeal infiltration by malignant lymphocytes. In Waldenström macroglobulinemia, lymphoplasmacytoid cells with Dutcher bodies (intranuclear IgM inclusions) are seen. Intrathecal chemotherapy is used."
+    },
+    {
+        "id": 38,
+        "question": "A 30-year-old man presents with progressive leg weakness, sensory loss, and bladder dysfunction. MRI reveals an intramedullary spinal cord mass with a syrinx. Histopathology shows lipidized stromal cells and a rich network of thin-walled capillaries. He also has retinal hemangioblastoma and pancreatic cysts. What is the associated genetic syndrome?",
+        "options": [
+            "Neurofibromatosis type 2",
+            "Tuberous sclerosis",
+            "Von Hippel-Lindau disease",
+            "Carney triad",
+            "Li-Fraumeni syndrome"
+        ],
+        "correct": 2,
+        "explanation": "Hemangioblastoma is associated with von Hippel-Lindau (VHL) disease (chromosome 3p25). VHL features include CNS and retinal hemangioblastomas, renal cell carcinoma, pheochromocytoma, and pancreatic cysts. Patients need lifelong surveillance."
+    },
+    {
+        "id": 39,
+        "question": "A 72-year-old woman presents with subacute onset of confusion, myoclonus, and ataxia over 4 weeks. MRI shows cortical ribboning on DWI. CSF 14-3-3 protein is positive, and RT-QuIC is positive. She dies 2 months later. Which of the following best describes the neuropathologic finding?",
+        "options": [
+            "Spongiform change; sporadic CJD",
+            "Neurofibrillary tangles; Alzheimer disease",
+            "Lewy bodies; dementia with Lewy bodies",
+            "Florid plaques; variant CJD",
+            "TDP-43 inclusions; FTLD"
+        ],
+        "correct": 0,
+        "explanation": "Creutzfeldt-Jakob disease (CJD) shows spongiform change (vacuolation of neuropil). Sporadic CJD accounts for 85-90% of cases. RT-QuIC detects PrPSc seeding and is highly specific. Rapid progression with myoclonus is typical."
+    },
+    {
+        "id": 40,
+        "question": "Which of the following best describes the gross appearance of a lacunar infarct? A 70-year-old hypertensive man presents with gait difficulty and urinary incontinence. MRI shows multiple small cystic cavities in the basal ganglia and deep white matter. He has a history of previous TIAs. Understanding this pathology helps explain vascular dementia.",
+        "options": [
+            "Hemorrhagic cavity with hemosiderin staining",
+            "Cystic cavity with clear fluid and surrounding gliosis",
+            "Calcified nodule with surrounding inflammation",
+            "Cystic cavity with yellow-brown discoloration",
+            "White matter rarefaction with preserved U-fibers"
+        ],
+        "correct": 1,
+        "explanation": "Lacunar infarcts are small (1-15 mm) cystic cavities from occlusion of penetrating arteries due to lipohyalinosis (hypertension). Multiple lacunes (état lacunaire) cause vascular dementia with gait disturbance and pseudobulbar palsy."
+    },
+	
+	
+	
+	
+    {
+        "id": 41,
+        "question": "A 55-year-old woman presents with progressive dysphagia to both solids and liquids, regurgitation of undigested food, and nocturnal cough. Barium swallow shows a dilated esophagus with smooth tapering at the distal end (bird-beak sign). Which of the following histologic findings is most characteristic of this condition?",
+        "options": [
+            "Squamous metaplasia with goblet cells",
+            "Absence or degeneration of myenteric (Auerbach) plexus",
+            "Eosinophilic infiltration of the muscularis propria",
+            "Submucosal fibrosis with stricture formation",
+            "Neutrophilic inflammation of the esophageal wall"
+        ],
+        "correct": 1,
+        "explanation": "Achalasia is caused by degeneration of inhibitory neurons (NO and VIP) in the myenteric plexus, leading to failure of LES relaxation and absent peristalsis. Histology shows loss of ganglion cells with lymphocytic infiltration. Primary achalasia is idiopathic; secondary causes include Chagas disease (Trypanosoma cruzi)."
+    },
+    {
+        "id": 42,
+        "question": "Which of the following best describes the gross and microscopic appearance of Barrett esophagus? This condition develops as a complication of chronic gastroesophageal reflux disease (GERD). Patients with long-standing GERD are at increased risk of developing this metaplastic change, which is associated with a risk of malignant transformation.",
+        "options": [
+            "White plaques on a friable mucosa; fungal hyphae on biopsy",
+            "Tongues of red, velvety mucosa extending upward from GE junction; intestinal metaplasia with goblet cells",
+            "Linear furrows and concentric rings; eosinophil-predominant inflammation",
+            "Ulcerated mucosa with punched-out lesions; viral cytopathic effects",
+            "Pale, nodular mucosa with submucosal fibrosis; dysplastic squamous cells"
+        ],
+        "correct": 1,
+        "explanation": "Barrett esophagus is intestinal metaplasia of the distal esophagus (goblet cells) due to chronic GERD. Endoscopically, salmon-colored mucosa extends proximally from the GE junction. It carries a significantly increased risk of esophageal adenocarcinoma, requiring surveillance endoscopy every 3-5 years."
+    },
+    {
+        "id": 43,
+        "question": "A 60-year-old man with long-standing GERD presents with progressive dysphagia to solids. Endoscopy reveals a smooth narrowing in the distal esophagus. Biopsy shows submucosal fibrosis with no evidence of malignancy. Which of the following is the most likely diagnosis, and what is the underlying mechanism?",
+        "options": [
+            "Achalasia; degeneration of inhibitory neurons",
+            "Peptic stricture; fibrosis from chronic acid reflux",
+            "Esophageal web; congenital abnormality",
+            "Esophageal varices; portal hypertension",
+            "Eosinophilic esophagitis; immune-mediated inflammation"
+        ],
+        "correct": 1,
+        "explanation": "Peptic strictures result from chronic GERD leading to fibrosis and narrowing of the distal esophagus. They present with progressive solid food dysphagia. Unlike achalasia, dysphagia to solids precedes dysphagia to liquids. Treatment includes dilation and PPI therapy."
+    },
+    {
+        "id": 44,
+        "question": "A 35-year-old man with asthma and eczema presents with intermittent food impaction and dysphagia. Endoscopy shows concentric rings (trachealization) and linear furrows. Biopsy reveals >20 eosinophils per high-power field. He has not responded to high-dose PPI therapy. What is the characteristic histologic finding in this condition?",
+        "options": [
+            "Neutrophilic infiltration of lamina propria",
+            "Eosinophil-predominant inflammation with microabscesses",
+            "Lymphocytic infiltration with villous blunting",
+            "Granulomatous inflammation with giant cells",
+            "Mast cell infiltration with degranulation"
+        ],
+        "correct": 1,
+        "explanation": "Eosinophilic esophagitis is a chronic immune-mediated condition associated with atopic disorders. Histology shows eosinophil-predominant inflammation (>15-20 eosinophils/HPF), often with eosinophilic microabscesses. Endoscopic findings include esophageal rings, linear furrows, and white plaques. First-line treatment is topical steroids (fluticasone or budesonide)."
+    },
+    {
+        "id": 45,
+        "question": "Which of the following correctly describes the histologic progression from normal squamous epithelium to adenocarcinoma in Barrett esophagus? This progression occurs over years to decades in patients with chronic GERD. Understanding the sequence of histologic changes is essential for surveillance and early detection of malignancy.",
+        "options": [
+            "Squamous hyperplasia → dysplasia → carcinoma",
+            "Intestinal metaplasia → low-grade dysplasia → high-grade dysplasia → adenocarcinoma",
+            "Basal cell hyperplasia → low-grade dysplasia → squamous carcinoma",
+            "Columnar metaplasia without goblet cells → dysplasia → adenocarcinoma",
+            "Glandular atrophy → pseudopyloric metaplasia → carcinoma"
+        ],
+        "correct": 1,
+        "explanation": "Barrett esophagus (intestinal metaplasia with goblet cells) progresses through low-grade dysplasia to high-grade dysplasia and finally to adenocarcinoma. High-grade dysplasia is managed with endoscopic eradication therapy (RFA or EMR). The risk of progression is approximately 0.5% per year, but varies by degree of dysplasia."
+    },
+    {
+        "id": 46,
+        "question": "A 55-year-old man with a 40-pack-year smoking history and heavy alcohol use presents with progressive dysphagia, weight loss, and odynophagia. Barium swallow shows an apple-core lesion in the mid-esophagus. Biopsy reveals infiltrating sheets of malignant cells with keratin pearl formation. What is the most common site of lymph node metastasis for this tumor?",
+        "options": [
+            "Cervical lymph nodes",
+            "Mediastinal and paratracheal nodes",
+            "Gastric and celiac nodes",
+            "Supraclavicular nodes",
+            "Axillary nodes"
+        ],
+        "correct": 1,
+        "explanation": "Squamous cell carcinoma of the esophagus typically affects the upper two-thirds. Lymph node metastasis depends on tumor location: middle third → mediastinal, paratracheal, and tracheobronchial nodes; upper third → cervical nodes; lower third → gastric and celiac nodes. Risk factors include alcohol, smoking, and achalasia."
+    },
+    {
+        "id": 47,
+        "question": "A 50-year-old man with alcohol use disorder presents with hematemesis after several episodes of forceful vomiting. Endoscopy reveals a partial-thickness, longitudinal laceration at the gastroesophageal junction confined to mucosa and submucosa. Which of the following is the most likely diagnosis, and what is the most significant risk if left untreated?",
+        "options": [
+            "Boerhaave syndrome; mediastinitis",
+            "Mallory-Weiss syndrome; hypovolemic shock from continued bleeding",
+            "Esophageal varices; exsanguination",
+            "Peptic ulcer disease; perforation",
+            "Esophageal carcinoma; obstruction"
+        ],
+        "correct": 1,
+        "explanation": "Mallory-Weiss syndrome is characterized by partial-thickness lacerations of the gastroesophageal junction due to severe vomiting. Most cases self-resolve, but significant bleeding requiring endoscopic therapy occurs in 5-10%. Boerhaave syndrome is a transmural perforation (much more serious)."
+    },
+    {
+        "id": 48,
+        "question": "A patient with cirrhosis presents with massive hematemesis. Endoscopy reveals dilated submucosal veins in the lower esophagus. Which of the following is the most common cause of portal hypertension leading to this condition, and what is the histologic change in the liver?",
+        "options": [
+            "Schistosomiasis; periportal fibrosis",
+            "Cirrhosis; diffuse bridging fibrosis and regenerative nodules",
+            "Portal vein thrombosis; acute liver infarction",
+            "Budd-Chiari syndrome; centrilobular congestion",
+            "Right-sided heart failure; nutmeg liver"
+        ],
+        "correct": 1,
+        "explanation": "Cirrhosis is the most common cause of portal hypertension leading to esophageal varices. Histologically, cirrhosis shows diffuse bridging fibrosis and regenerative nodules disrupting normal liver architecture. Portal hypertension causes new collateral circulation, including esophageal varices, which are at risk of rupture and hemorrhage."
+    },
+    {
+        "id": 49,
+        "question": "A 30-year-old woman with CREST syndrome (calcinosis, Raynaud, esophageal dysmotility, sclerodactyly, telangiectasias) presents with heartburn and dysphagia. Which of the following best describes the esophageal histopathology in scleroderma?",
+        "options": [
+            "Increased LES pressure with normal smooth muscle",
+            "Smooth muscle atrophy and fibrosis in distal esophagus",
+            "Eosinophilic infiltration of the muscularis propria",
+            "Auerbach plexus degeneration with ganglion cell loss",
+            "Submucosal gland hyperplasia with cyst formation"
+        ],
+        "correct": 1,
+        "explanation": "Scleroderma causes smooth muscle atrophy and fibrosis in the distal esophagus (smooth muscle portion), leading to decreased LES pressure and absent peristalsis. The proximal esophagus (striated muscle) is spared. This results in severe GERD and dysphagia, often leading to strictures and Barrett esophagus."
+    },
+    {
+        "id": 50,
+        "question": "Which of the following best describes the gross morphology of a squamous cell carcinoma of the esophagus? A 60-year-old man with chronic achalasia for 20 years presents with worsening dysphagia and weight loss. Endoscopy reveals an exophytic mass in the mid-esophagus. Understanding the gross types of esophageal cancer helps predict clinical behavior and prognosis.",
+        "options": [
+            "Polypoid intraluminal mass, ulcerative lesion, or infiltrative annular stricture (apple-core)",
+            "Flat, non-elevated plaque with superficial spread only",
+            "Cystic mass with papillary projections into lumen",
+            "Submucosal nodule with overlying normal mucosa",
+            "Diffuse infiltrative thickening with leather-bottle appearance"
+        ],
+        "correct": 0,
+        "explanation": "Squamous cell carcinoma of the esophagus can present as a polypoid intraluminal mass, an ulcerative lesion, or an infiltrative annular stricture (apple-core lesion). Adenocarcinoma of the distal esophagus often arises from Barrett esophagus and may be polypoid or flat. Early detection improves prognosis, but most cases present at advanced stage."
+    },
+	
+	
+	
+	
+    {
+        "id": 51,
+        "question": "A 45-year-old woman with cirrhosis and portal hypertension presents with abdominal distention. Paracentesis reveals ascitic fluid with a serum-to-ascites albumin gradient (SAAG) of 1.6 g/dL. Which of the following is the most likely etiology of ascites, and what is the characteristic gross appearance of the liver in this condition?",
+        "options": [
+            "Peritoneal carcinomatosis; nodular liver surface",
+            "Cirrhosis; nodular liver with diffuse fibrosis",
+            "Nephrotic syndrome; normal liver",
+            "Tuberculous peritonitis; caseous nodules on peritoneum",
+            "Pancreatic ascites; pancreatic pseudocyst"
+        ],
+        "correct": 1,
+        "explanation": "A SAAG ≥ 1.1 indicates portal hypertension as the cause of ascites. Cirrhosis is the most common cause of portal hypertension. Grossly, the cirrhotic liver shows diffuse nodularity (regenerative nodules) surrounded by fibrous septa, disrupting the normal smooth surface. Micronodular cirrhosis (alcohol) or macronodular cirrhosis (post-necrotic) patterns occur."
+    },
+    {
+        "id": 52,
+        "question": "Which of the following correctly describes the histologic progression from normal liver to cirrhosis in alcoholic liver disease? A 55-year-old man with heavy alcohol use presents with jaundice, ascites, and hepatomegaly. Liver biopsy shows steatosis, ballooning degeneration, Mallory-Denk bodies, and pericellular fibrosis. Understanding the sequence of histologic changes is important for staging the disease.",
+        "options": [
+            "Steatosis → hepatitis → cirrhosis",
+            "Steatosis → steatohepatitis (ballooning, Mallory bodies, inflammation) → bridging fibrosis → cirrhosis",
+            "Hepatitis → steatosis → cirrhosis",
+            "Bile duct proliferation → fibrosis → cirrhosis",
+            "Granulomatous inflammation → fibrosis → cirrhosis"
+        ],
+        "correct": 1,
+        "explanation": "Alcoholic liver disease progresses from reversible steatosis (fatty liver) to steatohepatitis (ballooning degeneration, Mallory-Denk bodies, neutrophilic inflammation) and eventually to bridging fibrosis and cirrhosis. Mallory-Denk bodies are eosinophilic cytoplasmic inclusions of aggregated intermediate filaments. Cirrhosis is irreversible and increases HCC risk."
+    },
+    {
+        "id": 53,
+        "question": "A 60-year-old man with chronic hepatitis B infection presents with right upper quadrant pain and weight loss. Ultrasound reveals a 5 cm hypervascular mass in the right lobe of the liver. Serum alpha-fetoprotein (AFP) is markedly elevated. Which of the following is the most common histologic type of primary liver cancer in this setting?",
+        "options": [
+            "Hepatocellular carcinoma; trabecular pattern with bile production",
+            "Cholangiocarcinoma; glandular pattern with desmoplastic stroma",
+            "Angiosarcoma; sinusoidal growth with atypical endothelial cells",
+            "Hepatoblastoma; embryonal histology",
+            "Metastatic adenocarcinoma; signet ring cells"
+        ],
+        "correct": 0,
+        "explanation": "Hepatocellular carcinoma (HCC) is the most common primary liver cancer, strongly associated with chronic hepatitis B/C, cirrhosis, and aflatoxin exposure. Histologically, HCC shows a trabecular (plates of hepatocytes), pseudoglandular, or solid pattern. Tumor cells resemble hepatocytes (polygonal, eosinophilic cytoplasm) and may produce bile. AFP is elevated in 60-70% of cases."
+    },
+    {
+        "id": 54,
+        "question": "A 35-year-old woman presents with fatigue, pruritus, and jaundice. Laboratory studies show elevated alkaline phosphatase, antimitochondrial antibodies (AMA) positive. Liver biopsy reveals destruction of interlobular bile ducts with lymphocytic infiltration and granulomas. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Primary biliary cholangitis (PBC)",
+            "Primary sclerosing cholangitis (PSC)",
+            "Autoimmune hepatitis",
+            "Alcoholic hepatitis",
+            "Viral hepatitis"
+        ],
+        "correct": 0,
+        "explanation": "Primary biliary cholangitis (PBC) is an autoimmune disease affecting small and medium bile ducts, characterized by antimitochondrial antibodies (AMA) in 95% of patients. Histology shows florid duct lesions (non-suppurative destructive cholangitis) with lymphocytic infiltration and epithelioid granulomas. Progressive bile duct loss leads to biliary cirrhosis. Treatment includes ursodeoxycholic acid."
+    },
+    {
+        "id": 55,
+        "question": "A 25-year-old man with ulcerative colitis presents with jaundice and pruritus. MRCP shows multifocal strictures and beading of the intrahepatic and extrahepatic bile ducts. Liver biopsy reveals concentric periductal fibrosis (onion-skin appearance). Which of the following is the most likely diagnosis?",
+        "options": [
+            "Primary biliary cholangitis",
+            "Primary sclerosing cholangitis",
+            "Autoimmune hepatitis",
+            "Sarcoidosis",
+            "Drug-induced liver injury"
+        ],
+        "correct": 1,
+        "explanation": "Primary sclerosing cholangitis (PSC) is strongly associated with ulcerative colitis (70-80% of cases). Histologically, it shows concentric periductal fibrosis (onion-skinning) around medium and large bile ducts. MRCP shows multifocal strictures alternating with normal segments (beaded appearance). PSC carries a high risk of cholangiocarcinoma (10-15% lifetime risk)."
+    },
+    {
+        "id": 56,
+        "question": "A 45-year-old woman with obesity and type 2 diabetes presents with elevated liver enzymes. Liver biopsy shows macrovesicular steatosis, ballooning degeneration, lobular inflammation, and perisinusoidal fibrosis. She reports minimal alcohol use. Which of the following best describes this condition and its potential progression?",
+        "options": [
+            "Alcoholic steatohepatitis; progresses to cirrhosis in 50%",
+            "Nonalcoholic steatohepatitis (NASH); may progress to cirrhosis and HCC",
+            "Autoimmune hepatitis; responds to steroids",
+            "Drug-induced liver injury; reversible with drug cessation",
+            "Wilson disease; copper accumulation"
+        ],
+        "correct": 1,
+        "explanation": "Nonalcoholic steatohepatitis (NASH) is the progressive form of nonalcoholic fatty liver disease (NAFLD). Histology shows steatosis, ballooning degeneration, lobular inflammation, and fibrosis. NASH can progress to cirrhosis (15-20%) and hepatocellular carcinoma (HCC). Risk factors include obesity, diabetes, and hyperlipidemia. Management includes weight loss, exercise, and vitamin E or pioglitazone in some cases."
+    },
+    {
+        "id": 57,
+        "question": "A 50-year-old man with cirrhosis presents with worsening encephalopathy and ascites. Paracentesis reveals cloudy ascitic fluid with >250 neutrophils/mm³ and a positive bacterial culture. Which of the following is the most common organism responsible for this complication, and what is the underlying pathogenesis?",
+        "options": [
+            "Streptococcus pneumoniae; hematogenous spread from pneumonia",
+            "Escherichia coli; bacterial translocation from the gut",
+            "Mycobacterium tuberculosis; reactivation in ascitic fluid",
+            "Candida albicans; immunocompromised host",
+            "Staphylococcus aureus; catheter-related infection"
+        ],
+        "correct": 1,
+        "explanation": "Spontaneous bacterial peritonitis (SBP) is a complication of cirrhosis and ascites, most commonly caused by Escherichia coli and other gram-negative enteric bacteria. The pathogenesis involves bacterial translocation from the gut (due to altered intestinal permeability and decreased host defenses). SBP presents with abdominal pain, fever, and worsening encephalopathy. Diagnosis requires ascitic fluid PMN count ≥250/mm³."
+    },
+    {
+        "id": 58,
+        "question": "A 30-year-old man presents with jaundice, fatigue, and right upper quadrant pain. He reports recent travel to Southeast Asia. Liver biopsy shows panlobular inflammation, hepatocyte swelling (ballooning), acidophil bodies (apoptotic hepatocytes), and Kupffer cell hyperplasia. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Acute viral hepatitis; characteristic histology regardless of specific virus",
+            "Alcoholic hepatitis; Mallory-Denk bodies",
+            "Autoimmune hepatitis; plasma cell-rich inflammation",
+            "Ischemic hepatitis; centrilobular necrosis",
+            "Drug-induced liver injury; eosinophils and granulomas"
+        ],
+        "correct": 0,
+        "explanation": "Acute viral hepatitis (caused by HAV, HBV, HEV) shows panlobular inflammation (lymphocytes and macrophages), hepatocyte swelling (ballooning degeneration), acidophil bodies (Councilman bodies, apoptotic hepatocytes), and Kupffer cell hyperplasia. Histology is similar regardless of the specific hepatitis virus, but serology and PCR identify the cause. Acute HAV infection is common after travel to endemic areas."
+    },
+    {
+        "id": 59,
+        "question": "A 40-year-old woman presents with fatigue, jaundice, and arthralgias. Laboratory studies show elevated AST/ALT (ratio 0.8), positive ANA (1:320), and elevated IgG. Liver biopsy reveals interface hepatitis (piecemeal necrosis), plasma cell-rich inflammation, and rosette formation. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Chronic hepatitis B",
+            "Autoimmune hepatitis",
+            "Nonalcoholic steatohepatitis",
+            "Primary biliary cholangitis",
+            "Wilson disease"
+        ],
+        "correct": 1,
+        "explanation": "Autoimmune hepatitis (AIH) typically presents in young to middle-aged women with elevated transaminases, positive autoantibodies (ANA, ASMA, anti-LKM1), and elevated IgG. Histology shows interface hepatitis (piecemeal necrosis with lymphoplasmacytic infiltration, inflammation extending from portal tracts into lobules), plasma cell-rich infiltrate, and hepatocyte rosettes (regenerative changes). Treatment is corticosteroids and azathioprine."
+    },
+    {
+        "id": 60,
+        "question": "Which of the following best describes the gross and microscopic appearance of a hepatic adenoma? A young woman taking oral contraceptives presents with right upper quadrant pain. Ultrasound reveals a 5 cm liver mass. She undergoes resection. The specimen shows a well-circumscribed, unencapsulated tan-yellow mass. Understanding the histology helps distinguish this benign tumor from other liver lesions.",
+        "options": [
+            "Nodular lesions with central scars; elastosis of portal tracts",
+            "Sheets of hepatocytes with minimal atypia; no portal tracts; thin-walled arteries",
+            "Fatty infiltration with no other changes",
+            "Connective tissue septa dividing liver into regenerative nodules",
+            "Glandular structures with desmoplastic stroma"
+        ],
+        "correct": 1,
+        "explanation": "Hepatic adenoma (hepatocellular adenoma) is a benign tumor of hepatocytes, strongly associated with oral contraceptive use. Grossly, it is a well-circumscribed, often solitary mass with possible hemorrhage. Microscopically, it shows sheets of bland hepatocytes with minimal atypia, no portal tracts, and numerous thin-walled arteries. Risk of malignant transformation to HCC and hemorrhage (especially larger adenomas) may require resection."
+    },
+	
+	
+	
+	
+    {
+        "id": 61,
+        "question": "A 55-year-old man with cirrhosis presents with worsening jaundice, fever, and right upper quadrant pain. CT reveals a hypodense mass in the liver with peripheral enhancement. Biopsy shows malignant cells forming acinar structures with mucin production. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Hepatocellular carcinoma",
+            "Cholangiocarcinoma",
+            "Metastatic adenocarcinoma from colon",
+            "Angiosarcoma",
+            "Hepatoblastoma"
+        ],
+        "correct": 2,
+        "explanation": "Metastatic adenocarcinoma is more common than primary liver cancer in cirrhotic patients. Colon cancer frequently metastasizes to the liver and shows acinar/glandular structures with mucin production, distinguishing it from hepatocellular carcinoma (trabecular pattern, bile production) and cholangiocarcinoma (desmoplastic stroma, positive for CK7 and CK19)."
+    },
+    {
+        "id": 62,
+        "question": "Which of the following best describes the histologic finding in acute cholangitis? A 65-year-old woman presents with Charcot triad: fever, jaundice, and right upper quadrant pain. She has a history of choledocholithiasis. Histology of the bile duct wall is obtained after resection. Understanding the inflammatory pattern is important for diagnosis and management.",
+        "options": [
+            "Neutrophilic infiltration of bile duct wall and lumen",
+            "Lymphocytic infiltration of portal tracts",
+            "Granulomatous inflammation with giant cells",
+            "Eosinophilic infiltration with Charcot-Leyden crystals",
+            "Periductal concentric fibrosis"
+        ],
+        "correct": 0,
+        "explanation": "Acute cholangitis shows neutrophilic infiltration of the bile duct wall and lumen, often with bile stasis. It is typically caused by bacterial infection (E. coli, Klebsiella, Enterococcus) in the setting of biliary obstruction from stones or strictures. Reynold pentad adds shock and confusion in severe cases."
+    },
+    {
+        "id": 63,
+        "question": "A 25-year-old woman with ulcerative colitis presents with jaundice and pruritus. MRCP shows beading of intrahepatic bile ducts. Liver biopsy reveals concentric periductal fibrosis (onion-skin lesions). Which of the following is the most significant long-term complication of this condition?",
+        "options": [
+            "Hepatocellular carcinoma",
+            "Cholangiocarcinoma",
+            "Portal vein thrombosis",
+            "Spontaneous bacterial peritonitis",
+            "Hepatic adenoma"
+        ],
+        "correct": 1,
+        "explanation": "Primary sclerosing cholangitis (PSC) carries a 10-15% lifetime risk of cholangiocarcinoma. Surveillance with annual MRI/MRCP and CA 19-9 is recommended. Liver transplantation is the only curative treatment for end-stage PSC, but cholangiocarcinoma may recur."
+    },
+    {
+        "id": 64,
+        "question": "A 45-year-old man with alcohol-related cirrhosis presents with hematemesis. Endoscopy shows large esophageal varices with active bleeding. He receives octreotide and band ligation. Which of the following is the most common cause of death in patients with cirrhosis who survive episodes of variceal bleeding?",
+        "options": [
+            "Rebleeding",
+            "Hepatocellular carcinoma",
+            "Hepatorenal syndrome",
+            "Infections (spontaneous bacterial peritonitis)",
+            "Hepatic encephalopathy"
+        ],
+        "correct": 0,
+        "explanation": "Rebleeding is the most common cause of death in cirrhotic patients after an episode of variceal hemorrhage despite intervention. Secondary prophylaxis includes non-selective beta-blockers (propranolol, nadolol) and repeat band ligation. TIPS is reserved for refractory bleeding. After initial stabilization, the 6-week mortality remains 15-20%."
+    },
+    {
+        "id": 65,
+        "question": "Which of the following correctly describes the gross appearance of a liver with chronic passive congestion (nutmeg liver)? A 70-year-old man with congestive heart failure presents with tender hepatomegaly. He dies from progressive heart failure, and autopsy is performed. The liver shows a mottled red and tan appearance on cut section. Understanding this finding helps distinguish it from other causes of hepatomegaly.",
+        "options": [
+            "Diffuse nodularity with fibrous septa",
+            "Red-brown central regions (congested) with tan peripheral zones (nutmeg pattern)",
+            "Large solitary pale mass with central necrosis",
+            "Multiple small yellow nodules of fatty infiltration",
+            "Smooth, pale, greasy-appearing surface"
+        ],
+        "correct": 1,
+        "explanation": "Nutmeg liver results from chronic passive congestion due to right-sided heart failure. Grossly, the cut surface shows red-brown central regions (congested centrilobular zones) alternating with tan or pale peripheral regions (periportal zones). Microscopically, centrilobular hepatocytes atrophy and may undergo necrosis, with hemosiderin-laden macrophages. Long-standing congestion leads to cardiac cirrhosis."
+    },
+    {
+        "id": 66,
+        "question": "A 35-year-old man presents with hepatomegaly, neurologic symptoms (tremor, dysarthria), and Kayser-Fleischer rings on corneal examination. Serum ceruloplasmin is low, and 24-hour urinary copper is elevated. Which of the following is the characteristic histologic finding in the liver of this patient?",
+        "options": [
+            "Steatosis and Mallory-Denk bodies",
+            "Orcein-positive granules in periportal hepatocytes",
+            "Lipofuscin accumulation in Kupffer cells",
+            "Glycogenated nuclei and fatty change",
+            "Fibrosis with bile duct proliferation"
+        ],
+        "correct": 1,
+        "explanation": "Wilson disease (autosomal recessive ATP7B mutation) causes copper accumulation in the liver, brain (basal ganglia), and cornea (Kayser-Fleischer rings). Histologically, the liver shows copper accumulation in periportal hepatocytes, detectable with orcein or rhodanine stains. Early changes include steatosis and glycogenated nuclei; later fibrosis and cirrhosis develop."
+    },
+    {
+        "id": 67,
+        "question": "A 50-year-old man with chronic hepatitis C infection develops a 3 cm liver mass on surveillance ultrasound. Biopsy shows a well-differentiated tumor with a trabecular pattern, bile production, and an fibrous capsule. Which of the following is the most favorable prognostic factor for this patient?",
+        "options": [
+            "Large tumor size",
+            "Presence of a fibrous capsule",
+            "Elevated AFP >400 ng/mL",
+            "Microvascular invasion",
+            "Satellite nodules"
+        ],
+        "correct": 1,
+        "explanation": "In hepatocellular carcinoma (HCC), a well-defined fibrous capsule is a favorable prognostic factor, as it indicates less aggressive behavior and lower likelihood of microvascular invasion. Small (<5 cm), encapsulated, unifocal HCC without vascular invasion is suitable for surgical resection or local ablation with good outcomes. Cirrhosis is also a major prognostic factor for overall survival."
+    },
+    {
+        "id": 68,
+        "question": "A 25-year-old man with a history of IV drug use presents with jaundice, dark urine, and fatigue. Hepatitis B surface antigen (HBsAg) and IgM anti-HBc are positive. Liver biopsy shows panlobular inflammation and acidophil bodies. Which of the following is the most likely outcome in this patient after the acute episode?",
+        "options": [
+            "Progression to cirrhosis within 1 year",
+            "Resolution with immunity (anti-HBs positive)",
+            "Chronic carrier state without inflammation",
+            "Development of hepatocellular carcinoma",
+            "Fulminant hepatic failure"
+        ],
+        "correct": 1,
+        "explanation": "Acute hepatitis B infection in an immunocompetent adult resolves in >95% of cases, with clearance of HBsAg and development of anti-HBs. Chronic infection occurs in <5% of adults (higher risk in children and immunocompromised). IV drug use is a risk factor for HBV acquisition. Chronic HBV infection increases risk of cirrhosis and HCC."
+    },
+    {
+        "id": 69,
+        "question": "Which of the following best describes the histologic finding in alpha-1 antitrypsin (AAT) deficiency? A 55-year-old woman presents with dyspnea on exertion (emphysema) and hepatomegaly. Liver biopsy is performed to evaluate for cirrhosis. Periodic acid-Schiff (PAS) staining after diastase digestion (PAS-D) reveals characteristic inclusions in hepatocytes. Understanding this finding is key to diagnosis.",
+        "options": [
+            "Mallory-Denk bodies in perivenular hepatocytes",
+            "Ground-glass inclusions (HBsAg) in periportal hepatocytes",
+            "PAS-D positive globules in endoplasmic reticulum of periportal hepatocytes",
+            "Copper-positive granules in periportal hepatocytes",
+            "Lipofuscin accumulation in centrilobular hepatocytes"
+        ],
+        "correct": 2,
+        "explanation": "Alpha-1 antitrypsin (AAT) deficiency (PiZZ genotype) leads to accumulation of misfolded AAT in hepatocyte endoplasmic reticulum, forming PAS-D positive (diastase-resistant) globules. These are most prominent in periportal hepatocytes. Protein accumulation causes neonatal hepatitis in some infants and cirrhosis in adults (10-15% risk). Emphysema results from AAT deficiency in the lungs. Diagnosis is confirmed by low serum AAT and genotyping."
+    },
+    {
+        "id": 70,
+        "question": "A 60-year-old woman with obesity and diabetes presents with right upper quadrant pain. Ultrasound shows a 4 cm hyperechoic mass with acoustic shadowing, consistent with hepatic hemangioma. Which of the following best describes the histologic appearance of this lesion?",
+        "options": [
+            "Sheets of bland hepatocytes with thin-walled arteries",
+            "Vascular channels lined by flattened endothelium with variable thrombosis and calcification",
+            "Proliferation of bile ductules with fibrous stroma",
+            "Fat-filled cells with sinusoidal pattern",
+            "Fibrous septa dividing regenerative nodules"
+        ],
+        "correct": 1,
+        "explanation": "Cavernous hemangioma is the most common benign liver tumor (incidental finding in 5-10% of autopsies). Histology shows large, blood-filled vascular channels (cavernous spaces) lined by a single layer of flattened endothelium. Thrombi, phleboliths (calcified thrombi), and fibrosis may be present. Hemangiomas are typically asymptomatic unless large (>5 cm). Ultrasound shows a well-demarcated hyperechoic mass. MRI confirms diagnosis (fills peripherally with delayed central filling). Rupture is rare but can occur with large lesions (more common in pregnancy)."
+    },
+	
+	
+	
+	
+    {
+        "id": 71,
+        "question": "A 45-year-old woman presents with fatigue, weight loss, and generalized lymphadenopathy. Liver biopsy reveals numerous non-caseating granulomas in the portal tracts and parenchyma. Serum ACE level is elevated. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Primary biliary cholangitis",
+            "Sarcoidosis",
+            "Tuberculosis",
+            "Fungal infection",
+            "Hodgkin lymphoma"
+        ],
+        "correct": 1,
+        "explanation": "Hepatic sarcoidosis shows non-caseating granulomas (tight aggregates of epithelioid histiocytes) in portal tracts and parenchyma. Elevated ACE and hypercalcemia support the diagnosis. Unlike tuberculosis, sarcoid granulomas lack caseous necrosis. Liver involvement occurs in 50-80% of sarcoidosis patients but is often asymptomatic."
+    },
+    {
+        "id": 72,
+        "question": "Which of the following best describes the histologic finding in hereditary hemochromatosis? A 50-year-old man presents with fatigue, arthralgias, skin hyperpigmentation, and diabetes. Liver biopsy reveals extensive iron deposition. He is homozygous for the C282Y mutation in the HFE gene. Understanding the pattern of iron deposition helps distinguish this from other causes of iron overload.",
+        "options": [
+            "Iron deposition in Kupffer cells only",
+            "Iron deposition in periportal hepatocytes (acinar zone 1) with periportal sparing",
+            "Iron deposition in biliary epithelium and portal tracts",
+            "Perls Prussian blue-positive hemosiderin in hepatocytes, predominantly periportal (zone 1)",
+            "Iron deposition in centrilobular hepatocytes only"
+        ],
+        "correct": 3,
+        "explanation": "Hereditary hemochromatosis shows hemosiderin deposition primarily in hepatocytes (not Kupffer cells) in a periportal (acinar zone 1) distribution, sparing centrilobular (zone 3) regions early. Later, iron accumulates throughout the lobule. Perls Prussian blue stain highlights iron as blue granules. This pattern differs from transfusional iron overload (which loads Kupffer cells first). Complications include cirrhosis, HCC, cardiomyopathy, arthropathy, hypogonadism, and diabetes (bronze diabetes). Treatment is phlebotomy."
+    },
+    {
+        "id": 73,
+        "question": "A 35-year-old woman with systemic lupus erythematosus presents with jaundice and right upper quadrant pain. Liver biopsy shows bland centrilobular necrosis with minimal inflammation. She recently started a new medication for her lupus. Which of the following is the most likely cause of her liver injury?",
+        "options": [
+            "Autoimmune hepatitis",
+            "Viral hepatitis",
+            "Acetaminophen toxicity",
+            "Drug-induced liver injury (DILI) from hepatotoxic medication",
+            "Ischemic hepatitis"
+        ],
+        "correct": 3,
+        "explanation": "Drug-induced liver injury (DILI) can cause centrilobular (zone 3) necrosis with minimal inflammation, a pattern seen with many hepatotoxic drugs including acetaminophen (high dose), isoniazid, methotrexate, and certain antibiotics. Other patterns of DILI include cholestatic, steatohepatitis, and granulomatous. ANA-positive patients are not necessarily at higher risk for DILI. Unlike autoantibody-positive autoimmune hepatitis (which shows interface hepatitis and plasma cells), this case is drug-related with bland necrosis."
+    },
+    {
+        "id": 74,
+        "question": "A 55-year-old man with cirrhosis from chronic hepatitis C presents with new-onset abdominal distention and dullness to percussion. Paracentesis shows SAAG 1.8 g/dL, total protein 1.2 g/dL, and PMN count 100/mm³. Which of the following is the most appropriate next step to prevent spontaneous bacterial peritonitis (SBP) in this patient?",
+        "options": [
+            "IV ceftriaxone daily",
+            "Oral norfloxacin or rifaximin prophylaxis",
+            "IV albumin infusion weekly",
+            "Large volume paracentesis monthly",
+            "Transjugular intrahepatic portosystemic shunt (TIPS)"
+        ],
+        "correct": 1,
+        "explanation": "Primary prophylaxis for SBP is indicated in cirrhotics with ascites and low protein (<1.5 g/dL) or those with prior SBP (secondary prophylaxis). Oral norfloxacin or rifaximin reduces gut bacterial translocation and SBP risk. This patient has low protein ascites (1.2 g/dL) but normal PMN count (no active SBP yet). Prophylaxis reduces 1-year SBP incidence from 20% to <5%."
+    },
+    {
+        "id": 75,
+        "question": "Which of the following correctly describes the gross appearance of focal nodular hyperplasia (FNH)? A 30-year-old woman on oral contraceptives presents with an incidental liver mass found on ultrasound. CT shows a well-circumscribed mass with a central stellate scar. She undergoes resection, and the specimen is examined. Understanding the gross characteristics helps distinguish FNH from hepatic adenoma and HCC.",
+        "options": [
+            "Solitary, well-circumscribed mass with central fibrous stellate scar",
+            "Multiple small yellow nodules of fatty infiltration",
+            "Large solitary hemorrhagic mass with necrosis",
+            "Diffuse nodularity with fibrous septa",
+            "Cystic mass with papillary projections"
+        ],
+        "correct": 0,
+        "explanation": "Focal nodular hyperplasia (FNH) is a benign hepatic lesion characterized by a central stellate fibrotic scar on gross examination. Histology shows nodular hyperplasia of hepatocytes separated by fibrous septa containing malformed arteries, bile ductules, and inflammation. Unlike hepatic adenoma, FNH has no malignant potential and is not associated with oral contraceptive use (though contraceptives may cause enlargement). The central scar is best seen on contrast-enhanced CT or MRI."
+    },
+    {
+        "id": 76,
+        "question": "A 60-year-old man with alcoholic cirrhosis presents with worsening encephalopathy, asterixis, and fetor hepaticus. He is started on lactulose and rifaximin. Which of the following is the primary mechanism by which lactulose improves hepatic encephalopathy?",
+        "options": [
+            "Directly binds ammonia in the gut",
+            "Acidifies the colon, converting NH3 to NH4+ which is not absorbed",
+            "Inhibits urease-producing bacteria",
+            "Enhances renal excretion of ammonia",
+            "Reduces protein absorption from the gut"
+        ],
+        "correct": 1,
+        "explanation": "Lactulose is a non-absorbable disaccharide metabolized by colonic bacteria to lactic and acetic acids, acidifying the colon. This converts ammonia (NH3, which crosses membranes) to ammonium (NH4+, which does not), trapping it in the gut lumen for excretion. Lactulose also promotes bacterial uptake of ammonia and has a cathartic effect (increasing stool output). Rifaximin is a non-absorbable antibiotic that reduces urease-producing gut bacteria."
+    },
+    {
+        "id": 77,
+        "question": "A 45-year-old man presents with acute jaundice, dark urine, and elevated transaminases (AST 2500 IU/L, ALT 3500 IU/L). He reports taking acetaminophen 10 grams daily for 3 days for back pain. INR is 2.5, creatinine is 2.2 mg/dL. Which of the following is the characteristic histologic finding in the liver at this stage?",
+        "options": [
+            "Massive centrilobular (zone 3) necrosis with minimal inflammation",
+            "Panlobular necrosis with lymphocytic infiltration",
+            "Bridging necrosis with portal inflammation",
+            "Microvesicular steatosis without necrosis",
+            "Eosinophilic infiltration with granulomas"
+        ],
+        "correct": 0,
+        "explanation": "Acetaminophen hepatotoxicity causes centrilobular (zone 3) necrosis due to CYP2E1-mediated formation of NAPQI, which depletes glutathione. Zone 3 hepatocytes have highest CYP2E1 activity and lowest glutathione, making them most vulnerable. Histology shows coagulative necrosis of zone 3 hepatocytes with minimal inflammation (bland necrosis). Treatment is N-acetylcysteine (NAC), which replenishes glutathione. This patient presents with acute liver failure (INR >1.5, jaundice, encephalopathy)."
+    },
+    {
+        "id": 78,
+        "question": "A 55-year-old woman with primary biliary cholangitis develops worsening pruritus and jaundice. Liver biopsy shows extensive bile duct loss, periportal fibrosis, and early cirrhosis. Which of the following is the most common cause of death in patients with advanced primary biliary cholangitis?",
+        "options": [
+            "Hepatocellular carcinoma",
+            "Cholangiocarcinoma",
+            "Liver failure with complications (variceal bleeding, infection)",
+            "Myocardial infarction",
+            "Renal failure"
+        ],
+        "correct": 2,
+        "explanation": "In advanced primary biliary cholangitis (PBC), complications of cirrhosis (variceal bleeding, hepatic encephalopathy, infections such as SBP, hepatorenal syndrome) are the most common causes of death. Liver transplantation is indicated for decompensated cirrhosis or refractory pruritus. HCC risk is elevated in PBC but less than in other causes of cirrhosis; cholangiocarcinoma risk is increased but less than in PSC. Ursodeoxycholic acid slows progression but does not reverse cirrhosis."
+    },
+    {
+        "id": 79,
+        "question": "A 30-year-old man presents with jaundice, hepatomegaly, and splenomegaly. He has a history of recurrent deep vein thromboses. CT shows extensive portal vein thrombosis and a small, nodular liver. Liver biopsy reveals centrilobular congestion, necrosis, and regenerative nodules. Which of the following is the most likely underlying diagnosis?",
+        "options": [
+            "Budd-Chiari syndrome",
+            "Alcoholic cirrhosis",
+            "Chronic hepatitis B",
+            "Wilson disease",
+            "Alpha-1 antitrypsin deficiency"
+        ],
+        "correct": 0,
+        "explanation": "Budd-Chiari syndrome (hepatic vein outflow obstruction) causes centrilobular congestion and necrosis (nutmeg liver grossly) due to impaired venous drainage. Chronic obstruction leads to regenerative nodules (nodular regenerative hyperplasia) and eventually cirrhosis. Underlying hypercoagulable states (polycythemia vera, JAK2 mutation, factor V Leiden, antiphospholipid syndrome) are common. Portal vein thrombosis may coexist. Treatment includes anticoagulation, angioplasty/stenting, or TIPS (if severe). Liver transplantation for fulminant or end-stage disease."
+    },
+    {
+        "id": 80,
+        "question": "A 65-year-old man with chronic hepatitis B presents with new-onset ascites and encephalopathy. He is diagnosed with decompensated cirrhosis. Which of the following is the most common cause of death in patients with decompensated cirrhosis awaiting liver transplantation?",
+        "options": [
+            "Hepatocellular carcinoma",
+            "Variceal hemorrhage",
+            "Infections (especially SBP and pneumonia)",
+            "Hepatorenal syndrome",
+            "Hepatic encephalopathy"
+        ],
+        "correct": 2,
+        "explanation": "Infections (spontaneous bacterial peritonitis, pneumonia, urinary tract infections, sepsis) are the most common cause of death in patients with decompensated cirrhosis awaiting transplantation, followed by variceal hemorrhage and hepatorenal syndrome. The immunocompromised state of cirrhosis (due to reduced complement, impaired neutrophil function, and bacterial translocation) increases infection risk significantly. Prompt recognition and treatment of infections improves survival."
+    },
+	
+	
+	
+	
+	
+    {
+        "id": 81,
+        "question": "A 55-year-old man with cirrhosis from chronic hepatitis C presents with a rapidly enlarging liver mass. CT shows a 8 cm infiltrative tumor with portal vein thrombosis. Serum AFP is 500 ng/mL. Biopsy shows pleomorphic malignant cells forming trabeculae, with bile production in some cells. What is the most likely diagnosis?",
+        "options": [
+            "Cholangiocarcinoma",
+            "Hepatocellular carcinoma",
+            "Metastatic colon cancer",
+            "Angiosarcoma",
+            "Hepatoblastoma"
+        ],
+        "correct": 1,
+        "explanation": "Hepatocellular carcinoma (HCC) in cirrhosis shows trabecular pattern (plates of hepatocytes), bile production, and elevated AFP. Portal vein invasion (tumor thrombus) is common in advanced HCC. Unlike cholangiocarcinoma (glandular, CK7/CK19+, no bile), HCC is confirmed by hepatocyte markers (HepPar1, arginase-1)."
+    },
+    {
+        "id": 82,
+        "question": "Which of the following best describes the histologic finding in a liver with chronic venous outflow obstruction (cardiac cirrhosis)? A 70-year-old man with long-standing congestive heart failure presents with ascites and jaundice. He dies, and autopsy reveals a firm, nodular liver. Understanding the pattern of fibrosis helps distinguish this from other causes of cirrhosis.",
+        "options": [
+            "Diffuse micronodular cirrhosis with fatty change",
+            "Reversal of lobular pattern with bridging fibrosis from central vein to central vein",
+            "Biliary-type fibrosis with bile duct proliferation",
+            "Periportal fibrosis with preserved architecture",
+            "Lobular inflammation with interface hepatitis"
+        ],
+        "correct": 1,
+        "explanation": "Cardiac cirrhosis (chronic passive congestion with fibrosis) shows reverse lobulation: fibrosis bridges from central vein to central vein (centrilobular regions), rather than portal-portal bridging seen in alcoholic or viral cirrhosis. Grossly, the liver is firm with a nutmeg pattern (red-brown central zones, tan peripheral zones). Long-standing heart failure leads to hepatocyte atrophy, necrosis, and replacement fibrosis."
+    },
+    {
+        "id": 83,
+        "question": "A 40-year-old woman presents with jaundice, fatigue, and pruritus. Liver biopsy shows granulomatous inflammation around bile ducts with lymphocytic infiltration, but no bile duct destruction. Serum ACE is normal. She has a history of taking nitrofurantoin for recurrent UTIs. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Primary biliary cholangitis",
+            "Sarcoidosis",
+            "Drug-induced granulomatous hepatitis",
+            "Tuberculosis",
+            "Autoimmune hepatitis"
+        ],
+        "correct": 2,
+        "explanation": "Drug-induced liver injury (DILI) can cause granulomatous hepatitis (non-caseating granulomas) without bile duct destruction. Common culprits include nitrofurantoin, allopurinol, phenytoin, sulfonamides, and isoniazid. Unlike primary biliary cholangitis (which shows destructive cholangitis with bile duct loss) and sarcoidosis (which has elevated ACE and systemic involvement), DILI resolves with drug cessation."
+    },
+    {
+        "id": 84,
+        "question": "A 25-year-old man with inflammatory bowel disease presents with hepatomegaly and elevated alkaline phosphatase. MRCP shows multifocal intrahepatic bile duct strictures. Liver biopsy reveals periductal concentric fibrosis (onion-skin lesions) without bile duct loss. Which of the following is the most significant risk factor for this condition?",
+        "options": [
+            "Primary sclerosing cholangitis; associated with ulcerative colitis",
+            "Primary biliary cholangitis; associated with autoimmune diseases",
+            "IgG4-related sclerosing cholangitis; elevated IgG4",
+            "Cholangiocarcinoma; associated with hepatolithiasis",
+            "Recurrent pyogenic cholangitis; associated with parasites"
+        ],
+        "correct": 0,
+        "explanation": "Primary sclerosing cholangitis (PSC) is strongly associated with ulcerative colitis (70-80% of patients). Histology shows concentric periductal fibrosis (onion-skinning) around medium and large bile ducts. Unlike primary biliary cholangitis (which affects small ducts with granulomatous destruction), PSC affects larger ducts with preservation of bile ducts early. PSC carries a 10-15% lifetime risk of cholangiocarcinoma."
+    },
+    {
+        "id": 85,
+        "question": "A 60-year-old man with alcoholic cirrhosis presents with worsening ascites. Paracentesis reveals SAAG 1.5 g/dL, total protein 2.5 g/dL, and PMN count 500/mm³. Culture grows E. coli. He is started on IV ceftriaxone. Which of the following additional therapy reduces mortality and prevents hepatorenal syndrome in this patient?",
+        "options": [
+            "IV albumin on day 1 and day 3",
+            "Oral norfloxacin prophylaxis for 6 months",
+            "IV vasopressin for splanchnic vasoconstriction",
+            "IV furosemide for diuresis",
+            "Oral rifaximin for encephalopathy"
+        ],
+        "correct": 0,
+        "explanation": "IV albumin (1.5 g/kg on day 1, 1 g/kg on day 3) is given with antibiotics for spontaneous bacterial peritonitis (SBP) when creatinine >1 mg/dL, BUN >30 mg/dL, or bilirubin >4 mg/dL (high-risk patients). Albumin improves circulatory function and reduces hepatorenal syndrome and mortality. This patient with PMN >250/mm³ has SBP, and albumin is indicated given his cirrhosis with likely renal dysfunction risk."
+    },
+    {
+        "id": 86,
+        "question": "Which of the following best describes the gross appearance of a cirrhotic liver in Wilson disease? A 20-year-old man presents with dysarthria, tremor, and jaundice. Kayser-Fleischer rings are present. Liver biopsy shows cirrhosis with copper accumulation. The explanted liver at transplantation is examined. Understanding the gross morphology helps distinguish Wilson cirrhosis from other etiologies.",
+        "options": [
+            "Micronodular cirrhosis with fatty change",
+            "Macronodular cirrhosis with mixed nodule sizes and bile-stained parenchyma",
+            "Diffuse fibrosis with reversed lobulation",
+            "Biliary cirrhosis with green discoloration",
+            "Normal-sized liver with surface nodularity"
+        ],
+        "correct": 1,
+        "explanation": "Wilson disease cirrhosis is typically macronodular or mixed micronodular/macronodular (nodules >3 mm). The liver may be of normal size or smaller, with bile-stained parenchyma due to cholestasis from copper toxicity. Copper accumulation is most prominent in periportal hepatocytes (detected by rhodanine or orcein staining). Histology may show glycogenated nuclei, ballooning, and Mallory-Denk bodies in early stages. Hepatic copper quantitation (>250 mcg/g dry weight) is diagnostic."
+    },
+    {
+        "id": 87,
+        "question": "A 50-year-old woman with fatigue and pruritus is diagnosed with primary biliary cholangitis (PBC) based on positive AMA and elevated alkaline phosphatase. She is started on ursodeoxycholic acid (UDCA). Which of the following histologic findings is considered diagnostic of PBC on liver biopsy?",
+        "options": [
+            "Periductal concentric fibrosis (onion-skin)",
+            "Florid duct lesion (non-suppurative destructive cholangitis with granulomas)",
+            "Interface hepatitis with plasma cells",
+            "Steatohepatitis with ballooning",
+            "Centrilobular necrosis with minimal inflammation"
+        ],
+        "correct": 1,
+        "explanation": "Florid duct lesion (chronic non-suppurative destructive cholangitis) is the characteristic histologic finding in early PBC: inflamed and destroyed interlobular bile ducts with lymphocytic infiltration and epithelioid granulomas. As disease progresses, bile ducts are lost (vanishing bile duct syndrome), leading to cholestasis, periportal fibrosis, and eventually biliary cirrhosis. UDCA (13-15 mg/kg/day) improves biochemical markers and delays histologic progression."
+    },
+    {
+        "id": 88,
+        "question": "A 35-year-old woman presents with fatigue, jaundice, and right upper quadrant pain. She recently traveled to Pakistan. Serology shows positive IgM anti-HAV. Liver biopsy is not performed. Which of the following is the characteristic histologic finding if biopsy were obtained during the acute icteric phase?",
+        "options": [
+            "Macrovesicular steatosis with Mallory bodies",
+            "Panlobular inflammation with acidophil bodies (Councilman bodies) and Kupffer cell hyperplasia",
+            "Bridging necrosis with ductular reaction",
+            "Granulomatous inflammation with caseous necrosis",
+            "Centrilobular necrosis without inflammation"
+        ],
+        "correct": 1,
+        "explanation": "Acute viral hepatitis (HAV, HBV, HEV) shows panlobular inflammation (lymphocytes and macrophages throughout lobule), acidophil bodies (Councilman bodies, representing apoptotic hepatocytes), hepatocyte ballooning, and Kupffer cell hyperplasia. Portal tracts show lymphocytic infiltration. HAV resolves spontaneously without chronicity. Unlike acetaminophen toxicity (zone 3 necrosis) or autoimmune hepatitis (interface hepatitis), acute viral hepatitis has diffuse lobular involvement."
+    },
+    {
+        "id": 89,
+        "question": "A 60-year-old man with alcoholic cirrhosis presents with sudden-onset severe abdominal pain and hypotension. CT shows hemoperitoneum and a ruptured liver mass. Biopsy of the mass shows a poorly differentiated tumor with vascular invasion and lack of bile production. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Hepatocellular carcinoma with rupture",
+            "Angiosarcoma",
+            "Metastatic melanoma",
+            "Hepatic adenoma with rupture",
+            "Cholangiocarcinoma"
+        ],
+        "correct": 0,
+        "explanation": "Hepatocellular carcinoma (HCC) in cirrhosis can rupture spontaneously, causing hemoperitoneum and hemorrhagic shock. Poorly differentiated HCC shows vascular invasion, cellular pleomorphism, and often lacks bile production (well-differentiated HCC produces bile). Angiosarcoma is rare and associated with vinyl chloride, Thorotrast, or arsenic. Hepatic adenoma can rupture but is less common in older cirrhotic men. HCC rupture carries high mortality but may be managed with transarterial embolization (TAE) or emergency surgery."
+    },
+    {
+        "id": 90,
+        "question": "Which of the following best describes the histologic finding in hepatic peliosis? A 45-year-old man with chronic wasting disease presents with hepatomegaly and elevated liver enzymes. Autopsy reveals multiple blood-filled cystic spaces in the liver parenchyma. He had been taking anabolic steroids for many years. Understanding this lesion is important as it can cause spontaneous rupture and hemoperitoneum.",
+        "options": [
+            "Dilated sinusoidal spaces filled with blood, lined by endothelium or with hepatocyte bridges",
+            "Large cavernous vascular channels with fibrous septa",
+            "Multiple small abscesses filled with neutrophils",
+            "Fibrotic septa dividing regenerative nodules",
+            "Bile lakes and ductular reaction"
+        ],
+        "correct": 0,
+        "explanation": "Peliosis hepatis is a benign condition characterized by multiple blood-filled cystic spaces (lacunae) distributed randomly throughout the liver. These spaces may be lined by endothelium or by hepatocyte cords (bridging between cysts). Associated with anabolic steroids, oral contraceptives, tamoxifen, azathioprine, and chronic wasting diseases (tuberculosis, AIDS). Can cause massive intraperitoneal hemorrhage if cyst ruptures (spontaneous rupture). Unlike hemangioma (single or few, vascular channels), peliosis is multiple small lacunae. Diagnosis requires imaging or biopsy (often incidental). Discontinuation of causative agent leads to regression."
+    },
+	
+	
+	
+	
+    {
+        "id": 91,
+        "question": "A 55-year-old woman with primary biliary cholangitis develops progressive jaundice and pruritus despite ursodeoxycholic acid therapy. Liver biopsy shows stage IV disease (cirrhosis). Which of the following is the most appropriate next step in management?",
+        "options": [
+            "Double the dose of ursodeoxycholic acid",
+            "Add obeticholic acid (OCA)",
+            "Liver transplantation evaluation",
+            "Start prednisolone therapy",
+            "Transjugular intrahepatic portosystemic shunt (TIPS)"
+        ],
+        "correct": 2,
+        "explanation": "Stage IV primary biliary cholangitis (cirrhosis) with decompensated features (jaundice, ascites, encephalopathy, variceal bleeding) or refractory pruritus is an indication for liver transplantation. Obeticholic acid (FXR agonist) is used for incomplete responders with early-stage disease, not established cirrhosis. UDCA dose is fixed (13-15 mg/kg). Prognosis after transplant is excellent (90% 5-year survival)."
+    },
+    {
+        "id": 92,
+        "question": "Which of the following best describes the histologic finding in a liver with acute fatty liver of pregnancy (AFLP)? A 32-year-old woman at 36 weeks gestation presents with nausea, vomiting, jaundice, and confusion. Laboratory studies show elevated transaminases, hyperbilirubinemia, thrombocytopenia, and hypoglycemia. She delivers the baby and recovers slowly. Understanding the characteristic microvesicular steatosis helps distinguish AFLP from other causes of liver disease in pregnancy.",
+        "options": [
+            "Macrovesicular steatosis with lobular inflammation",
+            "Microvesicular steatosis (small fat droplets) with minimal inflammation",
+            "Centrilobular necrosis with hemorrhage",
+            "Diffuse hepatocellular necrosis with bridging",
+            "Granulomatous inflammation with eosinophils"
+        ],
+        "correct": 1,
+        "explanation": "Acute fatty liver of pregnancy (AFLP) shows microvesicular steatosis: hepatocytes contain small fat vacuoles (without displacing the nucleus) due to mitochondrial dysfunction (LCHAD deficiency). There is minimal inflammation or necrosis unlike acute hepatitis. AFLP typically presents in third trimester with nausea, vomiting, jaundice, coagulopathy, and hypoglycemia. Prompt delivery is curative. Macrovesicular steatosis is seen in NAFLD/alcohol. Microvesicular steatosis also occurs in Reye syndrome, valproate toxicity, and HELLP syndrome (but HELLP has more necrosis)."
+    },
+    {
+        "id": 93,
+        "question": "A 45-year-old man with HIV and cirrhosis from chronic hepatitis B presents with a 2 cm liver mass on surveillance ultrasound. Biopsy shows well-differentiated hepatocellular carcinoma (HCC). He has no evidence of extrahepatic spread. Which of the following is the preferred curative treatment option for early-stage HCC in a cirrhotic patient?",
+        "options": [
+            "Sorafenib therapy",
+            "Transarterial chemoembolization (TACE)",
+            "Radiofrequency ablation (RFA) or surgical resection",
+            "Liver transplantation",
+            "Radiation therapy"
+        ],
+        "correct": 2,
+        "explanation": "For early-stage HCC (single tumor ≤5 cm or up to 3 tumors ≤3 cm) in a cirrhotic patient without severe portal hypertension or elevated bilirubin, radiofrequency ablation (RFA) or surgical resection offers curative potential with 5-year survival 50-70%. RFA is preferred for small (<3 cm) tumors and for patients with limited liver reserve. Liver transplantation (Milan criteria: single ≤5 cm or ≤3 tumors each ≤3 cm) is offered when HCC occurs in decompensated cirrhosis. Sorafenib is for advanced HCC with vascular invasion or extrahepatic spread."
+    },
+    {
+        "id": 94,
+        "question": "A 60-year-old man with alcoholic cirrhosis presents with a 3 cm solitary liver mass. AFP is normal. Biopsy shows glandular structures with desmoplastic stroma, positive for CK7 and CK19, negative for HepPar1. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Hepatocellular carcinoma",
+            "Cholangiocarcinoma",
+            "Metastatic colorectal adenocarcinoma",
+            "Hepatic adenoma",
+            "Focal nodular hyperplasia"
+        ],
+        "correct": 1,
+        "explanation": "Cholangiocarcinoma arises from bile duct epithelium. Histology shows malignant glands with desmoplastic stroma (dense fibrous reaction). Immunohistochemistry: positive for CK7, CK19; negative for HepPar1 (hepatocyte marker) and AFP. Primary sclerosing cholangitis, chronic hepatolithiasis, and liver flukes (Clonorchis sinensis, Opisthorchis viverrini) are risk factors. Unlike HCC, cholangiocarcinoma typically presents with normal AFP and may not be associated with cirrhosis."
+    },
+    {
+        "id": 95,
+        "question": "A 25-year-old man presents with jaundice, hepatomegaly, and splenomegaly. He has a history of intravenous drug use. Serology shows HBsAg positive, HBeAg positive, and HBV DNA >10⁶ IU/mL. Liver biopsy shows chronic hepatitis with moderate activity (grade 2) and stage 2 fibrosis. Which of the following is the most appropriate treatment to prevent cirrhosis?",
+        "options": [
+            "Interferon-alfa monotherapy",
+            "Tenofovir or entecavir (oral nucleos(t)ide analogue)",
+            "Lamivudine monotherapy",
+            "Prednisolone and azathioprine",
+            "No treatment until cirrhosis develops"
+        ],
+        "correct": 1,
+        "explanation": "Tenofovir or entecavir are first-line oral antivirals for chronic hepatitis B with high viral load (HBV DNA >2,000 IU/mL) and elevated ALT or significant fibrosis (≥F2). They achieve viral suppression (undetectable HBV DNA), reduce necroinflammation, and prevent progression to cirrhosis and HCC. Interferon-alfa is used in selected patients (young, high ALT, low HBV DNA). Lamivudine has high resistance rates (70% at 5 years). Treatment continues lifelong or until HBsAg loss."
+    },
+    {
+        "id": 96,
+        "question": "Which of the following best describes the histologic finding in chronic hepatitis C infection? A 55-year-old woman with a history of blood transfusion in 1985 presents with fatigue and elevated transaminases. Liver biopsy shows lymphoid aggregates in portal tracts, bile duct damage, and steatosis. Understanding the characteristic histology helps diagnose HCV in the absence of serology and distinguish it from autoimmune hepatitis and chronic hepatitis B.",
+        "options": [
+            "Lymphoid aggregates in portal tracts, bile duct injury, and macrovesicular steatosis",
+            "Plasma cell-rich interface hepatitis with rosettes",
+            "Ground-glass hepatocytes (HBsAg) in periportal zone",
+            "Non-caseating granulomas in portal tracts",
+            "Viral cytopathic changes with inclusion bodies"
+        ],
+        "correct": 0,
+        "explanation": "Chronic hepatitis C has characteristic histologic features: lymphoid aggregates (follicles) in portal tracts, bile duct injury (especially portal bile ducts), and macrovesicular steatosis (due to viral interference with lipid metabolism). Unlike autoimmune hepatitis (which shows plasma cell-rich interface hepatitis), hepatitis C has minimal plasma cells. Ground-glass hepatocytes are seen in chronic hepatitis B (HBsAg accumulation). Chronic HCV infection is the leading cause of cirrhosis and HCC in the Western world. Direct-acting antivirals now cure >95% of cases."
+    },
+    {
+        "id": 97,
+        "question": "A 60-year-old man with cirrhosis of unknown etiology presents with fatigue and pancytopenia. Endoscopy shows grade II esophageal varices. He has never had variceal bleeding. Which of the following is the most appropriate pharmacotherapy to prevent first variceal hemorrhage (primary prophylaxis)?",
+        "options": [
+            "Carvedilol or propranolol (non-selective beta-blocker)",
+            "Octreotide (somatostatin analogue)",
+            "Terlipressin (vasopressin analogue)",
+            "Spironolactone (aldosterone antagonist)",
+            "Rifaximin (non-absorbable antibiotic)"
+        ],
+        "correct": 0,
+        "explanation": "Non-selective beta-blockers (propranolol, nadolol, carvedilol) are first-line for primary prophylaxis of variceal bleeding in patients with medium to large varices. They reduce portal pressure by decreasing cardiac output (beta-1 blockade) and causing splanchnic vasoconstriction (unopposed alpha-1 activity due to beta-2 blockade). Target heart rate is 55-60 bpm. Carvedilol has additional anti-alpha-1 effects. Band ligation is alternative when beta-blockers contraindicated or not tolerated. Octreotide, terlipressin for acute bleeding. Goal: reduce portal pressure gradient to <12 mmHg or by >20%."
+    },
+    {
+        "id": 98,
+        "question": "A 45-year-old woman with chronic hepatitis B and compensated cirrhosis develops new-onset ascites. Paracentesis reveals SAAG 1.4 g/dL, total protein 2.0 g/dL, and PMN count 120/mm³. Culture is negative. Which of the following is the most appropriate initial diuretic regimen for ascites management?",
+        "options": [
+            "Furosemide monotherapy",
+            "Spironolactone monotherapy",
+            "Spironolactone plus furosemide (100 mg:40 mg ratio)",
+            "Hydrochlorothiazide monotherapy",
+            "Torsemide monotherapy"
+        ],
+        "correct": 2,
+        "explanation": "For moderate to severe ascites in cirrhosis, combination of spironolactone (aldosterone antagonist) and furosemide (loop diuretic) is synergistic and maintains electrolyte balance. The standard ratio is 100 mg spironolactone to 40 mg furosemide (adjusted based on response). Urine sodium >30 mEq/L indicates diuretic response. Weight loss target: 0.5 kg/day (without edema) or 1 kg/day (with edema). Monitor for renal impairment, encephalopathy, and electrolyte disturbances (hyperkalemia from spironolactone, hypokalemia from furosemide). Diuretic-resistant ascites requires large-volume paracentesis or TIPS."
+    },
+    {
+        "id": 99,
+        "question": "A 30-year-old man with a history of injection drug use presents with jaundice, dark urine, and fatigue. Serology shows HBsAg negative, anti-HBc IgG positive, anti-HBs positive, and HCV antibody positive with detectable HCV RNA. Which of the following best explains his serologic pattern?",
+        "options": [
+            "Acute hepatitis B infection",
+            "Chronic hepatitis B with spontaneous HBsAg loss",
+            "Resolved hepatitis B infection with chronic hepatitis C",
+            "Hepatitis B vaccination response",
+            "Hepatitis B with S gene escape mutant"
+        ],
+        "correct": 2,
+        "explanation": "This patient has resolved hepatitis B infection (anti-HBc IgG positive, anti-HBs positive, HBsAg negative) and concurrent chronic hepatitis C infection (anti-HCV positive, HCV RNA detectable). IV drug use is a common route for both HBV and HCV. Resolved HBV infection does not reactivate with HCV coinfection in most cases. Anti-HBs positivity indicates immunity. The patient requires HCV treatment with direct-acting antivirals (curative) and monitoring for HBV reactivation is generally not needed since HBsAg is negative."
+    },
+    {
+        "id": 100,
+        "question": "Which of the following best describes the characteristic histologic finding in a liver with amebic liver abscess? A 35-year-old man presents with right upper quadrant pain, fever, and tender hepatomegaly. He recently traveled to Mexico. Ultrasound shows a solitary cystic lesion in the right lobe. Serology for Entamoeba histolytica is positive. Needle aspiration yields thick, anchovy paste-like material. Understanding the histologic composition of the abscess wall is important for diagnosis and treatment.",
+        "options": [
+            "Purulent material with neutrophils and bacteria",
+            "Caseating granulomas with Langhans giant cells",
+            "Eosinophilic debris with Charcot-Leyden crystals",
+            "Acellular necrotic debris with trophozoites at the periphery",
+            "Fibrotic cyst wall with calcified eggs"
+        ],
+        "correct": 3,
+        "explanation": "Amebic liver abscess contains acellular necrotic debris (anchovy paste appearance) with viable trophozoites at the periphery of the abscess. The abscess wall shows minimal inflammation (compared with pyogenic abscess). Trophozoites are identified on PAS or trichrome stain. Unlike pyogenic abscess (neutrophils and bacteria), amebic abscess has no neutrophils (\"pus without bacteria\"). Treatment is metronidazole followed by paromomycin or diloxanide furoate (luminal agent). Needle aspiration is indicated for large abscesses at risk of rupture or those not responding to medical therapy. Complications include rupture into peritoneum (peritonitis), pleura (empyema), or pericardium (cardiac tamponade)."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    ];
+
+    // ============================================================
+    // DO NOT EDIT BELOW THIS LINE - The rendering engine works automatically
+    // ============================================================
+
+    let userAnswers = new Array(questions.length).fill(null);
+    let submitted = false;
+
+    function updateProgress() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        const percentage = questions.length ? (answered / questions.length) * 100 : 0;
+        document.getElementById('progressText').innerHTML = `${answered}/${questions.length} Answered`;
+        document.getElementById('progressFill').style.width = percentage + '%';
+    }
+
+    function renderScorePanel(correctCount = null) {
+        const container = document.getElementById('scorePanelContainer');
+        if (!submitted) {
+            container.classList.add('hidden-panel');
+            container.innerHTML = '';
+        } else {
+            const score = correctCount !== null ? correctCount : 0;
+            container.classList.remove('hidden-panel');
+            container.innerHTML = `
+                <div class="score-title"><i class="fas fa-chart-simple"></i> Score</div>
+                <div class="score-value">${score}/${questions.length}</div>
+            `;
+        }
+    }
+
+    function renderMCQs() {
+        if (!questions.length) {
+            document.getElementById('mcqContent').innerHTML = '<div style="text-align:center;padding:60px 20px;background:white;border-radius:24px;"><i class="fas fa-info-circle" style="font-size:3rem;color:#1ecbe1;"></i><p style="margin-top:20px;font-size:1.1rem;color:#15304c;">No MCQs loaded yet.</p><p style="margin-top:10px;color:#5a7d9a;">Paste your 100 Pathology questions into the "questions" array in the script section of this HTML file.</p></div>';
+            return;
+        }
+
+        let html = '';
+        questions.forEach((q, idx) => {
+            const number = idx + 1;
+            const saved = userAnswers[idx];
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                let optionClass = 'option';
+                if (submitted) {
+                    if (optIdx === q.correct) optionClass += ' correct-option';
+                    else if (saved === optIdx && saved !== q.correct) optionClass += ' wrong-option';
+                    else if (saved === optIdx) optionClass += ' selected';
+                } else {
+                    if (saved === optIdx) optionClass += ' selected';
+                }
+                optionsHtml += `<div class="${optionClass}" data-q="${idx}" data-opt="${optIdx}">${String.fromCharCode(65+optIdx)}. ${escapeHtml(opt)}</div>`;
+            });
+            
+            let explClass = 'explanation-box';
+            let cardClass = '';
+            if (submitted) {
+                explClass += ' show';
+                if (saved === null) {
+                    cardClass = 'unanswered-ans';
+                } else if (saved === q.correct) {
+                    cardClass = 'correct-ans';
+                } else {
+                    cardClass = 'wrong-ans';
+                }
+            }
+            
+            html += `
+            <div class="mcq-card ${cardClass}" id="card-${idx}">
+                <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q${number}</div>
+                <div class="question-text">${escapeHtml(q.question)}</div>
+                <div class="options">${optionsHtml}</div>
+                <div class="${explClass}" id="exp-${idx}">
+                    <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+                    ${escapeHtml(q.explanation)}
+                </div>
+            </div>`;
+        });
+        
+        html += `<div class="submit-wrapper"><button id="submitBtn" class="primary-btn"><i class=""></i> Submit </button></div>`;
+        document.getElementById('mcqContent').innerHTML = html;
+        
+        const btn = document.getElementById('submitBtn');
+        if (btn) {
+            if (submitted) {
+                btn.innerHTML = '<i class=""></i> Submitted';
+                btn.classList.add('disabled-btn');
+                btn.disabled = true;
+            } else {
+                btn.onclick = function() { submitMCQs(); };
+            }
+        }
+        
+        if (!submitted) {
+            document.querySelectorAll('#mcqContent .option').forEach(opt => {
+                opt.addEventListener('click', function(e) {
+                    if (submitted) return;
+                    const qIdx = this.dataset.q;
+                    const optIdx = parseInt(this.dataset.opt);
+                    const parentOptions = this.parentElement.children;
+                    for (let el of parentOptions) {
+                        el.classList.remove('selected');
+                    }
+                    this.classList.add('selected');
+                    userAnswers[qIdx] = optIdx;
+                    updateProgress();
+                });
+            });
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    window.submitMCQs = function() {
+        if (submitted) return;
+        submitted = true;
+        let correctCount = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) correctCount++;
+        }
+        renderScorePanel(correctCount);
+        renderMCQs();
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.onload = function() {
+        renderScorePanel();
+        renderMCQs();
+        updateProgress();
+    };
+</script>
+</body>
+</html>

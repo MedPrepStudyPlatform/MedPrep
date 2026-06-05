@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 2· Day 19</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 2</span>
+        <span><i class="fas fa-clock"></i> Day 19,April 24, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';">Score</h2>
+        <div id="final-score">0 / 50</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class="fas fa-biohazard"></i>  Syllabus</h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-dna"></i> Inheritance </span>
+            <span><i class="fas fa-flask"></i> Aldehydes & Ketones</span>
+            <span><i class="fas fa-chart-line"></i> Atomic Spectra</span>
+            <span><i class="fas fa-book"></i> Vocabulary </span>
+        </div>
+
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class="fas fa-stethoscope"></i> MedPrep </span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// TOUGHEST 50 MDCAT-STYLE MCQs - April 24th
+// Biology: Inheritance (15) | Chemistry: Aldehydes & Ketones (15) | Physics: Atomic Spectra (15) | English: Vocabulary (5)
+// ✅ EACH QUESTION: ONE correct answer · Explanation matches the key
+// --------------------------------------------------------------
+const quizData = [];
+
+// ==================== BIOLOGY: INHERITANCE (15) ====================
+const bioInheritance = [
+    {q: "The father of modern genetics is:", a: "C", choices: ["Darwin", "Lamark", "Gregor Mendel", "Watson"], e: "Mendel's pea plant experiments (1865) established fundamental laws of inheritance."},
+    {q: "Mendel's law of segregation states that:", a: "B", choices: ["Genes assort independently", "Alleles separate during gamete formation", "Dominant traits always appear", "Traits blend in offspring"], e: "Law of segregation: two alleles for each trait separate during meiosis."},
+    {q: "A cross between two heterozygous individuals (Aa × Aa) yields a phenotypic ratio of:", a: "D", choices: ["1:1", "9:3:3:1", "1:2:1", "3:1"], e: "Monohybrid cross: dominant:recessive = 3:1."},
+    {q: "The genotype of an individual with two identical alleles is called:", a: "A", choices: ["Homozygous", "Heterozygous", "Hemizygous", "Homologous"], e: "Homozygous: AA or aa; heterozygous: Aa."},
+    {q: "Incomplete dominance results in:", a: "C", choices: ["Both alleles expressed equally", "One allele masks the other", "An intermediate phenotype", "No visible trait"], e: "Incomplete dominance: heterozygous phenotype is blend (e.g., pink flowers from red × white)."},
+    {q: "A test cross is used to determine:", a: "B", choices: ["Genotype of dominant phenotype", "Whether an individual is homozygous or heterozygous dominant", "Phenotype of offspring", "Mutation rate"], e: "Test cross: cross with homozygous recessive to reveal unknown genotype."},
+    {q: "The ABO blood group system in humans is an example of:", a: "D", choices: ["Epistasis", "Incomplete dominance", "Polygenic inheritance", "Multiple alleles"], e: "Three alleles (I^A, I^B, i) control ABO blood type."},
+    {q: "A colorblind male inherits the recessive allele from:", a: "C", choices: ["Father only", "Both parents", "Mother only", "Either parent"], e: "X-linked recessive: males inherit from mother (carrier)."},
+    {q: "The law of independent assortment applies to genes located on:", a: "B", choices: ["Same chromosome", "Different chromosomes", "Sex chromosomes", "Mitochondrial DNA"], e: "Genes on different chromosomes assort independently during meiosis."},
+    {q: "Down syndrome is caused by:", a: "A", choices: ["Trisomy of chromosome 21", "Monosomy of X chromosome", "Deletion of chromosome 5", "Duplication of chromosome 18"], e: "Trisomy 21 (three copies of chromosome 21) causes Down syndrome."},
+    {q: "The probability of a couple having three consecutive sons is:", a: "D", choices: ["1/2", "1/4", "1/6", "1/8"], e: "Each child has 1/2 chance to be male; (1/2)³ = 1/8."},
+    {q: "A Punnett square is used to:", a: "C", choices: ["Clone organisms", "Sequence DNA", "Predict offspring genotypes", "Measure mutation rate"], e: "Punnett square shows possible allele combinations from gametes."},
+    {q: "The trait that appears in F1 generation when crossing pure lines is:", a: "B", choices: ["Recessive", "Dominant", "Polygenic", "Epistatic"], e: "Dominant trait masks recessive in F1 hybrids."},
+    {q: "The genetic makeup of an organism is its:", a: "C", choices: ["Phenotype", "Karyotype", "Genotype", "Genome"], e: "Genotype: genetic constitution; Phenotype: observable traits."},
+    {q: "Carrier of a recessive genetic disorder is:", a: "D", choices: ["Affected individual", "Has two copies of the allele", "Shows symptoms", "Heterozygous with one recessive allele"], e: "Carrier (Aa) has one recessive allele but does not show disease."}
+];
+bioInheritance.forEach(item => quizData.push(item));
+
+// ==================== CHEMISTRY: ALDEHYDES & KETONES (15) ====================
+const chemAldehydesKetones = [
+    {q: "The functional group of aldehydes is:", a: "A", choices: ["-CHO", "-CO-", "-COOH", "-OH"], e: "Aldehydes have carbonyl group at end: -CHO (formyl group)."},
+    {q: "The functional group of ketones is:", a: "B", choices: ["-CHO", "-CO- (carbonyl between carbons)", "-COOH", "-O-"], e: "Ketones have carbonyl group bonded to two carbon atoms (R-CO-R')."},
+    {q: "The simplest aldehyde is:", a: "C", choices: ["Acetone", "Acetaldehyde", "Formaldehyde", "Benzaldehyde"], e: "Formaldehyde (HCHO) is the simplest aldehyde."},
+    {q: "The simplest ketone is:", a: "D", choices: ["Formaldehyde", "Acetaldehyde", "Propanal", "Acetone (propanone)"], e: "Acetone (CH₃-CO-CH₃) is the simplest ketone."},
+    {q: "Aldehydes can be oxidized to:", a: "B", choices: ["Alcohols", "Carboxylic acids", "Alkenes", "Ethers"], e: "Aldehydes are easily oxidized to carboxylic acids (Tollens'/Fehling's test)."},
+    {q: "Ketones are resistant to oxidation because:", a: "C", choices: ["They have no carbonyl", "They are volatile", "No hydrogen on carbonyl carbon", "They form hydrates"], e: "Ketones lack H on carbonyl carbon; cannot be oxidized without breaking C-C bond."},
+    {q: "The reaction of aldehyde with Tollens' reagent produces:", a: "D", choices: ["Copper oxide", "Iodine", "Bromine", "Silver mirror"], e: "Aldehyde reduces Ag(NH₃)₂⁺ to metallic silver (silver mirror test)."},
+    {q: "The iodoform test is given by:", a: "B", choices: ["All aldehydes", "Acetaldehyde and methyl ketones", "All ketones", "Aromatic aldehydes"], e: "CH₃CHO and R-CO-CH₃ give yellow precipitate of CHI₃ with I₂/NaOH."},
+    {q: "The reaction of aldehyde or ketone with HCN gives:", a: "A", choices: ["Cyanohydrin", "Oxime", "Hydrazone", "Alcohol"], e: "Nucleophilic addition: carbonyl + HCN → cyanohydrin (α-hydroxy nitrile)."},
+    {q: "Aldol condensation occurs between:", a: "C", choices: ["Two esters", "Two alcohols", "Two aldehydes/ketones with α-hydrogen", "Acid and alcohol"], e: "Aldol reaction: carbonyl compound with α-H reacts with another carbonyl."},
+    {q: "The product of reduction of aldehyde with NaBH₄ is:", a: "D", choices: ["Carboxylic acid", "Alkane", "Ketone", "Primary alcohol"], e: "Aldehyde reduced to primary alcohol; ketone reduced to secondary alcohol."},
+    {q: "Which reagent is used to distinguish between aldehyde and ketone?", a: "B", choices: ["NaHCO₃", "Tollens' reagent", "Br₂ water", "NaOH"], e: "Tollens' (silver mirror) positive for aldehydes, negative for ketones."},
+    {q: "The common name of methanal is:", a: "C", choices: ["Acetaldehyde", "Acetone", "Formaldehyde", "Benzaldehyde"], e: "Methanal = formaldehyde (used as preservative)."},
+    {q: "The common name of ethanal is:", a: "A", choices: ["Acetaldehyde", "Formaldehyde", "Acetone", "Propionaldehyde"], e: "Ethanal = acetaldehyde."},
+    {q: "The common name of propanone is:", a: "D", choices: ["Acetaldehyde", "Formalin", "Methyl aldehyde", "Acetone"], e: "Propanone = acetone (common solvent)."}
+];
+chemAldehydesKetones.forEach(item => quizData.push(item));
+
+// ==================== PHYSICS: ATOMIC SPECTRA (15) ====================
+const physicsAtomicSpectra = [
+    {q: "The spectrum of hydrogen consists of:", a: "B", choices: ["Continuous spectrum", "Discrete lines (line spectrum)", "Band spectrum", "No spectrum"], e: "Hydrogen emits discrete wavelengths (line spectrum) due to electron transitions."},
+    {q: "The Lyman series of hydrogen lies in:", a: "C", choices: ["Visible region", "Infrared region", "Ultraviolet region", "Radio region"], e: "Lyman series (n≥2 → n=1) is in UV region."},
+    {q: "The Balmer series of hydrogen lies in:", a: "A", choices: ["Visible region", "UV region", "Infrared region", "X-ray region"], e: "Balmer series (n≥3 → n=2) produces visible light (Hα, Hβ, etc.)."},
+    {q: "The Paschen series of hydrogen lies in:", a: "D", choices: ["UV region", "Visible region", "X-ray region", "Infrared region"], e: "Paschen series (n≥4 → n=3) is in infrared region."},
+    {q: "The energy of a photon is given by:", a: "B", choices: ["E = mc²", "E = hc/λ", "E = ½mv²", "E = kT"], e: "Photon energy: E = hf = hc/λ."},
+    {q: "Rydberg formula is used to calculate:", a: "C", choices: ["Electron mass", "Atomic radius", "Wavelength of spectral lines", "Nuclear charge"], e: "1/λ = R(1/n₁² - 1/n₂²) for hydrogen spectral lines."},
+    {q: "The Rydberg constant for hydrogen is approximately:", a: "A", choices: ["1.097 × 10⁷ m⁻¹", "1.097 × 10⁸ m⁻¹", "1.097 × 10⁶ m⁻¹", "1.097 × 10⁹ m⁻¹"], e: "R_H ≈ 1.097 × 10⁷ m⁻¹ (or 1.097 × 10⁻² nm⁻¹)."},
+    {q: "The longest wavelength in Balmer series corresponds to transition:", a: "D", choices: ["n=6 → n=2", "n=5 → n=2", "n=4 → n=2", "n=3 → n=2"], e: "Smallest energy difference (n=3→2) gives longest wavelength (Hα, 656 nm)."},
+    {q: "Absorption spectra are produced when:", a: "B", choices: ["Atoms emit light", "Atoms absorb specific wavelengths from white light", "Electrons are free", "Molecules vibrate"], e: "Dark lines in absorption spectrum correspond to wavelengths absorbed by atoms."},
+    {q: "Emission spectra are produced when:", a: "C", choices: ["Atoms absorb energy", "Atoms are in ground state", "Excited electrons return to lower levels emitting photons", "Atoms ionize"], e: "Emission lines result from electron transitions from higher to lower energy levels."},
+    {q: "The Bohr model successfully explained:", a: "A", choices: ["Hydrogen spectrum", "Helium spectrum", "Zeeman effect", "Fine structure"], e: "Bohr model accurately predicted hydrogen spectral lines but failed for multi-electron atoms."},
+    {q: "The concept of quantized energy levels was proposed by:", a: "D", choices: ["Einstein", "Rutherford", "Schrödinger", "Bohr"], e: "Bohr proposed that electrons orbit in quantized energy levels (stationary states)."},
+    {q: "The wavelength of a spectral line depends on:", a: "C", choices: ["Atomic number only", "Mass number only", "Energy difference between levels", "Number of neutrons"], e: "λ = hc/ΔE; wavelength inversely proportional to energy difference."},
+    {q: "The series limit of Balmer series corresponds to:", a: "B", choices: ["n=∞ → n=1", "n=∞ → n=2", "n=∞ → n=3", "n=∞ → n=4"], e: "Series limit: n₂ = ∞ → n₁ = 2 (shortest wavelength in Balmer)."},
+    {q: "The study of atomic spectra provides information about:", a: "D", choices: ["Nuclear mass", "Molecular weight", "Chemical bonding", "Energy levels of electrons"], e: "Spectral lines reveal electron energy level structure of atoms."}
+];
+physicsAtomicSpectra.forEach(item => quizData.push(item));
+
+// ==================== ENGLISH: VOCABULARY (Context & Synonyms) (5) ====================
+const engVocabulary = [
+    {q: "The word 'mitigate' in 'The new policy will mitigate the effects of climate change' most nearly means:", a: "C", choices: ["Aggravate", "Intensify", "Alleviate", "Ignore"], e: "Mitigate = make less severe, alleviate."},
+    {q: "The meaning of 'pervasive' as in 'The pervasive smell of smoke filled the room' is:", a: "D", choices: ["Weak", "Pleasant", "Absent", "Widespread"], e: "Pervasive = spreading widely throughout an area or group."},
+    {q: "Select the synonym of 'cursory' from: 'He gave the report a cursory glance.'", a: "B", choices: ["Detailed", "Superficial", "Thorough", "Careful"], e: "Cursory = hasty, not thorough, superficial."},
+    {q: "The word 'tenacious' in 'She is a tenacious advocate for human rights' means:", a: "C", choices: ["Weak", "Indifferent", "Persistent", "Timid"], e: "Tenacious = persistent, determined, holding firmly."},
+    {q: "Choose the correct meaning of 'anomaly' as used in 'The discovery was an anomaly in the data.':", a: "A", choices: ["Irregularity", "Consistency", "Pattern", "Norm"], e: "Anomaly = something that deviates from what is standard, normal, or expected."}
+];
+engVocabulary.forEach(item => quizData.push(item));
+
+// Final check: total 15+15+15+5 = 50
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 50`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

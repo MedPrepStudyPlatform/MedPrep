@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT English Preparation · Subject-Verb Agreement</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        
+        
+       
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';">Score</h2>
+        <div id="final-score">0 / 25</div>
+
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class=""></i>Subject-Verb Agreement</h3>
+        <div class="syllabus-grid">
+            
+        </div>
+        
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit </button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> © 2026 MedPrep. All Rights Reserved.</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// ENGLISH SUBJECT-VERB AGREEMENT - 25 MCQs (April 22)
+// Covers: Basic S-V, indefinite pronouns, collective nouns, either/or, neither/nor, tricky exceptions, error spotting
+// ✅ EACH QUESTION: ONE correct answer · Explanation matches the key
+// --------------------------------------------------------------
+const quizData = [
+    // Basic Subject-Verb Agreement
+    {q: "The dog ___ barking loudly every night.", a: "A", choices: ["is", "are", "were", "have been"], e: "Singular subject 'dog' takes singular verb 'is'."},
+    {q: "The students ___ preparing for their final exams.", a: "B", choices: ["is", "are", "was", "has been"], e: "Plural subject 'students' takes plural verb 'are'."},
+    {q: "Either the manager or the employees ___ responsible for the error.", a: "C", choices: ["is", "was", "are", "has been"], e: "With 'either/or', verb agrees with the nearer subject 'employees' (plural → 'are')."},
+    {q: "Neither the teacher nor the student ___ present in the class.", a: "A", choices: ["was", "were", "are", "have been"], e: "With 'neither/nor', verb agrees with nearer subject 'student' (singular → 'was')."},
+    {q: "The committee ___ divided in their opinions about the new policy.", a: "B", choices: ["is", "are", "was", "has been"], e: "Collective noun 'committee' acting as individuals takes plural verb 'are'."},
+    {q: "The news ___ shocking to everyone.", a: "C", choices: ["are", "were", "is", "have been"], e: "'News' is singular uncountable noun despite ending in 's' → singular verb 'is'."},
+    {q: "Mathematics ___ my favorite subject.", a: "A", choices: ["is", "are", "were", "have been"], e: "Subject names ending in 'ics' (mathematics, physics) are singular."},
+    {q: "Each of the players ___ given a medal.", a: "C", choices: ["were", "are", "was", "have been"], e: "'Each' is singular → singular verb 'was'."},
+    {q: "One of the students ___ failed the test.", a: "B", choices: ["have", "has", "are", "were"], e: "'One of the + plural noun' takes singular verb 'has'."},
+    {q: "The number of unemployed people ___ increased recently.", a: "C", choices: ["have", "are", "has", "were"], e: "'The number of' is singular → singular verb 'has'."},
+    {q: "A number of issues ___ been resolved.", a: "D", choices: ["has", "is", "was", "have"], e: "'A number of' means 'many' and takes plural verb 'have'."},
+    {q: "There ___ many reasons to be optimistic.", a: "B", choices: ["is", "are", "was", "has"], e: "Inverted sentence: plural subject 'reasons' → plural verb 'are'."},
+    {q: "Here ___ the books you requested.", a: "C", choices: ["is", "was", "are", "has"], e: "Inverted sentence: plural subject 'books' → plural verb 'are'."},
+    {q: "The jury ___ reached a unanimous verdict.", a: "A", choices: ["has", "have", "are", "were"], e: "Collective noun 'jury' acting as single unit → singular verb 'has'."},
+    {q: "Bread and butter ___ my favorite breakfast.", a: "C", choices: ["are", "were", "is", "have been"], e: "Compound subject acting as single unit (one dish) → singular verb 'is'."},
+    
+    // Indefinite Pronouns (Always Singular)
+    {q: "Everybody ___ to be appreciated.", a: "B", choices: ["like", "likes", "are liking", "have liked"], e: "Indefinite pronoun 'everybody' is always singular → 'likes'."},
+    {q: "Someone ___ left the door open.", a: "C", choices: ["have", "are", "has", "were"], e: "'Someone' is singular indefinite pronoun → singular verb 'has'."},
+    {q: "Nothing ___ impossible.", a: "D", choices: ["are", "were", "have been", "is"], e: "'Nothing' is singular → 'is'."},
+    
+    // Tricky Exceptions & Error Spotting
+    {q: "The team ___ practicing for the final match tomorrow.", a: "A", choices: ["is", "are", "were", "have been"], e: "Collective noun 'team' as single unit → singular verb 'is'."},
+    {q: "Identify the error: 'The list of items are on the table.'", a: "C", choices: ["The list", "of items", "are", "the table"], e: "Subject 'list' is singular, verb should be 'is', not 'are'."},
+    {q: "Identify the error: 'Each of the boys have completed their homework.'", a: "B", choices: ["Each", "have", "their", "homework"], e: "'Each' is singular → verb should be 'has', not 'have'."},
+    {q: "Identify the error: 'Neither the manager nor the staff was happy with the decision.'", a: "C", choices: ["Neither", "nor", "was", "decision"], e: "Nearer subject 'staff' is plural (collective as individuals), verb should be 'were'."},
+    {q: "Identify the error: 'The committee were unable to reach a consensus.' (British vs American)", a: "D", choices: ["committee", "were", "to reach", "No error (acceptable in British English)"], e: "In American English, collective nouns take singular verb. In British English, plural is acceptable. For MDCAT, American standard is preferred."},
+    {q: "Identify the error: 'There is many reasons to celebrate.'", a: "B", choices: ["There", "is", "reasons", "celebrate"], e: "Plural subject 'reasons' requires plural verb 'are', not 'is'."},
+    {q: "Identify the error: 'The scissors is on the table.'", a: "C", choices: ["The scissors", "is", "on", "the table"], e: "'Scissors' is plural (pair of scissors) → verb should be 'are'."}
+];
+
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 25`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

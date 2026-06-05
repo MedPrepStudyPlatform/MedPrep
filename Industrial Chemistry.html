@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Chemistry | FSC Chemistry MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: #0f172a;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #475569;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #1e293b, #334155);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #cbd5e1;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(71, 85, 105, 0.08);
+            border-color: #94a3b8;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #0f172a;
+            padding-left: 14px;
+            border-left: 4px solid #475569;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #475569;
+            background: #f1f5f9;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #1e293b;
+            color: white;
+            border-color: #1e293b;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #475569;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(71, 85, 105, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(30, 41, 59, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #0f172a, #1e293b);
+            color: #f1f5f9;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #0f172a;
+            display: none;
+            background: #f1f5f9;
+            padding: 16px 22px;
+            border-left: 6px solid #475569;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Industrial Chemistry</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual, high-difficulty Industrial Chemistry MCQs (FSC Part 2, Chapter 15 - Industrial Chemistry)
+    // CORRECTED VERSION - Q10 clarified
+    const industrialMcqs = [
+        { q: "The raw materials for the Solvay process for the manufacture of sodium carbonate are:", options: ["NaCl, CaCO₃, NH₃", "NaCl, H₂SO₄, CO₂", "NaOH, CO₂, NH₃", "Na₂SO₄, CaCO₃, H₂O"], exp: "The Solvay process (ammonia-soda process) uses sodium chloride (NaCl), limestone (CaCO₃ to produce CO₂), and ammonia (NH₃) as raw materials.", correct: "A" },
+        { q: "Which of the following is the ore of aluminum?", options: ["Haematite", "Bauxite", "Galena", "Cinnabar"], exp: "Bauxite (Al₂O₃·2H₂O) is the principal ore of aluminum. Haematite is iron ore, Galena is lead ore (PbS), Cinnabar is mercury ore (HgS).", correct: "B" },
+        { q: "The catalyst used in the contact process for the manufacture of sulfuric acid is:", options: ["V₂O₅ (Vanadium pentoxide)", "Ni", "Fe", "Pt"], exp: "In the contact process, SO₂ is oxidized to SO₃ using V₂O₅ (vanadium pentoxide) as catalyst. Platinum was used historically but is expensive and easily poisoned.", correct: "A" },
+        { q: "The temperature and pressure conditions for the Haber process for ammonia synthesis are approximately:", options: ["200°C, 200 atm", "400-500°C, 200-300 atm", "700°C, 1 atm", "100°C, 50 atm"], exp: "The Haber process operates at about 400-500°C (to maintain reasonable reaction rate) and 200-300 atm (to shift equilibrium towards NH₃).", correct: "B" },
+        { q: "The process of converting pig iron into steel by removing impurities using a high-speed jet of oxygen is called:", options: ["Bessemer process", "Basic oxygen process (BOP)", "Open hearth process", "Electric arc process"], exp: "The Basic Oxygen Process (BOP) is the modern method of steelmaking where high-purity oxygen is blown onto molten pig iron to oxidize impurities.", correct: "B" },
+        { q: "Which of the following is a nitrogenous fertilizer?", options: ["Urea", "Superphosphate of lime", "Triple superphosphate", "Potassium chloride"], exp: "Urea (CO(NH₂)₂) is a nitrogenous fertilizer (46% N). Superphosphate and triple superphosphate are phosphate fertilizers. KCl is potash (potassium fertilizer).", correct: "A" },
+        { q: "The petroleum refining process that converts long-chain hydrocarbons into shorter-chain, more valuable products like gasoline is called:", options: ["Fractional distillation", "Cracking", "Reforming", "Alkylation"], exp: "Cracking (catalytic or thermal) breaks down large hydrocarbon molecules into smaller, more useful ones like gasoline and diesel.", correct: "B" },
+        { q: "The major constituent of Portland cement is:", options: ["CaO", "SiO₂", "Al₂O₃", "Fe₂O₃"], exp: "Portland cement contains about 60-65% CaO (lime) as the major constituent, followed by SiO₂ (20-25%), Al₂O₃ (5-8%), and Fe₂O₃ (2-4%).", correct: "A" },
+        { q: "The primary product of the Ostwald process is:", options: ["Nitric acid", "Sulfuric acid", "Hydrochloric acid", "Phosphoric acid"], exp: "The Ostwald process is used for the industrial manufacture of nitric acid (HNO₃) by catalytic oxidation of ammonia (NH₃) to NO, then to NO₂, and finally absorbed in water.", correct: "A" },
+        { q: "In the blast furnace extraction of iron, which substance is the direct reducing agent that converts iron oxide to iron?", options: ["Carbon (Coke)", "Hydrogen", "Aluminum", "Carbon monoxide"], correct: "D", exp: "Carbon monoxide (CO) is the direct reducing agent in the blast furnace. The reaction is: Fe₂O₃ + 3CO → 2Fe + 3CO₂. Coke produces CO but is not the direct reducing agent." },
+        { q: "The phenomenon in which a substance absorbs moisture from the air and becomes wet is called:", options: ["Efflorescence", "Deliquescence", "Hygroscopy", "Hydrolysis"], exp: "Deliquescence is the process where a substance absorbs moisture from the air and dissolves in it to form a solution (becomes wet).", correct: "B" },
+        { q: "Which of the following is used as a refrigerant in refrigerators and air conditioners but is being phased out due to ozone depletion?", options: ["Ammonia", "CFCs (Chlorofluorocarbons)", "Carbon dioxide", "Water"], exp: "CFCs (such as Freon) were widely used as refrigerants but are being phased out under the Montreal Protocol because they deplete the stratospheric ozone layer.", correct: "B" },
+        { q: "The raw materials for the manufacture of cement are:", options: ["Limestone and clay", "Sand and soda ash", "Limestone and gypsum", "Clay and gypsum"], exp: "Cement is manufactured by heating a mixture of limestone (CaCO₃) and clay (containing silicates and aluminosilicates) in a rotary kiln.", correct: "A" },
+        { q: "Which of the following is an example of a thermoplastic polymer used extensively in packaging?", options: ["Bakelite", "Melamine-formaldehyde", "Polyethylene (Polythene)", "Epoxy resin"], exp: "Polyethylene (polythene) is a thermoplastic used in plastic bags, bottles, and packaging. The others are thermosetting polymers.", correct: "C" },
+        { q: "The function of gypsum (CaSO₄·2H₂O) added during the manufacture of cement is:", options: ["Increase strength", "Accelerate setting time", "Retard the setting time", "Improve color"], exp: "Gypsum is added to cement to retard the setting time. Without gypsum, cement would set too quickly (flash set) upon mixing with water.", correct: "C" },
+        { q: "The electrolytic process used for the purification of copper is called:", options: ["Electroplating", "Electrorefining", "Electrolysis of brine", "Anodizing"], exp: "Electrorefining is used to purify impure copper. Impure copper is made the anode, pure copper the cathode, and copper ions transfer from anode to cathode.", correct: "B" },
+        { q: "Which of the following is the correct composition of producer gas?", options: ["CO + H₂", "CO + N₂", "CO + H₂ + CH₄", "CO₂ + N₂"], exp: "Producer gas is produced by passing air over red-hot coke. It contains about 20-30% CO and the rest N₂ (from air), along with some CO₂.", correct: "B" },
+        { q: "The catalyst used in the hydrogenation of vegetable oils to produce margarine is:", options: ["Nickel", "Platinum", "Palladium", "Iron"], exp: "Finely divided nickel is the common catalyst used for the hydrogenation of unsaturated vegetable oils to produce semi-solid fats like margarine.", correct: "A" },
+        { q: "The process of adding certain elements to steel to improve its properties (e.g., adding chromium to make stainless steel) is called:", options: ["Annealing", "Alloying", "Tempering", "Quenching"], exp: "Alloying is the process of adding other elements (like Cr, Ni, Mo, Mn) to steel to enhance specific properties such as corrosion resistance, hardness, or toughness.", correct: "B" },
+        { q: "The most common method for the manufacture of sodium hydroxide (NaOH) is:", options: ["Causticization process", "Electrolysis of brine (NaCl solution)", "Reaction of sodium with water", "Solvay process"], exp: "Sodium hydroxide is manufactured industrially by the electrolysis of brine (aqueous NaCl solution) in the chlor-alkali industry (using diaphragm, membrane, or mercury cells).", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...industrialMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquids </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #ecfdf5 0%, #d1fae5 100%);
+            color: #064e3b;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #10b981;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #047857, #10b981);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #047857;
+            font-weight: 600;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            background: #d1fae5;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 6px 20px;
+            border-radius: 60px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #d1fae5;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(16, 185, 129, 0.08);
+            border-color: #a7f3d0;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #064e3b;
+            padding-left: 14px;
+            border-left: 4px solid #10b981;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #10b981;
+            background: #ecfdf5;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #047857;
+            color: white;
+            border-color: #047857;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(4, 120, 87, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #064e3b, #047857);
+            color: #ecfdf5;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #064e3b;
+            display: none;
+            background: #ecfdf5;
+            padding: 16px 22px;
+            border-left: 6px solid #10b981;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #f97316 !important;
+            background: #ffedd5 !important;
+            color: #9a3412 !important;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #10b981;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1> Liquids</h1>
+    <div style="text-align: center;">
+      
+    </div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()"> SUBMIT</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+    
+</div>
+
+<script>
+    // 20 high-quality Liquids MCQs (FSC Part 1, Chapter 5)
+    const liquidsMCQs = [
+        { q: "The force that causes a liquid to resist spreading and form droplets is called:", options: ["Viscosity", "Surface tension", "Vapor pressure", "Capillary action"], exp: "Surface tension is the cohesive force at the liquid surface that minimizes surface area, leading to droplet formation.", correct: "B" },
+        { q: "Which of the following liquids has the highest surface tension at room temperature?", options: ["Ethanol", "Benzene", "Water", "Acetone"], exp: "Water has strong hydrogen bonding, giving it the highest surface tension among common liquids.", correct: "C" },
+        { q: "Viscosity of a liquid is a measure of its:", options: ["Resistance to flow", "Surface energy", "Vapor pressure", "Boiling point"], exp: "Viscosity quantifies internal friction and resistance to flow in liquids.", correct: "A" },
+        { q: "As temperature increases, the viscosity of a liquid generally:", options: ["Increases", "Decreases", "Remains constant", "First increases then decreases"], exp: "Higher temperature reduces intermolecular forces and increases kinetic energy, decreasing viscosity.", correct: "B" },
+        { q: "The boiling point of a liquid is the temperature at which its vapor pressure equals:", options: ["1 atm", "0.5 atm", "Critical pressure", "External atmospheric pressure"], exp: "Boiling occurs when vapor pressure equals the surrounding atmospheric pressure.", correct: "D" },
+        { q: "Which intermolecular force is primarily responsible for the unusual expansion of water upon freezing?", options: ["London dispersion", "Dipole-dipole", "Hydrogen bonding", "Ionic interactions"], exp: "Hydrogen bonding in water creates an open hexagonal structure in ice, making it less dense than liquid water.", correct: "C" },
+        { q: "The rise of liquid in a capillary tube is due to:", options: ["Surface tension and adhesion", "Only surface tension", "Only viscosity", "Gravity only"], exp: "Capillary action results from adhesive forces between liquid and tube walls and cohesive surface tension forces.", correct: "A" },
+        { q: "Which of the following has the highest viscosity?", options: ["Water", "Glycerol", "Ethanol", "Ether"], exp: "Glycerol has extensive hydrogen bonding and large molecular size, giving it very high viscosity.", correct: "B" },
+        { q: "The vapor pressure of a liquid depends on:", options: ["Temperature only", "Nature of liquid and temperature", "Volume of container", "Surface area"], exp: "Vapor pressure is a function of temperature and the liquid's intermolecular forces (nature).", correct: "B" },
+        { q: "A liquid with weak intermolecular forces will have:", options: ["High boiling point", "Low vapor pressure", "High vapor pressure", "High viscosity"], exp: "Weak forces allow molecules to escape easily, resulting in high vapor pressure and low boiling point.", correct: "C" },
+        { q: "The critical temperature of a gas is the temperature:", options: ["Above which it cannot be liquefied", "At which it boils", "At which it freezes", "Below which it always behaves ideally"], exp: "Above critical temperature, no amount of pressure can liquefy a gas.", correct: "A" },
+        { q: "Which of the following phenomena is NOT explained by surface tension?", options: ["Floating of a needle on water", "Spherical shape of small liquid droplets", "Rise of liquid in capillary tube", "High specific heat of water"], exp: "High specific heat is due to hydrogen bonding, not directly surface tension. Capillary rise involves surface tension though.", correct: "D" },
+        { q: "The SI unit of viscosity is:", options: ["Poise", "Pa·s", "N·s/m²", "Both B and C"], exp: "SI unit of viscosity is pascal-second (Pa·s) which equals N·s/m². Poise is CGS unit.", correct: "D" },
+        { q: "At higher altitudes, water boils at a lower temperature because:", options: ["Atmospheric pressure is lower", "Temperature is lower", "Humidity is lower", "Oxygen concentration is lower"], exp: "Lower atmospheric pressure at high altitude means vapor pressure equals external pressure at a lower temperature.", correct: "A" },
+        { q: "Which of the following has the lowest boiling point?", options: ["H₂O", "H₂S", "H₂Se", "H₂Te"], exp: "H₂S has the weakest hydrogen bonding (only dipole-dipole, while water has strong H-bonding), so lowest boiling point.", correct: "B" },
+        { q: "The meniscus of water in a glass tube is concave because:", options: ["Adhesion > Cohesion", "Cohesion > Adhesion", "Surface tension is zero", "Water is non-polar"], exp: "Water molecules adhere strongly to glass (adhesion) more than they cohere to each other, causing concave meniscus.", correct: "A" },
+        { q: "The heat required to convert 1 gram of liquid into vapor at its boiling point without temperature change is called:", options: ["Specific heat capacity", "Latent heat of fusion", "Latent heat of vaporization", "Heat of sublimation"], exp: "Latent heat of vaporization is the energy needed to vaporize unit mass at constant temperature.", correct: "C" },
+        { q: "Which of the following statements about liquids is FALSE?", options: ["Liquids have definite volume", "Liquids are nearly incompressible", "Liquids have indefinite shape", "Liquids have no intermolecular forces"], exp: "Liquids have significant intermolecular forces, which give them their properties like surface tension and viscosity.", correct: "D" },
+        { q: "The process of converting a solid directly into vapor is called:", options: ["Evaporation", "Condensation", "Sublimation", "Fusion"], exp: "Sublimation is the direct phase transition from solid to gas without passing through liquid state.", correct: "C" },
+        { q: "Which of the following factors increases the rate of evaporation of a liquid?", options: ["Increase in temperature", "Decrease in surface area", "Increase in humidity", "Increase in atmospheric pressure"], exp: "Higher temperature increases kinetic energy, allowing more molecules to escape into vapor phase.", correct: "A" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...liquidsMCQs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>💎 Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = ` Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

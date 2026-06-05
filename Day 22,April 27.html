@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 2· Day 22 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+        .score-detail {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 2</span>
+        <span><i class="fas fa-clock"></i> Day 22 April 27, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';">Score</h2>
+        <div id="final-score">0 / 50</div>
+        <div class="score-detail">
+            
+        </div>
+       
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class="fas fa-biohazard"></i>  Syllabus </h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-dna"></i> Biotechnology </span>
+            <span><i class="fas fa-flask"></i> Carboxylic Acids & Macromolecules</span>
+        </div>
+        
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()">Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> MedPrep </span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// TOUGHEST 50 MDCAT-STYLE MCQs - April 27th (Phase 4)
+// Biology: Biotechnology (25) | Chemistry: Carboxylic Acids & Macromolecules (25)
+// ✅ EACH QUESTION: ONE correct answer · Explanation matches the key
+// --------------------------------------------------------------
+const quizData = [];
+
+// ==================== BIOLOGY: BIOTECHNOLOGY (25) ====================
+const bioBiotech = [
+    {q: "The technique of transferring desired genes from one organism to another is called:", a: "C", choices: ["Cloning", "Mutation breeding", "Recombinant DNA technology", "Tissue culture"], e: "Recombinant DNA technology involves combining DNA from different sources to create new genetic combinations."},
+    {q: "The enzyme used to cut DNA at specific recognition sites is:", a: "B", choices: ["DNA ligase", "Restriction endonuclease", "DNA polymerase", "Helicase"], e: "Restriction enzymes cut DNA at specific palindromic sequences, producing sticky or blunt ends."},
+    {q: "The enzyme used to join DNA fragments is:", a: "A", choices: ["DNA ligase", "Restriction endonuclease", "Reverse transcriptase", "Taq polymerase"], e: "DNA ligase seals nicks in DNA backbone, joining fragments."},
+    {q: "The first genetically engineered insulin was produced using:", a: "D", choices: ["Yeast", "Animal cells", "Plant cells", "E. coli bacteria"], e: "Human insulin gene inserted into E. coli produced recombinant human insulin (Humulin)."},
+    {q: "The process of separating DNA fragments based on size using electric field is:", a: "C", choices: ["PCR", "Southern blotting", "Gel electrophoresis", "DNA sequencing"], e: "Gel electrophoresis separates DNA fragments by size; smaller fragments move faster."},
+    {q: "PCR (Polymerase Chain Reaction) is used to:", a: "B", choices: ["Cut DNA", "Amplify DNA", "Join DNA fragments", "Sequence DNA"], e: "PCR exponentially amplifies specific DNA sequences using thermal cycling."},
+    {q: "The enzyme used in PCR that is heat-stable is:", a: "D", choices: ["DNA ligase", "Reverse transcriptase", "DNA polymerase I", "Taq polymerase"], e: "Taq polymerase from Thermus aquaticus withstands high temperatures of PCR."},
+    {q: "CRISPR-Cas9 is a tool used for:", a: "A", choices: ["Gene editing", "Protein synthesis", "DNA sequencing", "Cloning"], e: "CRISPR-Cas9 allows precise editing of genes by cutting DNA at target sequences."},
+    {q: "Transgenic organisms are those that:", a: "C", choices: ["Have no genes", "Have only maternal genes", "Contain foreign DNA introduced artificially", "Are clones"], e: "Transgenic organisms have foreign DNA (transgene) integrated into their genome."},
+    {q: "Golden rice is genetically modified to produce:", a: "B", choices: ["Vitamin A", "Beta-carotene (Vitamin A precursor)", "Vitamin C", "Iron"], e: "Golden rice produces beta-carotene, converted to Vitamin A to prevent deficiency."},
+    {q: "Bt cotton is resistant to:", a: "D", choices: ["Herbicides", "Fungi", "Viruses", "Insects (bollworm)"], e: "Bt cotton produces insecticidal protein from Bacillus thuringiensis, killing bollworms."},
+    {q: "The vector used to transfer foreign DNA into bacterial host is typically:", a: "C", choices: ["Virus", "Liposome", "Plasmid", "Cosmid"], e: "Plasmids are small circular extrachromosomal DNA used as cloning vectors in bacteria."},
+    {q: "Southern blotting is used to detect:", a: "B", choices: ["RNA", "DNA", "Protein", "Lipids"], e: "Southern blot detects specific DNA sequences using hybridization."},
+    {q: "The first cloned mammal was:", a: "A", choices: ["Dolly the sheep", "Molly the mouse", "Polly the pig", "Copycat the cat"], e: "Dolly (1996) was cloned from adult somatic cell by Ian Wilmut."},
+    {q: "RNA interference (RNAi) is used to:", a: "C", choices: ["Amplify RNA", "Sequence RNA", "Silence specific genes", "Translate RNA"], e: "RNAi uses small interfering RNA to degrade mRNA, blocking gene expression."},
+    {q: "The process of using microorganisms to clean up environmental pollutants is called:", a: "B", choices: ["Biotechnology", "Bioremediation", "Bioaugmentation", "Biomagnification"], e: "Bioremediation uses microbes to degrade toxic pollutants in soil/water."},
+    {q: "The human genome project was completed in:", a: "C", choices: ["1990", "2005", "2003", "2010"], e: "Human Genome Project was completed in 2003, identifying all human genes."},
+    {q: "DNA fingerprinting is based on analysis of:", a: "D", choices: ["mRNA", "tRNA", "rRNA", "VNTRs (variable number tandem repeats)"], e: "VNTRs are non-coding repetitive DNA sequences unique to individuals."},
+    {q: "The enzyme reverse transcriptase is found in:", a: "A", choices: ["Retroviruses (HIV)", "Bacteria", "Plants", "Humans"], e: "Reverse transcriptase converts RNA to DNA, found in retroviruses."},
+    {q: "Gene therapy involves:", a: "B", choices: ["Removing genes", "Inserting functional genes to treat genetic disorders", "Cloning entire organisms", "Producing antibiotics"], e: "Gene therapy delivers functional copies of defective genes to treat diseases."},
+    {q: "The first successful gene therapy was performed for:", a: "C", choices: ["Cancer", "Diabetes", "Severe Combined Immunodeficiency (SCID)", "Hemophilia"], e: "SCID (bubble boy disease) was treated with gene therapy in 1990."},
+    {q: "ELISA is a technique used to detect:", a: "D", choices: ["DNA", "RNA", "Lipids", "Antibodies or antigens (proteins)"], e: "ELISA (Enzyme-Linked Immunosorbent Assay) detects proteins/antibodies."},
+    {q: "The process by which DNA is introduced into bacteria using heat shock is called:", a: "A", choices: ["Transformation", "Transduction", "Conjugation", "Transfection"], e: "Transformation: uptake of foreign DNA by competent bacteria."},
+    {q: "A plasmid used as a vector must contain:", a: "C", choices: ["Telomeres", "Centromeres", "Origin of replication and selectable marker", "Histones"], e: "Origin of replication allows replication; selectable marker (antibiotic resistance) identifies transformants."},
+    {q: "The term 'Biotechnology' was first coined by:", a: "B", choices: ["Gregor Mendel", "Karl Ereky", "Louis Pasteur", "Alexander Fleming"], e: "Karl Ereky (1919) first used the term 'biotechnology'."}
+];
+bioBiotech.forEach(item => quizData.push(item));
+
+// ==================== CHEMISTRY: CARBOXYLIC ACIDS & MACROMOLECULES (25) ====================
+const chemCarboxylicMacro = [
+    // Carboxylic Acids (13 questions)
+    {q: "The functional group of carboxylic acids is:", a: "A", choices: ["-COOH", "-CHO", "-OH", "-CO-"], e: "Carboxyl group (-COOH) consists of carbonyl and hydroxyl."},
+    {q: "The simplest carboxylic acid is:", a: "B", choices: ["Acetic acid", "Formic acid (HCOOH)", "Propionic acid", "Butyric acid"], e: "Formic acid (HCOOH) is the simplest carboxylic acid."},
+    {q: "The IUPAC name of CH₃COOH is:", a: "C", choices: ["Methanoic acid", "Propanoic acid", "Ethanoic acid", "Butanoic acid"], e: "CH₃COOH is ethanoic acid (common name: acetic acid)."},
+    {q: "The reaction of carboxylic acid with alcohol in presence of conc. H₂SO₄ gives:", a: "D", choices: ["Aldehyde", "Ketone", "Ether", "Ester"], e: "Esterification: R-COOH + R'-OH ⇌ R-COOR' + H₂O."},
+    {q: "Vinegar contains approximately ___ acetic acid.", a: "B", choices: ["1-2%", "5-8%", "15-20%", "30-40%"], e: "Vinegar typically contains 5-8% acetic acid by volume."},
+    {q: "Carboxylic acids are generally ___ than alcohols of similar molecular weight.", a: "C", choices: ["Less soluble", "Less acidic", "More acidic", "More volatile"], e: "Carboxylic acids are stronger acids due to resonance stabilization of carboxylate ion."},
+    {q: "The reduction of carboxylic acid with LiAlH₄ gives:", a: "A", choices: ["Primary alcohol", "Secondary alcohol", "Aldehyde", "Alkane"], e: "LiAlH₄ reduces -COOH to -CH₂OH (primary alcohol)."},
+    {q: "The IUPAC name of HOOC-COOH is:", a: "D", choices: ["Oxalic acid", "Malonic acid", "Succinic acid", "Ethanedioic acid"], e: "Oxalic acid is ethanedioic acid (HOOC-COOH)."},
+    {q: "The reaction of carboxylic acid with NaHCO₃ produces:", a: "C", choices: ["CO", "H₂O", "CO₂ gas (effervescence)", "H₂"], e: "Carboxylic acids react with bicarbonates to produce CO₂ gas, used as test."},
+    {q: "Which of the following is the strongest acid?", a: "B", choices: ["CH₃COOH", "HCOOH", "C₆H₅COOH", "CH₃CH₂COOH"], e: "Formic acid (HCOOH) is strongest due to no electron-donating alkyl group."},
+    {q: "The common name of butanoic acid is:", a: "A", choices: ["Butyric acid", "Valeric acid", "Caproic acid", "Propionic acid"], e: "Butyric acid (C₃H₇COOH) gives rancid butter smell."},
+    {q: "The decarboxylation of sodium acetate with soda lime produces:", a: "C", choices: ["CO₂", "H₂O", "Methane (CH₄)", "Ethane"], e: "CH₃COONa + NaOH → CH₄ + Na₂CO₃ (decarboxylation)."},
+    {q: "The product of reaction of acetic acid with PCl₅ is:", a: "C", choices: ["CH₃COCl", "CH₃Cl", "CH₃COCl", "CH₃CHO"], e: "CH₃COOH + PCl₅ → CH₃COCl + POCl₃ + HCl (acyl chloride)."},
+    // Macromolecules (12 questions)
+    {q: "Polymers are macromolecules composed of repeating units called:", a: "C", choices: ["Isomers", "Dimers", "Monomers", "Polypeptides"], e: "Monomers join to form polymers through polymerization reactions."},
+    {q: "The polymer formed from glucose monomers is:", a: "D", choices: ["Protein", "Nucleic acid", "Lipid", "Starch (polysaccharide)"], e: "Starch, cellulose, and glycogen are polysaccharides made of glucose monomers."},
+    {q: "Which of the following is a naturally occurring polymer?", a: "B", choices: ["Nylon", "Cellulose", "Polythene", "PVC"], e: "Cellulose is natural polymer from plant cell walls; others are synthetic."},
+    {q: "The monomers of proteins are:", a: "A", choices: ["Amino acids", "Nucleotides", "Monosaccharides", "Fatty acids"], e: "Proteins are polymers of amino acids linked by peptide bonds."},
+    {q: "The monomers of nucleic acids (DNA/RNA) are:", a: "C", choices: ["Amino acids", "Fatty acids", "Nucleotides", "Monosaccharides"], e: "Nucleotides (phosphate + sugar + base) are building blocks of DNA/RNA."},
+    {q: "The polymer formed by addition polymerization of ethene is:", a: "D", choices: ["PVC", "Teflon", "Polystyrene", "Polyethylene (Polythene)"], e: "Polyethylene (-CH₂-CH₂-)n is made from ethene (CH₂=CH₂) monomers."},
+    {q: "The type of bond linking amino acids in a protein is:", a: "B", choices: ["Glycosidic bond", "Peptide bond", "Ester bond", "Hydrogen bond"], e: "Peptide bond (C-N) forms between carboxyl and amino groups of adjacent amino acids."},
+    {q: "The type of bond linking monosaccharides in a carbohydrate is:", a: "A", choices: ["Glycosidic bond", "Peptide bond", "Ester bond", "Phosphodiester bond"], e: "Glycosidic bonds join monosaccharides to form di/polysaccharides."},
+    {q: "The type of bond linking nucleotides in DNA is:", a: "D", choices: ["Glycosidic bond", "Peptide bond", "Ester bond", "Phosphodiester bond"], e: "Phosphodiester bonds connect 3' carbon of one nucleotide to 5' carbon of next."},
+    {q: "The polymer used to make non-stick cookware is:", a: "C", choices: ["Polyethylene", "Polyvinyl chloride", "Teflon (PTFE)", "Polystyrene"], e: "Teflon is polytetrafluoroethylene (PTFE), highly non-stick and heat resistant."},
+    {q: "In addition polymerization, the monomers are usually:", a: "B", choices: ["Saturated hydrocarbons", "Unsaturated hydrocarbons (alkenes)", "Alcohols", "Carboxylic acids"], e: "Alkenes undergo addition polymerization to form polymers like polyethylene."},
+    {q: "The process of formation of polymer from monomers is called:", a: "D", choices: ["Hydrolysis", "Cracking", "Fermentation", "Polymerization"], e: "Polymerization is the chemical process of joining monomers to form polymers."}
+];
+chemCarboxylicMacro.forEach(item => quizData.push(item));
+
+// Final check
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let totalScore = 0;
+    let bioScore = 0, chemScore = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                totalScore++;
+                if (i < 25) bioScore++;
+                else chemScore++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${totalScore} / 50`;
+    document.getElementById('bio-score').innerText = bioScore;
+    document.getElementById('chem-score').innerText = chemScore;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = "Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

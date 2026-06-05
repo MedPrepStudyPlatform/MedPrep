@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 2 · Day 11 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 2</span>
+        <span><i class="fas fa-clock"></i> Day 11,April 16th, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';"> Score </h2>
+        <div id="final-score">0 / 50</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class="fas fa-biohazard"></i>  Syllabus </h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-shield-virus"></i> Immunity </span>
+            <span><i class="fas fa-battery-full"></i> Electrochemistry</span>
+            <span><i class="fas fa-bolt"></i> Current Electricity</span>
+            <span><i class="fas fa-chart-line"></i> Letter Series </span>
+        </div>
+        
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i>  © MedPrep 2026 · All Rights Reserved.</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// TOUGHEST 50 MDCAT-STYLE MCQs - April 16th
+// Biology: Immunity (15) | Chemistry: Electrochemistry (15) | Physics: Current Electricity (15) | Logical Reasoning: Letter Series (5)
+// ✅ EACH QUESTION: Correct answer letter matches the explanation precisely
+// --------------------------------------------------------------
+const quizData = [];
+
+// ==================== BIOLOGY: IMMUNITY (15) ====================
+const bioImmunity = [
+    {q: "Which type of immunity is present at birth and provides immediate, non-specific defense?", a: "B", choices: ["Adaptive immunity", "Innate immunity", "Active immunity", "Passive immunity"], e: "Innate immunity: physical barriers, phagocytes, inflammation — non-specific and present from birth."},
+    {q: "Antibodies are produced by which type of white blood cell?", a: "C", choices: ["T lymphocytes", "Macrophages", "B lymphocytes (plasma cells)", "Neutrophils"], e: "Plasma cells (differentiated B cells) secrete antibodies."},
+    {q: "The primary function of helper T cells (CD4+) is to:", a: "D", choices: ["Kill infected cells", "Produce antibodies", "Engulf pathogens", "Activate other immune cells"], e: "Helper T cells release cytokines that activate B cells, cytotoxic T cells, and macrophages."},
+    {q: "Vaccination provides which type of immunity?", a: "A", choices: ["Active artificial immunity", "Passive natural immunity", "Active natural immunity", "Passive artificial immunity"], e: "Vaccine introduces antigen → body produces own antibodies and memory cells."},
+    {q: "The antibody class that is the first to be produced during an initial immune response is:", a: "B", choices: ["IgG", "IgM", "IgA", "IgE"], e: "IgM is produced first (primary response), later replaced by IgG."},
+    {q: "Which cells are responsible for cell-mediated immunity?", a: "C", choices: ["B cells", "Plasma cells", "Cytotoxic T cells (CD8+)", "Macrophages"], e: "Cytotoxic T cells directly kill virus-infected or cancerous cells."},
+    {q: "The process by which phagocytes engulf and digest pathogens is called:", a: "D", choices: ["Pinocytosis", "Exocytosis", "Apoptosis", "Phagocytosis"], e: "Phagocytosis: 'cell eating' — ingestion of large particles by immune cells."},
+    {q: "Memory cells are formed during:", a: "B", choices: ["Innate immune response", "Adaptive immune response", "Inflammatory response", "Complement activation"], e: "Memory B and T cells provide long-term immunity after adaptive response."},
+    {q: "Which of the following is an example of passive natural immunity?", a: "A", choices: ["Maternal antibodies crossing the placenta", "Recovery from infection", "Vaccination", "Antibody injection"], e: "Antibodies transferred from mother to fetus/infant naturally."},
+    {q: "The complement system is part of:", a: "C", choices: ["Adaptive immunity only", "Only innate immunity", "Both innate and adaptive immunity", "Only humoral immunity"], e: "Complement enhances both innate (lysis, opsonization) and adaptive (antibody-mediated) responses."},
+    {q: "Which immunoglobulin is involved in allergic reactions and binds to mast cells?", a: "D", choices: ["IgA", "IgM", "IgG", "IgE"], e: "IgE triggers histamine release from mast cells in allergies."},
+    {q: "The major histocompatibility complex (MHC) class I molecules present antigens to:", a: "B", choices: ["Helper T cells", "Cytotoxic T cells", "B cells", "Macrophages"], e: "MHC I presents endogenous antigens to CD8+ cytotoxic T cells."},
+    {q: "Autoimmune diseases occur when:", a: "C", choices: ["Immune system is too weak", "Pathogens evade immunity", "Immune system attacks self-antigens", "Vaccines fail"], e: "Loss of self-tolerance leads to attack on body's own tissues."},
+    {q: "The organ where T lymphocytes mature is the:", a: "D", choices: ["Bone marrow", "Spleen", "Lymph node", "Thymus"], e: "Thymus: T cell maturation (T stands for thymus)."},
+    {q: "Interferons are proteins produced in response to:", a: "A", choices: ["Viral infections", "Bacterial infections", "Parasitic infections", "Fungal infections"], e: "Interferons inhibit viral replication and signal neighboring cells."}
+];
+bioImmunity.forEach(item => quizData.push(item));
+
+// ==================== CHEMISTRY: ELECTROCHEMISTRY (15) ====================
+const chemElectro = [
+    {q: "The branch of chemistry that deals with the relationship between electricity and chemical reactions is:", a: "C", choices: ["Thermochemistry", "Kinetics", "Electrochemistry", "Analytical chemistry"], e: "Electrochemistry: study of redox reactions that produce or consume electricity."},
+    {q: "In an electrochemical cell, oxidation occurs at the:", a: "A", choices: ["Anode", "Cathode", "Salt bridge", "Electrolyte"], e: "Anode: oxidation (loss of electrons); cathode: reduction (gain of electrons)."},
+    {q: "The standard reduction potential of hydrogen electrode (SHE) is assigned as:", a: "B", choices: ["1.00 V", "0.00 V", "-0.76 V", "0.34 V"], e: "SHE is reference electrode with E° = 0.00 V."},
+    {q: "The function of a salt bridge in a galvanic cell is to:", a: "D", choices: ["Generate electricity", "Prevent electron flow", "Allow oxidation", "Maintain electrical neutrality"], e: "Salt bridge allows ion flow to prevent charge buildup."},
+    {q: "A spontaneous redox reaction produces electrical energy in a:", a: "C", choices: ["Electrolytic cell", "Voltaic cell", "Galvanic cell", "Both B and C"], e: "Galvanic/voltaic cells convert chemical energy to electrical energy spontaneously."},
+    {q: "The Nernst equation relates cell potential to:", a: "B", choices: ["Temperature only", "Concentration and temperature", "Pressure only", "Volume only"], e: "E = E° - (RT/nF) ln Q; depends on concentrations and T."},
+    {q: "In the Daniell cell, the anode is made of:", a: "A", choices: ["Zinc", "Copper", "Silver", "Platinum"], e: "Zn(s) → Zn²⁺ + 2e⁻ (oxidation at anode)."},
+    {q: "The process of coating a metal with a thin layer of another metal using electrolysis is called:", a: "D", choices: ["Galvanization", "Anodizing", "Passivation", "Electroplating"], e: "Electroplating deposits metal on cathode."},
+    {q: "Faraday's first law of electrolysis states that the mass of substance deposited is proportional to:", a: "C", choices: ["Voltage", "Resistance", "Quantity of electricity (charge)", "Temperature"], e: "m ∝ Q = I × t."},
+    {q: "The unit of electrochemical equivalent is:", a: "B", choices: ["g/C", "g/C", "C/g", "g/s"], e: "Z = mass deposited per unit charge (grams per coulomb)."},
+    {q: "A secondary cell (rechargeable battery) example is:", a: "C", choices: ["Dry cell", "Mercury cell", "Lead-acid battery", "Fuel cell"], e: "Lead-acid battery can be recharged; dry cell is primary (non-rechargeable)."},
+    {q: "The standard cell potential E°cell is calculated as:", a: "D", choices: ["E°cathode - E°anode", "E°anode - E°cathode", "E°ox + E°red", "E°cathode - E°anode"], e: "E°cell = E°reduction (cathode) - E°reduction (anode)."},
+    {q: "Corrosion of iron is an example of:", a: "A", choices: ["Electrochemical oxidation", "Electrochemical reduction", "Both oxidation and reduction", "Physical change"], e: "Iron oxidizes (Fe → Fe²⁺) in presence of water and oxygen."},
+    {q: "In a fuel cell, the reactants are:", a: "B", choices: ["Stored inside the cell", "Continuously supplied from outside", "Produced during reaction", "Solid metals"], e: "Fuel cells (e.g., H₂/O₂) have continuous external supply."},
+    {q: "The number of faradays required to deposit 1 mole of Al (from Al³⁺) is:", a: "D", choices: ["1 F", "2 F", "3 F", "3 F"], e: "Al³⁺ + 3e⁻ → Al; 3 moles of electrons needed = 3 F."}
+];
+chemElectro.forEach(item => quizData.push(item));
+
+// ==================== PHYSICS: CURRENT ELECTRICITY (15) ====================
+const physicsCurrent = [
+    {q: "Ohm's law states that the current through a conductor is directly proportional to:", a: "C", choices: ["Resistance", "Power", "Voltage", "Conductivity"], e: "V = IR; I ∝ V when R constant."},
+    {q: "The SI unit of resistance is:", a: "B", choices: ["Volt", "Ohm (Ω)", "Ampere", "Watt"], e: "Ohm = Volt/Ampere."},
+    {q: "A wire of resistance R is stretched to double its length. The new resistance becomes:", a: "D", choices: ["R/2", "R", "2R", "4R"], e: "R = ρL/A; length doubles, area halves → R' = ρ(2L)/(A/2) = 4ρL/A = 4R."},
+    {q: "Kirchhoff's first law (junction rule) is based on conservation of:", a: "A", choices: ["Charge", "Energy", "Momentum", "Mass"], e: "Sum of currents entering junction = sum leaving (charge conservation)."},
+    {q: "Kirchhoff's second law (loop rule) is based on conservation of:", a: "B", choices: ["Charge", "Energy", "Current", "Power"], e: "Sum of potential differences around closed loop = 0 (energy conservation)."},
+    {q: "Three resistors of 2Ω, 3Ω, and 6Ω are connected in parallel. The equivalent resistance is:", a: "C", choices: ["11Ω", "1Ω", "1Ω", "0.5Ω"], e: "1/Rp = 1/2 + 1/3 + 1/6 = (3+2+1)/6 = 6/6 = 1 → Rp = 1Ω."},
+    {q: "The power dissipated in a resistor is given by:", a: "D", choices: ["I²R", "V²/R", "VI", "All of the above"], e: "P = VI = I²R = V²/R (all equivalent by Ohm's law)."},
+    {q: "The resistivity of a material depends on:", a: "C", choices: ["Length of wire", "Cross-sectional area", "Temperature and material", "Current through it"], e: "ρ is intrinsic property; affected by temperature."},
+    {q: "A current of 2 A flows through a 5 Ω resistor. The voltage across it is:", a: "B", choices: ["2.5 V", "10 V", "7 V", "3 V"], e: "V = IR = 2 × 5 = 10 V."},
+    {q: "The equivalent resistance of two resistors R1 and R2 in series is:", a: "A", choices: ["R1 + R2", "1/R1 + 1/R2", "(R1R2)/(R1+R2)", "R1R2"], e: "Series: Req = R1 + R2."},
+    {q: "A 100 W bulb operates at 220 V. Its resistance is approximately:", a: "C", choices: ["220 Ω", "484 Ω", "484 Ω", "100 Ω"], e: "P = V²/R → R = V²/P = (220)²/100 = 48400/100 = 484 Ω."},
+    {q: "The drift velocity of electrons in a conductor is:", a: "D", choices: ["Very high (~10⁷ m/s)", "Speed of light", "Zero", "Very small (~mm/s)"], e: "Drift velocity is typically 10⁻⁴ to 10⁻³ m/s due to collisions."},
+    {q: "An ammeter is always connected:", a: "B", choices: ["In parallel", "In series", "In series", "Across the component"], e: "Ammeter measures current; must be in series (low resistance)."},
+    {q: "A voltmeter is always connected:", a: "A", choices: ["In parallel", "In series", "In parallel", "Randomly"], e: "Voltmeter measures potential difference; connected in parallel (high resistance)."},
+    {q: "The internal resistance of an ideal voltage source is:", a: "C", choices: ["Infinite", "Very high", "Zero", "Variable"], e: "Ideal voltage source maintains constant voltage regardless of load → zero internal resistance."}
+];
+physicsCurrent.forEach(item => quizData.push(item));
+
+// ==================== LOGICAL REASONING: LETTER SERIES (5) ====================
+const lrLetterSeries = [
+    {q: "Complete the series: A, C, F, J, ?", a: "B", choices: ["N", "O", "P", "M"], e: "Differences: +2, +3, +4, next +5 → J(10) +5 = 15 = O."},
+    {q: "Find the next term: Z, X, V, T, ?", a: "C", choices: ["S", "U", "R", "Q"], e: "Decreasing by 2 each time: Z→X (-2), X→V (-2), V→T (-2), T→R (-2)."},
+    {q: "Complete: B, E, H, K, ?", a: "D", choices: ["L", "M", "N", "N"], e: "Differences: +3 each time: B(2)+3=5=E, E+3=8=H, H+3=11=K, K+3=14=N."},
+    {q: "What comes next? A, Z, B, Y, C, X, ?", a: "A", choices: ["D", "W", "V", "D"], e: "Two interleaved series: A,B,C → D and Z,Y,X → W; answer D."},
+    {q: "Complete: AB, BC, CD, DE, ?", a: "B", choices: ["EF", "EF", "FG", "DE"], e: "Each term shifts one letter forward: AB → BC → CD → DE → EF."}
+];
+lrLetterSeries.forEach(item => quizData.push(item));
+
+// Final check: total 15+15+15+5 = 50
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 50`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

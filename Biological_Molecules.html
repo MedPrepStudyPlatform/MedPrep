@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep Quiz: Biological Molecules</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f5fafd; color: #15304c; padding: 20px; margin: 0; }
+        .quiz-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 24px; box-shadow: 0 10px 25px rgba(10, 44, 72, 0.1); }
+        h1 { font-family: 'Outfit', sans-serif; color: #0a2c48; text-align: center; margin-bottom: 30px; }
+        .question { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #e0f2fe; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 15px; }
+        .options { display: grid; gap: 10px; }
+        .option { padding: 12px 15px; border: 2px solid #bbe0f0; border-radius: 12px; cursor: pointer; transition: 0.2s; }
+        .option:hover { background: #f0faff; border-color: #1ecbe1; }
+        .option.selected { background: #0a2c48; color: white; border-color: #0a2c48; }
+        
+        .btn-submit { display: block; width: 100%; padding: 15px; background: #1ecbe1; color: #0a2c48; border: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .btn-submit:hover { background: #0a2c48; color: white; }
+
+        #results { display: none; margin-top: 30px; padding: 20px; border-radius: 15px; text-align: center; }
+        .explanation { margin-top: 10px; font-size: 0.9rem; color: #1f6a92; display: none; background: #eff9ff; padding: 10px; border-left: 4px solid #1ecbe1; border-radius: 4px; }
+        .correct { border-color: #2ecc71 !important; background: #eafff2; }
+        .wrong { border-color: #e74c3c !important; background: #fff2f0; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Biological Molecules </h1>
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+		
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        { q: "Which of the following is the most abundant carbohydrate in nature?", options: ["Glucose", "Starch", "Cellulose", "Glycogen"], exp: "Cellulose is the main structural component of plant cell walls and the most abundant organic compound on Earth.", correct: "C" },
+        { q: "The bond formed between two amino acids is called a:", options: ["Glycosidic bond", "Peptide bond", "Ester bond", "Phosphodiester bond"], exp: "A peptide bond forms through a condensation reaction between the amino group of one amino acid and the carboxyl group of another.", correct: "B" },
+        { q: "Which molecule serves as the main energy storage polysaccharide in animals?", options: ["Amylose", "Cellulose", "Chitin", "Glycogen"], exp: "Glycogen is stored primarily in the liver and muscles of animals.", correct: "D" },
+        { q: "A nucleotide consists of which three components?", options: ["Sugar, Base, Amino Acid", "Sugar, Phosphate, Base", "Lipid, Sugar, Base", "Phosphate, Lipid, Protein"], exp: "Nucleotides are the building blocks of nucleic acids, consisting of a pentose sugar, a nitrogenous base, and a phosphate group.", correct: "B" },
+        { q: "Which level of protein structure is represented by alpha-helices and beta-pleated sheets?", options: ["Primary", "Secondary", "Tertiary", "Quaternary"], exp: "Secondary structure results from hydrogen bonding between the backbone of the polypeptide chain.", correct: "B" },
+        { q: "Unsaturated fatty acids are characterized by:", options: ["Presence of double bonds", "Absence of double bonds", "High melting point", "Solid state at room temperature"], exp: "Double bonds create 'kinks' in the chain, making them liquid (oils) at room temperature.", correct: "A" },
+        { q: "Which of the following base is NOT found in DNA?", options: ["Adenine", "Guanine", "Uracil", "Thymine"], exp: "Uracil is found only in RNA, where it replaces Thymine.", correct: "C" },
+        { q: "The percentage of water in bacterial cells is approximately:", options: ["20%", "70%", "90%", "50%"], exp: "Both bacterial and mammalian cells are roughly 70% water by weight.", correct: "B" },
+        { q: "Which type of lipid is a major component of the cell membrane?", options: ["Triglycerides", "Phospholipids", "Waxes", "Terpenoids"], exp: "Phospholipids form the lipid bilayer due to their amphipathic (hydrophilic head/hydrophobic tail) nature.", correct: "B" },
+        { q: "Sucrose is a disaccharide composed of:", options: ["Glucose + Glucose", "Glucose + Galactose", "Glucose + Fructose", "Fructose + Galactose"], exp: "Sucrose is common table sugar, formed by glucose and fructose.", correct: "C" },
+        { q: "Which protein structure is held together by disulfide bridges, ionic bonds, and hydrophobic interactions?", options: ["Primary", "Secondary", "Tertiary", "Quaternary"], exp: "Tertiary structure is the overall 3D folding of a single polypeptide chain.", correct: "C" },
+        { q: "What is the ratio of Hydrogen to Oxygen in carbohydrates?", options: ["1:1", "2:1", "1:2", "3:1"], exp: "Like water (H2O), carbohydrates have two hydrogen atoms for every one oxygen atom.", correct: "B" },
+        { q: "Hemoglobin is an example of which protein structure?", options: ["Primary", "Secondary", "Tertiary", "Quaternary"], exp: "Hemoglobin consists of four polypeptide subunits working together, making it a quaternary structure.", correct: "D" },
+        { q: "Basic amino acids have an extra ______ group in their R-group.", options: ["Carboxyl", "Hydroxyl", "Amino", "Methyl"], exp: "An extra amino group makes the molecule basic (e.g., Lysine).", correct: "C" },
+        { q: "Waxes are esters formed by long-chain fatty acids and long-chain ______.", options: ["Glycerol", "Alcohols", "Sugars", "Proteins"], exp: "Waxes are highly hydrophobic because they use long-chain alcohols instead of glycerol.", correct: "B" },
+        { q: "Which of the following is a keto-sugar?", options: ["Glucose", "Galactose", "Fructose", "Ribose"], exp: "Fructose is a ketose sugar, while Glucose is an aldose sugar.", correct: "C" },
+        { q: "The heat of vaporization of water is important because it:", options: ["Provides stability", "Causes cooling", "Maintains pH", "Dissolves solutes"], exp: "The evaporation of water (sweating) removes significant heat, cooling the organism.", correct: "B" },
+        { q: "In a DNA molecule, Guanine always pairs with Cytosine via how many hydrogen bonds?", options: ["One", "Two", "Three", "Four"], exp: "G-C pairs have 3 hydrogen bonds, while A-T pairs have 2.", correct: "C" },
+        { q: "Acylglycerols (fats) are formed by the reaction of fatty acids with:", options: ["Glucose", "Glycerol", "Glycogen", "Galactose"], exp: "Three fatty acids plus one glycerol molecule make a triglyceride.", correct: "B" },
+        { q: "Which molecule contains a high percentage of Phosphorus?", options: ["Proteins", "Carbohydrates", "Lipids", "Nucleic Acids"], exp: "The backbone of DNA and RNA is made of sugar and phosphate groups.", correct: "D" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        quizData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        quizData.forEach((data, index) => {
+            const ex = document.getElementById(`exp-${index}`);
+            ex.style.display = 'block';
+            
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${quizData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    loadQuiz();
+</script>
+
+</body>
+</html>

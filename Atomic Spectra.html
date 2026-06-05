@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomic Spectra | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%);
+            color: #1e3a8a;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #2563eb;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #c7d2fe;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.08);
+            border-color: #a5b4fc;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #1e3a8a;
+            padding-left: 14px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #2563eb;
+            background: #eef2ff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #1e3a8a;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(30, 58, 138, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #1e3a8a, #2563eb);
+            color: #eef2ff;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #1e3a8a;
+            display: none;
+            background: #eef2ff;
+            padding: 16px 22px;
+            border-left: 6px solid #2563eb;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Atomic Spectra</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Atomic Spectra MCQs (Physics FSC Part 2, Chapter 20)
+    const atomicSpectraMcqs = [
+        { q: "The wavelength of the first line of the Balmer series (Hα) in hydrogen spectrum is approximately:", options: ["656 nm", "486 nm", "434 nm", "410 nm"], exp: "Hα (n=3 to n=2) has wavelength about 656.3 nm (red line).", correct: "A" },
+        { q: "The series limit of the Lyman series corresponds to a transition from:", options: ["n=2 to n=1", "n=∞ to n=1", "n=3 to n=1", "n=4 to n=1"], exp: "Series limit corresponds to the shortest wavelength (highest energy), from n=∞ to n=1.", correct: "B" },
+        { q: "The Balmer series lies in which region of the electromagnetic spectrum?", options: ["Ultraviolet", "Visible", "Infrared", "X-ray"], exp: "Balmer series (transitions to n=2) falls mainly in the visible region.", correct: "B" },
+        { q: "The Lyman series lies in which region?", options: ["Ultraviolet", "Visible", "Infrared", "Microwave"], exp: "Lyman series (transitions to n=1) lies in the ultraviolet region.", correct: "A" },
+        { q: "The energy of an electron in the nth orbit of hydrogen atom is given by:", options: ["-13.6/n² eV", "-13.6 n² eV", "-13.6/n eV", "-13.6 n eV"], exp: "Bohr model: E_n = -13.6/n² eV for hydrogen.", correct: "A" },
+        { q: "The radius of the first Bohr orbit (n=1) of hydrogen atom is:", options: ["0.529 × 10⁻¹⁰ m", "0.529 × 10⁻⁸ m", "0.529 × 10⁻¹² m", "0.529 × 10⁻⁶ m"], exp: "Bohr radius a₀ = 0.529 × 10⁻¹⁰ m = 0.529 Å.", correct: "A" },
+        { q: "The transition that produces the shortest wavelength in the Balmer series is from:", options: ["n=3 to n=2", "n=4 to n=2", "n=5 to n=2", "n=∞ to n=2"], exp: "Shortest wavelength (series limit) occurs for n=∞ to n=2.", correct: "D" },
+        { q: "The Rydberg constant (R) has units of:", options: ["m⁻¹", "m", "J", "eV"], exp: "Rydberg constant has unit of reciprocal length (m⁻¹) ~ 1.097 × 10⁷ m⁻¹.", correct: "A" },
+        { q: "The Rydberg formula for hydrogen spectrum is given by:", options: ["1/λ = R(1/n₁² - 1/n₂²)", "λ = R(1/n₁² - 1/n₂²)", "1/λ = R(n₁² - n₂²)", "λ = R(n₁² - n₂²)"], exp: "Rydberg formula: 1/λ = R(1/n₁² - 1/n₂²), where n₂ > n₁.", correct: "A" },
+        { q: "The ionization energy of hydrogen atom is:", options: ["13.6 eV", "10.2 eV", "3.4 eV", "1.51 eV"], exp: "Ionization energy = energy to remove electron from n=1 to n=∞ = +13.6 eV.", correct: "A" },
+        { q: "The energy required to excite an electron from n=1 to n=2 in hydrogen is:", options: ["10.2 eV", "13.6 eV", "3.4 eV", "1.89 eV"], exp: "ΔE = E₂ - E₁ = (-3.4) - (-13.6) = 10.2 eV.", correct: "A" },
+        { q: "The spectral lines of hydrogen are grouped into series because:", options: ["Electrons jump to different lower orbits", "Atoms have different masses", "Different isotopes", "Temperature effects"], exp: "Each series corresponds to transitions from higher orbits to a specific lower orbit.", correct: "A" },
+        { q: "The Paschen series corresponds to transitions to:", options: ["n=1", "n=2", "n=3", "n=4"], exp: "Paschen series: transitions from higher orbits to n=3 (infrared region).", correct: "C" },
+        { q: "The Brackett series corresponds to transitions to:", options: ["n=1", "n=2", "n=3", "n=4"], exp: "Brackett series: transitions to n=4 (infrared region).", correct: "D" },
+        { q: "The shortest wavelength in the Lyman series of hydrogen (R = 1.097 × 10⁷ m⁻¹) is:", options: ["91.2 nm", "121.6 nm", "102.6 nm", "97.3 nm"], exp: "Series limit (n₂=∞, n₁=1): 1/λ = R(1/1² - 0) = R, so λ = 1/R = 1/(1.097×10⁷) = 9.12×10⁻⁸ m = 91.2 nm.", correct: "A" },
+        { q: "The principle of laser is based on:", options: ["Stimulated emission", "Spontaneous emission", "Absorption", "Compton effect"], exp: "Laser works on stimulated emission of radiation, producing coherent, monochromatic light.", correct: "A" },
+        { q: "The word LASER stands for:", options: ["Light Amplification by Stimulated Emission of Radiation", "Light Amplification by Spontaneous Emission of Radiation", "Liquid Amplification by Stimulated Emission of Radiation", "None"], exp: "LASER: Light Amplification by Stimulated Emission of Radiation.", correct: "A" },
+        { q: "The continuous X-ray spectrum is produced due to:", options: ["Bremsstrahlung (braking radiation)", "Characteristic X-rays", "Line spectrum", "Fluorescence"], exp: "Continuous X-ray spectrum is produced by deceleration of electrons in target material (bremsstrahlung).", correct: "A" },
+        { q: "The characteristic X-rays are produced due to:", options: ["Transition of electrons between inner shells", "Deceleration of electrons", "Radioactive decay", "Nuclear reactions"], exp: "Characteristic X-rays are emitted when electrons jump between inner atomic shells.", correct: "A" },
+        { q: "The cut-off wavelength (minimum wavelength) in X-ray spectrum is given by λ_min = hc/eV. For a potential difference of 50 kV, λ_min is approximately:", options: ["0.025 nm", "0.25 nm", "2.5 nm", "25 nm"], exp: "λ_min = hc/eV = (1240 eV·nm)/(50000 eV) = 0.0248 nm ≈ 0.025 nm.", correct: "A" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+    let quizSubmitted = false;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        randomizedQuestions = shuffleArray([...atomicSpectraMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+        
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn of Modern Physics | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f5f3ff 0%, #ede9fe 100%);
+            color: #4c1d95;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #7c3aed;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #5b21b6, #7c3aed);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #c4b5fd;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(124, 58, 237, 0.08);
+            border-color: #a78bfa;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #4c1d95;
+            padding-left: 14px;
+            border-left: 4px solid #7c3aed;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #7c3aed;
+            background: #f5f3ff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #5b21b6;
+            color: white;
+            border-color: #5b21b6;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(124, 58, 237, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #5b21b6;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(91, 33, 182, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #4c1d95, #5b21b6);
+            color: #f5f3ff;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #4c1d95;
+            display: none;
+            background: #f5f3ff;
+            padding: 16px 22px;
+            border-left: 6px solid #7c3aed;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Dawn of Modern Physics</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Modern Physics MCQs (Physics FSC Part 2, Chapter 19)
+    const modernPhysicsMcqs = [
+        { q: "The work function of a metal is 2.0 eV. The threshold wavelength for photoelectric emission is (h = 6.63 × 10⁻³⁴ J·s, c = 3 × 10⁸ m/s, 1 eV = 1.6 × 10⁻¹⁹ J):", options: ["620 nm", "310 nm", "1240 nm", "2480 nm"], exp: "λ₀ = hc/φ = (6.63×10⁻³⁴ × 3×10⁸)/(2 × 1.6×10⁻¹⁹) = (1.989×10⁻²⁵)/(3.2×10⁻¹⁹) = 6.215×10⁻⁷ m = 621.5 nm ≈ 620 nm.", correct: "A" },
+        { q: "The stopping potential for photoelectrons is 2 V. The maximum kinetic energy of photoelectrons is:", options: ["2 eV", "1 eV", "3 eV", "4 eV"], exp: "K_max = e × V_stop = 1.6×10⁻¹⁹ × 2 = 3.2×10⁻¹⁹ J = 2 eV.", correct: "A" },
+        { q: "The de Broglie wavelength of an electron accelerated through a potential difference of 100 V is approximately:", options: ["0.122 nm", "0.123 nm", "0.124 nm", "0.125 nm"], exp: "λ = h/√(2meV) = 12.3/√V Å = 12.3/10 = 1.23 Å = 0.123 nm.", correct: "B" },
+        { q: "The energy of a photon of wavelength 400 nm is (h = 6.63 × 10⁻³⁴ J·s, c = 3 × 10⁸ m/s):", options: ["3.1 eV", "4.1 eV", "5.1 eV", "6.1 eV"], exp: "E = hc/λ = (6.63×10⁻³⁴ × 3×10⁸)/(400×10⁻⁹) = 1.989×10⁻²⁵/4×10⁻⁷ = 4.9725×10⁻¹⁹ J = 4.9725×10⁻¹⁹/(1.6×10⁻¹⁹) = 3.11 eV ≈ 3.1 eV.", correct: "A" },
+        { q: "Einstein's photoelectric equation is:", options: ["hf = φ + ½mv²", "hf = φ - ½mv²", "½mv² = hf + φ", "hf = φ"], exp: "Einstein's equation: hf = φ + K_max, where K_max = ½mv²max.", correct: "A" },
+        { q: "The half-life of a radioactive substance is 10 days. The time taken for 75% of the sample to decay is:", options: ["10 days", "20 days", "30 days", "40 days"], exp: "After 1 half-life (10 days), 50% remains. After 2 half-lives (20 days), 25% remains → 75% decayed.", correct: "B" },
+        { q: "The decay constant of a radioactive element is 0.693 per year. Its half-life is:", options: ["1 year", "2 years", "0.5 years", "1.5 years"], exp: "t₁/₂ = 0.693/λ = 0.693/0.693 = 1 year.", correct: "A" },
+        { q: "The number of neutrons in the nucleus of ²³⁵U is:", options: ["92", "143", "235", "327"], exp: "Mass number A = 235, atomic number Z = 92. Neutrons = A - Z = 235 - 92 = 143.", correct: "B" },
+        { q: "The binding energy per nucleon is maximum for:", options: ["Hydrogen", "Iron", "Uranium", "Helium"], exp: "Iron-56 has the highest binding energy per nucleon (~8.8 MeV), making it the most stable nucleus.", correct: "B" },
+        { q: "The mass defect of a nucleus is 0.1 u. The binding energy is (1 u = 931.5 MeV/c²):", options: ["93.15 MeV", "9.315 MeV", "931.5 MeV", "0.1 MeV"], exp: "B.E. = Δm × 931.5 = 0.1 × 931.5 = 93.15 MeV.", correct: "A" },
+        { q: "The Bohr radius (a₀) is approximately:", options: ["0.53 Å", "0.53 nm", "5.3 Å", "5.3 nm"], exp: "Bohr radius a₀ = 0.529 × 10⁻¹⁰ m = 0.529 Å ≈ 0.53 Å.", correct: "A" },
+        { q: "The energy of the ground state of hydrogen atom is:", options: ["-13.6 eV", "13.6 eV", "-3.4 eV", "3.4 eV"], exp: "Ground state (n=1) energy = -13.6 eV (negative indicates bound state).", correct: "A" },
+        { q: "The Compton effect demonstrates that photons have:", options: ["Momentum", "Charge", "Mass", "Spin"], exp: "Compton scattering shows that photons have momentum (p = h/λ).", correct: "A" },
+        { q: "The Heisenberg uncertainty principle states that:", options: ["Δx·Δp ≥ h/4π", "Δx·Δp ≤ h/4π", "Δx·Δp = h/4π", "Δx·Δp = 0"], exp: "Heisenberg uncertainty principle: Δx·Δp ≥ h/4π (or ≥ ħ/2).", correct: "A" },
+        { q: "The wavelength of the Lyman series lies in which region?", options: ["Ultraviolet", "Visible", "Infrared", "Microwave"], exp: "Lyman series (transitions to n=1) lies in the ultraviolet region.", correct: "A" },
+        { q: "The activity of a radioactive sample is 1000 disintegrations per second. After one half-life, the activity becomes:", options: ["500 dis/s", "250 dis/s", "1000 dis/s", "2000 dis/s"], exp: "Activity is proportional to number of radioactive nuclei. After one half-life, activity halves to 500 dis/s.", correct: "A" },
+        { q: "The phenomenon of pair production occurs when a photon of energy at least:", options: ["1.02 MeV", "0.51 MeV", "0.511 MeV", "0.256 MeV"], exp: "Pair production (γ → e⁻ + e⁺) requires minimum energy 2mₑc² = 2 × 0.511 MeV = 1.022 MeV ≈ 1.02 MeV.", correct: "A" },
+        { q: "The quantum number that determines the shape of an atomic orbital is:", options: ["Principal quantum number (n)", "Azimuthal quantum number (l)", "Magnetic quantum number (m)", "Spin quantum number (s)"], exp: "The azimuthal (orbital angular momentum) quantum number l determines the shape (s, p, d, f).", correct: "B" },
+        { q: "Which of the following particles is its own antiparticle?", options: ["Proton", "Photon", "Neutron", "Electron"], exp: "Photon is its own antiparticle (neutral boson).", correct: "B" },
+        { q: "The rest mass energy of an electron is approximately:", options: ["0.511 MeV", "1.022 MeV", "0.511 eV", "1.022 eV"], exp: "mₑc² = 9.11×10⁻³¹ × (3×10⁸)² = 8.2×10⁻¹⁴ J = 0.511 MeV.", correct: "A" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+    let quizSubmitted = false;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        randomizedQuestions = shuffleArray([...modernPhysicsMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+        
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

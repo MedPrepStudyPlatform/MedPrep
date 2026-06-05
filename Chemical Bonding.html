@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemical Bonding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f5f0fc 0%, #e9e2f5 100%);
+            color: #2d1b4e;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #8b5cf6;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6d28d9;
+            font-weight: 600;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            background: #ede9fe;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 6px 20px;
+            border-radius: 60px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #e9e2f5;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(109, 40, 217, 0.08);
+            border-color: #cbbff5;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #4c1d95;
+            padding-left: 14px;
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #ede9fe;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #2d1b4e;
+        }
+
+        .option:hover {
+            border-color: #8b5cf6;
+            background: #f5f3ff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #6d28d9;
+            color: white;
+            border-color: #6d28d9;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(124, 58, 237, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #5b21b6;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(91, 33, 182, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #2d1b4e, #4c1d95);
+            color: #f5f9f0;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #3b2b5c;
+            display: none;
+            background: #f5f3ff;
+            padding: 16px 22px;
+            border-left: 6px solid #8b5cf6;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #f97316 !important;
+            background: #ffedd5 !important;
+            color: #9a3412 !important;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #8b5cf6;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>🔗 Chemical Bonding</h1>
+    <div style="text-align: center;">
+        
+    </div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()"> SUBMIT</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+    
+</div>
+
+<script>
+    // 20 high-quality Chemical Bonding MCQs (FSC Part 1, Chapter 3)
+    const bondingMCQs = [
+        { q: "Which of the following has the highest bond strength?", options: ["C–C", "C=C", "C≡C", "C–H"], exp: "Triple bond (C≡C) has the highest bond dissociation energy due to sharing of three electron pairs.", correct: "C" },
+        { q: "The shape of methane (CH₄) molecule is:", options: ["Trigonal planar", "Tetrahedral", "Square planar", "Linear"], exp: "CH₄ has sp³ hybridization with bond angle 109.5°, giving tetrahedral geometry.", correct: "B" },
+        { q: "Which type of hybridization is present in ethene (C₂H₄)?", options: ["sp", "sp²", "sp³", "sp³d"], exp: "Each carbon in ethene forms three sigma bonds and one pi bond, using sp² hybridization.", correct: "B" },
+        { q: "The bond angle in water (H₂O) is approximately:", options: ["109.5°", "104.5°", "120°", "90°"], exp: "Due to lone pair repulsion, bond angle is reduced from ideal tetrahedral 109.5° to 104.5°.", correct: "B" },
+        { q: "Which of the following is an example of a polar covalent bond?", options: ["Cl–Cl", "H–H", "H–Cl", "Na–Cl"], exp: "H–Cl has electronegativity difference (0.9) causing unequal sharing, making it polar covalent.", correct: "C" },
+        { q: "In which molecule are all bond angles exactly 120°?", options: ["BF₃", "NH₃", "H₂O", "CH₄"], exp: "BF₃ has trigonal planar geometry (sp²) with all bond angles 120°.", correct: "A" },
+        { q: "The number of sigma (σ) and pi (π) bonds in a molecule of acetylene (C₂H₂) is:", options: ["2σ, 2π", "3σ, 2π", "2σ, 3π", "3σ, 1π"], exp: "H–C≡C–H: three sigma bonds (C–H, C–H, C–C) and two pi bonds (C≡C).", correct: "B" },
+        { q: "Which force is responsible for the high boiling point of water?", options: ["London dispersion", "Dipole-dipole", "Hydrogen bonding", "Ionic bonding"], exp: "Strong hydrogen bonding between water molecules requires more energy to break.", correct: "C" },
+        { q: "According to VSEPR theory, the shape of ClF₃ molecule is:", options: ["Trigonal planar", "T-shaped", "Bent", "Trigonal pyramidal"], exp: "ClF₃ has 5 electron pairs (3 bonds + 2 lone pairs) → T-shaped geometry.", correct: "B" },
+        { q: "The octet rule is not satisfied in which of the following molecules?", options: ["CO₂", "BF₃", "CH₄", "H₂O"], exp: "BF₃ has only 6 electrons around boron (incomplete octet).", correct: "B" },
+        { q: "Which of the following has the highest lattice energy?", options: ["NaCl", "MgO", "KBr", "CaO"], exp: "MgO has small ions with +2 and -2 charges → very high lattice energy.", correct: "B" },
+        { q: "The bond formed by the lateral (sideways) overlap of atomic orbitals is called:", options: ["Sigma bond", "Pi bond", "Hydrogen bond", "Ionic bond"], exp: "Pi (π) bond results from sideways overlap of p-orbitals above and below internuclear axis.", correct: "B" },
+        { q: "Which molecule exhibits resonance?", options: ["H₂O", "NH₃", "O₃", "CH₄"], exp: "Ozone (O₃) has resonance structures with O–O bond order of 1.5.", correct: "C" },
+        { q: "The hybridization of central atom in SF₆ is:", options: ["sp³", "sp³d", "sp³d²", "sp²"], exp: "SF₆ has octahedral geometry with sp³d² hybridization (6 electron domains).", correct: "C" },
+        { q: "Which of the following is a non-polar molecule despite having polar bonds?", options: ["H₂O", "NH₃", "CO₂", "HCl"], exp: "CO₂ is linear; bond dipoles cancel each other, making molecule nonpolar.", correct: "C" },
+        { q: "The ability of an atom to attract shared electrons towards itself is called:", options: ["Electron affinity", "Ionization energy", "Electronegativity", "Electron gain enthalpy"], exp: "Electronegativity is the measure of an atom's attraction for bonding electrons.", correct: "C" },
+        { q: "In which of the following compounds does hydrogen bonding occur?", options: ["H₂S", "CH₄", "HF", "HCl"], exp: "HF has strong hydrogen bonding due to high electronegativity of F and small size.", correct: "C" },
+        { q: "The bond order in O₂⁺ ion is:", options: ["1.5", "2.0", "2.5", "3.0"], exp: "O₂⁺: (10 bonding - 5 antibonding)/2 = 5/2 = 2.5 bond order.", correct: "C" },
+        { q: "Which of the following molecules has a lone pair on the central atom?", options: ["CO₂", "CH₄", "NH₃", "CCl₄"], exp: "NH₃ (ammonia) has one lone pair on nitrogen with trigonal pyramidal shape.", correct: "C" },
+        { q: "The F–F bond is weaker than Cl–Cl bond because:", options: ["Fluorine has high electronegativity", "Fluorine atom has small size and lone pair repulsion", "Fluorine has low electron affinity", "Fluorine forms only single bonds"], exp: "Small F atom causes strong lone pair-lone pair repulsion, weakening the F–F bond.", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...bondingMCQs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>📖 Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = ` Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

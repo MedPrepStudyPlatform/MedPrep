@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measurements | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%);
+            color: #1e3a8a;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #2563eb;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #c7d2fe;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.08);
+            border-color: #a5b4fc;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #1e3a8a;
+            padding-left: 14px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #2563eb;
+            background: #eef2ff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #1e3a8a;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(30, 58, 138, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #1e3a8a, #2563eb);
+            color: #eef2ff;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #1e3a8a;
+            display: none;
+            background: #eef2ff;
+            padding: 16px 22px;
+            border-left: 6px solid #2563eb;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Measurements</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Measurements MCQs (Physics FSC Part 1, Chapter 1)
+    // CORRECTED VERSION - Q10 fixed
+    const measurementsMcqs = [
+        { q: "The number of significant figures in the measurement 0.002030 × 10⁴ is:", options: ["3", "4", "5", "6"], exp: "First write in standard form: 0.002030 × 10⁴ = 20.30. The number 20.30 has four significant figures (2,0,3,0). The zeros between non-zero digits and trailing zeros after decimal are significant.", correct: "B" },
+        { q: "If the length of a rod is measured as 2.54 cm ± 0.05 cm, the percentage uncertainty in the measurement is approximately:", options: ["0.5%", "1.0%", "2.0%", "2.5%"], exp: "Percentage uncertainty = (absolute uncertainty / measured value) × 100 = (0.05 / 2.54) × 100 ≈ 1.97% ≈ 2.0%.", correct: "C" },
+        { q: "The dimensional formula of Planck's constant (h) is:", options: ["[ML²T⁻¹]", "[ML²T⁻²]", "[ML²T⁻³]", "[MLT⁻¹]"], exp: "E = hf, so h = E/f. Energy E has dimensions [ML²T⁻²], frequency f has [T⁻¹]. Thus h = [ML²T⁻²] / [T⁻¹] = [ML²T⁻¹].", correct: "A" },
+        { q: "The time period of a simple pendulum is given by T = 2π√(L/g). If L = 100 cm ± 0.1 cm and g = 980 cm/s² ± 0.5 cm/s², the maximum percentage error in T is approximately:", options: ["0.055%", "0.075%", "0.15%", "0.25%"], exp: "T ∝ L^{1/2} g^{-1/2}. % error in T = (1/2)(% error in L) + (1/2)(% error in g). % error in L = (0.1/100)×100 = 0.1%, % error in g = (0.5/980)×100 ≈ 0.051%. So % error in T = 0.5×0.1 + 0.5×0.051 = 0.05 + 0.0255 = 0.0755% ≈ 0.075%.", correct: "B" },
+        { q: "The unit of coefficient of viscosity (η) in SI system is:", options: ["N·s/m²", "kg/(m·s)", "Pa·s", "All of these"], exp: "Coefficient of viscosity η = (F/A) / (dv/dx) has units: force/area = N/m², velocity gradient = s⁻¹, so η = (N/m²)·s = N·s/m² = Pa·s = kg/(m·s). All are equivalent.", correct: "D" },
+        { q: "The dimension of angular velocity is:", options: ["[MLT⁻¹]", "[T⁻¹]", "[LT⁻¹]", "[ML⁰T⁰]"], exp: "Angular velocity = angle/time. Angle is dimensionless, so angular velocity has dimension [T⁻¹].", correct: "B" },
+        { q: "The radius of a sphere is measured as 5.2 cm with an uncertainty of 0.1 cm. The percentage uncertainty in the volume of the sphere is:", options: ["1.92%", "3.85%", "5.77%", "7.69%"], exp: "Volume V = (4/3)πr³, so V ∝ r³. % uncertainty in V = 3 × % uncertainty in r. % uncertainty in r = (0.1/5.2)×100 ≈ 1.923%. Thus % uncertainty in V = 3 × 1.923% = 5.769% ≈ 5.77%.", correct: "C" },
+        { q: "Which of the following is NOT a base quantity in the SI system?", options: ["Electric current", "Luminous intensity", "Amount of substance", "Force"], exp: "The seven base quantities are: length, mass, time, electric current, thermodynamic temperature, amount of substance, and luminous intensity. Force (Newton) is a derived quantity.", correct: "D" },
+        { q: "The dimensional formula for modulus of elasticity is:", options: ["[ML⁻¹T⁻²]", "[MLT⁻²]", "[ML²T⁻²]", "[ML⁻²T⁻²]"], exp: "Modulus of elasticity (Young's modulus) = stress/strain = (Force/Area)/(ΔL/L) = Force/Area. Force = [MLT⁻²], Area = [L²], so modulus = [MLT⁻²]/[L²] = [ML⁻¹T⁻²].", correct: "A" },
+        { q: "The result of (2.34 ± 0.02) × (5.67 ± 0.03) to the appropriate significant figures is:", options: ["13.27 ± 0.09", "13.3 ± 0.1", "13.27 ± 0.18", "13.3 ± 0.2"], correct: "C", exp: "Product = 2.34 × 5.67 = 13.2678. Fractional uncertainty = 0.02/2.34 + 0.03/5.67 = 0.00855 + 0.00529 = 0.01384. Absolute uncertainty = 13.2678 × 0.01384 = 0.1836 ≈ 0.18. So result = 13.27 ± 0.18." },
+        { q: "The dimensional formula of 'half-life' of a radioactive substance is:", options: ["[ML⁰T⁰]", "[M⁰L⁰T]", "[M⁰L⁰T⁻¹]", "[MLT⁻¹]"], exp: "Half-life is a time period, so its dimension is [T] which is [M⁰L⁰T].", correct: "B" },
+        { q: "Which of the following pairs of physical quantities have the same dimensions?", options: ["Work and Torque", "Force and Power", "Stress and Strain", "Momentum and Energy"], exp: "Work = Force × displacement = [ML²T⁻²]. Torque = Force × perpendicular distance = [ML²T⁻²]. So work and torque have same dimensions. Force = [MLT⁻²], Power = [ML²T⁻³]. Stress = [ML⁻¹T⁻²], Strain = dimensionless. Momentum = [MLT⁻¹], Energy = [ML²T⁻²].", correct: "A" },
+        { q: "The least count of a vernier caliper with 20 divisions on vernier scale matching 19 divisions on main scale (1 main scale division = 1 mm) is:", options: ["0.01 mm", "0.02 mm", "0.05 mm", "0.1 mm"], exp: "Least count = (1 main scale division) / (number of vernier divisions) = 1 mm / 20 = 0.05 mm. Alternatively, LC = (1 - 19/20) × 1 mm = (1/20) mm = 0.05 mm.", correct: "C" },
+        { q: "The equation T = 2π√(m/k) represents the time period of a mass-spring system. The dimensions of k (spring constant) are:", options: ["[ML⁰T⁻²]", "[MLT⁻²]", "[ML⁻¹T⁻²]", "[MT⁻²]"], exp: "From T = 2π√(m/k), squaring gives T² = 4π²(m/k), so k = 4π²m/T². Dimensions: m = [M], T² = [T²], so k = [M][T⁻²] = [MT⁻²].", correct: "D" },
+        { q: "In an experiment, the time period of a simple pendulum is measured as 2.0 s, 2.1 s, 1.9 s, 2.0 s, and 2.0 s. The mean absolute error is approximately:", options: ["0.02 s", "0.04 s", "0.06 s", "0.08 s"], exp: "Mean = (2.0+2.1+1.9+2.0+2.0)/5 = 10.0/5 = 2.0 s. Absolute deviations: |2.0-2.0|=0, |2.1-2.0|=0.1, |1.9-2.0|=0.1, |2.0-2.0|=0, |2.0-2.0|=0. Sum = 0.2. Mean absolute error = 0.2/5 = 0.04 s.", correct: "B" },
+        { q: "The dimensional formula of gravitational constant G is:", options: ["[ML⁻¹T⁻²]", "[M⁻¹L³T⁻²]", "[M⁻¹L²T⁻¹]", "[ML³T⁻²]"], exp: "From Newton's law: F = Gm₁m₂/r², so G = Fr²/(m₁m₂). F = [MLT⁻²], r² = [L²], m₁m₂ = [M²]. Thus G = [MLT⁻²][L²]/[M²] = [M⁻¹L³T⁻²].", correct: "B" },
+        { q: "The resistance R = V/I. If V = 100 V ± 2 V and I = 2 A ± 0.02 A, the maximum percentage error in R is:", options: ["2%", "3%", "4%", "5%"], exp: "R = V/I. % error in V = (2/100)×100 = 2%, % error in I = (0.02/2)×100 = 1%. Maximum % error = % error in V + % error in I = 2% + 1% = 3%.", correct: "B" },
+        { q: "The number of base units in the SI system is:", options: ["5", "6", "7", "8"], exp: "The SI system has seven base units: meter (m), kilogram (kg), second (s), ampere (A), kelvin (K), mole (mol), and candela (cd).", correct: "C" },
+        { q: "If E = mc², where m is mass and c is speed of light, the dimensions of E are:", options: ["[ML²T⁻²]", "[MLT⁻²]", "[M²LT⁻²]", "[ML²T⁻¹]"], exp: "c = speed of light has dimensions [LT⁻¹]. So c² = [L²T⁻²]. Then mc² = [M][L²T⁻²] = [ML²T⁻²], which is energy dimension.", correct: "A" },
+        { q: "The reading of a micrometer screw gauge is 2.34 mm. If the pitch is 0.5 mm and the circular scale has 50 divisions, the least count is:", options: ["0.001 mm", "0.01 mm", "0.1 mm", "0.5 mm"], exp: "Least count = Pitch / Number of divisions on circular scale = 0.5 mm / 50 = 0.01 mm.", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...measurementsMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

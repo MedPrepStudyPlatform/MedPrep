@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep · Gastroenterology: Esophagus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5fafd;
+            color: #15304c;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .main-header {
+            background: #0a2c48;
+            color: white;
+            padding: 20px 0 18px;
+            border-radius: 0 0 40px 40px;
+            box-shadow: 0 12px 28px -10px #0a2c48;
+            margin-bottom: 35px;
+        }
+
+        .header-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-wrapper {
+            background: white;
+            padding: 5px 25px;
+            border-radius: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #1ecbe1;
+            overflow: hidden;
+        }
+
+        .logo-img {
+            height: 70px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .pill-nav {
+            display: flex;
+            gap: 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 18px;
+            border-radius: 40px;
+            border: 1px solid #1ecbe180;
+        }
+        .pill-nav span {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: white;
+        }
+        .pill-nav i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: white;
+            padding: 18px 28px;
+            border-radius: 60px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 18px -6px #b5d9f0;
+            border: 1px solid #cbe5f5;
+        }
+        .quiz-header h2 {
+            font-family: 'Outfit', sans-serif;
+            color: #0a2c48;
+            font-size: 1.8rem;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 40px;
+            padding: 12px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #cbe5f5;
+        }
+        .progress-text {
+            font-weight: 600;
+            color: #0a2c48;
+        }
+        .progress-fill {
+            height: 10px;
+            background: #1ecbe1;
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .progress-bg {
+            flex-grow: 1;
+            background: #e1f0fa;
+            border-radius: 20px;
+            margin: 0 15px;
+            height: 10px;
+        }
+
+        .mcq-card {
+            background: white;
+            border-radius: 24px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #cde1f0;
+            box-shadow: 0 6px 14px -6px #aac9e2;
+        }
+        .mcq-card.correct-ans {
+            border-left: 8px solid #1ecbe1;
+            background: #f0fcff;
+        }
+        .mcq-card.wrong-ans {
+            border-left: 8px solid #f44336;
+            background: #fff3f5;
+        }
+        .mcq-card.unanswered-ans {
+            border-left: 8px solid #ff9800;
+            background: #fff8e7;
+        }
+        .q-num {
+            font-weight: 700;
+            color: #0a2c48;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        .scenario {
+            background: #f1f9ff;
+            padding: 15px 20px;
+            border-radius: 16px;
+            margin-bottom: 18px;
+            font-style: italic;
+            color: #0a2c48;
+            border: 1px solid #c3dcf2;
+        }
+        .q-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .option {
+            background: #f1f9ff;
+            padding: 14px 18px;
+            border-radius: 40px;
+            border: 1px solid #c3dcf2;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .option:hover {
+            background: #d7ecfd;
+            border-color: #1ecbe1;
+        }
+        .option.selected {
+            background: #1ecbe1;
+            color: #0a2c48;
+            border-color: #0a2c48;
+            font-weight: 600;
+        }
+        .option.correct-option {
+            background: #1ecbe1;
+            color: #0a2c48;
+            border-color: #0a2c48;
+            font-weight: 600;
+            pointer-events: none;
+        }
+        .option.wrong-option {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+            pointer-events: none;
+        }
+        .explanation-box {
+            margin-top: 20px;
+            background: #f4f9ff;
+            padding: 18px 22px;
+            border-radius: 28px;
+            border-left: 5px solid #0a2c48;
+            display: none;
+        }
+        .explanation-box.show {
+            display: block;
+        }
+        .exp-title {
+            font-weight: 700;
+            color: #0a2c48;
+            margin-bottom: 6px;
+        }
+        .answer-indicator {
+            display: inline-block;
+            margin-top: 10px;
+            background: #0a2c48;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+        }
+        .unanswered-badge {
+            display: inline-block;
+            margin-top: 10px;
+            background: #ff9800;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+        }
+        .primary-btn {
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: 2px solid #1ecbe1;
+            cursor: pointer;
+            background: #0a2c48;
+            color: white;
+        }
+        .primary-btn:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #0a2c48;
+            color: white;
+            padding: 12px 32px;
+            border-radius: 60px;
+            font-weight: 600;
+            margin: 30px 0 20px;
+            border: 2px solid #1ecbe1;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .back-link i {
+            color: #1ecbe1;
+        }
+        .back-link:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+        }
+        .back-link:hover i {
+            color: #0a2c48;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 60px;
+            border: 2px solid #1ecbe1;
+        }
+
+        footer {
+            background: #0a2c48;
+            color: #b5d5f0;
+            padding: 30px 0;
+            border-radius: 40px 40px 0 0;
+            text-align: center;
+            border-top: 4px solid #1ecbe1;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+            .quiz-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="container header-flex">
+        <div class="logo-wrapper">
+            <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+        </div>
+        <div class="pill-nav">
+            <span><i class="fas fa-stethoscope"></i> Gastroenterology</span>
+            <span><i class="fas fa-utensils"></i> Esophagus</span>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="quiz-header">
+        <h2><i class="fas fa-microscope" style="color:#1ecbe1;"></i> Esophageal Disorders</h2>
+    </div>
+
+    <div class="progress-bar">
+        <span class="progress-text" id="progressText">0/20 Answered</span>
+        <div class="progress-bg">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        <span class="progress-text" id="scorePreview"></span>
+    </div>
+
+    <div id="mcqContent"></div>
+
+    <div style="text-align: center;">
+        <a href="MedPrep.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <i class="fas fa-staff-aesculapius" style="color:#1ecbe1;"></i> MedPrep · Study Platform · 2026
+    </div>
+</footer>
+
+<script>
+    const questions = [
+        {
+            id: 1,
+            scenario: "A newborn infant is noted to regurgitate immediately during feeding. A nasogastric tube cannot be passed. Imaging suggests esophageal atresia with a fistula.",
+            question: "Where does esophageal atresia most frequently occur?",
+            options: ["At the epiglottis", "At the gastroesophageal junction", "At or near the tracheal bifurcation", "At the pharyngoesophageal junction", "In the cervical esophagus"],
+            correct: 2,
+            explanation: "Esophageal atresia most frequently occurs at or near the tracheal bifurcation (where the trachea splits into the bronchi). It is usually associated with a fistula connecting the esophagus to the trachea or bronchus."
+        },
+        {
+            id: 2,
+            scenario: "A 65-year-old man with long-standing GERD presents with progressive difficulty swallowing solids. He says liquids are still easy to swallow. Barium swallow shows a smooth narrowing in the distal esophagus.",
+            question: "What is the most likely diagnosis?",
+            options: ["Achalasia", "Esophageal stricture", "Diffuse esophageal spasm", "Esophageal cancer", "Plummer-Vinson syndrome"],
+            correct: 1,
+            explanation: "Esophageal stricture is a narrowing usually caused by fibrous thickening of the submucosa and atrophy of the muscularis propria. It is often due to chronic GERD. Dysphagia to solids before liquids is characteristic of mechanical obstruction."
+        },
+        {
+            id: 3,
+            scenario: "A 55-year-old man presents with dysphagia to both solids and liquids from the beginning of meals. He has no history of heartburn. Manometry shows incomplete LES relaxation, increased LES tone, and absent peristalsis.",
+            question: "What is the triad of findings in achalasia?",
+            options: ["Incomplete LES relaxation, increased LES tone, esophageal aperistalsis", "Complete LES relaxation, decreased LES tone, hyperperistalsis", "Incomplete LES relaxation, decreased LES tone, esophageal aperistalsis", "Complete LES relaxation, increased LES tone, hyperperistalsis", "Normal LES function with absent peristalsis"],
+            correct: 0,
+            explanation: "Achalasia is characterized by the triad of: (1) incomplete lower esophageal sphincter (LES) relaxation, (2) increased LES tone, and (3) esophageal aperistalsis (loss of coordinated squeezing waves)."
+        },
+        {
+            id: 4,
+            scenario: "A 45-year-old man from Brazil presents with progressive dysphagia and regurgitation. He has lived in a rural area with poor housing. Manometry findings are consistent with achalasia.",
+            question: "What infectious cause of secondary achalasia should be suspected?",
+            options: ["Tuberculosis", "Chagas disease (Trypanosoma cruzi)", "HIV", "Syphilis", "Histoplasmosis"],
+            correct: 1,
+            explanation: "Chagas disease, caused by Trypanosoma cruzi, is a major cause of secondary achalasia. The parasite destroys the myenteric plexus, leading to failure of LES relaxation and esophageal dilatation. It is endemic in Latin America."
+        },
+        {
+            id: 5,
+            scenario: "A 60-year-old woman with long-standing diabetes presents with dysphagia. Manometry shows findings similar to achalasia.",
+            question: "Which of the following can cause achalasia-like disease?",
+            options: ["Diabetic autonomic neuropathy", "Crohn's disease", "Ulcerative colitis", "Celiac disease", "Pancreatitis"],
+            correct: 0,
+            explanation: "Diabetic autonomic neuropathy is a cause of achalasia-like disease due to nerve damage from long-term diabetes. Other causes include infiltrative disorders (malignancy, amyloidosis, sarcoidosis) and lesions of the dorsal motor nuclei."
+        },
+        {
+            id: 6,
+            scenario: "A 50-year-old man with cirrhosis presents with massive hematemesis. Endoscopy reveals tortuous, dilated veins in the distal esophagus that are actively bleeding.",
+            question: "What is the most common underlying cause of esophageal varices worldwide?",
+            options: ["Alcoholic liver disease", "Hepatitis B", "Schistosomiasis", "Nonalcoholic fatty liver disease", "Autoimmune hepatitis"],
+            correct: 0,
+            explanation: "Esophageal varices develop in 50% of cirrhotic patients, most commonly associated with alcoholic liver disease. Worldwide, hepatic schistosomiasis is the second most common cause."
+        },
+        {
+            id: 7,
+            scenario: "A patient with esophageal varices survives the first bleeding episode. The physician explains the risk of recurrent hemorrhage.",
+            question: "What percentage of patients who survive the first variceal bleed will have additional episodes of hemorrhage?",
+            options: ["Up to 10%", "Up to 20%", "Up to 30%", "Up to 40%", "Up to 50%"],
+            correct: 1,
+            explanation: "Among those who survive the first bleeding episode, additional episodes of hemorrhage, each potentially fatal, occur in as many as 20% of cases."
+        },
+        {
+            id: 8,
+            scenario: "A 35-year-old woman presents with hematemesis after an episode of forceful vomiting. Endoscopy shows a linear, longitudinally oriented tear crossing the gastroesophageal junction.",
+            question: "What is the most likely diagnosis?",
+            options: ["Boerhaave syndrome", "Mallory-Weiss tear", "Esophageal varices", "Esophageal cancer", "Peptic ulcer"],
+            correct: 1,
+            explanation: "Mallory-Weiss tears are the most common type of esophageal laceration, induced by severe retching or vomiting. They are superficial, linear, longitudinally oriented, and usually cross the gastroesophageal junction. They generally heal quickly without surgery."
+        },
+        {
+            id: 9,
+            scenario: "A 40-year-old man presents with severe chest pain and subcutaneous emphysema after forceful vomiting. CT shows pneumomediastinum. The patient is in septic shock.",
+            question: "What is the diagnosis and what treatment is required?",
+            options: ["Mallory-Weiss tear - observation", "Boerhaave syndrome - prompt surgical intervention", "Esophageal varices - endoscopic banding", "Peptic ulcer - PPI therapy", "Achalasia - pneumatic dilation"],
+            correct: 1,
+            explanation: "Boerhaave syndrome is a transmural esophageal tear that causes mediastinitis. It is life-threatening and requires prompt surgical intervention. Mallory-Weiss tears are superficial and do not require surgery."
+        },
+        {
+            id: 10,
+            scenario: "A 25-year-old woman presents with severe odynophagia. She recently started taking doxycycline for acne and took it with a small amount of water before lying down.",
+            question: "What is the most likely diagnosis?",
+            options: ["Candida esophagitis", "Herpetic esophagitis", "Pill-induced esophagitis", "GERD", "Eosinophilic esophagitis"],
+            correct: 2,
+            explanation: "Pill-induced esophagitis occurs when medications (especially doxycycline and bisphosphonates) adhere to the esophageal lining and dissolve there. It causes self-limited pain and odynophagia. Prevention includes taking pills with adequate water and remaining upright."
+        },
+        {
+            id: 11,
+            scenario: "An immunocompromised patient presents with odynophagia. Endoscopy shows adherent, gray-white patches (pseudomembranes) covering the esophageal mucosa.",
+            question: "What is the most likely pathogen?",
+            options: ["Herpes simplex virus", "Cytomegalovirus", "Candida albicans", "Bacteria", "HIV"],
+            correct: 2,
+            explanation: "Candidiasis in its advanced form shows adherent gray-white pseudomembranes composed of matted fungal hyphae and inflammatory cells. Candida is the most common fungal pathogen causing infectious esophagitis."
+        },
+        {
+            id: 12,
+            scenario: "A patient with HIV presents with odynophagia. Endoscopy shows punched-out ulcers in the esophagus. Biopsy of the ulcer edge shows nuclear viral inclusions in degenerating epithelial cells.",
+            question: "What is the most likely diagnosis?",
+            options: ["Candida esophagitis", "CMV esophagitis", "Herpes simplex virus esophagitis", "Drug-induced esophagitis", "Idiopathic ulcer"],
+            correct: 2,
+            explanation: "Herpes simplex virus (HSV) esophagitis typically causes punched-out ulcers. Histopathology shows a rim of degenerating epithelial cells with nuclear viral inclusions. CMV causes shallower ulcers with inclusions in endothelial and stromal cells."
+        },
+        {
+            id: 13,
+            scenario: "A 55-year-old man presents with heartburn and regurgitation. He is diagnosed with GERD. His symptoms are well-controlled on a PPI.",
+            question: "What is the most important protective mechanism against gastroesophageal reflux?",
+            options: ["Submucosal glands secreting mucin", "High lower esophageal sphincter (LES) tone", "Gravity when upright", "Saliva neutralizing acid", "Esophageal peristalsis"],
+            correct: 1,
+            explanation: "High lower esophageal sphincter (LES) tone is the most important defense against reflux. It keeps the valve shut, preventing acidic stomach contents from flowing backward into the esophagus."
+        },
+        {
+            id: 14,
+            scenario: "A 50-year-old woman with GERD undergoes endoscopy. Biopsy of the distal esophagus shows basal zone hyperplasia exceeding 20% of epithelial thickness and elongated lamina propria papillae extending into the upper third of the epithelium.",
+            question: "What do these findings indicate?",
+            options: ["Normal esophagus", "Mild GERD", "Significant GERD with damage", "Barrett esophagus", "Eosinophilic esophagitis"],
+            correct: 2,
+            explanation: "Basal zone hyperplasia exceeding 20% of total epithelial thickness and elongation of lamina propria papillae are histologic changes seen in significant GERD. These represent the esophagus's response to acid injury."
+        },
+        {
+            id: 15,
+            scenario: "A 30-year-old man with a history of asthma and eczema presents with food impaction and dysphagia. Endoscopy shows rings in the upper and mid esophagus. Biopsy shows >20 eosinophils per high-power field. He has not responded to high-dose PPI therapy.",
+            question: "What is the most likely diagnosis?",
+            options: ["GERD", "Eosinophilic esophagitis", "Achalasia", "Diffuse esophageal spasm", "Candida esophagitis"],
+            correct: 1,
+            explanation: "Eosinophilic esophagitis is a chronic immunologically mediated disorder. Key features include: food impaction/dysphagia, endoscopic rings, epithelial infiltration by eosinophils, atopic history (asthma, eczema), and refractoriness to high-dose PPIs."
+        },
+        {
+            id: 16,
+            scenario: "A 55-year-old man with chronic GERD undergoes endoscopy. The endoscopist notes tongues of red, velvety mucosa extending upward from the gastroesophageal junction. Biopsy confirms intestinal metaplasia with goblet cells.",
+            question: "What is the diagnosis and what is the cancer risk?",
+            options: ["GERD - no cancer risk", "Barrett esophagus - increased risk of adenocarcinoma", "Eosinophilic esophagitis - increased risk of SCC", "Candida esophagitis - no cancer risk", "Herpetic esophagitis - increased risk of lymphoma"],
+            correct: 1,
+            explanation: "Barrett esophagus is characterized by intestinal metaplasia (goblet cells) in the esophageal squamous mucosa. It confers an increased risk for development of esophageal adenocarcinoma. Although most adenocarcinomas are associated with Barrett, most Barrett patients do not develop cancer."
+        },
+        {
+            id: 17,
+            scenario: "A 60-year-old man with Barrett esophagus undergoes surveillance endoscopy. Biopsy shows low-grade dysplasia.",
+            question: "What percentage of Barrett patients develop dysplasia annually?",
+            options: ["0.1-0.5%", "0.2-1%", "1-2%", "2-5%", "5-10%"],
+            correct: 1,
+            explanation: "Epithelial dysplasia develops in 0.2% to 1% of individuals with Barrett esophagus each year. The incidence of dysplasia increases with duration of symptoms and increasing patient age."
+        },
+        {
+            id: 18,
+            scenario: "A 70-year-old woman presents with progressive solid food dysphagia and weight loss. She has a history of GERD. Barium swallow shows a smooth stricture in the distal esophagus.",
+            question: "What is the characteristic progression of dysphagia in mechanical obstruction like a stricture?",
+            options: ["Difficulty with liquids first, then solids", "Difficulty with solids and liquids from the start", "Difficulty with solids first, then liquids later", "Intermittent difficulty with both", "Only difficulty with solids, never with liquids"],
+            correct: 2,
+            explanation: "Stenosis-associated dysphagia (from mechanical obstruction) is usually progressive. Difficulty eating solids typically occurs long before problems with liquids. This is a key feature of mechanical blockage."
+        },
+        {
+            id: 19,
+            scenario: "A 45-year-old woman presents with dysphagia and iron deficiency anemia. Barium swallow shows a web in the upper esophagus.",
+            question: "What is the name of this syndrome?",
+            options: ["Mallory-Weiss syndrome", "Boerhaave syndrome", "Plummer-Vinson syndrome", "Barrett esophagus", "Zollinger-Ellison syndrome"],
+            correct: 2,
+            explanation: "Plummer-Vinson syndrome (Paterson-Brown Kelly) consists of upper esophageal web, iron deficiency anemia, and dysphagia. It is more common in women and increases the risk of post-cricoid squamous cell carcinoma."
+        },
+        {
+            id: 20,
+            scenario: "A newborn infant is found to have a congenital anomaly where a segment of the esophagus is replaced by a thin, solid cord instead of a hollow tube.",
+            question: "What is this condition called?",
+            options: ["Esophageal agenesis", "Esophageal atresia", "Esophageal stenosis", "Esophageal duplication", "Tracheoesophageal fistula"],
+            correct: 1,
+            explanation: "Esophageal atresia is a condition where a thin, noncanalized (solid) cord replaces a segment of the esophagus. It is more common than agenesis (complete absence) and usually associated with a fistula to the trachea or bronchus."
+        }
+    ];
+
+    let userAnswers = new Array(questions.length).fill(null);
+    let submitted = false;
+
+    function renderMCQs() {
+        let html = '';
+        questions.forEach((q, idx) => {
+            const number = idx + 1;
+            const saved = userAnswers[idx];
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                let optionClass = 'option';
+                if (submitted) {
+                    if (optIdx === q.correct) optionClass += ' correct-option';
+                    else if (saved === optIdx && saved !== q.correct) optionClass += ' wrong-option';
+                    else if (saved === optIdx) optionClass += ' selected'; 
+                } else {
+                    if (saved === optIdx) optionClass += ' selected';
+                }
+                optionsHtml += `<div class="${optionClass}" data-q="${idx}" data-opt="${optIdx}">${String.fromCharCode(65+optIdx)}. ${opt}</div>`;
+            });
+            
+            let explClass = 'explanation-box';
+            let cardClass = '';
+            if (submitted) {
+                explClass += ' show';
+                if (saved === null) {
+                    cardClass = 'unanswered-ans';
+                } else if (saved === q.correct) {
+                    cardClass = 'correct-ans';
+                } else {
+                    cardClass = 'wrong-ans';
+                }
+            }
+            
+            const answerBadge = submitted && saved !== null ? 
+                `<span class="answer-indicator">Correct answer: ${String.fromCharCode(65+q.correct)}</span>` : '';
+            const unansweredBadge = submitted && saved === null ? 
+                `<span class="unanswered-badge">Not answered · Correct: ${String.fromCharCode(65+q.correct)}</span>` : '';
+            
+            html += `
+            <div class="mcq-card ${cardClass}" id="card-${idx}">
+                <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q${number}</div>
+                <div class="scenario"><i class="fas fa-user-md" style="color:#0a2c48;"></i> ${q.scenario}</div>
+                <div class="q-text">${q.question}</div>
+                <div class="options">${optionsHtml}</div>
+                <div class="${explClass}" id="exp-${idx}">
+                    <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+                    ${q.explanation} <br>
+                    ${answerBadge}
+                    ${unansweredBadge}
+                </div>
+            </div>`;
+        });
+        
+        html += `
+        <div style="display: flex; justify-content: center; gap: 20px; margin: 30px 0;">
+            <button class="primary-btn" onclick="submitMCQs()"><i class="fas fa-check-circle"></i> Submit</button>
+        </div>
+        <div id="mcqScore" class="score-display"></div>
+        `;
+        
+        document.getElementById('mcqContent').innerHTML = html;
+        
+        if (!submitted) {
+            document.querySelectorAll('#mcqContent .option').forEach(opt => {
+                opt.addEventListener('click', function(e) {
+                    if (submitted) return;
+                    const qIdx = this.dataset.q;
+                    const optIdx = parseInt(this.dataset.opt);
+                    const parentOptions = this.parentElement.children;
+                    for (let el of parentOptions) {
+                        el.classList.remove('selected');
+                    }
+                    this.classList.add('selected');
+                    userAnswers[qIdx] = optIdx;
+                    updateProgress();
+                });
+            });
+        }
+    }
+
+    function updateProgress() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        const percentage = (answered / questions.length) * 100;
+        document.getElementById('progressText').innerHTML = `${answered}/${questions.length} Answered`;
+        document.getElementById('progressFill').style.width = percentage + '%';
+    }
+
+    window.submitMCQs = function() {
+        if (submitted) return;
+        submitted = true;
+        let correctCount = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) correctCount++;
+        }
+        renderMCQs();
+        document.getElementById('mcqScore').innerHTML = `Your Score: ${correctCount}/${questions.length} (${((correctCount/questions.length)*100).toFixed(1)}%)`;
+        updateProgress();
+    };
+
+    window.onload = function() {
+        renderMCQs();
+    };
+</script>
+</body>
+</html>

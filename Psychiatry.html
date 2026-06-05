@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · Block-J · Psychiatry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5fafd;
+            color: #15304c;
+            line-height: 1.5;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #f5fafd;
+            padding-top: 5px;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .main-header {
+            background: #0a2c48;
+            color: white;
+            width: 100%;
+            padding: 20px 0;
+            box-shadow: 0 12px 28px -10px rgba(10, 44, 72, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-wrapper {
+            background: white;
+            padding: 8px 28px;
+            border-radius: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #1ecbe1;
+            transition: transform 0.2s ease;
+        }
+
+        .logo-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-img {
+            height: 65px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .pill-nav {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 16px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(30, 203, 225, 0.5);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pill-nav span {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: white;
+            letter-spacing: 0.3px;
+        }
+
+        .pill-nav i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        .score-panel {
+            background: white;
+            border-radius: 60px;
+            padding: 16px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 18px -6px #b5d9f0;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .score-panel.hidden-panel {
+            display: none;
+        }
+
+        .score-title {
+            font-family: 'Outfit', sans-serif;
+            color: #0a2c48;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .score-value {
+            background: #0a2c48;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 40px;
+            padding: 12px 20px;
+            border: 1px solid #cbe5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #0a2c48;
+            font-size: 0.9rem;
+        }
+
+        .progress-fill {
+            height: 10px;
+            background: #1ecbe1;
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-bg {
+            flex-grow: 1;
+            background: #e1f0fa;
+            border-radius: 20px;
+            height: 10px;
+            min-width: 100px;
+        }
+
+        .mcq-card {
+            background: white;
+            border-radius: 24px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #cde1f0;
+            box-shadow: 0 6px 14px -6px #aac9e2;
+            transition: all 0.2s ease;
+        }
+
+        .mcq-card:hover {
+            box-shadow: 0 10px 20px -8px #aac9e2;
+        }
+
+        .mcq-card.correct-ans {
+            border-left: 8px solid #10b981;
+            background: #f0fdf4;
+        }
+
+        .mcq-card.wrong-ans {
+            border-left: 8px solid #f44336;
+            background: #fff3f5;
+        }
+
+        .mcq-card.unanswered-ans {
+            border-left: 8px solid #ff9800;
+            background: #fff8e7;
+        }
+
+        .q-num {
+            font-weight: 700;
+            color: #0a2c48;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 18px;
+            color: #1a3a5a;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .option {
+            background: #f1f9ff;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: 1px solid #c3dcf2;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .option:hover {
+            background: #d7ecfd;
+            border-color: #1ecbe1;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1ecbe1;
+            color: #0a2c48;
+            border-color: #0a2c48;
+            font-weight: 600;
+        }
+
+        .option.correct-option {
+            background: #10b981;
+            color: white;
+            border-color: #0e6e4a;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .option.wrong-option {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+            pointer-events: none;
+        }
+
+        .explanation-box {
+            margin-top: 20px;
+            background: #f4f9ff;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #0a2c48;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .explanation-box.show {
+            display: block;
+        }
+
+        .exp-title {
+            font-weight: 700;
+            color: #0a2c48;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0 50px;
+        }
+
+        .primary-btn {
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            background: #0a2c48;
+            color: white;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .primary-btn:hover {
+            background: #1ecbe1;
+            color: #0a2c48;
+            transform: scale(1.02);
+        }
+
+        .primary-btn.disabled-btn,
+        .primary-btn:disabled {
+            background: #9aaebf;
+            color: #f0f4f8;
+            cursor: not-allowed;
+            transform: none;
+            pointer-events: none;
+        }
+
+        .main-footer {
+            background: #0a2c48;
+            color: #ffffffcc;
+            text-align: center;
+            padding: 24px 20px;
+            margin-top: 30px;
+            border-top: 1px solid #1ecbe1;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content i {
+            color: #1ecbe1;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            .header-inner { padding: 0 15px; flex-direction: column; text-align: center; }
+            .logo-wrapper { padding: 6px 20px; }
+            .logo-img { height: 50px; }
+            .pill-nav { padding: 5px 12px; gap: 6px; }
+            .pill-nav span { font-size: 0.75rem; }
+            .score-panel { padding: 14px 18px; flex-direction: column; text-align: center; border-radius: 30px; }
+            .score-title { font-size: 1rem; justify-content: center; }
+            .score-value { font-size: 1rem; padding: 5px 16px; }
+            .options { gap: 10px; }
+            .option { padding: 10px 16px; font-size: 0.85rem; }
+            .question-text { font-size: 0.95rem; }
+            .mcq-card { padding: 18px; }
+            .primary-btn { padding: 12px 28px; font-size: 0.9rem; }
+            .progress-bar { flex-direction: column; text-align: center; }
+            .progress-bg { width: 100%; min-width: auto; }
+            .main-footer { padding: 20px 16px; font-size: 0.75rem; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 12px; }
+            .header-inner { padding: 0 12px; }
+            .logo-wrapper { padding: 5px 16px; }
+            .logo-img { height: 42px; }
+            .mcq-card { padding: 15px; border-radius: 20px; }
+            .question-text { font-size: 0.9rem; }
+            .option { padding: 8px 14px; font-size: 0.8rem; }
+            .explanation-box { padding: 12px 15px; font-size: 0.85rem; }
+            .score-value { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-inner">
+        <div class="logo-wrapper">
+            <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+        </div>
+        <div class="pill-nav">
+            <span><i class="fas fa-brain"></i>Block-J</span>
+            <span><i class="fas fa-file-alt"></i>Psychiatry</span>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div id="scorePanelContainer" class="score-panel hidden-panel"></div>
+
+    <div class="progress-sticky">
+        <div class="progress-bar">
+            <span class="progress-text" id="progressText">0/100 Answered</span>
+            <div class="progress-bg">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <span class="progress-text" id="scorePreview"></span>
+        </div>
+    </div>
+
+    <div id="mcqContent"></div>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <i class=""></i> © MedPrep · All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+    
+    const questions = [
+        
+        
+	
+    
+    
+	
+	
+	
+    {
+        "id": 1,
+        "question": "A 35-year-old woman presents with depressed mood, anhedonia, fatigue, insomnia, and poor concentration for the past 8 weeks. She reports feeling worthless and has occasional thoughts of death but no active suicidal plan. She has no history of mania or hypomania. Which of the following is the most appropriate first-line pharmacologic treatment for this condition?",
+        "options": [
+            "Amitriptyline (TCA)",
+            "Phenelzine (MAOI)",
+            "Lithium carbonate",
+            "Bupropion (NDRI)",
+            "Fluoxetine (SSRI)"
+        ],
+        "correct": 4,
+        "explanation": "SSRIs (fluoxetine, sertraline, escitalopram) are first-line for major depressive disorder due to favorable side effect profile and safety in overdose. TCAs and MAOIs are reserved for treatment-resistant cases. Bupropion is also effective but may exacerbate anxiety."
+    },
+    {
+        "id": 2,
+        "question": "A 28-year-old man presents with episodes of elevated mood, increased energy, decreased need for sleep, grandiosity, and rapid speech lasting 5 days. He reports that he feels like he can achieve anything and has been spending money excessively. He has had two similar episodes in the past year. Which of the following is the most appropriate long-term maintenance treatment for this patient?",
+        "options": [
+            "Fluoxetine",
+            "Lithium carbonate",
+            "Quetiapine",
+            "Carbamazepine",
+            "Valproic acid"
+        ],
+        "correct": 1,
+        "explanation": "Lithium is the gold standard for long-term maintenance therapy in bipolar disorder, reducing both manic and depressive episodes and decreasing suicide risk. Valproate and carbamazepine are alternatives. Antidepressants like fluoxetine may trigger mania and are not first-line monotherapy."
+    },
+    {
+        "id": 3,
+        "question": "Which of the following best describes the difference between a panic attack and generalized anxiety disorder (GAD)? A 40-year-old woman presents with recurrent episodes of sudden-onset palpitations, sweating, trembling, shortness of breath, and fear of dying lasting 10 minutes. Between episodes, she worries constantly about having another attack. She also reports persistent excessive worry about work, health, and family for the past 8 months.",
+        "options": [
+            "GAD has episodic symptoms; panic disorder has chronic worry",
+            "Both conditions require benzodiazepines as first-line treatment",
+            "Panic disorder has no physical symptoms; GAD has prominent physical symptoms",
+            "GAD requires hospitalization; panic disorder is outpatient only",
+            "Panic disorder has discrete episodes with abrupt onset; GAD has persistent worry without discrete episodes"
+        ],
+        "correct": 4,
+        "explanation": "Panic disorder is characterized by discrete, unexpected panic attacks (abrupt surge of fear with physical symptoms) followed by persistent concern about additional attacks. GAD involves excessive, uncontrollable worry about multiple domains for at least 6 months without discrete panic episodes. Both may have physical symptoms."
+    },
+    {
+        "id": 4,
+        "question": "A 22-year-old man presents with bizarre delusions that the government is poisoning his food, auditory hallucinations (voices commenting on his behavior), and disorganized speech. His symptoms have been present for 3 months and are causing significant functional impairment. He has no mood symptoms. Which of the following is the most appropriate first-line pharmacologic treatment?",
+        "options": [
+            "Risperidone (atypical antipsychotic)",
+            "Fluoxetine",
+            "Lithium",
+            "Lorazepam",
+            "Carbamazepine"
+        ],
+        "correct": 0,
+        "explanation": "Atypical antipsychotics (risperidone, olanzapine, quetiapine, aripiprazole) are first-line for schizophrenia. They are more effective than typical antipsychotics for negative symptoms and have lower risk of extrapyramidal symptoms. Antidepressants and mood stabilizers are not indicated for acute psychosis without mood symptoms."
+    },
+    {
+        "id": 5,
+        "question": "A 55-year-old woman presents with progressive memory loss, difficulty finding words, and getting lost in familiar places over 2 years. She has trouble managing finances and has stopped cooking. She has no history of depression or other psychiatric illness. Which of the following is the most appropriate first-line pharmacologic treatment for this condition?",
+        "options": [
+            "Memantine",
+            "Risperidone",
+            "Donepezil (cholinesterase inhibitor)",
+            "Fluoxetine",
+            "Lithium"
+        ],
+        "correct": 2,
+        "explanation": "Donepezil, rivastigmine, and galantamine (cholinesterase inhibitors) are first-line for mild-to-moderate Alzheimer's dementia. Memantine is added for moderate-to-severe disease. Antipsychotics like risperidone are used for behavioral symptoms (agitation, psychosis) only when non-pharmacologic measures fail due to increased mortality risk."
+    },
+    {
+        "id": 6,
+        "question": "A 32-year-old woman presents with excessive daytime sleepiness, cataplexy (sudden loss of muscle tone triggered by laughter), hypnagogic hallucinations, and sleep paralysis. Which of the following is the most likely diagnosis, and what is the first-line treatment for cataplexy?",
+        "options": [
+            "Idiopathic hypersomnia; modafinil",
+            "Obstructive sleep apnea; CPAP",
+            "Restless legs syndrome; pramipexole",
+            "REM sleep behavior disorder; clonazepam",
+            "Narcolepsy; sodium oxybate or venlafaxine"
+        ],
+        "correct": 4,
+        "explanation": "Narcolepsy type 1 (with cataplexy) is caused by loss of hypocretin (orexin) neurons. Cataplexy is treated with sodium oxybate (GHB), venlafaxine (SNRI), or clomipramine. Excessive daytime sleepiness is treated with modafinil or stimulants. Sleep paralysis and hypnagogic hallucinations are also characteristic."
+    },
+    {
+        "id": 7,
+        "question": "Which of the following correctly describes the monoamine hypothesis of depression? A 40-year-old woman with recurrent depression asks her psychiatrist how antidepressants work. The doctor explains the leading theory about the neurochemical basis of depression and how medications target this pathway. Understanding this theory helps patients understand why treatment takes 2-6 weeks to work despite immediate effects on neurotransmitter levels.",
+        "options": [
+            "Depression is caused by excessive dopamine in the mesolimbic pathway",
+            "Depression is caused by deficiency of monoamines (serotonin, norepinephrine, dopamine) in the synapse",
+            "Depression is caused by GABA deficiency and glutamate excess",
+            "Depression is caused by acetylcholine excess in the hippocampus",
+            "Depression is caused by cortisol deficiency"
+        ],
+        "correct": 1,
+        "explanation": "The monoamine hypothesis proposes that depression results from deficiency of serotonin, norepinephrine, and/or dopamine in the brain. Antidepressants (SSRIs, SNRIs, MAOIs, TCAs) increase synaptic availability of these monoamines. The therapeutic lag (2-6 weeks) is explained by downstream adaptive changes (receptor desensitization, increased neurogenesis)."
+    },
+    {
+        "id": 8,
+        "question": "A 25-year-old woman presents with recurrent episodes of intense fear that occur suddenly without warning. During episodes, she experiences palpitations, sweating, trembling, shortness of breath, chest pain, dizziness, and fear of losing control. These episodes last 10-15 minutes and have occurred multiple times over the past month. She now avoids exercise and crowded places for fear of having another episode. Which of the following is the most appropriate first-line pharmacologic treatment?",
+        "options": [
+            "Propranolol as needed",
+            "Alprazolam as needed",
+            "Sertraline (SSRI)",
+            "Buspirone daily",
+            "Lithium"
+        ],
+        "correct": 2,
+        "explanation": "SSRIs (sertraline, paroxetine, fluoxetine, escitalopram) are first-line for panic disorder. They reduce both panic attack frequency and anticipatory anxiety. Cognitive-behavioral therapy (CBT) is also first-line. Benzodiazepines (alprazolam, clonazepam) are effective but have dependence risk and are not first-line for long-term treatment."
+    },
+    {
+        "id": 9,
+        "question": "A 30-year-old man presents with persistent depressed mood, low energy, hypersomnia (sleeping 12 hours/day), increased appetite (carbohydrate craving), and weight gain over the past 4 months. His symptoms worsen during winter months and improve in spring. Which of the following is the most likely diagnosis and first-line treatment?",
+        "options": [
+            "Seasonal affective disorder (SAD); light therapy (bright light exposure)",
+            "Major depressive disorder with melancholic features; fluoxetine",
+            "Bipolar II disorder; lamotrigine",
+            "Atypical depression; phenelzine (MAOI)",
+            "Dysthymia; bupropion"
+        ],
+        "correct": 0,
+        "explanation": "Seasonal affective disorder (SAD) is a subtype of major depression with seasonal pattern (typically fall/winter onset). Atypical symptoms include hypersomnia, hyperphagia, and carbohydrate craving. First-line treatment is light therapy (10,000 lux for 30 minutes each morning). SSRIs and bupropion are also effective."
+    },
+    {
+        "id": 10,
+        "question": "Which of the following is the most characteristic feature of a manic episode in bipolar I disorder? A 32-year-old man is brought to the emergency department by his family because he has not slept for 3 days, is speaking rapidly and jumping between topics, and is spending large amounts of money on unnecessary items. He claims he has been chosen to lead a new world government. He has no history of depression. Understanding the diagnostic criteria for mania is essential for differentiating it from hypomania and other psychiatric conditions.",
+        "options": [
+            "Depressed mood lasting at least 2 weeks",
+            "Elevated mood lasting at least 4 days without functional impairment",
+            "Chronic irritability lasting at least 1 year",
+            "Episodic anxiety with autonomic symptoms lasting 10 minutes",
+            "Elevated or irritable mood with increased activity and energy lasting at least 1 week, causing functional impairment or hospitalization"
+        ],
+        "correct": 4,
+        "explanation": "A manic episode requires abnormally elevated, expansive, or irritable mood with increased goal-directed activity or energy lasting at least 1 week, causing significant functional impairment or requiring hospitalization. Hypomania (bipolar II) lasts at least 4 days with no marked impairment. Symptoms include grandiosity, decreased need for sleep, pressured speech, flight of ideas, distractibility, increased goal-directed activity, and reckless behavior."
+    },
+	
+	
+	
+	
+    {
+        "id": 11,
+        "question": "A 28-year-old woman presents with persistent, intrusive, and unwanted thoughts that her hands are contaminated with germs. She spends 3-4 hours each day washing her hands until they become raw and bleeding. She recognizes that these thoughts and behaviors are excessive but feels unable to stop them. Which of the following is the most appropriate first-line pharmacologic treatment for this condition?",
+        "options": [
+            "Alprazolam as needed",
+            "Risperidone monotherapy",
+            "Lithium",
+            "Fluoxetine (SSRI) at higher doses than for depression",
+            "Propranolol"
+        ],
+        "correct": 3,
+        "explanation": "Obsessive-compulsive disorder (OCD) is treated with SSRIs (fluoxetine, sertraline, paroxetine, fluvoxamine) at higher doses than used for depression for 8-12 weeks. Cognitive-behavioral therapy (CBT) with exposure and response prevention is equally effective. Antipsychotics (risperidone, aripiprazole) are used for augmentation in treatment-resistant OCD. Benzodiazepines are not effective for core OCD symptoms."
+    },
+    {
+        "id": 12,
+        "question": "Which of the following best describes the characteristic sleep finding in patients with major depressive disorder? A 45-year-old man with major depression reports difficulty falling asleep, waking up frequently during the night, and waking up very early in the morning (around 3-4 AM) with inability to return to sleep. He feels exhausted during the day but cannot nap. His psychiatrist explains that this sleep pattern is a biological marker of depression and may improve with effective treatment.",
+        "options": [
+            "Hypersomnia and increased REM latency",
+            "Insomnia with early morning awakening and decreased REM latency",
+            "Narcolepsy with sleep-onset REM periods",
+            "Sleep apnea with oxygen desaturation",
+            "Restless legs syndrome with periodic limb movements"
+        ],
+        "correct": 1,
+        "explanation": "Major depression is associated with insomnia (especially middle and terminal insomnia with early morning awakening), decreased REM latency (shortened time to first REM period), increased REM density, and reduced slow-wave (deep) sleep. Hypersomnia (excessive sleep) is more common in atypical depression and seasonal affective disorder. Polysomnography is not routinely required for diagnosis but confirms these findings."
+    },
+    {
+        "id": 13,
+        "question": "A 55-year-old man with schizophrenia has been stable on risperidone for 5 years. He now presents with progressive difficulty initiating movements, resting tremor, rigidity, and bradykinesia. Which of the following is the most likely diagnosis, and what is the appropriate management?",
+        "options": [
+            "Tardive dyskinesia; add benztropine",
+            "Parkinson's disease; start levodopa/carbidopa",
+            "Drug-induced parkinsonism; reduce risperidone dose or switch to clozapine/quetiapine",
+            "Progressive supranuclear palsy; no treatment available",
+            "Neuroleptic malignant syndrome; stop antipsychotic and give dantrolene"
+        ],
+        "correct": 2,
+        "explanation": "Drug-induced parkinsonism is a common extrapyramidal side effect of typical and atypical antipsychotics (especially risperidone, haloperidol). Management includes dose reduction, switching to an antipsychotic with lower D2 receptor affinity (quetiapine, clozapine), or adding anticholinergic medication (benztropine, trihexyphenidyl). Unlike Parkinson's disease, symptoms often improve with dose reduction. Tardive dyskinesia presents with abnormal involuntary movements (orofacial, choreiform), not parkinsonism."
+    },
+    {
+        "id": 14,
+        "question": "A 22-year-old woman presents with fluctuating mood episodes. She reports periods of 4-5 days when she feels very energetic, creative, and needs less sleep, followed by periods of depression lasting 1-2 weeks. She has never been hospitalized or had psychotic symptoms. Her symptoms cause moderate difficulty at work but do not severely impair functioning. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Bipolar I disorder",
+            "Cyclothymic disorder",
+            "Major depressive disorder",
+            "Bipolar II disorder",
+            "Borderline personality disorder"
+        ],
+        "correct": 3,
+        "explanation": "Bipolar II disorder is characterized by at least one hypomanic episode (≥4 days, less severe than full mania, no psychosis, no hospitalization) and one major depressive episode. Bipolar I requires full manic episode (≥7 days or requiring hospitalization). Cyclothymic disorder involves numerous periods of hypomanic and depressive symptoms for ≥2 years but never meeting full episode criteria."
+    },
+    {
+        "id": 15,
+        "question": "Which of the following is the most important risk factor for suicide that should be assessed in every patient with major depressive disorder? A 45-year-old man with recurrent depression presents for follow-up. His psychiatrist asks specific questions about suicidal ideation, plan, intent, and access to means. Understanding the most significant predictors of suicide completion helps clinicians prioritize immediate intervention and hospitalize patients when indicated.",
+        "options": [
+            "Prior suicide attempt",
+            "Female gender",
+            "Married status",
+            "Rural residence",
+            "Employment"
+        ],
+        "correct": 0,
+        "explanation": "Prior suicide attempt is the single strongest predictor of eventual suicide completion. Other major risk factors include male gender, older age, family history of suicide, comorbid substance use disorder, psychotic symptoms, hopelessness, and access to lethal means (firearms). Every depressed patient should be directly asked about suicidal ideation, plan, intent, and means. Acute risk requires hospitalization."
+    },
+    {
+        "id": 16,
+        "question": "A 60-year-old man with Parkinson's disease develops visual hallucinations of small animals and people who are not there. He has been on levodopa/carbidopa for 8 years. He has no other psychotic symptoms and is not agitated. Which of the following is the most appropriate management for his hallucinations?",
+        "options": [
+            "Start haloperidol for immediate symptom control",
+            "Start quetiapine at low dose and reduce levodopa if possible",
+            "Start clozapine without changing levodopa",
+            "Increase levodopa dose to improve motor symptoms",
+            "Start risperidone for better efficacy"
+        ],
+        "correct": 1,
+        "explanation": "Parkinson's disease psychosis (visual hallucinations, delusions) is often caused or worsened by dopaminergic therapy. First-line management: reduce or simplify antiparkinsonian medications (start with anticholinergics, then amantadine, then dopamine agonists, then COMT inhibitors, last levodopa). If antipsychotic needed, quetiapine or clozapine (which have minimal D2 blockade) are preferred. Typical antipsychotics (haloperidol) and risperidone worsen parkinsonism. Pimavanserin (5-HT2A inverse agonist) is specifically approved for Parkinson's disease psychosis."
+    },
+    {
+        "id": 17,
+        "question": "A 30-year-old woman presents with excessive and uncontrollable worry about her job performance, health, and family for the past 9 months. She reports difficulty sleeping, muscle tension, fatigue, and irritability. She has no panic attacks or obsessive-compulsive symptoms. Which of the following is the most appropriate first-line pharmacologic treatment?",
+        "options": [
+            "Alprazolam as needed for anxiety",
+            "Propranolol for physical symptoms",
+            "Buspirone alone",
+            "Sertraline (SSRI)",
+            "Lithium"
+        ],
+        "correct": 3,
+        "explanation": "Generalized anxiety disorder (GAD) is first-line treated with SSRIs (sertraline, paroxetine, escitalopram) or SNRIs (venlafaxine, duloxetine). Buspirone (5-HT1A partial agonist) is also effective but less commonly used. Benzodiazepines (alprazolam, clonazepam) are effective but reserved for short-term or rescue use due to dependence risk. Cognitive-behavioral therapy (CBT) is also first-line. Propranolol treats performance anxiety but not GAD."
+    },
+    {
+        "id": 18,
+        "question": "Which of the following best describes the concept of 'expressed emotion' (EE) and its relationship to relapse in schizophrenia? A 24-year-old man with schizophrenia is discharged from the hospital after a psychotic episode. His family members are critical, hostile, and emotionally overinvolved with his illness. His psychiatrist explains that this family environment may increase his risk of relapse and recommends family psychoeducation. Understanding expressed emotion helps guide psychosocial interventions.",
+        "options": [
+            "EE cannot be modified by family interventions",
+            "High EE families have lower relapse rates due to increased monitoring",
+            "High EE (criticism, hostility, overinvolvement) is associated with increased relapse risk in schizophrenia",
+            "Low EE families have higher relapse rates due to neglect",
+            "EE is only relevant in bipolar disorder, not schizophrenia"
+        ],
+        "correct": 2,
+        "explanation": "Expressed emotion (EE) refers to family attitudes including criticism, hostility, and emotional overinvolvement. High EE environments are associated with significantly increased relapse rates in schizophrenia and other psychiatric disorders. Family psychoeducation and interventions to reduce EE improve outcomes and reduce relapse. This is a well-replicated finding across cultures."
+    },
+    {
+        "id": 19,
+        "question": "A 25-year-old woman presents with recurrent self-cutting on her forearms and wrists, feelings of emptiness, unstable relationships, difficulty controlling anger, and transient stress-related paranoid ideation. She has no history of mania or psychosis. Which of the following is the most likely diagnosis, and what is the first-line psychosocial treatment?",
+        "options": [
+            "Major depressive disorder; cognitive-behavioral therapy",
+            "Schizophrenia; antipsychotics",
+            "Panic disorder; SSRIs",
+            "Borderline personality disorder; dialectical behavior therapy (DBT)",
+            "Bipolar II disorder; lithium"
+        ],
+        "correct": 3,
+        "explanation": "Borderline personality disorder (BPD) is characterized by a pervasive pattern of instability in interpersonal relationships, self-image, and affect, with marked impulsivity. Symptoms include frantic efforts to avoid abandonment, unstable relationships, identity disturbance, self-harm (cutting), chronic emptiness, anger dyscontrol, and transient stress-related paranoia or dissociation. Dialectical behavior therapy (DBT) is the most evidence-based psychosocial treatment. SSRIs may treat comorbid depression but are not first-line for BPD alone."
+    },
+    {
+        "id": 20,
+        "question": "A 55-year-old man with alcohol use disorder presents with insomnia. He reports difficulty falling asleep and staying asleep. He has been drinking alcohol to help him sleep but now requires more alcohol to achieve the same effect. Which of the following is the most appropriate long-term treatment for his insomnia?",
+        "options": [
+            "Treat underlying alcohol use disorder and implement sleep hygiene",
+            "Zolpidem nightly",
+            "Diphenhydramine nightly",
+            "Melatonin",
+            "Diazepam for sleep"
+        ],
+        "correct": 0,
+        "explanation": "In patients with substance use disorders, insomnia should be treated by addressing the underlying cause (alcohol use disorder) and implementing non-pharmacologic measures (sleep hygiene, cognitive-behavioral therapy for insomnia). Chronic benzodiazepine or Z-drug use in recovering alcoholics is contraindicated due to dependence risk and cross-tolerance. Alcohol disrupts sleep architecture (suppresses REM, causes rebound later)."
+    },
+	
+	
+	
+	
+    {
+        "id": 21,
+        "question": "A 32-year-old woman presents with persistent fear of social situations where she might be scrutinized by others. She avoids eating in public, speaking in meetings, and attending parties because she fears embarrassing herself. She recognizes that her fear is excessive but cannot control it. Which of the following is the most appropriate first-line treatment for social anxiety disorder?",
+        "options": [
+            "Alprazolam as needed before social events",
+            "Buspirone daily",
+            "Sertraline (SSRI) or cognitive-behavioral therapy (CBT)",
+            "Propranolol for performance anxiety only",
+            "Olanzapine"
+        ],
+        "correct": 2,
+        "explanation": "Social anxiety disorder (social phobia) is first-line treated with SSRIs (sertraline, paroxetine, escitalopram) or SNRIs (venlafaxine). Cognitive-behavioral therapy (CBT) with exposure is equally effective. Propranolol (beta-blocker) is used for performance anxiety (specific performance situations) but not generalized social anxiety. Benzodiazepines are second-line due to dependence risk."
+    },
+    {
+        "id": 22,
+        "question": "Which of the following best describes the difference between a delusion and an overvalued idea? A 28-year-old man believes that his neighbors are plotting to kill him despite no evidence and despite being shown that the neighbors have no reason to harm him. He holds this belief with absolute conviction and it is not shared by anyone in his culture. Understanding the distinction between delusions and other fixed beliefs is essential for diagnosing psychotic disorders.",
+        "options": [
+            "Delusions occur only in schizophrenia; overvalued ideas occur only in obsessive-compulsive disorder",
+            "Delusions are held with less conviction than overvalued ideas",
+            "Delusions are shared by others; overvalued ideas are unique to the individual",
+            "Overvalued ideas are bizarre; delusions are non-bizarre",
+            "Delusions are false beliefs based on incorrect inference about external reality, held with absolute conviction despite contradictory evidence"
+        ],
+        "correct": 4,
+        "explanation": "A delusion is a false belief based on incorrect inference about external reality, firmly held despite incontrovertible contradictory evidence, and not shared by others in the same culture. Overvalued ideas are unreasonable beliefs held with less intensity and are more common in eating disorders, hypochondriasis, and body dysmorphic disorder. Delusions can be bizarre (impossible) or non-bizarre (possible but false)."
+    },
+    {
+        "id": 23,
+        "question": "A 45-year-old woman with schizophrenia has been on clozapine for 2 years due to treatment-resistant symptoms. She now presents with fever, sore throat, and malaise. Complete blood count shows a neutrophil count of 400/mm³ (normal >1500). Which of the following is the most appropriate next step?",
+        "options": [
+            "Continue clozapine and add antibiotics",
+            "Immediately discontinue clozapine and start filgrastim (G-CSF)",
+            "Add lithium to increase neutrophil count",
+            "Reduce clozapine dose and monitor weekly",
+            "Switch to olanzapine without stopping clozapine"
+        ],
+        "correct": 1,
+        "explanation": "Clozapine-induced agranulocytosis (absolute neutrophil count <500/mm³) is a medical emergency. Clozapine must be immediately discontinued and filgrastim (G-CSF) administered to stimulate neutrophil recovery. Patients require isolation and empiric antibiotics. Clozapine is associated with 0.8% risk of agranulocytosis, requiring mandatory regular ANC monitoring through a registry. Alternative antipsychotics (olanzapine, risperidone, etc.) are started after recovery."
+    },
+    {
+        "id": 24,
+        "question": "A 30-year-old woman presents with a 2-week history of depressed mood, anhedonia, fatigue, insomnia, and feelings of worthlessness after giving birth to her first child 6 weeks ago. She has no history of psychiatric illness. She is able to care for the baby but feels overwhelmed. She has no thoughts of harming herself or the baby. Which of the following is the most appropriate treatment?",
+        "options": [
+            "Observation without treatment as postpartum blues",
+            "Hospitalization due to risk of infanticide",
+            "Lithium for mood stabilization",
+            "Sertraline (SSRI) and psychotherapy",
+            "Electroconvulsive therapy (ECT) as first-line"
+        ],
+        "correct": 3,
+        "explanation": "Postpartum depression affects 10-15% of women. First-line treatment is SSRIs (sertraline, fluoxetine, paroxetine) which are safe during breastfeeding. Psychotherapy (CBT, interpersonal therapy) is also effective. Postpartum blues (day 3-5, resolves within 2 weeks) is milder and does not require medication. Postpartum psychosis (delusions, hallucinations) is a psychiatric emergency requiring hospitalization."
+    },
+    {
+        "id": 25,
+        "question": "Which of the following is the most characteristic feature of post-traumatic stress disorder (PTSD) that distinguishes it from acute stress disorder? A 35-year-old man was involved in a severe car accident 3 weeks ago. He reports recurrent, intrusive memories of the accident, nightmares, avoidance of driving, hypervigilance, and difficulty sleeping. He feels detached from others and has trouble experiencing positive emotions. Understanding the time criterion helps differentiate these two trauma-related disorders.",
+        "options": [
+            "Acute stress disorder lasts 3 days to 1 month; PTSD lasts more than 1 month",
+            "PTSD has no dissociative symptoms; acute stress disorder has prominent dissociation",
+            "Acute stress disorder requires re-experiencing symptoms; PTSD does not",
+            "PTSD requires trauma exposure; acute stress disorder does not",
+            "Acute stress disorder has flashbacks; PTSD does not"
+        ],
+        "correct": 0,
+        "explanation": "Acute stress disorder (ASD) and PTSD share similar symptom clusters (intrusion, avoidance, negative mood, arousal). The key difference is duration: ASD lasts 3 days to 1 month after trauma; PTSD is diagnosed when symptoms persist beyond 1 month. Both require exposure to actual or threatened death, serious injury, or sexual violence. ASD predicts PTSD risk. Dissociation is prominent in both."
+    },
+    {
+        "id": 26,
+        "question": "A 42-year-old man presents with a 4-month history of depressed mood, low energy, and insomnia. He has gained 15 kg over the past year. He reports daytime sleepiness, loud snoring, and his wife has observed episodes of stopped breathing during sleep. Which of the following is the most likely underlying cause of his depressive symptoms?",
+        "options": [
+            "Bipolar II disorder",
+            "Obstructive sleep apnea; refer for sleep study",
+            "Substance-induced mood disorder",
+            "Major depressive disorder with atypical features",
+            "Hypothyroidism; check TSH"
+        ],
+        "correct": 1,
+        "explanation": "Obstructive sleep apnea (OSA) is a common medical cause of depressive symptoms (fatigue, hypersomnia, depressed mood, poor concentration). Treatment with continuous positive airway pressure (CPAP) improves both sleep and mood. Before diagnosing primary major depression, medical causes should be excluded, including OSA, hypothyroidism, vitamin D/B12 deficiency, anemia, and medication side effects. Polysomnography is diagnostic."
+    },
+    {
+        "id": 27,
+        "question": "A 28-year-old woman presents with recurrent episodes of binge eating (eating large amounts of food in 2 hours with loss of control) occurring twice weekly for 4 months. She does not engage in purging, fasting, or excessive exercise. She is embarrassed about her eating behavior and eats alone to hide it. Her BMI is 32. Which of the following is the most likely diagnosis and first-line treatment?",
+        "options": [
+            "Anorexia nervosa; family-based therapy",
+            "Purging disorder; psychotherapy",
+            "Binge eating disorder; cognitive-behavioral therapy (CBT) or lisdexamfetamine",
+            "Night eating syndrome; sertraline",
+            "Bulimia nervosa; fluoxetine (SSRI)"
+        ],
+        "correct": 2,
+        "explanation": "Binge eating disorder (BED) is characterized by recurrent binge eating without compensatory behaviors (purging, fasting, excessive exercise). First-line treatment is CBT or interpersonal therapy. Lisdexamfetamine (Vyvanse) is FDA-approved for moderate-to-severe BED. Bulimia nervosa includes compensatory behaviors (self-induced vomiting, laxatives, diuretics) and normal weight. SSRIs reduce bingeing in bulimia but are not first-line for BED (lisdexamfetamine has stronger evidence)."
+    },
+    {
+        "id": 28,
+        "question": "Which of the following best describes the clinical features of catatonia? A 25-year-old woman with schizophrenia is brought to the emergency department. She is immobile, mute, and rigid. She maintains postures for hours, resists attempts to move her (waxy flexibility), and has echolalia (repeating what others say). Understanding the symptoms of catatonia is essential because it is highly treatable with benzodiazepines and ECT.",
+        "options": [
+            "Flashbacks, avoidance, and hyperarousal after trauma",
+            "Binge eating followed by purging",
+            "Hyperactivity, distractibility, and pressured speech",
+            "Mutism, immobility, posturing, waxy flexibility, and echolalia",
+            "Rapid eye movements, sleep paralysis, and hypnagogic hallucinations"
+        ],
+        "correct": 3,
+        "explanation": "Catatonia is a psychomotor syndrome characterized by decreased reactivity (stupor, mutism, negativism, posturing, waxy flexibility, stereotypies, echolalia, echopraxia) or excited states (purposeless agitation). It occurs in schizophrenia, bipolar disorder, major depression, and medical conditions. First-line treatment is benzodiazepines (lorazepam). Electroconvulsive therapy (ECT) is highly effective for catatonia refractory to benzodiazepines. Malignant catatonia (with fever, autonomic instability) can be fatal if untreated."
+    },
+    {
+        "id": 29,
+        "question": "A 55-year-old man with a history of alcohol use disorder presents with memory impairment, confabulation (fabricating stories to fill memory gaps), and apathy. He has been sober for 2 months. His wife reports that he cannot remember recent events and invents plausible but false explanations. His gait is normal, and he has no eye movement abnormalities. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Korsakoff syndrome",
+            "Alzheimer's disease",
+            "Frontotemporal dementia",
+            "Vascular dementia",
+            "Normal pressure hydrocephalus"
+        ],
+        "correct": 0,
+        "explanation": "Korsakoff syndrome is a chronic memory disorder caused by thiamine (B1) deficiency, most commonly in alcohol use disorder. It is characterized by anterograde amnesia (inability to form new memories), retrograde amnesia (loss of past memories), and confabulation (unconscious filling of memory gaps with false information). It often follows Wernicke encephalopathy (confusion, ataxia, ophthalmoplegia) but can occur alone. Unlike Alzheimer's, insight is impaired but executive function may be preserved. Korsakoff syndrome is often irreversible despite thiamine replacement."
+    },
+    {
+        "id": 30,
+        "question": "A 35-year-old woman with bipolar I disorder is stable on lithium. She presents with nausea, coarse tremor, ataxia, and confusion. Her lithium level is 2.1 mEq/L (therapeutic 0.6-1.2). She reports starting ibuprofen for headaches 1 week ago. Which of the following is the most appropriate immediate management?",
+        "options": [
+            "Stop ibuprofen and continue lithium at same dose",
+            "Add sodium bicarbonate to increase lithium excretion",
+            "Start hemodialysis immediately",
+            "Hold lithium, stop ibuprofen, give IV fluids, monitor level",
+            "Increase lithium dose to overcome toxicity"
+        ],
+        "correct": 3,
+        "explanation": "Lithium toxicity (level >1.5 mEq/L) requires holding lithium, discontinuing interacting medications (NSAIDs, thiazides, ACE inhibitors), and IV normal saline to enhance renal clearance. This patient's toxicity is likely due to ibuprofen reducing GFR. Hemodialysis is indicated for severe toxicity (level >2.5, renal failure, seizures, coma). Sodium bicarbonate increases lithium excretion but is not standard management. Lithium levels should be rechecked after holding."
+    },
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 31,
+        "question": "A 22-year-old man presents with a first episode of psychosis. He reports hearing voices commenting on his actions and believes that the FBI is monitoring him through his phone. His symptoms have been present for 2 months. He has no history of mood symptoms. Which of the following is the most important predictor of his long-term outcome?",
+        "options": [
+            "Family history of schizophrenia",
+            "Presence of insight at presentation",
+            "Duration of untreated psychosis (DUP)",
+            "Age of onset (younger age predicts better outcome)",
+            "Gender (male predicts worse outcome)"
+        ],
+        "correct": 2,
+        "explanation": "Duration of untreated psychosis (DUP) is one of the strongest predictors of long-term outcome in schizophrenia. Shorter DUP (<3 months) is associated with better response to treatment, less cognitive decline, and improved functional outcomes. Early intervention programs focus on reducing DUP. Other predictors include premorbid functioning, negative symptom severity, and medication adherence. This patient's symptoms at 2 months warrant urgent treatment (antipsychotic medication)."
+    },
+    {
+        "id": 32,
+        "question": "Which of the following best describes the difference between bipolar I disorder and bipolar II disorder? A 30-year-old woman reports episodes of elevated mood, decreased need for sleep, and increased goal-directed activity lasting 4-5 days. During these episodes, she feels highly productive but does not engage in reckless behavior. She also has episodes of major depression. Her symptoms cause moderate difficulty but do not require hospitalization. Understanding the distinction between mania and hypomania is essential for accurate diagnosis and treatment selection.",
+        "options": [
+            "Bipolar I has only mania; bipolar II has only depression",
+            "Bipolar I has hypomania and depression; bipolar II has mania only",
+            "Bipolar I and II are identical; only the frequency of episodes differs",
+            "Bipolar I requires major depression; bipolar II does not",
+            "Bipolar I has manic episodes (≥7 days, marked impairment, or psychosis); bipolar II has hypomanic episodes (≥4 days, no marked impairment) plus major depression"
+        ],
+        "correct": 4,
+        "explanation": "Bipolar I disorder requires at least one manic episode (≥7 days or requiring hospitalization, with marked impairment or psychosis). Bipolar II disorder requires at least one hypomanic episode (≥4 days, no marked impairment, no psychosis) and one major depressive episode. Mania is more severe and may include psychosis; hypomania does not cause severe functional impairment. Both require absence of another medical cause or substance use."
+    },
+    {
+        "id": 33,
+        "question": "A 28-year-old woman presents with recurrent panic attacks and agoraphobia. She is started on paroxetine (SSRI). After 3 days, she reports that her anxiety has worsened significantly, and she feels very jittery. Which of the following best explains this phenomenon, and what is the appropriate management?",
+        "options": [
+            "Serotonin syndrome; discontinue paroxetine immediately",
+            "Initial activation (jitteriness syndrome); start at lower dose or add benzodiazepine temporarily",
+            "Paroxetine is ineffective for panic disorder; switch to venlafaxine",
+            "Allergic reaction; switch to another SSRI",
+            "Withdrawal from previous medication; restart previous antidepressant"
+        ],
+        "correct": 1,
+        "explanation": "Initial activation or jitteriness syndrome occurs in 10-20% of patients starting SSRIs, especially in anxiety disorders. Symptoms include increased anxiety, agitation, restlessness, and insomnia. Management includes starting at very low dose, slow titration, and temporary adjunctive benzodiazepines (clonazepam, lorazepam) during the first 2-4 weeks. This is not serotonin syndrome (which has fever, myoclonus, autonomic instability). The phenomenon resolves with continued treatment as 5-HT1A autoreceptors desensitize (typically 2-4 weeks)."
+    },
+    {
+        "id": 34,
+        "question": "A 65-year-old man with Alzheimer's dementia develops new-onset agitation, aggression, and physical combativeness toward staff in the nursing home. He has no signs of infection or pain. Non-pharmacologic interventions have failed. Which of the following is the most appropriate pharmacologic treatment for his agitation?",
+        "options": [
+            "Risperidone (atypical antipsychotic) at lowest effective dose for shortest duration",
+            "Citalopram for mood stabilization",
+            "Lorazepam as needed for agitation",
+            "Diphenhydramine for sedation",
+            "Valproic acid for mood stabilization"
+        ],
+        "correct": 0,
+        "explanation": "Antipsychotics (risperidone, olanzapine, quetiapine) are used for severe agitation, aggression, or psychosis in dementia when non-pharmacologic interventions fail and patient or others are at risk of harm. They have a black box warning for increased mortality (primarily due to cardiovascular events and infections) and cerebrovascular events. Treatment should be at lowest effective dose for shortest duration. Benzodiazepines are avoided due to fall risk, cognitive worsening, and paradoxical disinhibition. Antidepressants (citalopram) may help depression-related agitation but are not first-line for severe agitation."
+    },
+    {
+        "id": 35,
+        "question": "Which of the following is the most characteristic feature of factitious disorder (Munchausen syndrome) that distinguishes it from malingering? A 35-year-old woman works as a nurse and has been admitted to the hospital multiple times for recurrent hypoglycemia. Investigation reveals that she has been injecting herself with insulin. She denies any external incentive for her behavior and appears to enjoy being a patient. Understanding the motivation behind these conditions is essential for diagnosis.",
+        "options": [
+            "Factitious disorder is only diagnosed in healthcare professionals",
+            "Factitious disorder involves conscious fabrication of symptoms for external incentives (financial gain, avoiding work)",
+            "Malingering involves no conscious intent to deceive",
+            "Factitious disorder involves intentional production of symptoms with the primary motivation to assume the sick role (internal psychological need)",
+            "Malingering is a psychiatric disorder; factitious disorder is not"
+        ],
+        "correct": 3,
+        "explanation": "Factitious disorder (Munchausen syndrome) involves intentional falsification or induction of physical or psychological symptoms with the primary motivation to assume the sick role (internal psychological need, no external incentive). Malingering involves conscious fabrication of symptoms for external incentives (financial compensation, avoiding work, legal issues, obtaining drugs). Malingering is not a psychiatric disorder but a V-code condition (other condition that may be focus of clinical attention). Both involve conscious deception, but motivation differs."
+    },
+    {
+        "id": 36,
+        "question": "A 45-year-old woman with treatment-resistant depression has failed trials of three SSRIs, one SNRI, and augmentation with bupropion. Her psychiatrist prescribes phenelzine (MAOI). Which of the following foods must she strictly avoid to prevent a potentially fatal adverse effect?",
+        "options": [
+            "High-fiber vegetables",
+            "Aged cheeses, cured meats, red wine, and fermented foods",
+            "Chocolate and nuts",
+            "Grapefruit juice",
+            "Caffeinated beverages"
+        ],
+        "correct": 1,
+        "explanation": "Phenelzine and other irreversible non-selective MAOIs require lifelong avoidance of tyramine-rich foods (aged cheeses, cured meats, fermented products, red wine, yeast extracts, sauerkraut, fava beans). Tyramine causes norepinephrine release from adrenergic neurons, leading to hypertensive crisis (severe headache, hypertension, intracranial hemorrhage). Unlike reversible MAOIs (moclobemide), irreversible MAOIs have no safety margin. Hypertensive crisis is treated with IV phentolamine (alpha-blocker)."
+    },
+    {
+        "id": 37,
+        "question": "A 22-year-old man presents with auditory hallucinations (voices commenting on his behavior), delusions of persecution, and disorganized speech. His symptoms have been present for 8 months. He has no mood symptoms. Which of the following is the most appropriate first-line antipsychotic, and what is the most concerning long-term adverse effect of first-generation (typical) antipsychotics like haloperidol?",
+        "options": [
+            "Olanzapine; metabolic syndrome",
+            "Clozapine; agranulocytosis",
+            "Risperidone (atypical); tardive dyskinesia (with long-term typical antipsychotics)",
+            "Quetiapine; cataracts",
+            "Haloperidol (typical); weight gain and diabetes"
+        ],
+        "correct": 2,
+        "explanation": "Atypical antipsychotics (risperidone, olanzapine, quetiapine, aripiprazole) are first-line for schizophrenia due to lower risk of extrapyramidal symptoms (EPS) and tardive dyskinesia (TD) compared to typical antipsychotics (haloperidol, chlorpromazine, fluphenazine). TD is a potentially irreversible movement disorder (orofacial dyskinesias, choreiform movements) that develops after months to years of dopamine D2 receptor blockade. Incidence with first-generation antipsychotics is 5% per year; risk with atypicals is lower but not zero. Clozapine is for treatment-resistant schizophrenia."
+    },
+    {
+        "id": 38,
+        "question": "Which of the following best describes the clinical features of agoraphobia? A 35-year-old woman reports intense fear and avoidance of crowded places, supermarkets, public transportation, and being outside her home alone. She fears that if she has a panic attack in these situations, escape would be difficult or help unavailable. She now rarely leaves her house and requires a family member to accompany her for any errand. Understanding the key features of agoraphobia helps distinguish it from other anxiety disorders.",
+        "options": [
+            "Fear of contamination leading to excessive washing",
+            "Fear of specific objects or animals (e.g., spiders, snakes)",
+            "Fear of having a serious illness despite medical reassurance",
+            "Fear of open spaces, public places, and situations where escape might be difficult, often leading to confinement at home",
+            "Fear of social scrutiny and embarrassment"
+        ],
+        "correct": 3,
+        "explanation": "Agoraphobia is characterized by marked fear or anxiety about two or more situations: using public transportation, being in open spaces, being in enclosed spaces, standing in line or in a crowd, or being outside the home alone. The individual fears that escape might be difficult or help unavailable if panic-like symptoms occur. Often, but not always, associated with panic disorder. Without panic disorder, it is diagnosed as agoraphobia without history of panic disorder. Patients may become housebound. First-line treatment is CBT and SSRIs."
+    },
+    {
+        "id": 39,
+        "question": "A 40-year-old woman with bipolar I disorder presents with a manic episode (grandiosity, pressured speech, decreased need for sleep, reckless spending). She is started on lithium. Which of the following baseline and follow-up monitoring tests are required for patients on long-term lithium therapy?",
+        "options": [
+            "Complete blood count (CBC) and liver function tests (LFTs)",
+            "Lipid panel and HbA1c",
+            "Vitamin D and calcium levels",
+            "Thyroid function tests (TFTs), renal function (creatinine, BUN), and lithium levels",
+            "Electrocardiogram (ECG) and fasting glucose"
+        ],
+        "correct": 3,
+        "explanation": "Lithium requires monitoring of serum lithium levels (therapeutic range 0.6-1.2 mEq/L for maintenance, 0.8-1.2 for acute mania), thyroid function (lithium causes hypothyroidism in 5-20% due to inhibition of thyroid hormone release), and renal function (lithium can cause nephrogenic diabetes insipidus, chronic tubulointerstitial nephritis, and reduced GFR). Lithium levels should be checked 12 hours after last dose (trough). Other monitoring includes calcium (hyperparathyroidism), weight, and ECG (if cardiac risk factors)."
+    },
+    {
+        "id": 40,
+        "question": "A 55-year-old man with chronic schizophrenia has been stable on risperidone for 10 years. He now develops involuntary, repetitive, choreiform movements of his mouth (lip smacking, tongue protrusion) and his fingers (piano-playing movements). He is not aware of these movements. Which of the following is the most likely diagnosis, and what is the appropriate management?",
+        "options": [
+            "Tardive dyskinesia; consider switching to clozapine or adding VMAT2 inhibitor (valbenazine, deutetrabenazine)",
+            "Drug-induced parkinsonism; reduce risperidone dose",
+            "Akathisia; add propranolol",
+            "Acute dystonia; treat with benztropine",
+            "Neuroleptic malignant syndrome; stop antipsychotic and give dantrolene"
+        ],
+        "correct": 0,
+        "explanation": "Tardive dyskinesia (TD) is a late-onset, potentially irreversible movement disorder caused by chronic dopamine receptor blockade. It presents with orofacial dyskinesias (lip smacking, tongue protrusion, chewing movements), choreiform movements of limbs, and trunk. First-line management: reduce antipsychotic dose or switch to clozapine (lowest TD risk). VMAT2 inhibitors (valbenazine, deutetrabenazine) are FDA-approved for TD and reduce abnormal involuntary movements. Unlike acute dystonia (early, treatable with anticholinergics), TD has no established cure."
+    },
+	
+	
+	
+	
+	
+    {
+        "id": 41,
+        "question": "A 25-year-old woman presents with a 6-month history of depressed mood, low energy, hypersomnia (sleeping 12 hours/day), increased appetite with weight gain, and extreme sensitivity to perceived rejection. She has no history of mania or hypomania. Which of the following is the most likely subtype of major depressive disorder?",
+        "options": [
+            "Melancholic features",
+            "Psychotic features",
+            "Atypical features",
+            "Catatonic features",
+            "Seasonal pattern"
+        ],
+        "correct": 2,
+        "explanation": "Atypical features of major depression include mood reactivity (mood brightens in response to positive events), hypersomnia, increased appetite or weight gain, leaden paralysis (heavy feeling in arms or legs), and long-standing rejection sensitivity. Melancholic features include anhedonia, early morning awakening, psychomotor retardation or agitation, and weight loss. Atypical depression responds better to MAOIs than to TCAs, but SSRIs are still first-line."
+    },
+    {
+        "id": 42,
+        "question": "Which of the following best describes the concept of 'anhedonia' in major depressive disorder? A 40-year-old man with depression reports that he no longer enjoys playing golf, which was his favorite activity for 20 years. He says that even when he forces himself to play, he feels nothing. He has lost interest in sex and spending time with friends. Understanding this core symptom helps differentiate depression from normal sadness and guides treatment response monitoring.",
+        "options": [
+            "Inability to fall asleep or stay asleep",
+            "Difficulty concentrating and making decisions",
+            "Recurrent thoughts of death or suicide",
+            "Excessive guilt about past failures",
+            "Loss of interest or pleasure in previously enjoyed activities"
+        ],
+        "correct": 4,
+        "explanation": "Anhedonia (loss of interest or pleasure in previously enjoyed activities) is one of the two core symptoms of major depressive disorder (the other is depressed mood). It reflects dysfunction in the brain's reward circuitry (nucleus accumbens, ventral tegmental area, prefrontal cortex). Anhedonia predicts poorer treatment response to SSRIs and may respond better to bupropion (NDRI) or behavioral activation therapy. It is distinct from fatigue, guilt, and cognitive symptoms, though often co-occurs."
+    },
+    {
+        "id": 43,
+        "question": "A 32-year-old woman presents with a 4-week history of depressed mood, anhedonia, fatigue, and insomnia following the death of her mother. She has no prior psychiatric history. She is able to work but with difficulty. Which of the following is the most important factor in distinguishing between uncomplicated bereavement and a major depressive episode?",
+        "options": [
+            "Presence of guilt about things unrelated to the death",
+            "Bereavement causes no functional impairment",
+            "Crying and sadness are absent in bereavement",
+            "Bereavement only occurs in the elderly",
+            "Duration of symptoms (bereavement must last >1 year to be considered normal)"
+        ],
+        "correct": 0,
+        "explanation": "Uncomplicated bereavement typically includes sadness, crying, guilt focused on the deceased, and yearning. Features suggesting major depression include: guilt unrelated to the death, marked functional impairment, psychotic symptoms, suicidal ideation not focused on joining the deceased, and prolonged duration (>12 months). Bereavement can cause functional impairment but should not be severe or persistent. The DSM-5 removed the bereavement exclusion for major depression, recognizing that major depression can occur following a loss and warrants treatment. Treatment (antidepressants, therapy) is indicated when major depression criteria are met regardless of precipitant."
+    },
+    {
+        "id": 44,
+        "question": "A 28-year-old man presents with recurrent episodes of binge eating (eating large amounts of food in 2 hours with loss of control) followed by self-induced vomiting and laxative use. He is of normal weight. These episodes occur at least weekly for 3 months. He is excessively concerned with his body shape and weight. Which of the following is the most appropriate first-line pharmacologic treatment?",
+        "options": [
+            "Topiramate for seizure control",
+            "Bupropion (NDRI)",
+            "Olanzapine for weight gain",
+            "Fluoxetine (SSRI) at 60 mg/day",
+            "Lithium for mood stabilization"
+        ],
+        "correct": 3,
+        "explanation": "Bulimia nervosa is treated with fluoxetine (SSRI) at 60 mg/day (higher than depression doses), which reduces binge-purge frequency regardless of comorbid depression. CBT is equally effective and should be offered as first-line or in combination. Bupropion is contraindicated due to increased seizure risk in purging patients. Topiramate reduces bingeing but has cognitive side effects. Lithium has no role. Unlike binge eating disorder, bulimia involves compensatory behaviors (purging, fasting, excessive exercise) and normal weight (vs overweight/obesity in BED)."
+    },
+    {
+        "id": 45,
+        "question": "A 55-year-old man with schizophrenia presents with polydipsia (excessive water drinking) and hyponatremia. He has been on chronic antipsychotic therapy. Which of the following is the most likely mechanism of hyponatremia in this patient?",
+        "options": [
+            "Syndrome of inappropriate antidiuretic hormone (SIADH)",
+            "Primary polydipsia with dilutional hyponatremia",
+            "Diabetes insipidus from lithium",
+            "Addison's disease from adrenal insufficiency",
+            "Diuretic use for hypertension"
+        ],
+        "correct": 1,
+        "explanation": "Primary polydipsia (compulsive water drinking) occurs in up to 20% of chronic schizophrenia patients, often related to antipsychotic-induced dry mouth or psychiatric symptoms. Excessive water intake overwhelms renal excretory capacity, leading to dilutional hyponatremia and risk of water intoxication (seizures, coma, death). SIADH can also occur but is less common. Management includes fluid restriction, monitoring weight and sodium, and addressing underlying psychosis. Unlike SIADH, urine osmolality is inappropriately dilute relative to plasma in primary polydipsia."
+    },
+    {
+        "id": 46,
+        "question": "Which of the following best describes the clinical features of brief psychotic disorder? A 25-year-old woman with no prior psychiatric history presents with sudden-onset delusions, hallucinations, and disorganized speech after learning that her husband died in a car accident. Her symptoms resolve completely within 3 weeks without treatment. She has no mood symptoms. Understanding the time course and precipitant helps differentiate brief psychotic disorder from schizophrenia and schizophreniform disorder.",
+        "options": [
+            "Psychotic symptoms with mood episodes (depression or mania)",
+            "Psychotic symptoms lasting 1-6 months with full recovery",
+            "Psychotic symptoms lasting more than 6 months",
+            "Psychotic symptoms only during menses",
+            "Psychotic symptoms lasting 1 day to 1 month, often with an identifiable stressor, with full return to baseline"
+        ],
+        "correct": 4,
+        "explanation": "Brief psychotic disorder is characterized by psychotic symptoms (delusions, hallucinations, disorganized speech, catatonic behavior) lasting at least 1 day but less than 1 month, with eventual full return to premorbid functioning. Often (but not always) occurs after a severe stressor. Differentiates from schizophreniform disorder (1-6 months) and schizophrenia (>6 months). Brief psychotic disorder may occur postpartum (within 4 weeks of delivery). Treatment includes antipsychotics and supportive therapy. Prognosis is excellent, with low recurrence risk compared to schizophrenia."
+    },
+    {
+        "id": 47,
+        "question": "A 30-year-old woman with borderline personality disorder presents with chronic feelings of emptiness, unstable relationships, identity disturbance, and recurrent self-harm (cutting). Which of the following is the most evidence-based psychosocial treatment for this condition?",
+        "options": [
+            "Dialectical behavior therapy (DBT)",
+            "Interpersonal therapy (IPT)",
+            "Cognitive-behavioral therapy (CBT)",
+            "Psychodynamic psychotherapy",
+            "Family therapy"
+        ],
+        "correct": 0,
+        "explanation": "Dialectical behavior therapy (DBT) is the most studied and effective treatment for borderline personality disorder. DBT combines individual therapy, group skills training (mindfulness, distress tolerance, emotion regulation, interpersonal effectiveness), and phone coaching. It reduces self-harm, suicidal behavior, and hospitalization. No medication is FDA-approved for BPD itself; SSRIs, mood stabilizers, and antipsychotics are used off-label for specific symptoms (depression, impulsivity, anger, paranoia). CBT and psychodynamic therapy may help but have less evidence than DBT."
+    },
+    {
+        "id": 48,
+        "question": "A 45-year-old man with alcohol use disorder presents with insomnia. He reports difficulty falling asleep and staying asleep. He has been drinking alcohol to help him sleep but now requires more alcohol to achieve the same effect. Which of the following is the most appropriate long-term treatment for his insomnia?",
+        "options": [
+            "Zolpidem nightly for sleep maintenance",
+            "Diazepam for sleep as needed",
+            "Treat underlying alcohol use disorder and implement sleep hygiene",
+            "Diphenhydramine nightly for sedation",
+            "Melatonin 10 mg at bedtime"
+        ],
+        "correct": 2,
+        "explanation": "In patients with substance use disorders, insomnia should be treated by addressing the underlying cause (alcohol use disorder) and implementing non-pharmacologic measures (sleep hygiene, cognitive-behavioral therapy for insomnia). Chronic benzodiazepine or Z-drug use in recovering alcoholics is contraindicated due to cross-tolerance, dependence risk, and relapse potential. Alcohol disrupts sleep architecture (suppresses REM early, causes rebound REM and fragmentation later). Melatonin (0.5-5 mg) may be considered but is not first-line. Trazodone (non-addictive sedating antidepressant) can be used off-label for insomnia in recovering alcoholics."
+    },
+    {
+        "id": 49,
+        "question": "A 35-year-old woman presents with persistent, intrusive worries about contamination from germs. She washes her hands 50 times per day and spends 2 hours showering each morning. She recognizes that her fears are excessive but cannot stop them. She avoids touching door handles and public surfaces. Which of the following is the most appropriate first-line treatment?",
+        "options": [
+            "Clonazepam as needed for anxiety",
+            "Clomipramine (TCA) or fluoxetine (SSRI) plus exposure and response prevention (ERP) therapy",
+            "Risperidone monotherapy",
+            "Psychodynamic psychotherapy alone",
+            "ECT for severe cases"
+        ],
+        "correct": 1,
+        "explanation": "Obsessive-compulsive disorder (OCD) is first-line treated with SSRIs (fluoxetine, sertraline, paroxetine, fluvoxamine) at higher doses than for depression (max doses often needed), or clomipramine (TCA) if SSRIs fail. Cognitive-behavioral therapy with exposure and response prevention (ERP) is equally effective and often combined with medication. ERP involves gradual exposure to feared stimuli (touching door handles) while resisting compulsions (hand washing). Benzodiazepines are not effective for OCD. Antipsychotics (risperidone, aripiprazole) are used for augmentation in treatment-resistant OCD, not monotherapy."
+    },
+    {
+        "id": 50,
+        "question": "Which of the following best describes the clinical features of conversion disorder (functional neurological symptom disorder)? A 30-year-old woman presents with sudden-onset left-sided weakness and non-epileptic seizures after a stressful argument with her husband. Neurological examination shows inconsistent findings (give-way weakness, Hoover sign positive). MRI brain and EEG are normal. She is not feigning symptoms for external gain. Understanding the diagnostic criteria for conversion disorder helps avoid unnecessary invasive testing and guides appropriate treatment.",
+        "options": [
+            "Deliberate induction of symptoms to assume the sick role",
+            "Neurological symptoms fully explained by a medical condition",
+            "False belief about having a serious illness despite normal examinations",
+            "Neurological symptoms incompatible with known medical conditions, not intentionally produced, often following stress",
+            "Intentional production of symptoms for financial compensation"
+        ],
+        "correct": 3,
+        "explanation": "Conversion disorder (functional neurological symptom disorder) involves one or more symptoms of altered voluntary motor or sensory function that are incompatible with recognized neurological or medical conditions. It is not intentionally produced (distinguishes from factitious disorder and malingering). Positive signs include Hoover sign (weakness resolves with contralateral hip flexion), give-way weakness, and distractibility. Often preceded by psychological stress or trauma. Treatment includes physical therapy, CBT, and treatment of underlying psychiatric comorbidity. Prognosis is better with acute onset and identifiable stressor."
+    },
+	
+	
+	
+	
+	
+    {
+        "id": 51,
+        "question": "A 45-year-old man with major depressive disorder has failed trials of two SSRIs and one SNRI. His psychiatrist prescribes venlafaxine 225 mg daily. Which of the following adverse effects is most concerning with high-dose venlafaxine and requires monitoring?",
+        "options": [
+            "Sedation and cognitive impairment",
+            "Hypertension (dose-dependent increase in blood pressure)",
+            "Sexual dysfunction",
+            "Weight gain and metabolic syndrome",
+            "Hyponatremia (SIADH)"
+        ],
+        "correct": 1,
+        "explanation": "High-dose venlafaxine (SNRI) can cause dose-dependent sustained hypertension in 5-10% of patients due to norepinephrine reuptake inhibition. Blood pressure should be monitored before and during treatment. Dose reduction or discontinuation usually reverses hypertension. Other adverse effects include nausea, headache, insomnia, sexual dysfunction, and withdrawal syndrome. Unlike SSRIs, venlafaxine has minimal weight gain. Hyponatremia (SIADH) is more common with SSRIs, especially in elderly patients."
+    },
+    {
+        "id": 52,
+        "question": "Which of the following best describes the difference between a compulsion and an impulse in obsessive-compulsive disorder (OCD)? A 28-year-old woman feels a strong urge to check the stove repeatedly. She knows the stove is off but cannot resist checking it 10 times before leaving the house. She experiences anxiety if she does not perform the checking ritual. Understanding the distinction between compulsions and other repetitive behaviors helps differentiate OCD from impulse control disorders.",
+        "options": [
+            "Compulsions are involuntary; impulses are voluntary",
+            "Compulsions are pleasurable; impulses are anxiety-provoking",
+            "Compulsions occur only in OCD; impulses occur only in addiction",
+            "Compulsions are cognitive (thoughts); impulses are behavioral (actions)",
+            "Compulsions are performed to reduce anxiety or prevent a feared outcome; impulses are driven by pleasure, tension relief, or gratification"
+        ],
+        "correct": 4,
+        "explanation": "Compulsions in OCD are repetitive behaviors or mental acts that a person feels driven to perform in response to an obsession, aimed at preventing or reducing anxiety or distress. They are not pleasurable. Impulses in impulse control disorders (gambling, pyromania, kleptomania) are driven by pleasure, gratification, or tension relief, often with no preceding obsession. Both may be difficult to resist, but motivation differs: compulsion reduces anxiety (negative reinforcement), impulse provides pleasure (positive reinforcement)."
+    },
+    {
+        "id": 53,
+        "question": "A 55-year-old woman with treatment-resistant depression is referred for electroconvulsive therapy (ECT). She asks about the most common adverse effect of ECT. Which of the following is the most frequent and concerning side effect of ECT that may persist after treatment?",
+        "options": [
+            "Cardiac arrhythmias",
+            "Prolonged confusion lasting weeks",
+            "Memory loss (retrograde and anterograde amnesia)",
+            "Dental damage from biting",
+            "Seizure disorder (new-onset epilepsy)"
+        ],
+        "correct": 2,
+        "explanation": "Cognitive adverse effects, particularly retrograde amnesia (loss of memory for events before ECT) and anterograde amnesia (difficulty forming new memories), are the most common and concerning side effects of ECT. Memory loss is usually temporary and improves within weeks to months, but some patients report persistent deficits. Right unilateral ECT (vs bilateral) and ultrabrief pulse stimulation reduce cognitive effects. Other side effects include headache, muscle soreness, and cardiovascular changes during treatment. ECT is highly effective for severe, treatment-resistant depression, catatonia, and acute mania. Mortality is very low (comparable to minor surgery)."
+    },
+    {
+        "id": 54,
+        "question": "A 32-year-old woman presents with recurrent episodes of depersonalization (feeling detached from her own body) and derealization (feeling that the world is unreal). These episodes occur suddenly and last 1-2 hours. She has no psychotic symptoms and no loss of consciousness. She has no other psychiatric history. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Depersonalization/derealization disorder",
+            "Panic disorder",
+            "Dissociative identity disorder",
+            "Schizophrenia",
+            "Temporal lobe epilepsy"
+        ],
+        "correct": 0,
+        "explanation": "Depersonalization/derealization disorder is characterized by persistent or recurrent episodes of depersonalization (feeling detached from one's own thoughts, feelings, body) or derealization (feeling that the external world is unreal, dreamlike, distorted) with intact reality testing. Episodes cause clinically significant distress or impairment. Must not be better explained by another disorder (panic attacks, PTSD, seizures, substance use). Unlike psychotic disorders, insight is preserved (patient knows the feelings are not real). First-line treatment is psychotherapy (CBT, psychodynamic therapy). No FDA-approved medication; SSRIs may treat comorbid anxiety/depression."
+    },
+    {
+        "id": 55,
+        "question": "A 28-year-old man with schizophrenia develops severe muscle rigidity, fever (39.5°C), altered mental status, autonomic instability (labile BP, tachycardia), and elevated creatine kinase (CK 5000 U/L). He was started on haloperidol 2 weeks ago. Which of the following is the most likely diagnosis and appropriate immediate treatment?",
+        "options": [
+            "Serotonin syndrome; cyproheptadine",
+            "Acute dystonia; benztropine",
+            "Tardive dyskinesia; valbenazine",
+            "Neuroleptic malignant syndrome (NMS); stop haloperidol, supportive care, dantrolene or bromocriptine",
+            "Malignant hyperthermia; dantrolene"
+        ],
+        "correct": 3,
+        "explanation": "Neuroleptic malignant syndrome (NMS) is a life-threatening complication of antipsychotic therapy (both typical and atypical). Features: fever, rigidity, altered mental status (delirium, mutism), autonomic instability (tachycardia, labile BP, diaphoresis), and elevated CK (from muscle breakdown). Treatment: immediate discontinuation of antipsychotic, supportive care (hydration, cooling), and dantrolene (for rigidity/hyperthermia) or bromocriptine (dopamine agonist). Mortality is 5-10% if untreated. Unlike serotonin syndrome (hyperreflexia, clonus, myoclonus), NMS has rigidity and bradyreflexia."
+    },
+    {
+        "id": 56,
+        "question": "Which of the following best describes the clinical features of delusional disorder? A 55-year-old man has held a fixed, false belief for 8 months that his wife is unfaithful. He has meticulously documented what he believes to be evidence (receipts, phone logs) and has confronted her multiple times. Aside from this belief, his behavior and functioning are unremarkable. He has no hallucinations, disorganized speech, or negative symptoms. Understanding the preserved functioning outside the delusion helps differentiate delusional disorder from schizophrenia.",
+        "options": [
+            "Bizarre delusions with prominent hallucinations",
+            "Delusions occurring only during depressive episodes",
+            "Brief delusions lasting less than 1 day",
+            "Delusions shared by two or more people in close relationship",
+            "Non-bizarre delusions lasting at least 1 month without other psychotic symptoms (hallucinations, disorganized speech, negative symptoms)"
+        ],
+        "correct": 4,
+        "explanation": "Delusional disorder is characterized by one or more non-bizarre delusions (beliefs that could be true, such as being followed, poisoned, infected, loved by someone distant) lasting at least 1 month, without other prominent psychotic symptoms (hallucinations may be present if related to the delusion). Functioning is not markedly impaired and behavior is not obviously bizarre. Subtypes: erotomanic, grandiose, jealous, persecutory, somatic, mixed. Unlike schizophrenia, negative symptoms and disorganized speech are absent. Delusional disorder is less disabling than schizophrenia but may be difficult to treat (poor insight). Antipsychotics (low dose) and individual therapy are used."
+    },
+    {
+        "id": 57,
+        "question": "A 60-year-old man with Parkinson's disease presents with visual hallucinations of small animals and people. He is not agitated. His motor symptoms are well-controlled on levodopa/carbidopa. Which of the following is the most appropriate next step in management?",
+        "options": [
+            "Start risperidone for better efficacy",
+            "Reduce or simplify antiparkinsonian medications",
+            "Start pimavanserin (5-HT2A inverse agonist)",
+            "Start clozapine with mandatory CBC monitoring",
+            "Start quetiapine at low dose"
+        ],
+        "correct": 1,
+        "explanation": "First-line management of Parkinson's disease psychosis is to reduce or simplify antiparkinsonian medications (start with anticholinergics, then amantadine, then dopamine agonists, then COMT inhibitors, last levodopa). If psychosis persists despite medication adjustment, pimavanserin (atypical antipsychotic, 5-HT2A inverse agonist) is FDA-approved specifically for Parkinson's disease psychosis with no dopaminergic blockade. Quetiapine and clozapine are also used but have metabolic and hematologic monitoring requirements (clozapine requires CBC for agranulocytosis). Typical antipsychotics (haloperidol) and high-potency atypicals (risperidone) worsen parkinsonism and are contraindicated."
+    },
+    {
+        "id": 58,
+        "question": "A 25-year-old woman presents with a 6-month history of persistent, excessive worry about her health. She fears she has cancer despite multiple normal medical evaluations. She spends hours researching symptoms online and visits her primary care physician monthly for reassurance. The worry causes significant distress and interferes with her job. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Somatic symptom disorder",
+            "Generalized anxiety disorder",
+            "Illness anxiety disorder (hypochondriasis)",
+            "Conversion disorder",
+            "Obsessive-compulsive disorder"
+        ],
+        "correct": 2,
+        "explanation": "Illness anxiety disorder (hypochondriasis) is characterized by preoccupation with having or acquiring a serious illness, with mild or no somatic symptoms. The individual performs excessive health-related behaviors (checking for signs of illness, seeking reassurance) or demonstrates maladaptive avoidance. Insight may be poor. For at least 6 months. Distinct from somatic symptom disorder (prominent somatic symptoms present). Generalized anxiety disorder involves worry about multiple domains, not specifically illness. CBT is first-line treatment; SSRIs may help. Reassurance seeking paradoxically maintains anxiety."
+    },
+    {
+        "id": 59,
+        "question": "A 35-year-old woman with bipolar II disorder is stabilized on lamotrigine. She is planning to become pregnant. Which of the following statements about lamotrigine during pregnancy is most accurate?",
+        "options": [
+            "Lamotrigine clearance increases during pregnancy (due to induced glucuronidation); dose may need to be increased",
+            "Lamotrigine causes neural tube defects; add high-dose folate",
+            "Lamotrigine must be discontinued at least 3 months before conception",
+            "Lamotrigine is safe; no monitoring or dose adjustment needed during pregnancy",
+            "Lamotrigine is absolutely contraindicated in pregnancy due to high teratogenic risk"
+        ],
+        "correct": 0,
+        "explanation": "Lamotrigine is considered one of the safer mood stabilizers during pregnancy (lower teratogenic risk than valproate). However, pregnancy induces glucuronidation (UGT1A4), increasing lamotrigine clearance by 50-150%, which can lead to subtherapeutic levels and mood destabilization (breakthrough depression, hypomania). Therapeutic drug monitoring is recommended, with dose adjustments typically required during pregnancy (often 2-3x prepregnancy dose). After delivery, clearance returns to baseline, requiring dose reduction to prevent toxicity. Folic acid (4-5 mg daily) is recommended for all women of childbearing potential on mood stabilizers."
+    },
+    {
+        "id": 60,
+        "question": "Which of the following best describes the clinical features of schizoaffective disorder? A 28-year-old woman presents with auditory hallucinations (voices criticizing her), delusions of persecution, and disorganized speech for 3 months. She also reports a 2-week period of elevated mood, grandiosity, and decreased need for sleep that occurred during the same illness. Her psychotic symptoms persist even when she is not in mood episodes. Understanding the distinction between schizoaffective disorder and mood disorders with psychotic features is important for prognosis and treatment.",
+        "options": [
+            "Depressive symptoms only without psychosis",
+            "Psychotic symptoms only occur during mood episodes",
+            "Psychotic symptoms without any mood symptoms",
+            "Mood episodes occur with psychotic symptoms, but psychotic symptoms also persist for at least 2 weeks in the absence of a major mood episode",
+            "Manic episodes only without psychosis"
+        ],
+        "correct": 3,
+        "explanation": "Schizoaffective disorder requires an uninterrupted period of illness during which there is a major mood episode (depressive or manic) concurrent with criteria A for schizophrenia (delusions, hallucinations, disorganized speech, catatonic behavior, negative symptoms). Additionally, delusions or hallucinations must be present for at least 2 weeks in the absence of a major mood episode. This distinguishes it from mood disorder with psychotic features (psychosis only during mood episodes) and schizophrenia (no significant mood symptoms). Schizoaffective disorder may be bipolar type or depressive type. Treatment includes antipsychotics plus mood stabilizers or antidepressants."
+    },
+	
+	
+	
+	
+	
+	
+    {
+        "id": 61,
+        "question": "A 30-year-old woman presents with a 4-month history of persistent, excessive worry about her job performance, health, and family finances. She reports difficulty sleeping, muscle tension, fatigue, and irritability. She has no panic attacks or obsessive-compulsive symptoms. Which of the following is the most appropriate first-line pharmacologic treatment?",
+        "options": [
+            "Alprazolam as needed for anxiety",
+            "Buspirone alone",
+            "Escitalopram (SSRI)",
+            "Propranolol for physical symptoms",
+            "Hydroxyzine"
+        ],
+        "correct": 2,
+        "explanation": "Generalized anxiety disorder (GAD) is first-line treated with SSRIs (escitalopram, paroxetine, sertraline) or SNRIs (venlafaxine, duloxetine). Buspirone is also effective but less commonly used. Benzodiazepines are reserved for short-term or rescue use due to dependence risk. CBT is equally effective."
+    },
+    {
+        "id": 62,
+        "question": "Which of the following best describes the difference between thought blocking and thought withdrawal in schizophrenia? A 32-year-old man with schizophrenia reports that his thoughts suddenly stop in the middle of a sentence, and his mind feels empty. At other times, he believes that an external force is removing thoughts from his brain. Understanding these distinct positive symptoms helps characterize the phenomenology of psychosis and guide treatment.",
+        "options": [
+            "Thought blocking is caused by medications; thought withdrawal is part of the illness",
+            "Thought blocking is a negative symptom; thought withdrawal is a positive symptom",
+            "Thought blocking occurs only in mania; thought withdrawal occurs only in schizophrenia",
+            "Thought blocking is sudden interruption of thought without external cause; thought withdrawal is belief that thoughts are being removed by an external agent",
+            "Both are identical and interchangeable terms"
+        ],
+        "correct": 3,
+        "explanation": "Thought blocking is a positive symptom where a person's stream of thought is suddenly interrupted, resulting in an empty mind with no external cause. Thought withdrawal is a delusion that one's thoughts are being removed by an external agent. Both are first-rank symptoms of schizophrenia according to Kurt Schneider."
+    },
+    {
+        "id": 63,
+        "question": "A 55-year-old woman with major depressive disorder and chronic kidney disease (stage 4) presents with worsening depression. She has failed fluoxetine and sertraline. Which antidepressant is safest in patients with severe renal impairment (eGFR <30 mL/min)?",
+        "options": [
+            "Duloxetine (SNRI)",
+            "Fluoxetine (SSRI)",
+            "Venlafaxine (SNRI)",
+            "Paroxetine (SSRI)",
+            "Citalopram (SSRI)"
+        ],
+        "correct": 1,
+        "explanation": "Fluoxetine and its active metabolite norfluoxetine have the longest half-life but are safe in renal impairment as they are primarily hepatically metabolized with minimal renal excretion. Venlafaxine (active metabolite O-desmethylvenlafaxine) is renally excreted and requires dose reduction. Duloxetine is not recommended in severe renal impairment."
+    },
+    {
+        "id": 64,
+        "question": "A 28-year-old man presents with a first episode of mania (grandiosity, decreased need for sleep, pressured speech, reckless spending). He has no prior history of depression. Which of the following is the most appropriate first-line treatment for acute mania?",
+        "options": [
+            "Valproate monotherapy",
+            "Carbamazepine monotherapy",
+            "Lamotrigine monotherapy",
+            "Lithium plus an antipsychotic (risperidone, olanzapine, or quetiapine)",
+            "Lithium monotherapy"
+        ],
+        "correct": 3,
+        "explanation": "For acute moderate to severe mania, combination therapy with lithium (or valproate) plus an atypical antipsychotic is more effective than monotherapy and has faster onset. Antipsychotics reduce agitation within days, while lithium takes 1-2 weeks. Lamotrigine is effective for bipolar depression prevention but not acute mania. ECT is for refractory or severe cases."
+    },
+    {
+        "id": 65,
+        "question": "A 40-year-old woman with obsessive-compulsive disorder (OCD) has failed adequate trials of fluoxetine, sertraline, and clomipramine. Her psychiatrist adds low-dose risperidone. Which of the following is the most appropriate next step if she still has no response after 8 weeks of augmentation?",
+        "options": [
+            "Consider deep brain stimulation (DBS) or psychosurgery",
+            "Increase risperidone to high dose",
+            "Discontinue all medications and refer for CBT only",
+            "Add a second SSRI to risperidone",
+            "Switch to olanzapine augmentation"
+        ],
+        "correct": 0,
+        "explanation": "For treatment-resistant OCD (failure of at least two SSRIs and antipsychotic augmentation), options include switching to a different antipsychotic or considering neurosurgical interventions. Deep brain stimulation (DBS) targeting ventral capsule/ventral striatum is approved for treatment-resistant OCD under FDA humanitarian device exemption. CBT with ERP should be continued."
+    },
+    {
+        "id": 66,
+        "question": "Which of the following best describes the clinical features of somatic symptom disorder? A 45-year-old woman presents with multiple physical complaints (back pain, fatigue, nausea) for 3 years. Extensive medical evaluation has found no organic cause. She is preoccupied with the symptoms and spends excessive time and energy worrying about her health. She has significant functional impairment and frequent healthcare visits. Understanding the emphasis on distress and impairment (rather than symptom count) distinguishes the DSM-5 diagnosis from earlier somatoform disorders.",
+        "options": [
+            "Intentional production of physical symptoms to assume sick role",
+            "Fear of having a serious illness without significant somatic symptoms",
+            "At least one somatic symptom accompanied by excessive thoughts, feelings, or behaviors related to the symptom",
+            "Neurological symptoms incompatible with medical conditions",
+            "Delusional belief of having a serious illness"
+        ],
+        "correct": 2,
+        "explanation": "Somatic symptom disorder (SSD) is characterized by one or more somatic symptoms that are distressing or cause significant disruption. The key feature is disproportionate and persistent thoughts, feelings, and behaviors related to the symptoms (excessive health anxiety, time/energy devoted to symptoms, frequent healthcare use). Treatment includes CBT and SSRIs."
+    },
+    {
+        "id": 67,
+        "question": "A 25-year-old woman presents with recurrent episodes of binge eating (eating large amounts of food in 2 hours with loss of control) twice weekly for 4 months. She does not engage in purging, fasting, or excessive exercise. She is embarrassed about her eating and eats alone to hide it. Her BMI is 32. Which of the following is the most appropriate first-line treatment?",
+        "options": [
+            "Fluoxetine (SSRI) 60 mg daily",
+            "Lisdexamfetamine (Vyvanse) or cognitive-behavioral therapy (CBT)",
+            "Olanzapine for weight gain",
+            "Topiramate for seizure control",
+            "Bupropion (NDRI) for binge control"
+        ],
+        "correct": 1,
+        "explanation": "Binge eating disorder (BED) is characterized by recurrent binge eating without compensatory behaviors. First-line treatment is CBT. Lisdexamfetamine (prodrug of dextroamphetamine) is FDA-approved for moderate-to-severe BED and reduces binge frequency. Unlike bulimia nervosa, BED does not respond as well to SSRIs. Bupropion is contraindicated in eating disorders due to seizure risk."
+    },
+    {
+        "id": 68,
+        "question": "A 55-year-old man with schizophrenia has been stable on aripiprazole for 5 years. He now presents with new-onset, repetitive, involuntary movements of his mouth (lip smacking, tongue protrusion) and fingers (piano-playing movements). He is not aware of these movements. Which of the following is the most appropriate management?",
+        "options": [
+            "Add benztropine for acute dystonia",
+            "Add propranolol for akathisia",
+            "Increase aripiprazole dose to suppress movements",
+            "Switch to clozapine or add valbenazine (VMAT2 inhibitor)",
+            "Reduce aripiprazole dose and add haloperidol"
+        ],
+        "correct": 3,
+        "explanation": "Tardive dyskinesia (TD) is a late-onset, potentially irreversible movement disorder caused by chronic dopamine receptor blockade. First-line management: switch to clozapine (lowest TD risk) or reduce dose. VMAT2 inhibitors (valbenazine, deutetrabenazine) are FDA-approved for TD and reduce abnormal involuntary movements. Anticholinergics (benztropine) are not effective for TD."
+    },
+    {
+        "id": 69,
+        "question": "A 30-year-old woman with borderline personality disorder presents with chronic suicidal ideation, self-harm (cutting), and emotional dysregulation. She has had multiple emergency department visits. Which of the following is the most evidence-based treatment to reduce suicide attempts and self-harm in BPD?",
+        "options": [
+            "Clozapine",
+            "Fluoxetine (SSRI)",
+            "Lithium",
+            "Dialectical behavior therapy (DBT)",
+            "Olanzapine"
+        ],
+        "correct": 3,
+        "explanation": "Dialectical behavior therapy (DBT) is the most studied and effective treatment for borderline personality disorder (BPD). DBT reduces self-harm, suicidal behavior, emergency department visits, and hospitalization. No medication is FDA-approved for BPD itself. SSRIs and antipsychotics may treat specific symptoms but do not reduce BPD core pathology. Lithium reduces suicide risk in bipolar disorder, not BPD."
+    },
+    {
+        "id": 70,
+        "question": "Which of the following best describes the clinical features of alcohol withdrawal delirium (delirium tremens)? A 55-year-old man with alcohol use disorder abruptly stops drinking. On day 3 of abstinence, he develops confusion, agitation, visual hallucinations (seeing bugs crawling on walls), tachycardia, hypertension, fever, and diaphoresis. Understanding the time course (peak at 48-72 hours) and symptoms is essential for prompt recognition and treatment, as DT has a mortality of 5-15% if untreated.",
+        "options": [
+            "Altered mental status, autonomic instability, hallucinations (usually visual, tactile) beginning 48-72 hours after last drink",
+            "Wernicke encephalopathy with ataxia, ophthalmoplegia, confusion",
+            "Seizures occurring 6-12 hours after last drink without delirium",
+            "Anxiety, insomnia, tremors beginning 6-12 hours after last drink",
+            "Korsakoff syndrome with amnesia and confabulation"
+        ],
+        "correct": 0,
+        "explanation": "Delirium tremens (DT) is the most severe form of alcohol withdrawal, typically beginning 48-72 hours after last drink. Features: delirium (altered consciousness, disorientation, agitation), autonomic instability (tachycardia, hypertension, fever, diaphoresis), and hallucinations (usually visual, tactile). DT mortality is 5-15% without treatment (benzodiazepines). Seizures typically occur 6-12 hours after last drink."
+    },
+	
+	
+	
+	
+	
+	
+    {
+        "id": 71,
+        "question": "A 35-year-old woman with bipolar I disorder is stabilized on lithium. She presents with polyuria (urinating every 1-2 hours) and polydipsia (drinking 8-10 liters of water daily). Her lithium level is 0.8 mEq/L. Serum sodium is 145 mEq/L, and urine osmolality is 150 mOsm/kg after water deprivation (inappropriately dilute). Which of the following is the most likely diagnosis?",
+        "options": [
+            "Nephrogenic diabetes insipidus (lithium-induced)",
+            "Primary polydipsia (psychogenic polydipsia)",
+            "Central diabetes insipidus",
+            "SIADH (syndrome of inappropriate antidiuretic hormone)",
+            "Diabetes mellitus"
+        ],
+        "correct": 0,
+        "explanation": "Lithium-induced nephrogenic diabetes insipidus (NDI) occurs in 20-40% of long-term lithium users due to resistance to ADH in the collecting duct. Urine is dilute despite normal or elevated serum sodium. Unlike central DI, NDI does not respond to desmopressin. Management includes reducing lithium, switching to alternative mood stabilizer, or adding amiloride."
+    },
+    {
+        "id": 72,
+        "question": "Which of the following best describes the clinical features of Cotard syndrome? A 60-year-old man with severe depression believes that he has died, his organs are rotting, and he does not need to eat because he no longer has a stomach. He refuses food and water and requires hospitalization. Understanding this rare but serious delusional syndrome is important for recognizing nihilistic delusions in severe depression and treating underlying mood disorder.",
+        "options": [
+            "Delusion that a loved one has been replaced by an identical impostor (Capgras)",
+            "Delusion that one has special powers or a special relationship with a celebrity",
+            "Nihilistic delusion that one is dead, does not exist, or has lost internal organs",
+            "Delusion that others are talking about or plotting against the patient",
+            "Delusion that one's body parts are changing shape or size"
+        ],
+        "correct": 2,
+        "explanation": "Cotard syndrome (walking corpse syndrome) is characterized by nihilistic delusions that one is dead, does not exist, or has lost internal organs. Often associated with severe depression, psychotic depression, or catatonia. Electroconvulsive therapy (ECT) is highly effective; also treat underlying depression with antidepressants and antipsychotics."
+    },
+    {
+        "id": 73,
+        "question": "A 45-year-old woman with major depressive disorder has been on escitalopram 20 mg daily for 8 weeks with partial response. She continues to have low energy and motivation. Her psychiatrist adds bupropion 150 mg daily. Which of the following is the most important adverse effect to monitor when adding bupropion to an SSRI?",
+        "options": [
+            "Serotonin syndrome",
+            "Seizure risk (dose-dependent)",
+            "Hypertensive crisis (tyramine interaction)",
+            "Prolonged QT interval",
+            "Weight gain and metabolic syndrome"
+        ],
+        "correct": 1,
+        "explanation": "Bupropion (NDRI) lowers seizure threshold in a dose-dependent manner. Risk factors for seizure: history of seizure disorder, eating disorder (bulimia, anorexia nervosa), head trauma, and medications that lower seizure threshold. Bupropion is contraindicated in seizure disorders and eating disorders. No serotonin syndrome risk with bupropion (minimal serotonin effect)."
+    },
+    {
+        "id": 74,
+        "question": "A 28-year-old woman presents with multiple somatic complaints (back pain, headache, fatigue, nausea) over 2 years. Extensive medical evaluation has found no organic cause. She is preoccupied with her symptoms and spends excessive time worrying about her health. She has seen 12 different physicians and had multiple unnecessary procedures. Which of the following is the most appropriate initial management strategy?",
+        "options": [
+            "Reassure that there is no medical illness and discharge",
+            "Start antipsychotic medication",
+            "Refer to a pain clinic for opioid therapy",
+            "Establish a single primary care provider, schedule regular visits, avoid unnecessary tests, and consider CBT or SSRI",
+            "Hospitalize for extensive diagnostic workup"
+        ],
+        "correct": 3,
+        "explanation": "Somatic symptom disorder (SSD) management: establish a consistent, trusting relationship with a single primary care provider who schedules regular visits, performs symptom-focused exams, and avoids unnecessary testing. CBT is first-line therapy. SSRIs/SNRIs may reduce symptom severity and comorbid anxiety/depression. Opioids and benzodiazepines should be avoided."
+    },
+    {
+        "id": 75,
+        "question": "Which of the following best describes the clinical features of erotomania (de Clérambault syndrome)? A 35-year-old single woman believes that a famous politician is secretly in love with her. She sends him love letters, waits outside his office, and interprets his public statements as coded messages to her. She has no other psychotic symptoms and functions normally otherwise. Understanding this delusional disorder subtype helps differentiate it from other psychotic disorders and guide treatment.",
+        "options": [
+            "Delusion that one's spouse is unfaithful",
+            "Delusion that one's thoughts are being broadcast to others",
+            "Delusion that a person (usually of higher status) is in love with the patient",
+            "Delusion that a loved one has been replaced by an impostor",
+            "Delusion that one has a special relationship with God"
+        ],
+        "correct": 2,
+        "explanation": "Erotomania (de Clérambault syndrome) is a subtype of delusional disorder where the patient holds a fixed false belief that another person (usually of higher status, inaccessible, or famous) is in love with them. The patient may stalk the object of delusion. First-line treatment: antipsychotics (risperidone, olanzapine, pimozide)."
+    },
+    {
+        "id": 76,
+        "question": "A 55-year-old woman with treatment-resistant depression has failed 4 antidepressant trials and augmentation strategies. She is referred for electroconvulsive therapy (ECT). She asks about the most common adverse effect of ECT. Which of the following is the most frequent side effect that patients find most distressing?",
+        "options": [
+            "Prolonged confusion for days",
+            "Memory loss (retrograde and anterograde amnesia)",
+            "Prolonged seizure (>120 seconds)",
+            "Cardiac arrhythmias",
+            "Dental damage from biting"
+        ],
+        "correct": 1,
+        "explanation": "Cognitive adverse effects, particularly retrograde amnesia (loss of memory for events before ECT) and anterograde amnesia (difficulty forming new memories), are the most common and distressing side effects of ECT. Memory loss is usually temporary and improves within weeks to months. Right unilateral ECT and ultrabrief pulse stimulation significantly reduce cognitive effects."
+    },
+    {
+        "id": 77,
+        "question": "A 32-year-old woman presents with a 6-month history of persistent, excessive worry about having a serious illness. She has no somatic symptoms. She has seen multiple physicians, had numerous tests, and seeks constant reassurance, but remains convinced she has cancer. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Somatic symptom disorder",
+            "Obsessive-compulsive disorder",
+            "Conversion disorder",
+            "Illness anxiety disorder",
+            "Factitious disorder"
+        ],
+        "correct": 3,
+        "explanation": "Illness anxiety disorder (hypochondriasis) is characterized by preoccupation with having or acquiring a serious illness, with mild or no somatic symptoms. Distinct from somatic symptom disorder (prominent somatic symptoms present). First-line treatment is CBT; SSRIs may help comorbid anxiety/depression. Reassurance paradoxically maintains anxiety."
+    },
+    {
+        "id": 78,
+        "question": "A 45-year-old man with alcohol use disorder presents with amnesia, confabulation, and apathy. He has been sober for 2 months. He cannot remember recent events and invents plausible false stories to fill memory gaps. His gait is normal, and he has no eye movement abnormalities. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Wernicke encephalopathy",
+            "Alzheimer's disease",
+            "Frontotemporal dementia",
+            "Korsakoff syndrome",
+            "Vascular dementia"
+        ],
+        "correct": 3,
+        "explanation": "Korsakoff syndrome is a chronic memory disorder caused by thiamine (B1) deficiency, most common in alcohol use disorder. It is characterized by anterograde amnesia, retrograde amnesia, and confabulation. It may follow Wernicke encephalopathy (confusion, ataxia, ophthalmoplegia) and is often irreversible despite thiamine replacement."
+    },
+    {
+        "id": 79,
+        "question": "Which of the following best describes the clinical features of dissociation seen in dissociative identity disorder (DID)? A 35-year-old woman presents with gaps in memory for events, finding unfamiliar objects in her possession, and being called by a different name by strangers. She reports feeling as if she has different identities that take control of her behavior. She has a history of severe childhood abuse. Understanding the core features of DID helps differentiate it from other dissociative disorders and malingering.",
+        "options": [
+            "Two or more distinct personality states with recurrent gaps in memory for everyday events and trauma",
+            "Inability to recall important autobiographical information (dissociative amnesia)",
+            "Feeling detached from one's own body or thoughts (depersonalization)",
+            "Sudden, unexpected travel away from home with inability to recall identity (dissociative fugue)",
+            "Feeling that the external world is unreal (derealization)"
+        ],
+        "correct": 0,
+        "explanation": "Dissociative identity disorder (DID) is characterized by disruption of identity with two or more distinct personality states (alters) and recurrent gaps in memory for everyday events, important personal information, and traumatic events. Often associated with severe, repeated childhood abuse (usually before age 6). Treatment is long-term psychotherapy (integration of alters)."
+    },
+    {
+        "id": 80,
+        "question": "A 28-year-old woman presents with a 3-day history of fever, headache, and altered mental status. She has visual hallucinations and agitation. Lumbar puncture shows lymphocytic pleocytosis. MRI shows T2 hyperintensity in the temporal lobes. PCR for HSV is positive. Which of the following is the most appropriate antiviral therapy?",
+        "options": [
+            "Valacyclovir oral",
+            "Ganciclovir IV",
+            "Oseltamivir oral",
+            "Acyclovir IV",
+            "Foscarnet IV"
+        ],
+        "correct": 3,
+        "explanation": "Herpes simplex virus (HSV) encephalitis is treated with IV acyclovir (10 mg/kg every 8 hours for 14-21 days). Without treatment, mortality >70%; with treatment, mortality 20-30% but survivors often have residual deficits (memory impairment, personality changes). PCR of CSF is diagnostic (sensitivity 95-100%). Temporal lobe involvement is characteristic."
+    },
+	
+	
+	
+	
+	
+	
+    {
+        "id": 81,
+        "question": "A 30-year-old woman presents with a 2-week history of depressed mood, anhedonia, fatigue, and insomnia following the birth of her first child. She feels guilty and has thoughts of harming herself but no plan. She has no prior psychiatric history. Which of the following is the most appropriate first-line treatment?",
+        "options": [
+            "Electroconvulsive therapy (ECT) as first-line",
+            "Lithium for mood stabilization",
+            "Observation without treatment as postpartum blues",
+            "Sertraline (SSRI) and psychotherapy",
+            "Hospitalization for infanticide risk"
+        ],
+        "correct": 3,
+        "explanation": "Postpartum depression affects 10-15% of women and is treated with SSRIs (sertraline, fluoxetine, paroxetine) which are safe during breastfeeding. Psychotherapy (CBT, interpersonal therapy) is also effective. Postpartum blues (day 3-5, resolves within 2 weeks) is milder and does not require medication. Postpartum psychosis requires hospitalization."
+    },
+    {
+        "id": 82,
+        "question": "Which of the following best describes the difference between akathisia and tardive dyskinesia? A 35-year-old man on risperidone reports an intense inner restlessness and an urge to move constantly. He paces back and forth and cannot sit still. Another patient on long-term haloperidol develops involuntary lip smacking and tongue protrusion. Understanding these distinct extrapyramidal symptoms is essential for appropriate management.",
+        "options": [
+            "Both are irreversible",
+            "Akathisia is a subjective feeling of restlessness with constant movement; tardive dyskinesia is involuntary choreiform movements (orofacial, limb)",
+            "Akathisia occurs only with atypical antipsychotics; tardive dyskinesia only with typical antipsychotics",
+            "Akathisia is involuntary movements; tardive dyskinesia is subjective restlessness",
+            "Both are treated with benztropine"
+        ],
+        "correct": 1,
+        "explanation": "Akathisia is a subjective feeling of inner restlessness leading to constant pacing or movement, treated with dose reduction, beta-blockers (propranolol), or benzodiazepines. Tardive dyskinesia is involuntary, repetitive, choreiform movements (lip smacking, tongue protrusion, finger movements), treated with VMAT2 inhibitors (valbenazine) or switching to clozapine."
+    },
+    {
+        "id": 83,
+        "question": "A 45-year-old man with schizophrenia has been on clozapine for 2 years due to treatment-resistant symptoms. He presents with fever, sore throat, and malaise. CBC shows neutrophil count of 400/mm³ (normal >1500). Which of the following is the most appropriate immediate management?",
+        "options": [
+            "Continue clozapine and add antibiotics",
+            "Switch to olanzapine without stopping clozapine",
+            "Reduce clozapine dose and monitor weekly",
+            "Add lithium to increase neutrophil count",
+            "Immediately discontinue clozapine and start filgrastim (G-CSF)"
+        ],
+        "correct": 4,
+        "explanation": "Clozapine-induced agranulocytosis (ANC <500/mm³) is a medical emergency requiring immediate discontinuation and filgrastim (G-CSF) to stimulate neutrophil recovery. Clozapine has 0.8% risk of agranulocytosis, requiring mandatory regular ANC monitoring. Alternative antipsychotics are started after recovery."
+    },
+    {
+        "id": 84,
+        "question": "A 28-year-old woman presents with recurrent episodes of binge eating followed by self-induced vomiting, laxative use, and fasting. She is of normal weight. These episodes occur at least weekly for 4 months. She is excessively concerned with her body shape and weight. Which of the following is the most appropriate first-line treatment?",
+        "options": [
+            "Topiramate for seizure control",
+            "Olanzapine for weight gain",
+            "Fluoxetine (SSRI) 60 mg/day plus cognitive-behavioral therapy (CBT)",
+            "Bupropion for appetite control",
+            "Lithium for mood stabilization"
+        ],
+        "correct": 2,
+        "explanation": "Bulimia nervosa is treated with fluoxetine 60 mg/day (higher than depression dose) and CBT (first-line psychotherapy). Unlike binge eating disorder, bulimia involves compensatory behaviors (purging, laxatives, fasting) and normal weight. Bupropion is contraindicated due to increased seizure risk in purging patients."
+    },
+    {
+        "id": 85,
+        "question": "A 55-year-old man with Parkinson's disease develops visual hallucinations of small animals and children. He is not agitated. His motor symptoms are well-controlled on levodopa/carbidopa. Which of the following is the most appropriate next step in management?",
+        "options": [
+            "Reduce or simplify antiparkinsonian medications first",
+            "Start risperidone for better efficacy",
+            "Start clozapine with mandatory CBC monitoring",
+            "Start quetiapine at low dose",
+            "Start pimavanserin (5-HT2A inverse agonist)"
+        ],
+        "correct": 0,
+        "explanation": "First-line management of Parkinson's disease psychosis is to reduce or simplify antiparkinsonian medications (anticholinergics, amantadine, dopamine agonists, COMT inhibitors, last levodopa). If psychosis persists, pimavanserin (atypical antipsychotic with no dopaminergic blockade) is FDA-approved. Typical antipsychotics worsen parkinsonism and are contraindicated."
+    },
+    {
+        "id": 86,
+        "question": "Which of the following best describes the clinical features of brief psychotic disorder? A 25-year-old woman with no psychiatric history presents with sudden-onset delusions and auditory hallucinations after learning her husband died. Her symptoms resolve completely within 3 weeks without treatment. She has no mood symptoms. Understanding the time course helps differentiate this from schizophrenia and schizophreniform disorder.",
+        "options": [
+            "Psychotic symptoms lasting 1-6 months with full recovery",
+            "Psychotic symptoms with mood episodes",
+            "Psychotic symptoms lasting more than 6 months",
+            "Psychotic symptoms only during postpartum period",
+            "Psychotic symptoms lasting 1 day to 1 month, often with stressor, full return to baseline"
+        ],
+        "correct": 4,
+        "explanation": "Brief psychotic disorder is characterized by psychotic symptoms lasting at least 1 day but less than 1 month, with eventual full return to premorbid functioning. Often (but not always) occurs after a severe stressor. Differentiates from schizophreniform disorder (1-6 months) and schizophrenia (>6 months). Prognosis is excellent."
+    },
+    {
+        "id": 87,
+        "question": "A 35-year-old woman with borderline personality disorder presents with chronic emptiness, unstable relationships, identity disturbance, and recurrent self-harm (cutting). She has had multiple emergency department visits for suicidal ideation. Which of the following is the most evidence-based treatment to reduce self-harm and suicide attempts in BPD?",
+        "options": [
+            "Olanzapine",
+            "Dialectical behavior therapy (DBT)",
+            "Lithium",
+            "Fluoxetine (SSRI)",
+            "Clozapine"
+        ],
+        "correct": 1,
+        "explanation": "Dialectical behavior therapy (DBT) is the most studied and effective treatment for borderline personality disorder, reducing self-harm, suicidal behavior, and hospitalization. No medication is FDA-approved for BPD. SSRIs and antipsychotics may treat specific symptoms but do not reduce BPD core pathology. Lithium reduces suicide risk in bipolar disorder, not BPD."
+    },
+    {
+        "id": 88,
+        "question": "A 30-year-old woman with bipolar II disorder is stabilized on lamotrigine and planning pregnancy. Which of the following statements about lamotrigine during pregnancy is most accurate?",
+        "options": [
+            "Lamotrigine is absolutely contraindicated due to high teratogenicity",
+            "Lamotrigine causes neural tube defects; add high-dose folate",
+            "Lamotrigine clearance increases during pregnancy; dose may need to be increased",
+            "Lamotrigine is safe; no monitoring or dose adjustment needed",
+            "Lamotrigine must be discontinued at least 3 months before conception"
+        ],
+        "correct": 2,
+        "explanation": "Lamotrigine is one of the safer mood stabilizers during pregnancy (lower teratogenic risk than valproate). Pregnancy induces glucuronidation, increasing lamotrigine clearance by 50-150%, often requiring dose increases (2-3x prepregnancy dose). After delivery, clearance returns to baseline, requiring dose reduction."
+    },
+    {
+        "id": 89,
+        "question": "A 55-year-old woman with major depressive disorder has failed trials of two SSRIs and one SNRI. Her psychiatrist prescribes phenelzine (MAOI). Which of the following is the most important dietary restriction to prevent hypertensive crisis?",
+        "options": [
+            "Aged cheeses, cured meats, red wine, and fermented foods",
+            "Grapefruit juice",
+            "Caffeinated beverages",
+            "High-fiber vegetables",
+            "Chocolate and nuts"
+        ],
+        "correct": 0,
+        "explanation": "Phenelzine (irreversible non-selective MAOI) requires lifelong avoidance of tyramine-rich foods (aged cheeses, cured meats, fermented products, red wine, yeast extracts). Tyramine causes norepinephrine release, leading to hypertensive crisis (severe headache, hypertension, intracranial hemorrhage). Hypertensive crisis is treated with IV phentolamine."
+    },
+    {
+        "id": 90,
+        "question": "A 25-year-old man presents with recurrent, intrusive, unwanted thoughts that his hands are contaminated with germs. He spends 2-3 hours daily washing his hands until they become raw. He recognizes these thoughts and behaviors are excessive but cannot stop them. Which of the following is the most appropriate first-line treatment?",
+        "options": [
+            "Risperidone monotherapy",
+            "Clonazepam as needed for anxiety",
+            "ECT for severe cases",
+            "Fluoxetine (SSRI) plus exposure and response prevention (ERP)",
+            "Psychodynamic psychotherapy alone"
+        ],
+        "correct": 3,
+        "explanation": "Obsessive-compulsive disorder (OCD) is first-line treated with SSRIs (fluoxetine, sertraline, paroxetine, fluvoxamine) at higher doses than for depression, and CBT with exposure and response prevention (ERP). ERP involves gradual exposure to feared stimuli while resisting compulsions. Clomipramine (TCA) is second-line if SSRIs fail."
+    },
+	
+	
+	
+	
+	
+	
+	
+    {
+        "id": 91,
+        "question": "A 32-year-old woman presents with recurrent episodes of depersonalization (feeling detached from her own body) and derealization (feeling the world is unreal). These episodes occur suddenly, last 1-2 hours, and cause significant distress. She has no psychotic symptoms and no loss of consciousness. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Dissociative identity disorder",
+            "Depersonalization/derealization disorder",
+            "Panic disorder",
+            "Temporal lobe epilepsy",
+            "Schizophrenia"
+        ],
+        "correct": 1,
+        "explanation": "Depersonalization/derealization disorder is characterized by persistent or recurrent episodes of depersonalization or derealization with intact reality testing. Unlike psychotic disorders, insight is preserved (patient knows the feelings are not real). First-line treatment is psychotherapy (CBT); no FDA-approved medication exists. SSRIs may treat comorbid anxiety/depression."
+    },
+    {
+        "id": 92,
+        "question": "A 45-year-old man with alcohol use disorder abruptly stops drinking. On day 3 of abstinence, he develops confusion, agitation, visual hallucinations (seeing bugs crawling on walls), tachycardia, hypertension, and fever. Which of the following is the most appropriate treatment?",
+        "options": [
+            "Haloperidol for hallucinations",
+            "Thiamine IV only",
+            "Benzodiazepines (diazepam or lorazepam)",
+            "Clonidine for autonomic symptoms",
+            "Carbamazepine for seizure prevention"
+        ],
+        "correct": 2,
+        "explanation": "Delirium tremens (DT) is the most severe form of alcohol withdrawal, peaking at 48-72 hours. Benzodiazepines (diazepam, lorazepam, chlordiazepoxide) are first-line, reducing mortality from 5-15% to near zero. Thiamine is given to prevent Wernicke-Korsakoff but does not treat DT. Antipsychotics (haloperidol) may be added for agitation but not first-line."
+    },
+    {
+        "id": 93,
+        "question": "Which of the following best describes the clinical features of Capgras syndrome? A 60-year-old woman with schizophrenia believes that her husband has been replaced by an identical-looking impostor. She is convinced the impostor is trying to harm her. She has no other cognitive deficits. Understanding this delusional misidentification syndrome helps differentiate it from other delusional disorders.",
+        "options": [
+            "Delusion that one's thoughts are being broadcast to others",
+            "Nihilistic delusion that one is dead or has lost organs",
+            "Delusion that a person (usually higher status) is in love with the patient",
+            "Delusion that a loved one has been replaced by an identical impostor",
+            "Delusion that one's spouse is unfaithful"
+        ],
+        "correct": 3,
+        "explanation": "Capgras syndrome is a delusional misidentification syndrome where the patient believes a familiar person (spouse, family member) has been replaced by an identical-looking impostor. Often associated with schizophrenia, dementia, or brain injury (right hemisphere, especially fusiform gyrus). Unlike erotomania (de Clérambault), Capgras involves replacement of a known person. Treatment includes antipsychotics."
+    },
+    {
+        "id": 94,
+        "question": "A 28-year-old man presents with a first episode of psychosis. He reports hearing voices commenting on his actions and believes the FBI is monitoring him through his phone. Symptoms have been present for 2 months. He has no mood symptoms. Which of the following is the most important predictor of his long-term outcome?",
+        "options": [
+            "Duration of untreated psychosis (DUP)",
+            "Gender (male predicts worse outcome)",
+            "Presence of insight at presentation",
+            "Family history of schizophrenia",
+            "Age of onset (younger age predicts better outcome)"
+        ],
+        "correct": 0,
+        "explanation": "Duration of untreated psychosis (DUP) is one of the strongest predictors of long-term outcome in schizophrenia. Shorter DUP (<3 months) is associated with better response to treatment, less cognitive decline, and improved functional outcomes. Early intervention programs focus on reducing DUP. Treatment should be started immediately with antipsychotic medication."
+    },
+    {
+        "id": 95,
+        "question": "A 55-year-old woman with treatment-resistant depression has failed 4 antidepressants and augmentation strategies. She is referred for electroconvulsive therapy (ECT). She asks about the most common adverse effect of ECT. Which of the following is the most frequent side effect that patients find most distressing?",
+        "options": [
+            "Dental damage from biting",
+            "Cardiac arrhythmias",
+            "Prolonged confusion for days",
+            "Prolonged seizure (>120 seconds)",
+            "Memory loss (retrograde and anterograde amnesia)"
+        ],
+        "correct": 4,
+        "explanation": "Cognitive adverse effects, particularly retrograde amnesia (loss of memory for events before ECT) and anterograde amnesia (difficulty forming new memories), are the most common and distressing side effects of ECT. Memory loss is usually temporary and improves within weeks to months. Right unilateral ECT and ultrabrief pulse stimulation significantly reduce cognitive effects."
+    },
+    {
+        "id": 96,
+        "question": "A 30-year-old woman presents with a 6-month history of persistent, excessive worry about having a serious illness. She has no somatic symptoms. She has seen multiple physicians and seeks constant reassurance, but remains convinced she has cancer. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Somatic symptom disorder",
+            "Obsessive-compulsive disorder",
+            "Illness anxiety disorder",
+            "Factitious disorder",
+            "Conversion disorder"
+        ],
+        "correct": 2,
+        "explanation": "Illness anxiety disorder (hypochondriasis) is characterized by preoccupation with having or acquiring a serious illness, with mild or no somatic symptoms. Distinct from somatic symptom disorder (prominent somatic symptoms present). First-line treatment is CBT; SSRIs may help comorbid anxiety/depression. Reassurance paradoxically maintains anxiety."
+    },
+    {
+        "id": 97,
+        "question": "A 45-year-old man with alcohol use disorder presents with amnesia, confabulation, and apathy. He has been sober for 2 months. He cannot remember recent events and invents plausible false stories to fill memory gaps. His gait is normal, and he has no eye movement abnormalities. Which of the following is the most likely diagnosis?",
+        "options": [
+            "Alzheimer's disease",
+            "Frontotemporal dementia",
+            "Vascular dementia",
+            "Korsakoff syndrome",
+            "Wernicke encephalopathy"
+        ],
+        "correct": 3,
+        "explanation": "Korsakoff syndrome is a chronic memory disorder caused by thiamine deficiency, most common in alcohol use disorder. It is characterized by anterograde amnesia, retrograde amnesia, and confabulation (unconscious filling of memory gaps). It may follow Wernicke encephalopathy (confusion, ataxia, ophthalmoplegia) and is often irreversible."
+    },
+    {
+        "id": 98,
+        "question": "A 35-year-old woman with borderline personality disorder presents with chronic suicidal ideation, self-harm (cutting), and emotional dysregulation. She has had multiple emergency department visits. Which of the following is the most evidence-based treatment to reduce self-harm and suicide attempts in BPD?",
+        "options": [
+            "Dialectical behavior therapy (DBT)",
+            "Olanzapine",
+            "Lithium",
+            "Fluoxetine (SSRI)",
+            "Clozapine"
+        ],
+        "correct": 0,
+        "explanation": "Dialectical behavior therapy (DBT) is the most studied and effective treatment for borderline personality disorder, reducing self-harm, suicidal behavior, and hospitalization. No medication is FDA-approved for BPD. SSRIs and antipsychotics may treat specific symptoms but do not reduce BPD core pathology. Lithium reduces suicide risk in bipolar disorder, not BPD."
+    },
+    {
+        "id": 99,
+        "question": "A 28-year-old woman presents with recurrent episodes of binge eating followed by self-induced vomiting and laxative use. She is of normal weight. These episodes occur at least weekly for 4 months. She is excessively concerned with her body shape and weight. Which of the following is the most appropriate first-line treatment?",
+        "options": [
+            "Topiramate for seizure control",
+            "Fluoxetine (SSRI) 60 mg/day plus CBT",
+            "Olanzapine for weight gain",
+            "Bupropion for appetite control",
+            "Lithium for mood stabilization"
+        ],
+        "correct": 1,
+        "explanation": "Bulimia nervosa is treated with fluoxetine 60 mg/day (higher than depression dose) and CBT (first-line psychotherapy). Unlike binge eating disorder, bulimia involves compensatory behaviors (purging, laxatives, fasting) and normal weight. Bupropion is contraindicated due to increased seizure risk in purging patients."
+    },
+    {
+        "id": 100,
+        "question": "A 55-year-old man with schizophrenia has been on risperidone for 10 years. He now develops involuntary, repetitive, choreiform movements of his mouth (lip smacking, tongue protrusion) and fingers (piano-playing movements). He is not aware of these movements. Which of the following is the most appropriate management?",
+        "options": [
+            "Add benztropine for acute dystonia",
+            "Add propranolol for akathisia",
+            "Reduce risperidone dose and add haloperidol",
+            "Increase risperidone dose to suppress movements",
+            "Switch to clozapine or add valbenazine (VMAT2 inhibitor)"
+        ],
+        "correct": 4,
+        "explanation": "Tardive dyskinesia (TD) is a late-onset, potentially irreversible movement disorder caused by chronic dopamine blockade. First-line management: switch to clozapine (lowest TD risk) or reduce dose. VMAT2 inhibitors (valbenazine, deutetrabenazine) are FDA-approved for TD and reduce abnormal involuntary movements. Unlike acute dystonia, TD does not respond to benztropine. Increasing antipsychotic dose may temporarily suppress TD but worsens long-term outcome."
+    },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+    ];
+
+    // ============================================================
+    // DO NOT EDIT BELOW THIS LINE - The rendering engine works automatically
+    // ============================================================
+
+    let userAnswers = new Array(questions.length).fill(null);
+    let submitted = false;
+
+    function updateProgress() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        const percentage = questions.length ? (answered / questions.length) * 100 : 0;
+        document.getElementById('progressText').innerHTML = `${answered}/${questions.length} Answered`;
+        document.getElementById('progressFill').style.width = percentage + '%';
+    }
+
+    function renderScorePanel(correctCount = null) {
+        const container = document.getElementById('scorePanelContainer');
+        if (!submitted) {
+            container.classList.add('hidden-panel');
+            container.innerHTML = '';
+        } else {
+            const score = correctCount !== null ? correctCount : 0;
+            container.classList.remove('hidden-panel');
+            container.innerHTML = `
+                <div class="score-title"><i class="fas fa-chart-simple"></i> Score</div>
+                <div class="score-value">${score}/${questions.length}</div>
+            `;
+        }
+    }
+
+    function renderMCQs() {
+        if (!questions.length) {
+            document.getElementById('mcqContent').innerHTML = '<div style="text-align:center;padding:60px 20px;background:white;border-radius:24px;"><i class="fas fa-info-circle" style="font-size:3rem;color:#1ecbe1;"></i><p style="margin-top:20px;font-size:1.1rem;color:#15304c;">No MCQs loaded yet.</p><p style="margin-top:10px;color:#5a7d9a;">Paste your 100 Psychiatry questions into the "questions" array in the script section of this HTML file.</p></div>';
+            return;
+        }
+
+        let html = '';
+        questions.forEach((q, idx) => {
+            const number = idx + 1;
+            const saved = userAnswers[idx];
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                let optionClass = 'option';
+                if (submitted) {
+                    if (optIdx === q.correct) optionClass += ' correct-option';
+                    else if (saved === optIdx && saved !== q.correct) optionClass += ' wrong-option';
+                    else if (saved === optIdx) optionClass += ' selected';
+                } else {
+                    if (saved === optIdx) optionClass += ' selected';
+                }
+                optionsHtml += `<div class="${optionClass}" data-q="${idx}" data-opt="${optIdx}">${String.fromCharCode(65+optIdx)}. ${escapeHtml(opt)}</div>`;
+            });
+            
+            let explClass = 'explanation-box';
+            let cardClass = '';
+            if (submitted) {
+                explClass += ' show';
+                if (saved === null) {
+                    cardClass = 'unanswered-ans';
+                } else if (saved === q.correct) {
+                    cardClass = 'correct-ans';
+                } else {
+                    cardClass = 'wrong-ans';
+                }
+            }
+            
+            html += `
+            <div class="mcq-card ${cardClass}" id="card-${idx}">
+                <div class="q-num"><i class="fas fa-question-circle" style="color:#1ecbe1;"></i> Q${number}</div>
+                <div class="question-text">${escapeHtml(q.question)}</div>
+                <div class="options">${optionsHtml}</div>
+                <div class="${explClass}" id="exp-${idx}">
+                    <div class="exp-title"><i class="fas fa-lightbulb"></i> Explanation</div>
+                    ${escapeHtml(q.explanation)}
+                </div>
+            </div>`;
+        });
+        
+        html += `<div class="submit-wrapper"><button id="submitBtn" class="primary-btn"><i class=""></i> Submit</button></div>`;
+        document.getElementById('mcqContent').innerHTML = html;
+        
+        const btn = document.getElementById('submitBtn');
+        if (btn) {
+            if (submitted) {
+                btn.innerHTML = '<i class=""></i> Submitted';
+                btn.classList.add('disabled-btn');
+                btn.disabled = true;
+            } else {
+                btn.onclick = function() { submitMCQs(); };
+            }
+        }
+        
+        if (!submitted) {
+            document.querySelectorAll('#mcqContent .option').forEach(opt => {
+                opt.addEventListener('click', function(e) {
+                    if (submitted) return;
+                    const qIdx = this.dataset.q;
+                    const optIdx = parseInt(this.dataset.opt);
+                    const parentOptions = this.parentElement.children;
+                    for (let el of parentOptions) {
+                        el.classList.remove('selected');
+                    }
+                    this.classList.add('selected');
+                    userAnswers[qIdx] = optIdx;
+                    updateProgress();
+                });
+            });
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    window.submitMCQs = function() {
+        if (submitted) return;
+        submitted = true;
+        let correctCount = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) correctCount++;
+        }
+        renderScorePanel(correctCount);
+        renderMCQs();
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.onload = function() {
+        renderScorePanel();
+        renderMCQs();
+        updateProgress();
+    };
+</script>
+</body>
+</html>

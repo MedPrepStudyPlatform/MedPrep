@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chromosomes & DNA: Randomized MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Theme: Molecular Navy & Fluorescent Green */
+        body { font-family: 'Inter', sans-serif; background: #0a192f; color: #e6f1ff; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: #112240; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); border-top: 10px solid #64ffda; }
+        h1 { font-family: 'Outfit', sans-serif; color: #64ffda; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #8892b0; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        .question { margin-bottom: 35px; padding: 25px; border: 1px solid #233554; border-radius: 15px; background: #112240; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 20px; color: #ccd6f6; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #233554; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #1d2d50; color: #a8b2d1; }
+        .option:hover { border-color: #64ffda; background: #233554; }
+        .option.selected { background: #64ffda; color: #0a192f; border-color: #64ffda; font-weight: bold; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #64ffda; color: #0a192f; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #52d1b2; transform: translateY(-2px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #0a192f; color: #64ffda; border: 1px solid #64ffda; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #ccd6f6; display: none; background: #1d2d50; padding: 18px; border-left: 6px solid #64ffda; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #052e16 !important; color: #64ffda; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #450a0a !important; color: #ff9a9e; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Chromosomes and DNA</h1>
+    
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const dnaData = [
+        { q: "According to Chargaff's rule, if a DNA sample contains 20% Cytosine, what is the percentage of Adenine?", options: ["20%", "30%", "40%", "80%"], exp: "C = G (20% each = 40%). Remaining 60% is A + T, so A = 30%.", correct: "B" },
+        { q: "Which enzyme is responsible for unwinding the DNA double helix during replication?", options: ["DNA Polymerase", "Ligase", "Helicase", "Primase"], exp: "Helicase breaks the hydrogen bonds between bases to 'unzip' the strands.", correct: "C" },
+        { q: "Nucleosomes are composed of DNA wrapped around a core of how many histone proteins?", options: ["4", "6", "8", "10"], exp: "A nucleosome consists of DNA wrapped around an octamer of histones (2 each of H2A, H2B, H3, and H4).", correct: "C" },
+        { q: "DNA replication is described as 'Semi-conservative' because:", options: ["One strand is conserved and one is new", "Both strands are entirely new", "It uses RNA as a template", "It only happens in 3' to 5' direction"], exp: "Meselson and Stahl proved that each new DNA molecule consists of one parental strand and one newly synthesized strand.", correct: "A" },
+        { q: "The bond that connects the sugar of one nucleotide to the phosphate of the next is a:", options: ["Hydrogen bond", "Phosphodiester bond", "Peptide bond", "Glycosidic bond"], exp: "The sugar-phosphate backbone is held together by strong covalent phosphodiester bonds.", correct: "B" },
+        { q: "In DNA, the two strands are 'Antiparallel', meaning:", options: ["They run in the same direction", "They run in opposite directions (5'→3' and 3'→5')", "They are mirrored images", "They do not pair with each other"], exp: "The 5' end of one strand aligns with the 3' end of the other.", correct: "B" },
+        { q: "Which of the following nitrogenous bases is a Purine?", options: ["Cytosine", "Thymine", "Uracil", "Guanine"], exp: "Purines (Adenine and Guanine) have a double-ring structure; Pyrimidines (C, T, U) have a single ring.", correct: "D" },
+        { q: "Short segments of DNA synthesized on the lagging strand are known as:", options: ["Promoters", "Okazaki fragments", "Introns", "Exons"], exp: "Because DNA polymerase only works in the 5' to 3' direction, the lagging strand is built in pieces.", correct: "B" },
+        { q: "The enzyme that joins Okazaki fragments together is:", options: ["Topoisomerase", "DNA Ligase", "RNA Polymerase", "Exonuclease"], exp: "DNA Ligase acts as molecular 'glue' to seal nicks in the phosphate backbone.", correct: "B" },
+        { q: "What is the primary function of DNA Polymerase III in E. coli?", options: ["Unwinding DNA", "Adding nucleotides to the new strand", "Removing RNA primers", "Repairing damaged DNA"], exp: "Pol III is the main enzyme for bulk DNA synthesis during replication.", correct: "B" },
+        { q: "The highly condensed, transcriptionally inactive region of a chromosome is called:", options: ["Euchromatin", "Heterochromatin", "Centromere", "Telomere"], exp: "Heterochromatin is tightly packed and usually contains non-coding or silenced genes.", correct: "B" },
+        { q: "The 'Central Dogma' of molecular biology describes the flow of information as:", options: ["DNA → Protein → RNA", "RNA → DNA → Protein", "DNA → RNA → Protein", "Protein → RNA → DNA"], exp: "Information flows from storage (DNA) to messenger (RNA) to functional unit (Protein).", correct: "C" },
+        { q: "Which histone protein acts as a 'linker' to stabilize the nucleosome structure?", options: ["H1", "H2A", "H3", "H4"], exp: "H1 sits outside the nucleosome core to pull nucleosomes together into a fiber.", correct: "A" },
+        { q: "DNA replication always proceeds in which direction?", options: ["3' to 5'", "5' to 3'", "Both directions simultaneously", "Depends on the organism"], exp: "New nucleotides are always added to the 3' hydroxyl (-OH) group of the growing strand.", correct: "B" },
+        { q: "A permanent change in the DNA sequence is called a:", options: ["Translation", "Transcription", "Mutation", "Recombination"], exp: "Mutations can be beneficial, neutral, or harmful, and are the source of genetic variation.", correct: "C" },
+        { q: "The scientist(s) who produced the X-ray diffraction images of DNA used by Watson and Crick was:", options: ["Erwin Chargaff", "Rosalind Franklin", "Frederick Griffith", "Martha Chase"], exp: "Rosalind Franklin's Photo 51 was crucial in determining the helical structure of DNA.", correct: "B" },
+        { q: "How many hydrogen bonds form between Guanine and Cytosine?", options: ["1", "2", "3", "4"], exp: "G-C pairs have 3 hydrogen bonds, while A-T pairs have only 2.", correct: "C" },
+        { q: "The 'Transforming Principle' experiment using mice and S/R strains of bacteria was conducted by:", options: ["Avery, MacLeod, and McCarty", "Frederick Griffith", "Hershey and Chase", "Meselson and Stahl"], exp: "Griffith discovered that something from dead virulent bacteria could transform live non-virulent ones.", correct: "B" },
+        { q: "Which enzyme relieves the torsional strain (overwinding) ahead of the replication fork?", options: ["Helicase", "Primase", "Topoisomerase (Gyrase)", "DNA Polymerase I"], exp: "Topoisomerase cuts and rejoins the DNA to prevent it from knotting up.", correct: "C" },
+        { q: "In the Hershey-Chase experiment, what was used to label DNA?", options: ["Radioactive Sulfur-35", "Radioactive Phosphorus-32", "Radioactive Carbon-14", "Radioactive Nitrogen-15"], exp: "Phosphorus is found in DNA but not proteins, making P-32 the perfect marker for DNA.", correct: "B" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        dnaData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        dnaData.forEach((data, index) => {
+            document.getElementById(`exp-${index}`).style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${dnaData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

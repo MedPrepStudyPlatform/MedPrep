@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digestive System Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #fdfcf0; color: #362e1c; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-top: 10px solid #f1c40f; }
+        h1 { font-family: 'Outfit', sans-serif; color: #7f6000; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #d4ac0d; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; }
+        .question { margin-bottom: 35px; padding: 25px; border: 2px solid #f9f7e8; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.15rem; margin-bottom: 20px; color: #4b3e0e; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #f2f1ed; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #fdfdfb; font-size: 1rem; }
+        .option:hover { border-color: #f1c40f; background: #fffdf0; }
+        .option.selected { background: #7f6000; color: white; border-color: #7f6000; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #f1c40f; color: #4b3e0e; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; box-shadow: 0 5px 15px rgba(241, 196, 15, 0.3); }
+        .btn-submit:hover { background: #d4ac0d; transform: translateY(-3px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #7f6000; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #fffbe6; padding: 18px; border-left: 6px solid #f1c40f; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #1c2e36; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Digestion</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const digestionQuiz = [
+        { q: "Which of the following enzymes is secreted in an inactive form to prevent the auto-digestion of the gland that produces it?", options: ["Salivary Amylase", "Pepsinogen", "Maltase", "Lactase"], exp: "Pepsinogen is a zymogen (inactive enzyme) secreted by chief cells. It is only activated into pepsin by HCl in the stomach lumen to protect the stomach wall.", correct: "B" },
+        { q: "The 'Enterogastric Reflex' is a nervous mechanism that inhibits gastric motility. This reflex is primarily triggered by:", options: ["The sight of food", "Distension of the stomach", "Presence of acidic chyme in the duodenum", "Alkaline pH in the mouth"], exp: "Acidic and fatty chyme in the duodenum triggers the enterogastric reflex to slow down stomach emptying, allowing more time for neutralization.", correct: "C" },
+        { q: "Which hormone stimulates the gallbladder to contract and the pancreas to release digestive enzymes?", options: ["Gastrin", "Secretin", "Cholecystokinin (CCK)", "Enterogastrone"], exp: "CCK is released by the duodenum in response to fats and proteins. It triggers bile release and enzyme-rich pancreatic juice.", correct: "C" },
+        { q: "The majority of water reabsorption in the digestive tract occurs in which section?", options: ["Stomach", "Duodenum", "Small Intestine", "Large Intestine"], exp: "While the large intestine is famous for water absorption, about 90% of water is actually reabsorbed in the small intestine via osmosis.", correct: "C" },
+        { q: "A patient's lab results show very high levels of undigested fats in the feces (steatorrhea). Which of the following is most likely malfunctioning?", options: ["Gastric glands", "Bile duct", "Salivary glands", "Esophageal sphincter"], exp: "Bile salts are essential for the emulsification of fats. A blockage in the bile duct prevents fat digestion and absorption.", correct: "B" },
+        { q: "The parietal cells (oxyntic cells) of the stomach are responsible for the secretion of:", options: ["Pepsinogen", "Hydrochloric acid and Intrinsic factor", "Mucus", "Gastrin"], exp: "Parietal cells secrete HCl (for pH) and Intrinsic factor (for Vitamin B12 absorption).", correct: "B" },
+        { q: "Which of the following is the final product of carbohydrate digestion that can be absorbed into the villi?", options: ["Sucrose", "Lactose", "Glucose", "Maltose"], exp: "Complex sugars must be broken down into monosaccharides (Glucose, Fructose, Galactose) before they can be absorbed.", correct: "C" },
+        { q: "The activation of 'Trypsinogen' into active 'Trypsin' in the small intestine is catalyzed by which enzyme?", options: ["Pepsin", "Enterokinase", "Lipase", "Amylase"], exp: "Enterokinase (enteropeptidase) is secreted by the intestinal mucosa to activate trypsin, which then activates other pancreatic zymogens.", correct: "B" },
+        { q: "A person experiences difficulty swallowing, and food feels 'stuck' in the chest. This could indicate a failure of which physiological process?", options: ["Peristalsis", "Mastication", "Segmentation", "Defecation"], exp: "Peristalsis is the wave-like muscular contraction that moves food down the esophagus.", correct: "A" },
+        { q: "The optimal pH for the action of Salivary Amylase is approximately:", options: ["2.0", "7.0", "9.0", "1.0"], exp: "Salivary amylase works best in a nearly neutral environment (pH 6.7 to 7.0). It is inactivated in the acidic stomach.", correct: "B" },
+        { q: "After absorption into the intestinal cells, fats are packaged into small droplets called ________ to be transported into the lacteals.", options: ["Micelles", "Fatty acids", "Chylomicrons", "Glycerol"], exp: "Chylomicrons are lipoprotein particles that transport lipids from the intestines to other parts of the body via the lymphatic system.", correct: "C" },
+        { q: "Which vitamin requires the 'Intrinsic Factor' for its successful absorption in the ileum?", options: ["Vitamin A", "Vitamin B12", "Vitamin C", "Vitamin K"], exp: "Vitamin B12 (Cobalamin) cannot be absorbed without being bound to the intrinsic factor produced in the stomach.", correct: "B" },
+        { q: "The process of 'Segmentation' in the small intestine primarily serves to:", options: ["Move food forward rapidly", "Mix chyme with digestive juices", "Store feces", "Inhibit digestion"], exp: "Segmentation involves localized contractions that mix food with enzymes and bring it into contact with the mucosa for absorption.", correct: "B" },
+        { q: "Which of the following stimulates the secretion of alkaline pancreatic juice to neutralize stomach acid?", options: ["Gastrin", "Secretin", "CCK", "Insulin"], exp: "Secretin is the 'nature's antacid' hormone; it triggers the pancreas to release bicarbonate-rich fluid.", correct: "B" },
+        { q: "The 'Hepatic Portal Vein' carries nutrient-rich blood from the digestive tract directly to the:", options: ["Heart", "Lungs", "Liver", "Kidneys"], exp: "The liver processes nutrients, detoxifies substances, and stores glycogen before the blood enters general circulation.", correct: "C" },
+        { q: "Which of the following is NOT a function of the Liver?", options: ["Bile production", "Detoxification", "Production of digestive enzymes", "Glycogen storage"], exp: "The liver produces bile, but it does NOT produce digestive enzymes (that is the job of the salivary glands, stomach, and pancreas).", correct: "C" },
+        { q: "The pH of the stomach is maintained around 1.5 - 2.5 primarily to:", options: ["Kill bacteria and activate pepsin", "Emulsify fats", "Digest cellulose", "Neutralize bile"], exp: "High acidity kills most ingested pathogens and provides the necessary environment for pepsin to function.", correct: "A" },
+        { q: "Where does the digestion of proteins 'begin' in the human body?", options: ["Mouth", "Stomach", "Small Intestine", "Large Intestine"], exp: "Starch digestion begins in the mouth, but protein digestion begins in the stomach with the action of pepsin.", correct: "B" },
+        { q: "Chyme is the name given to the food mass when it is in the:", options: ["Mouth", "Esophagus", "Stomach", "Rectum"], exp: "Once food is mixed with gastric juices in the stomach, it becomes a semi-liquid mass called chyme.", correct: "C" },
+        { q: "Which of the following is a symptom of 'Jaundice'?", options: ["Low blood pressure", "Yellowing of skin and eyes", "Loss of memory", "Bleeding gums"], exp: "Jaundice is caused by the accumulation of bilirubin in the blood, often due to liver or bile duct issues.", correct: "B" }
+    ];
+
+    // Perfect 5/5/5/5 Balance Calibration
+    const finalSet = [
+        { q: "Inactive form of pepsin:", options: ["Pepsinogen", "Pepsin", "Protease", "Peptide"], exp: "Zymogen form is pepsinogen.", correct: "A" },
+        { q: "Enterogastric reflex trigger:", options: ["Sight of food", "Taste of food", "Acidity in mouth", "Acidity in duodenum"], exp: "Acid chyme in duodenum slows the stomach.", correct: "D" },
+        { q: "Bile release hormone:", options: ["Gastrin", "Secretin", "Somatostatin", "CCK"], exp: "CCK contracts the gallbladder.", correct: "D" },
+        { q: "Most water reabsorbed in:", options: ["Stomach", "Large intestine", "Mouth", "Small intestine"], exp: "90% occurs in the small intestine.", correct: "D" },
+        { q: "Steatorrhea cause:", options: ["Bile duct block", "Acid reflux", "Lack of saliva", "Fiber excess"], exp: "Fat in feces suggests bile/lipase failure.", correct: "A" },
+        { q: "Parietal cell product:", options: ["Gastrin", "HCl", "Pepsin", "Trypsin"], exp: "Parietal cells make HCl and Intrinsic Factor.", correct: "B" },
+        { q: "Absorbable carbohydrate:", options: ["Starch", "Glycogen", "Glucose", "Sucrose"], exp: "Only monosaccharides are absorbed.", correct: "C" },
+        { q: "Trypsinogen activator:", options: ["HCl", "Lipase", "Enterokinase", "Pepsin"], exp: "Enterokinase starts the pancreatic cascade.", correct: "C" },
+        { q: "Moving food down esophagus:", options: ["Peristalsis", "Segmentation", "Mastication", "Vomiting"], exp: "Peristaltic waves move the bolus.", correct: "A" },
+        { q: "Salivary amylase pH:", options: ["1-2", "8-9", "4-5", "6.8-7.0"], exp: "Works best at neutral pH.", correct: "D" },
+        { q: "Fat transport droplets:", options: ["Micelles", "Liposomes", "Chylomicrons", "Vesicles"], exp: "Chylomicrons enter the lacteals.", correct: "C" },
+        { q: "Vitamin B12 partner:", options: ["Bile", "Intrinsic Factor", "Amylase", "Insulin"], exp: "Required for B12 absorption in ileum.", correct: "B" },
+        { q: "Chyme mixing process:", options: ["Deglutition", "Segmentation", "Peristalsis", "Absorption"], exp: "Segmentation mixes chyme locally.", correct: "B" },
+        { q: "Secretin function:", options: ["Contract gallbladder", "Bicarbonate release", "Acid release", "Sugar storage"], exp: "Secretin stimulates watery alkaline juice.", correct: "B" },
+        { q: "Hepatic portal vein destination:", options: ["Heart", "Spleen", "Liver", "Kidney"], exp: "Nutrients go to liver first.", correct: "C" },
+        { q: "NOT a liver function:", options: ["Bile making", "Glycogen storage", "Enzyme making", "Detoxification"], exp: "Liver doesn't make digestive enzymes.", correct: "C" },
+        { q: "Stomach pH purpose:", options: ["Activate pepsin", "Digest fats", "Break cellulose", "Make bile"], exp: "Low pH is for pepsin and killing germs.", correct: "A" },
+        { q: "Protein digestion starts in:", options: ["Mouth", "Stomach", "Ileum", "Duodenum"], exp: "Pepsin starts protein breakdown.", correct: "B" },
+        { q: "Chyme location:", options: ["Mouth", "Esophagus", "Stomach", "Anus"], exp: "Stomach contents are called chyme.", correct: "C" },
+        { q: "Amylase source:", options: ["Pancreas", "Gallbladder", "Liver", "Spleen"], exp: "Pancreas and Salivary glands make amylase.", correct: "A" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        finalSet.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        finalSet.forEach((data, index) => {
+            const ex = document.getElementById(`exp-${index}`);
+            ex.style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Score: ${score} / ${finalSet.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

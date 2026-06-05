@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep,MDCAT 30-Day Crash Course Session 02</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* MedPrep Core Styles */
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+        }
+
+        html, body { 
+            margin: 0; padding: 0; width: 100%; 
+            background: var(--med-light); 
+            font-family: 'Inter', sans-serif; 
+            color: var(--med-text);
+            overflow-x: hidden;
+        }
+
+        /* Header Styles (Matching Source) */
+        .main-header {
+            background: var(--med-dark); color: white; padding: 15px 0;
+            box-shadow: 0 16px 30px -10px #0a2c48cc;
+            width: 100%; text-align: center;
+        }
+        .logo-wrapper {
+            background: white; padding: 5px 20px; border-radius: 80px;
+            display: inline-flex; border: 2px solid var(--med-accent);
+            margin-bottom: 10px;
+        }
+        .logo-img { height: 45px; width: auto; object-fit: contain; mix-blend-mode: multiply; }
+        
+        .pill-nav {
+            display: inline-flex; gap: 10px; background: rgba(255,255,255,0.15);
+            padding: 6px 15px; border-radius: 100px; backdrop-filter: blur(6px);
+            border: 1px solid #1ecbe180; font-size: 0.85rem;
+        }
+
+        /* Responsive Container */
+        .container { 
+            width: 95%; max-width: 850px; margin: 25px auto; 
+            background: white; border-radius: 30px; padding: 30px;
+            box-shadow: 0 15px 30px -10px #0a2c481a;
+            border: 1px solid rgba(30,203,225,0.3);
+            box-sizing: border-box;
+        }
+
+        /* Syllabus Section */
+        .syllabus-box {
+            background: #e0f2fe; border: 2px solid var(--med-accent);
+            border-radius: 20px; padding: 20px; margin-bottom: 30px;
+        }
+        .syllabus-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px; margin-top: 10px; font-weight: 600; font-size: 0.9rem;
+        }
+
+        /* Quiz UI */
+        .subject-tag {
+            background: var(--med-dark); color: white; padding: 10px 20px;
+            border-radius: 50px; display: inline-block; margin: 30px 0 15px;
+            font-family: 'Outfit', sans-serif; font-size: 1.1rem;
+        }
+
+        .question-wrap { margin-bottom: 35px; border-bottom: 1px solid #eef2f5; padding-bottom: 20px; }
+        .q-text { font-weight: 700; margin-bottom: 15px; display: block; line-height: 1.4; }
+
+        .opt-label {
+            display: flex; align-items: center; padding: 12px 15px;
+            border: 1px solid #d1d9e0; border-radius: 12px; margin-bottom: 10px;
+            cursor: pointer; transition: 0.2s; font-size: 0.95rem;
+        }
+        .opt-label:hover { border-color: var(--med-accent); background: #f0f9ff; }
+        .opt-label input { margin-right: 12px; transform: scale(1.2); cursor: pointer; }
+
+        /* Results & Explanations */
+        .feedback-area {
+            display: none; margin-top: 15px; padding: 15px;
+            border-radius: 15px; font-size: 0.9rem; border-left: 5px solid #ccc;
+            background: #f8fafc;
+        }
+        .correct-ans { color: #059669; font-weight: 700; }
+        .wrong-ans { color: #dc2626; font-weight: 700; }
+        .expl-text { margin-top: 8px; color: #475569; font-style: italic; }
+
+        /* Score Banner */
+        #score-summary {
+            display: none; text-align: center; background: var(--med-dark);
+            color: white; padding: 30px; border-radius: 25px; margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+        }
+
+        #submit-btn {
+            background: var(--med-accent); color: var(--med-dark);
+            border: none; padding: 18px 40px; border-radius: 50px;
+            font-weight: 800; font-size: 1.2rem; cursor: pointer;
+            width: 100%; transition: 0.3s; box-shadow: 0 10px 20px -5px #1ecbe166;
+        }
+        #submit-btn:hover { transform: translateY(-3px); background: #17b3c7; }
+
+        /* Footer (Matching Source) */
+        .main-footer { 
+            background: var(--med-dark); color: #e2f0fa; padding: 30px 15px; 
+            border-top: 4px solid var(--med-accent); margin-top: 50px; text-align: center; 
+            width: 100%; font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px; border-radius: 15px; }
+            .logo-img { height: 35px; }
+            .pill-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div><br>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 02</span>
+        <span><i class="fas fa-clock"></i> April 7, 2026</span>
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family: 'Outfit'; margin: 0;">Result</h2>
+        <div id="final-score" style="font-size: 3.5rem; font-weight: 800; color: var(--med-accent);">0 / 50</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);">Syllabus</h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-leaf"></i> Bioenergetics</span>
+            <span><i class="fas fa-atom"></i> Atomic Structure</span>
+            <span><i class="fas fa-bolt"></i> Force & Motion</span>
+            <span><i class="fas fa-spell-check"></i> S-V Agreement</span>
+        </div>
+    </div>
+
+    <form id="quizForm">
+        <!-- BIOLOGY (15) -->
+        
+        <div id="bio-section"></div>
+
+        <!-- CHEMISTRY (15) -->
+        
+        <div id="chem-section"></div>
+
+        <!-- PHYSICS (15) -->
+        
+        <div id="phys-section"></div>
+
+        <!-- ENGLISH (5) -->
+        
+        <div id="eng-section"></div>
+
+        <button type="button" id="submit-btn" onclick="checkAnswers()">Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class="fas fa-staff-aesculapius" style="color:#1ecbe1;"></i> © MedPrep 2026. All Rights Reserved.</span>
+</footer>
+
+<script>
+const quizData = [
+    // BIOLOGY
+    {q: "Which of the following is the correct summary equation for photosynthesis?", a: "B", choices: ["C6H12O6 + 6O2 → 6CO2 + 6H2O", "6CO2 + 12H2O + light → C6H12O6 + 6O2 + 6H2O", "6CO2 + 6H2O → C6H12O6 + 6O2", "C6H12O6 + 6H2O → 6CO2 + 12H2"], e: "This balanced equation accounts for the water used as a reactant and the water released as a product."},
+    {q: "During the light-dependent reactions, the photolysis of water occurs at:", a: "B", choices: ["Photosystem I", "Photosystem II", "The Cytochrome complex", "ATP Synthase"], e: "PSII contains the water-splitting complex that replaces excited electrons."},
+    {q: "The primary pigment that participates directly in the light reactions is:", a: "C", choices: ["Chlorophyll b", "Carotenoids", "Chlorophyll a", "Xanthophylls"], e: "Chlorophyll a is the only pigment that can transfer light energy to the reaction center."},
+    {q: "In the Calvin Cycle, the enzyme Rubisco catalyzes the carboxylation of:", a: "C", choices: ["G3P", "3-PGA", "Ribulose-1,5-bisphosphate (RuBP)", "PEP"], e: "CO2 is fixed onto the 5-carbon sugar RuBP."},
+    {q: "How many molecules of ATP and NADPH are required to produce one molecule of glucose?", a: "B", choices: ["9 ATP, 6 NADPH", "18 ATP, 12 NADPH", "12 ATP, 18 NADPH", "36 ATP, 24 NADPH"], e: "Each turn fixes 1 carbon; 6 turns produce glucose (6x3 ATP, 6x2 NADPH)."},
+    {q: "Cyclic photophosphorylation occurs when the plant needs to produce extra:", a: "C", choices: ["NADPH", "Oxygen", "ATP", "Glucose"], e: "It bypasses PSII and NADP+ reduction to focus solely on ATP production."},
+    {q: "The terminal electron acceptor in the mitochondrial Electron Transport Chain is:", a: "D", choices: ["NAD+", "FAD", "CO2", "O2"], e: "Oxygen combines with electrons and protons to form water."},
+    {q: "Glycolysis occurs in the ______ and produces a net of ______ ATP.", a: "B", choices: ["Mitochondrial matrix; 2", "Cytosol; 2", "Mitochondrial cristae; 36", "Cytosol; 4"], e: "Glycolysis is anaerobic and occurs in the cytoplasm."},
+    {q: "Which 4-carbon compound is the 'acceptor' of Acetyl-CoA in the Krebs Cycle?", a: "C", choices: ["Citrate", "Succinate", "Oxaloacetate", "Malate"], e: "Oxaloacetate combines with Acetyl-CoA (2C) to form Citrate (6C)."},
+    {q: "The process of Chemiosmosis involves the pumping of protons into the:", a: "B", choices: ["Mitochondrial matrix", "Intermembrane space", "Cytoplasm", "Stroma"], e: "A proton gradient is built in the intermembrane space to drive ATP Synthase."},
+    {q: "In the absence of oxygen, yeast cells undergo fermentation to produce:", a: "B", choices: ["Lactic acid and ATP", "Ethanol and CO2", "Acetyl-CoA", "Pyruvate"], e: "Alcoholic fermentation is characteristic of yeast."},
+    {q: "The compensation point is reached when:", a: "B", choices: ["Photosynthesis is at its maximum", "Rate of photosynthesis equals rate of respiration", "Respiration stops", "Light intensity is zero"], e: "At this point, net gas exchange is zero."},
+    {q: "Chlorophyll molecules absorb light best in the ______ and ______ wavelengths.", a: "B", choices: ["Green and Yellow", "Blue and Red", "UV and Infrared", "Green and Blue"], e: "Green light is reflected, which is why plants appear green."},
+    {q: "One molecule of FADH2 yields ______ ATP through the ETC.", a: "B", choices: ["1", "2", "3", "4"], e: "FADH2 enters at a lower energy level (Complex II) than NADH."},
+    {q: "Photorespiration is considered a wasteful process because it:", a: "B", choices: ["Produces too much ATP", "Consumes O2 and releases CO2 without producing sugar", "Stops the light reactions", "Occurs only at night"], e: "It occurs when Rubisco binds to O2 instead of CO2."},
+
+    // CHEMISTRY
+    {q: "The e/m ratio of the cathode rays is ________ the nature of the gas used in the discharge tube.", a: "B", choices: ["Dependent on", "Independent of", "Proportional to", "Inversely proportional to"], e: "Electrons are universal constituents of all matter."},
+    {q: "Which quantum number describes the shape of an orbital?", a: "B", choices: ["Principal (n)", "Azimuthal (l)", "Magnetic (m)", "Spin (s)"], e: "l=0 (s-spherical), l=1 (p-dumbbell), etc."},
+    {q: "The maximum number of electrons in a subshell is given by the formula:", a: "C", choices: ["2n^2", "2l + 1", "2(2l + 1)", "n + l"], e: "2l+1 is the number of orbitals; each holds 2 electrons."},
+    {q: "According to Bohr's model, the energy of an electron is ______ to its distance from the nucleus.", a: "A", choices: ["Directly proportional", "Inversely proportional", "Not related", "Equal"], e: "Energy increases as the electron moves to higher (outer) shells."},
+    {q: "The wavelength of the first line in the Lyman series is (where R is Rydberg constant):", a: "C", choices: ["R/4", "3R/4", "4/3R", "1/R"], e: "1/λ = R(1/1² - 1/2²) = 3R/4 → λ = 4/3R."},
+    {q: "Which of the following sets of quantum numbers is NOT allowed?", a: "B", choices: ["n=3, l=2, m=0", "n=2, l=2, m=1", "n=1, l=0, m=0", "n=4, l=3, m=-2"], e: "The value of l must always be less than n (l ≤ n-1)."},
+    {q: "The n+l value for a 4d orbital is:", a: "C", choices: ["4", "5", "6", "7"], e: "n=4, l=2 (for d). 4+2=6."},
+    {q: "The electronic configuration of Chromium (Z=24) is:", a: "B", choices: ["[Ar] 4s² 3d⁴", "[Ar] 4s¹ 3d⁵", "[Ar] 4s⁰ 3d⁶", "[Ar] 4s² 3d³"], e: "Half-filled subshells (s¹, d⁵) provide extra stability."},
+    {q: "Heisenberg’s Uncertainty Principle states it is impossible to simultaneously measure:", a: "B", choices: ["Mass and Velocity", "Position and Momentum", "Charge and Mass", "Time and Energy"], e: "Fundamental limit Δx · Δp ≥ h/4π."},
+    {q: "The radius of the first Bohr orbit of Hydrogen is:", a: "A", choices: ["0.529 Å", "1.058 Å", "2.116 Å", "0.211 Å"], e: "This is a fundamental constant for the ground state of H."},
+    {q: "Which series of the Hydrogen spectrum lies in the visible region?", a: "B", choices: ["Lyman", "Balmer", "Paschen", "Pfund"], e: "Balmer series transitions end at n=2."},
+    {q: "The number of nodes in a 3s orbital is:", a: "C", choices: ["0", "1", "2", "3"], e: "Radial nodes = n - l - 1 = 3 - 0 - 1 = 2."},
+    {q: "Mass spectrometry is used to determine ______ of isotopes.", a: "B", choices: ["Atomic number", "Exact mass and relative abundance", "Half-life", "Electronic configuration"], e: "It separates ions based on m/e ratio."},
+    {q: "Which orbital has a 'doughnut' shaped electron cloud?", a: "C", choices: ["pz", "dxy", "dz²", "s"], e: "Unique shape among the d-orbitals."},
+    {q: "Pauli’s Exclusion Principle states that no two electrons in an atom can have:", a: "C", choices: ["Same spin", "Same energy", "Same four quantum numbers", "Same mass"], e: "At least the spin must be different if they share an orbital."},
+
+    // PHYSICS
+    {q: "The slope of a velocity-time graph represents:", a: "B", choices: ["Displacement", "Acceleration", "Impulse", "Force"], e: "a = Δv / Δt."},
+    {q: "A body is moving with a constant velocity of 10 m/s. Its acceleration after 5 seconds is:", a: "C", choices: ["2 m/s²", "50 m/s²", "0 m/s²", "10 m/s²"], e: "Constant velocity means zero change in velocity, thus zero acceleration."},
+    {q: "A projectile fired at 45° has 100m range. What is range at 15°?", a: "B", choices: ["100m", "50m", "25m", "75m"], e: "Range ∝ sin(2θ). sin(90)=1, sin(30)=0.5. Range is halved."},
+    {q: "The area under a force-time graph represents:", a: "C", choices: ["Work", "Momentum", "Impulse", "Power"], e: "J = ∫ F dt."},
+    {q: "If mass is doubled while force is constant, acceleration will be:", a: "B", choices: ["Doubled", "Halved", "Quadrupled", "Unchanged"], e: "a = F/m. Inversely proportional to mass."},
+    {q: "When a bullet is fired from a rifle, the rifle recoils because of:", a: "B", choices: ["Conservation of energy", "Conservation of momentum", "Newton's first law", "Inertia"], e: "Total initial momentum (0) must equal total final momentum."},
+    {q: "A ball is thrown upward. At the highest point, its ______ is zero.", a: "C", choices: ["Acceleration", "Weight", "Velocity", "Potential energy"], e: "It momentarily stops before falling back down."},
+    {q: "The vertical component of velocity for a projectile at maximum height is:", a: "C", choices: ["v sin θ", "v cos θ", "Zero", "g"], e: "Only the horizontal component remains at the peak."},
+    {q: "Two bodies (1kg and 4kg) have equal KE. The ratio of momenta is:", a: "B", choices: ["1:4", "1:2", "2:1", "4:1"], e: "p = √2mKE. Since KE is constant, p ∝ √m. √1:√4 = 1:2."},
+    {q: "The distance-time graph for a body at rest is:", a: "C", choices: ["A straight line through origin", "A vertical line", "A horizontal line", "A parabola"], e: "Distance remains constant as time passes."},
+    {q: "A car traveling at 20 m/s stops in 5s. The deceleration is:", a: "B", choices: ["100 m/s²", "4 m/s²", "10 m/s²", "5 m/s²"], e: "a = (0-20)/5 = -4."},
+    {q: "Rocket propulsion works on the principle of conservation of:", a: "C", choices: ["Mass", "Energy", "Linear momentum", "Angular momentum"], e: "Momentum of expelled gases equals forward momentum of the rocket."},
+    {q: "The maximum range of a projectile fired at v=10 m/s is (~g=10):", a: "A", choices: ["10m", "100m", "20m", "50m"], e: "Max range = v²/g = 100/10 = 10m."},
+    {q: "Which of the following is a non-conservative force?", a: "C", choices: ["Gravitational force", "Electrostatic force", "Frictional force", "Magnetic force"], e: "Work done by friction depends on the path taken."},
+    {q: "Newton's second law in terms of momentum is written as:", a: "B", choices: ["F = mv", "F = Δp / Δt", "F = m Δv", "F = p/t"], e: "Force is the rate of change of momentum."},
+
+    // ENGLISH
+    {q: "Neither the captain nor the sailors ______ aware of the storm.", a: "B", choices: ["was", "were", "is", "has been"], e: "With 'neither/nor,' the verb agrees with the closer subject ('sailors')."},
+    {q: "The number of students who failed the exam ______ surprising.", a: "C", choices: ["are", "were", "is", "have been"], e: "'The number of' is always singular; 'A number of' is plural."},
+    {q: "Politics ______ a very dirty game these days.", a: "B", choices: ["are", "is", "were", "seem"], e: "Disciplines ending in -ics are singular."},
+    {q: "Bread and butter ______ my favorite breakfast.", a: "B", choices: ["are", "is", "were", "have been"], e: "Compound subjects acting as a single unit take a singular verb."},
+    {q: "Each of the applicants ______ required to submit a CV.", a: "B", choices: ["are", "is", "were", "have been"], e: "'Each', 'Every', and 'One' always take singular verbs."}
+];
+
+function renderQuiz() {
+    const sections = {
+        bio: document.getElementById('bio-section'),
+        chem: document.getElementById('chem-section'),
+        phys: document.getElementById('phys-section'),
+        eng: document.getElementById('eng-section')
+    };
+
+    quizData.forEach((item, index) => {
+        let sectionKey = index < 15 ? 'bio' : index < 30 ? 'chem' : index < 45 ? 'phys' : 'eng';
+        let html = `
+            <div class="question-wrap" id="q-block-${index}">
+                <span class="q-text">Q${index+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${index}" value="${String.fromCharCode(65+i)}">
+                        ${String.fromCharCode(65+i)}. ${c}
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${index}">
+                    <div class="status"></div>
+                    <div class="correct-was">Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        sections[sectionKey].innerHTML += html;
+    });
+}
+
+function checkAnswers() {
+    let score = 0;
+    quizData.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedback = document.getElementById(`feed-${index}`);
+        const status = feedback.querySelector('.status');
+        
+        feedback.style.display = 'block';
+        if (selected) {
+            if (selected.value === item.a) {
+                score++;
+                status.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderColor = "#059669";
+            } else {
+                status.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong!</span>`;
+                feedback.style.borderColor = "#dc2626";
+            }
+        } else {
+            status.innerHTML = `<span class="wrong-ans" style="color:orange"><i class="fas fa-exclamation-triangle"></i> Not Answered!</span>`;
+        }
+    });
+
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 50`;
+    window.scrollTo({top: 0, behavior: 'smooth'});
+    document.getElementById('submit-btn').disabled = true;
+    document.getElementById('submit-btn').style.background = "#94a3b8";
+    document.getElementById('submit-btn').innerText = "Submit";
+}
+
+renderQuiz();
+</script>
+</body>
+</html>

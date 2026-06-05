@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDCAT: Immunity Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #fdfcfb; color: #2d3436; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 10px solid #27ae60; }
+        h1 { font-family: 'Outfit', sans-serif; color: #1e8449; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #27ae60; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        .question { margin-bottom: 35px; padding: 25px; border: 1px solid #e0e0e0; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 20px; color: #2c3e50; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #f1f2f6; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #ffffff; }
+        .option:hover { border-color: #27ae60; background: #f4fff7; }
+        .option.selected { background: #2d3436; color: white; border-color: #2d3436; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #27ae60; color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #1e8449; transform: translateY(-2px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #2d3436; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #f0fff4; padding: 18px; border-left: 6px solid #27ae60; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #78281f; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Immunity</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+       
+    </div>
+</div>
+
+<script>
+    const immunityQuestions = [
+        { q: "Which class of antibody is a pentamer and is typically the first to be produced during a primary immune response?", options: ["IgG", "IgA", "IgM", "IgE"], exp: "IgM is a large pentameric molecule and serves as the initial 'first-responder' antibody.", correct: "C" },
+        { q: "T-lymphocytes mature and undergo 'thymic selection' in which organ?", options: ["Bone Marrow", "Spleen", "Thymus", "Lymph Nodes"], exp: "T-cells are produced in bone marrow but move to the Thymus for maturation.", correct: "C" },
+        { q: "Which type of cell is responsible for producing antibodies (immunoglobulins)?", options: ["Cytotoxic T-cells", "Helper T-cells", "Plasma cells", "Natural Killer cells"], exp: "Activated B-cells differentiate into plasma cells, which are the protein factories for antibodies.", correct: "C" },
+        { q: "In cell-mediated immunity, which molecule is recognized by Cytotoxic T-cells (CD8+) to identify infected 'self' cells?", options: ["MHC Class I", "MHC Class II", "Antibodies", "Complement proteins"], exp: "MHC Class I is found on all nucleated cells and presents internal antigens to CD8+ T-cells.", correct: "A" },
+        { q: "The 'Secondary Immune Response' is faster and more robust than the primary response due to the presence of:", options: ["Naive B-cells", "Memory cells", "Macrophages", "Neutrophils"], exp: "Memory B and T cells stay in the system to recognize the pathogen immediately upon re-exposure.", correct: "B" },
+        { q: "Which immune cell is a non-specific 'professional phagocyte' and often the first to arrive at an infection site?", options: ["Basophil", "Neutrophil", "B-cell", "Eosinophil"], exp: "Neutrophils are the most abundant WBCs and are the first responders in innate defense.", correct: "B" },
+        { q: "Naturally acquired 'Passive Immunity' is best exemplified by:", options: ["Vaccination", "Recovering from Chickenpox", "Antibodies passing through breast milk", "Injection of antivenom"], exp: "Passive immunity involves receiving pre-made antibodies; 'natural' implies through placenta or milk.", correct: "C" },
+        { q: "Which antibody type is primarily found in secretions like saliva, tears, and mucous membranes?", options: ["IgG", "IgD", "IgM", "IgA"], exp: "IgA is the secretory antibody providing localized protection on mucosal surfaces.", correct: "D" },
+        { q: "Small molecules that are not antigenic by themselves but become antigenic when attached to a carrier protein are called:", options: ["Antigens", "Haptens", "Epitopes", "Adjuvants"], exp: "Haptens require a carrier protein to trigger an immune response.", correct: "B" },
+        { q: "The 'Complement System' aids the immune response primarily by:", options: ["Producing memory cells", "Forming a Membrane Attack Complex (MAC)", "Secreting histamine", "Directly killing viruses"], exp: "The complement system punches holes in bacterial membranes via the MAC.", correct: "B" },
+        { q: "MHC Class II molecules are found exclusively on the surface of:", options: ["All nucleated cells", "Red blood cells", "Antigen-presenting cells (APCs)", "Nerve cells"], exp: "APCs (Macrophages, B-cells, Dendritic cells) use MHC II to present antigens to Helper T-cells.", correct: "C" },
+        { q: "Which cells are destroyed by the HIV virus, leading to a collapse of the adaptive immune system?", options: ["B-cells", "Suppressor T-cells", "Helper T-cells (CD4+)", "Cytotoxic T-cells"], exp: "HIV targets CD4+ Helper T-cells, which are the 'generals' of the immune system.", correct: "C" },
+        { q: "The redness and heat associated with inflammation are primarily caused by the release of ________ from Mast Cells.", options: ["Interferon", "Histamine", "Antibodies", "Perforins"], exp: "Histamine causes vasodilation, increasing blood flow to the area.", correct: "B" },
+        { q: "Vaccination is an example of which type of immunity?", options: ["Artificially acquired active immunity", "Artificially acquired passive immunity", "Naturally acquired active immunity", "Innate immunity"], exp: "Active because your body makes its own antibodies; Artificial because it's medical intervention.", correct: "A" },
+        { q: "Which immunoglobulin is involved in allergic reactions and defense against parasitic worms?", options: ["IgG", "IgM", "IgE", "IgA"], exp: "IgE binds to mast cells and triggers the release of inflammatory mediators during allergies.", correct: "C" },
+        { q: "Interferons are most effective against which type of pathogen?", options: ["Bacteria", "Fungi", "Viruses", "Protozoa"], exp: "Interferons prevent viral replication in neighboring healthy cells.", correct: "C" },
+        { q: "The part of an antigen that is specifically recognized by an antibody or T-cell receptor is the:", options: ["Paratope", "Epitope", "Hapten", "Heavy chain"], exp: "The epitope (antigenic determinant) is the specific 'hook' the immune system grabs.", correct: "B" },
+        { q: "Monocytes that leave the bloodstream and enter tissues to differentiate are known as:", options: ["Dendritic cells", "Natural Killer cells", "Macrophages", "Plasma cells"], exp: "Macrophages are the mature, tissue-resident form of monocytes.", correct: "C" },
+        { q: "Autoimmune diseases occur when the immune system fails to maintain:", options: ["Immunological memory", "Phagocytic activity", "Self-tolerance", "Antigen presentation"], exp: "The body loses the ability to distinguish self-antigens from foreign ones.", correct: "C" },
+        { q: "Which of the following is NOT a component of the 'Innate' immune system?", options: ["Skin/Mucus", "Stomach Acid", "Cytotoxic T-cells", "Phagocytic WBCs"], exp: "T-cells are part of the Adaptive (Specific) immune system.", correct: "C" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        immunityQuestions.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        immunityQuestions.forEach((data, index) => {
+            document.getElementById(`exp-${index}`).style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Score: ${score} / ${immunityQuestions.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

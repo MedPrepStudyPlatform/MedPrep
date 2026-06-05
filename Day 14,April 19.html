@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 2· Day 14,Weekly Test 2 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+        .score-detail {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-week"></i> WEEKLY TEST 2</span>
+        <span><i class="fas fa-clock"></i> Day 14,April 19, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';">📊 Weekly Test 2 Performance</h2>
+        <div id="final-score">0 / 100</div>
+        <div class="score-detail">
+            <span><i class="fas fa-dna"></i> Biology: <span id="bio-score">0</span>/30</span>
+            <span><i class="fas fa-atom"></i> Chemistry: <span id="chem-score">0</span>/25</span>
+            <span><i class="fas fa-bolt"></i> Physics: <span id="phys-score">0</span>/25</span>
+            <span><i class="fas fa-language"></i> English: <span id="eng-score">0</span>/10</span>
+            <span><i class="fas fa-puzzle-piece"></i> Logical Reasoning: <span id="lr-score">0</span>/10</span>
+        </div>
+        
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i>  © MedPrep 2026 · All Rights Reserved.</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// WEEKLY TEST 2: 100 MCQs (April 13-18 syllabus)
+// Biology: 30 | Chemistry: 25 | Physics: 25 | English: 10 | Logical Reasoning: 10
+// ✅ EACH QUESTION: Correct answer letter matches the explanation precisely
+// --------------------------------------------------------------
+const quizData = [];
+
+// ==================== BIOLOGY (30) - Digestion, Circulation, Respiration, Immunity, Homeostasis ====================
+const bioWeek2 = [
+    {q: "Which enzyme is responsible for the breakdown of starch into maltose in the human digestive system?", a: "B", choices: ["Pepsin", "Amylase", "Lipase", "Trypsin"], e: "Salivary and pancreatic amylase hydrolyze starch into disaccharides."},
+    {q: "Pepsinogen is activated to pepsin by:", a: "C", choices: ["Bile salts", "Enterokinase", "Hydrochloric acid (HCl)", "Sodium bicarbonate"], e: "HCl lowers pH, converting pepsinogen to active pepsin via autocatalysis."},
+    {q: "The major site of nutrient absorption in the human digestive tract is:", a: "C", choices: ["Stomach", "Large intestine", "Small intestine", "Mouth"], e: "Villi and microvilli in small intestine maximize absorption."},
+    {q: "Which chamber of the human heart has the thickest muscular wall?", a: "C", choices: ["Right atrium", "Right ventricle", "Left ventricle", "Left atrium"], e: "Left ventricle pumps blood to the entire body, requiring greatest force."},
+    {q: "The sinoatrial (SA) node is known as the:", a: "A", choices: ["Natural pacemaker", "AV node", "Bundle of His", "Purkinje fibers"], e: "SA node generates electrical impulses that initiate heartbeat."},
+    {q: "Blood returning from the lungs enters the heart via the:", a: "B", choices: ["Superior vena cava", "Pulmonary veins", "Pulmonary artery", "Aorta"], e: "Oxygenated blood from lungs returns through pulmonary veins to left atrium."},
+    {q: "The final electron acceptor in the electron transport chain during aerobic respiration is:", a: "D", choices: ["NAD+", "FAD", "Cytochrome c", "Oxygen"], e: "Oxygen combines with electrons and protons to form water."},
+    {q: "How many net ATP molecules are produced from one glucose molecule during glycolysis?", a: "B", choices: ["1", "2", "4", "36"], e: "Glycolysis: 4 ATP produced, 2 consumed → net gain of 2 ATP."},
+    {q: "The Krebs cycle (citric acid cycle) occurs in the:", a: "C", choices: ["Cytosol", "Inner mitochondrial membrane", "Mitochondrial matrix", "Cristae"], e: "Matrix contains enzymes for Krebs cycle."},
+    {q: "Which type of immunity is present at birth and provides immediate, non-specific defense?", a: "B", choices: ["Adaptive immunity", "Innate immunity", "Active immunity", "Passive immunity"], e: "Innate immunity: physical barriers, phagocytes, inflammation — non-specific and present from birth."},
+    {q: "Antibodies are produced by which type of white blood cell?", a: "C", choices: ["T lymphocytes", "Macrophages", "B lymphocytes (plasma cells)", "Neutrophils"], e: "Plasma cells (differentiated B cells) secrete antibodies."},
+    {q: "The primary function of helper T cells (CD4+) is to:", a: "D", choices: ["Kill infected cells", "Produce antibodies", "Engulf pathogens", "Activate other immune cells"], e: "Helper T cells release cytokines that activate B cells, cytotoxic T cells, and macrophages."},
+    {q: "The maintenance of a constant internal environment despite external changes is called:", a: "C", choices: ["Metabolism", "Adaptation", "Homeostasis", "Osmoregulation"], e: "Homeostasis: dynamic equilibrium of internal conditions (temp, pH, glucose, etc.)."},
+    {q: "The primary organ responsible for osmoregulation in humans is:", a: "B", choices: ["Liver", "Kidney", "Heart", "Lungs"], e: "Kidneys filter blood, regulate water and electrolyte balance, excrete urea."},
+    {q: "The functional unit of the kidney is the:", a: "D", choices: ["Alveolus", "Nephron", "Glomerulus", "Nephron"], e: "Nephron: glomerulus + tubules; site of filtration, reabsorption, secretion."},
+    {q: "Which hormone increases water reabsorption in the collecting duct?", a: "A", choices: ["ADH (vasopressin)", "Aldosterone", "Insulin", "Glucagon"], e: "ADH makes collecting duct permeable to water → water reabsorbed → concentrated urine."},
+    {q: "The process by which useful substances are returned from filtrate to blood is:", a: "C", choices: ["Filtration", "Secretion", "Reabsorption", "Excretion"], e: "Reabsorption: glucose, amino acids, water, ions move from tubule to peritubular capillaries."},
+    {q: "The hormone that increases blood glucose level is:", a: "B", choices: ["Insulin", "Glucagon", "Aldosterone", "ADH"], e: "Glucagon (from alpha cells of pancreas) stimulates glycogenolysis and gluconeogenesis."},
+    {q: "The normal pH range of human blood is approximately:", a: "A", choices: ["7.35-7.45", "7.0-7.1", "6.8-7.0", "7.8-8.0"], e: "Blood pH tightly regulated between 7.35 and 7.45; below 7.35 acidosis, above 7.45 alkalosis."},
+    {q: "The buffer system that maintains blood pH is primarily:", a: "B", choices: ["Phosphate buffer", "Bicarbonate buffer (H₂CO₃/HCO₃⁻)", "Protein buffer", "Hemoglobin buffer"], e: "Bicarbonate buffer: CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻, most important in blood."},
+    {q: "The part of the brain that contains the thermoregulatory center is:", a: "D", choices: ["Cerebrum", "Cerebellum", "Medulla oblongata", "Hypothalamus"], e: "Hypothalamus acts as body's thermostat, detecting and responding to temperature changes."},
+    {q: "Which of the following is an example of negative feedback?", a: "C", choices: ["Childbirth contractions", "Blood clotting", "Regulation of blood glucose", "Action potential propagation"], e: "Negative feedback reverses a change (e.g., high glucose → insulin lowers it)."},
+    {q: "The loop of Henle is responsible for:", a: "B", choices: ["Filtration of blood", "Countercurrent multiplication to concentrate urine", "Secretion of ADH", "Reabsorption of glucose"], e: "Loop of Henle creates osmotic gradient in medulla for water reabsorption."},
+    {q: "The term 'thermoregulation' refers to maintenance of:", a: "C", choices: ["Blood pressure", "Blood pH", "Body temperature", "Blood glucose"], e: "Thermoregulation keeps internal temperature within narrow range despite external changes."},
+    {q: "Which gland produces aldosterone?", a: "D", choices: ["Pituitary", "Thyroid", "Pancreas", "Adrenal cortex"], e: "Aldosterone (mineralocorticoid) from adrenal cortex increases Na⁺ reabsorption and K⁺ secretion."},
+    {q: "Vaccination provides which type of immunity?", a: "A", choices: ["Active artificial immunity", "Passive natural immunity", "Active natural immunity", "Passive artificial immunity"], e: "Vaccine introduces antigen → body produces own antibodies and memory cells."},
+    {q: "The antibody class that is the first to be produced during an initial immune response is:", a: "B", choices: ["IgG", "IgM", "IgA", "IgE"], e: "IgM is produced first (primary response), later replaced by IgG."},
+    {q: "Which cells are responsible for cell-mediated immunity?", a: "C", choices: ["B cells", "Plasma cells", "Cytotoxic T cells (CD8+)", "Macrophages"], e: "Cytotoxic T cells directly kill virus-infected or cancerous cells."},
+    {q: "The process by which phagocytes engulf and digest pathogens is called:", a: "D", choices: ["Pinocytosis", "Exocytosis", "Apoptosis", "Phagocytosis"], e: "Phagocytosis: 'cell eating' — ingestion of large particles by immune cells."},
+    {q: "Memory cells are formed during:", a: "B", choices: ["Innate immune response", "Adaptive immune response", "Inflammatory response", "Complement activation"], e: "Memory B and T cells provide long-term immunity after adaptive response."}
+];
+bioWeek2.forEach(item => quizData.push(item));
+
+// ==================== CHEMISTRY (25) - Equilibrium, Kinetics, Thermochemistry, Electrochemistry, s & p Block ====================
+const chemWeek2 = [
+    {q: "For a reaction at equilibrium, which of the following is constant?", a: "B", choices: ["Concentration of reactants only", "Rate of forward and reverse reactions", "Concentration of products only", "Temperature only"], e: "Dynamic equilibrium: forward and reverse rates equal, concentrations constant."},
+    {q: "The equilibrium constant Kc for the reaction N₂ + 3H₂ ⇌ 2NH₃ is written as:", a: "C", choices: ["[N₂][H₂]³/[NH₃]²", "[NH₃]/[N₂][H₂]", "[NH₃]²/[N₂][H₂]³", "[NH₃]²/[N₂][H₂]"], e: "Products over reactants, each raised to stoichiometric coefficient."},
+    {q: "Le Chatelier's principle states that if a stress is applied to a system at equilibrium, the system will:", a: "B", choices: ["Remain unchanged", "Shift to relieve the stress", "Move randomly", "Stop reacting"], e: "System responds to oppose the change."},
+    {q: "The unit of rate constant for a first-order reaction is:", a: "D", choices: ["mol L⁻¹ s⁻¹", "L mol⁻¹ s⁻¹", "L² mol⁻² s⁻¹", "s⁻¹"], e: "First-order: rate = k[A], so k has units of time⁻¹."},
+    {q: "Activation energy is defined as:", a: "A", choices: ["Minimum energy required for a reaction to occur", "Energy released during reaction", "Energy absorbed during reaction", "Total energy of products"], e: "Ea is the energy barrier that reactants must overcome."},
+    {q: "A catalyst increases reaction rate by:", a: "B", choices: ["Increasing temperature", "Lowering activation energy", "Increasing collision frequency", "Changing equilibrium constant"], e: "Catalyst provides alternative pathway with lower Ea, does not affect K."},
+    {q: "An exothermic reaction has:", a: "C", choices: ["ΔH > 0", "ΔH = 0", "ΔH < 0", "ΔH = ΔU"], e: "Exothermic: system releases heat → negative ΔH."},
+    {q: "The standard enthalpy of formation of a compound is defined as:", a: "A", choices: ["Enthalpy change when 1 mole of compound forms from its elements in standard states", "Enthalpy change of combustion", "Enthalpy change of reaction", "Bond dissociation energy"], e: "ΔH_f°: formation from elements under standard conditions (1 bar, 298K)."},
+    {q: "Hess's law states that the enthalpy change of a reaction depends only on:", a: "D", choices: ["Pathway of reaction", "Number of intermediates", "Temperature", "Initial and final states"], e: "Enthalpy is a state function; ΔH is independent of path."},
+    {q: "In an electrochemical cell, oxidation occurs at the:", a: "A", choices: ["Anode", "Cathode", "Salt bridge", "Electrolyte"], e: "Anode: oxidation (loss of electrons); cathode: reduction (gain of electrons)."},
+    {q: "The standard reduction potential of hydrogen electrode (SHE) is assigned as:", a: "B", choices: ["1.00 V", "0.00 V", "-0.76 V", "0.34 V"], e: "SHE is reference electrode with E° = 0.00 V."},
+    {q: "The function of a salt bridge in a galvanic cell is to:", a: "D", choices: ["Generate electricity", "Prevent electron flow", "Allow oxidation", "Maintain electrical neutrality"], e: "Salt bridge allows ion flow to prevent charge buildup."},
+    {q: "Which of the following is an alkali metal?", a: "A", choices: ["Sodium (Na)", "Magnesium (Mg)", "Calcium (Ca)", "Aluminum (Al)"], e: "Group 1 elements (Li, Na, K, Rb, Cs, Fr) are alkali metals."},
+    {q: "Alkaline earth metals belong to group:", a: "B", choices: ["1", "2", "13", "17"], e: "Group 2: Be, Mg, Ca, Sr, Ba, Ra — alkaline earth metals."},
+    {q: "The most electronegative element in the periodic table is:", a: "D", choices: ["Chlorine", "Oxygen", "Nitrogen", "Fluorine"], e: "Fluorine (F) has highest electronegativity (4.0 on Pauling scale)."},
+    {q: "Which of the following is a noble gas?", a: "C", choices: ["Nitrogen", "Oxygen", "Argon", "Chlorine"], e: "Group 18: He, Ne, Ar, Kr, Xe, Rn — inert gases."},
+    {q: "The element with electronic configuration [Ne] 3s² 3p⁵ is:", a: "B", choices: ["Sulfur", "Chlorine", "Argon", "Phosphorus"], e: "3s² 3p⁵ = 17 electrons → Chlorine (Cl)."},
+    {q: "Which of the following is a metalloid?", a: "D", choices: ["Sodium", "Magnesium", "Aluminum", "Silicon"], e: "Metalloids: B, Si, Ge, As, Sb, Te — properties between metals and nonmetals."},
+    {q: "The Nernst equation relates cell potential to:", a: "B", choices: ["Temperature only", "Concentration and temperature", "Pressure only", "Volume only"], e: "E = E° - (RT/nF) ln Q; depends on concentrations and T."},
+    {q: "A spontaneous redox reaction produces electrical energy in a:", a: "C", choices: ["Electrolytic cell", "Voltaic cell", "Galvanic cell", "Both B and C"], e: "Galvanic/voltaic cells convert chemical energy to electrical energy spontaneously."},
+    {q: "The reactivity of alkali metals increases down the group because:", a: "C", choices: ["Ionization energy increases", "Atomic radius decreases", "Ionization energy decreases", "Electronegativity increases"], e: "Larger atomic radius, lower ionization energy → easier to lose electron."},
+    {q: "Which halogen is a liquid at room temperature?", a: "B", choices: ["Fluorine", "Bromine", "Chlorine", "Iodine"], e: "Bromine (Br₂) is reddish-brown liquid; F₂ and Cl₂ are gases, I₂ is solid."},
+    {q: "The inertness of noble gases is due to:", a: "C", choices: ["High electronegativity", "Large atomic radius", "Complete octet (stable electron configuration)", "High ionization energy"], e: "Full valence shell (ns² np⁶) makes them chemically unreactive."},
+    {q: "The oxide of which element is amphoteric?", a: "B", choices: ["Sodium", "Aluminum", "Chlorine", "Magnesium"], e: "Al₂O₃ (aluminum oxide) reacts with both acids and bases."},
+    {q: "The standard cell potential E°cell is calculated as:", a: "D", choices: ["E°cathode - E°anode", "E°anode - E°cathode", "E°ox + E°red", "E°cathode - E°anode"], e: "E°cell = E°reduction (cathode) - E°reduction (anode)."}
+];
+chemWeek2.forEach(item => quizData.push(item));
+
+// ==================== PHYSICS (25) - Waves, Thermodynamics, Electrostatics, Current Electricity, Electromagnetism ====================
+const physWeek2 = [
+    {q: "The time taken for one complete oscillation is called:", a: "B", choices: ["Frequency", "Period", "Amplitude", "Wavelength"], e: "Period T = 1/f, measured in seconds."},
+    {q: "A simple pendulum has a period T. If the length is quadrupled, the new period becomes:", a: "C", choices: ["T/2", "2T", "2T", "4T"], e: "T ∝ √L; quadrupling length doubles period."},
+    {q: "The first law of thermodynamics is a statement of:", a: "C", choices: ["Conservation of momentum", "Conservation of mass", "Conservation of energy", "Entropy increase"], e: "ΔU = Q - W; energy cannot be created or destroyed."},
+    {q: "In an isothermal process for an ideal gas, the internal energy:", a: "A", choices: ["Remains constant", "Increases", "Decreases", "Depends on pressure"], e: "For ideal gas, ΔU depends only on temperature; constant T → ΔU = 0."},
+    {q: "The second law of thermodynamics states that the entropy of an isolated system:", a: "D", choices: ["Decreases", "Remains constant", "Fluctuates", "Increases or remains constant"], e: "ΔS_universe ≥ 0; spontaneous processes increase entropy."},
+    {q: "Coulomb's law states that the force between two point charges is:", a: "C", choices: ["Directly proportional to distance squared", "Inversely proportional to distance", "Inversely proportional to square of distance", "Independent of distance"], e: "F = k q₁q₂/r²; force ∝ 1/r²."},
+    {q: "The SI unit of electric charge is:", a: "B", choices: ["Ampere", "Coulomb", "Volt", "Farad"], e: "Coulomb (C) = 1 Ampere × 1 second."},
+    {q: "An electric field is defined as:", a: "A", choices: ["Force per unit positive test charge", "Potential per unit charge", "Energy per unit charge", "Charge per unit area"], e: "E = F/q₀ (direction of force on positive charge)."},
+    {q: "The electric field inside a conductor in electrostatic equilibrium is:", a: "B", choices: ["Maximum at center", "Zero", "Uniform", "Radially outward"], e: "Excess charge resides on surface; internal field is zero."},
+    {q: "Ohm's law states that the current through a conductor is directly proportional to:", a: "C", choices: ["Resistance", "Power", "Voltage", "Conductivity"], e: "V = IR; I ∝ V when R constant."},
+    {q: "The SI unit of resistance is:", a: "B", choices: ["Volt", "Ohm (Ω)", "Ampere", "Watt"], e: "Ohm = Volt/Ampere."},
+    {q: "A wire of resistance R is stretched to double its length. The new resistance becomes:", a: "D", choices: ["R/2", "R", "2R", "4R"], e: "R = ρL/A; length doubles, area halves → R' = ρ(2L)/(A/2) = 4ρL/A = 4R."},
+    {q: "The magnetic field around a current-carrying conductor was discovered by:", a: "C", choices: ["Faraday", "Ampere", "Oersted", "Maxwell"], e: "Oersted (1820): current in wire deflects compass needle — electromagnetism."},
+    {q: "The direction of magnetic field around a straight current-carrying wire is given by:", a: "B", choices: ["Fleming's left-hand rule", "Right-hand thumb rule", "Fleming's right-hand rule", "Lenz's law"], e: "Right-hand thumb rule: thumb points current direction, fingers curl in B field direction."},
+    {q: "The force on a current-carrying conductor in a magnetic field is maximum when:", a: "D", choices: ["Conductor is parallel to field", "Conductor is at 45° to field", "Conductor is at 60° to field", "Conductor is perpendicular to field"], e: "F = BIL sinθ; sinθ maximum at θ = 90° (perpendicular)."},
+    {q: "Fleming's left-hand rule is used to determine:", a: "A", choices: ["Direction of force on a current-carrying conductor in magnetic field", "Direction of induced current", "Direction of magnetic field", "Direction of electric field"], e: "Left hand: thumb = force, index = field, middle = current (motor rule)."},
+    {q: "The SI unit of magnetic flux density (B) is:", a: "C", choices: ["Weber", "Henry", "Tesla", "Gauss"], e: "Tesla (T) = Weber/m²; 1 T = 10⁴ Gauss."},
+    {q: "Faraday's law of electromagnetic induction states that induced EMF is proportional to:", a: "D", choices: ["Magnetic field strength", "Current", "Area of loop", "Rate of change of magnetic flux"], e: "ε = -dΦ/dt; faster flux change → greater induced EMF."},
+    {q: "Lenz's law states that the direction of induced current is such that it:", a: "C", choices: ["Increases the change in flux", "Opposes the change in flux", "Opposes the change in flux", "Is independent of flux change"], e: "Lenz's law: induced current creates field that opposes original flux change (conservation of energy)."},
+    {q: "A transformer works on the principle of:", a: "B", choices: ["DC current", "Mutual induction", "Self-induction", "Magnetic force"], e: "Changing current in primary coil induces EMF in secondary coil via mutual induction."},
+    {q: "The step-up transformer has:", a: "A", choices: ["More turns in secondary than primary", "More turns in primary than secondary", "Same turns in both", "No core"], e: "Vp/Vs = Np/Ns; step-up: Vs > Vp → Ns > Np."},
+    {q: "The back EMF in a motor is maximum when:", a: "C", choices: ["Motor starts", "Motor is overloaded", "Motor runs at full speed", "Motor is stalled"], e: "At full speed, back EMF is maximum, limiting current."},
+    {q: "The magnetic field at the center of a circular loop of radius R carrying current I is:", a: "B", choices: ["μ₀I/2R", "μ₀I/2R", "μ₀I/2πR", "μ₀I/R"], e: "B = μ₀I/(2R) at center of circular loop."},
+    {q: "A galvanometer can be converted into a voltmeter by connecting:", a: "C", choices: ["A low resistance in parallel", "A low resistance in series", "A high resistance in series", "A high resistance in parallel"], e: "High series resistance limits current, allowing voltage measurement."},
+    {q: "The device that converts electrical energy into mechanical energy is:", a: "A", choices: ["Electric motor", "Generator", "Transformer", "Galvanometer"], e: "Motor: electrical input → mechanical output (rotation)."}
+];
+physWeek2.forEach(item => quizData.push(item));
+
+// ==================== ENGLISH (10) - Active/Passive, Direct/Indirect, Gerunds/Infinitives, Adverbs ====================
+const engWeek2 = [
+    {q: "Change to passive: 'The chef prepares delicious meals.'", a: "B", choices: ["Delicious meals prepare by chef", "Delicious meals are prepared by the chef", "Delicious meals were prepared", "Delicious meals is prepared"], e: "Present simple passive: is/am/are + past participle."},
+    {q: "Change to indirect: He said, 'I am going to the market.'", a: "B", choices: ["He said that he is going to the market.", "He said that he was going to the market.", "He said that I was going to the market.", "He said that he will go to the market."], e: "Present continuous changes to past continuous in reported speech."},
+    {q: "Change to indirect: She asked, 'Will you help me?'", a: "C", choices: ["She asked if I will help her.", "She asked that I would help her.", "She asked if I would help her.", "She asked me to help her."], e: "Future 'will' changes to 'would' in indirect question; 'if' is used for yes/no questions."},
+    {q: "Identify the gerund in the sentence: 'Swimming is good exercise.'", a: "A", choices: ["Swimming", "is", "good", "exercise"], e: "Gerund: verb-ing acting as noun (subject of sentence)."},
+    {q: "Which sentence correctly uses an infinitive?", a: "C", choices: ["I enjoy to read books.", "She suggested to go home.", "He wants to learn Spanish.", "They avoided to meet him."], e: "Infinitive = 'to + base verb'. Verbs like 'want' take infinitive; 'enjoy' takes gerund."},
+    {q: "Complete the sentence: 'She is afraid ___ flying.'", a: "B", choices: ["to", "of", "for", "with"], e: "Adjective + preposition 'of' + gerund: afraid of flying."},
+    {q: "Identify the adverb in the sentence: 'She sings beautifully.'", a: "C", choices: ["She", "sings", "beautifully", "sings beautifully"], e: "Adverb 'beautifully' modifies the verb 'sings', describing how."},
+    {q: "Which word is an adverb of frequency?", a: "B", choices: ["Quickly", "Always", "Very", "There"], e: "Adverbs of frequency: always, never, often, seldom, usually."},
+    {q: "Choose the correct adverb: 'He ran ___ to catch the bus.'", a: "D", choices: ["slow", "quick", "fastly", "fast"], e: "'Fast' is both adjective and adverb (no 'fastly')."},
+    {q: "Which sentence uses an adverb correctly?", a: "C", choices: ["She danced graceful.", "He did good on the test.", "She spoke softly to the baby.", "They arrived late yesterday."], e: "'Softly' correctly modifies the verb 'spoke'."}
+];
+engWeek2.forEach(item => quizData.push(item));
+
+// ==================== LOGICAL REASONING (10) - Letter Series, Patterns ====================
+const lrWeek2 = [
+    {q: "Complete the series: A, C, F, J, ?", a: "B", choices: ["N", "O", "P", "M"], e: "Differences: +2, +3, +4, next +5 → J(10) +5 = 15 = O."},
+    {q: "Find the next term: Z, X, V, T, ?", a: "C", choices: ["S", "U", "R", "Q"], e: "Decreasing by 2 each time: Z→X (-2), X→V (-2), V→T (-2), T→R (-2)."},
+    {q: "Complete: B, E, H, K, ?", a: "D", choices: ["L", "M", "N", "N"], e: "Differences: +3 each time: B(2)+3=5=E, E+3=8=H, H+3=11=K, K+3=14=N."},
+    {q: "What comes next? A, Z, B, Y, C, X, ?", a: "A", choices: ["D", "W", "V", "D"], e: "Two interleaved series: A,B,C → D and Z,Y,X → W; answer D."},
+    {q: "Complete: AB, BC, CD, DE, ?", a: "B", choices: ["EF", "EF", "FG", "DE"], e: "Each term shifts one letter forward: AB → BC → CD → DE → EF."},
+    {q: "Find the missing term: 2, 6, 12, 20, ?", a: "B", choices: ["28", "30", "32", "36"], e: "Differences: 4,6,8, next difference 10 → 20+10=30."},
+    {q: "Complete: P5, R7, T9, V11, ?", a: "C", choices: ["W13", "X13", "X13", "Y13"], e: "Letters: P,R,T,V (+2 each) → X; numbers: 5,7,9,11 (+2 each) → 13."},
+    {q: "What is the next? 1, 4, 9, 16, ?", a: "D", choices: ["20", "24", "25", "25"], e: "Squares: 1²,2²,3²,4², next 5²=25."},
+    {q: "Find the odd one out: Apple, Mango, Orange, Potato", a: "D", choices: ["Apple", "Mango", "Orange", "Potato"], e: "Potato is a vegetable; others are fruits."},
+    {q: "If CAT is coded as 3120, then DOG would be coded as:", a: "C", choices: ["4157", "4157", "4157", "3157"], e: "C=3, A=1, T=20 → 3120. D=4, O=15, G=7 → 4157."}
+];
+lrWeek2.forEach(item => quizData.push(item));
+
+// Final check: 30+25+25+10+10 = 100
+console.log("Total Week 2 MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let totalScore = 0;
+    let bioScore = 0, chemScore = 0, physScore = 0, engScore = 0, lrScore = 0;
+    
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                totalScore++;
+                if (i < 30) bioScore++;
+                else if (i < 55) chemScore++;
+                else if (i < 80) physScore++;
+                else if (i < 90) engScore++;
+                else lrScore++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${totalScore} / 100`;
+    document.getElementById('bio-score').innerText = bioScore;
+    document.getElementById('chem-score').innerText = chemScore;
+    document.getElementById('phys-score').innerText = physScore;
+    document.getElementById('eng-score').innerText = engScore;
+    document.getElementById('lr-score').innerText = lrScore;
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

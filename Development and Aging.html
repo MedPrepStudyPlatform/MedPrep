@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Development and Aging: Randomized MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Theme: Slate & Silver */
+        body { font-family: 'Inter', sans-serif; background: #f1f2f6; color: #2d3436; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 10px solid #7f8c8d; }
+        h1 { font-family: 'Outfit', sans-serif; color: #2c3e50; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #636e72; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        .question { margin-bottom: 35px; padding: 25px; border: 1px solid #dfe6e9; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 20px; color: #2c3e50; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #f1f2f6; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #ffffff; }
+        .option:hover { border-color: #7f8c8d; background: #f8f9f9; }
+        .option.selected { background: #2d3436; color: white; border-color: #2d3436; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #7f8c8d; color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #636e72; transform: translateY(-2px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #2d3436; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #f8f9f9; padding: 18px; border-left: 6px solid #7f8c8d; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #1c2e36; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Development and Aging</h1>
+    
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const developmentData = [
+        { q: "The series of rapid mitotic divisions that convert a zygote into a multicellular blastula is called:", options: ["Gastrulation", "Cleavage", "Organogenesis", "Differentiation"], exp: "Cleavage involves cell divisions without significant growth in the total volume of the embryo.", correct: "B" },
+        { q: "Which germ layer gives rise to the nervous system and the epidermis of the skin?", options: ["Mesoderm", "Endoderm", "Ectoderm", "Trophoblast"], exp: "The ectoderm is the outermost layer responsible for the brain, spinal cord, and skin.", correct: "C" },
+        { q: "The process by which a blastula is transformed into a three-layered embryo is:", options: ["Neurulation", "Gastrulation", "Implantation", "Invagination"], exp: "Gastrulation establishes the three primary germ layers: ectoderm, mesoderm, and endoderm.", correct: "B" },
+        { q: "A solid ball of 16 to 32 cells formed during early development is known as the:", options: ["Blastula", "Morula", "Gastrula", "Zygote"], exp: "The morula (Latin for mulberry) precedes the fluid-filled blastocyst stage.", correct: "B" },
+        { q: "Which of the following is a characteristic of aging (senescence) at the cellular level?", options: ["Increased telomere length", "Decreased protein synthesis", "Increased mitochondrial efficiency", "Faster cell division"], exp: "Aging is associated with a decline in metabolic activities, including protein synthesis and DNA repair.", correct: "B" },
+        { q: "The 'gray crescent' in amphibian development is critical for determining:", options: ["The tail region", "The dorsal-ventral axis", "The color of the skin", "The size of the heart"], exp: "The gray crescent marks the future dorsal side and is essential for normal gastrulation.", correct: "B" },
+        { q: "Embryonic induction is the process where:", options: ["Cells die programmed deaths", "One group of cells influences the development of another", "Sperm enters the egg", "The heart starts beating"], exp: "Induction involves chemical signaling between cell layers to trigger differentiation (e.g., the notochord inducing the neural plate).", correct: "B" },
+        { q: "The programmed death of cells during development (e.g., removing webbing between fingers) is called:", options: ["Necrosis", "Senescence", "Apoptosis", "Autolysis"], exp: "Apoptosis is a controlled, genetically programmed process vital for organ sculpting.", correct: "C" },
+        { q: "Which hormone is primarily involved in the metamorphosis of a tadpole into a frog?", options: ["Growth hormone", "Thyroxine", "Insulin", "Adrenaline"], exp: "Thyroid hormones are the key triggers for the massive structural changes in amphibian metamorphosis.", correct: "B" },
+        { q: "The protective caps at the ends of chromosomes that shorten with each cell division are:", options: ["Centromeres", "Telomeres", "Kinetochores", "Histones"], exp: "Telomere shortening is one of the leading theories explaining why cells have a finite division limit (Hayflick limit).", correct: "B" },
+        { q: "In human development, the heart begins to beat approximately at the end of:", options: ["1st week", "4th week", "12th week", "20th week"], exp: "Organogenesis starts early; the heart is one of the first functional organs, beating around day 22-24.", correct: "B" },
+        { q: "The fluid-filled cavity within a blastocyst is called the:", options: ["Blastopore", "Blastocoel", "Archenteron", "Coelom"], exp: "The blastocoel provides space for the rearrangement of cells during gastrulation.", correct: "B" },
+        { q: "The primitive gut formed during gastrulation is the:", options: ["Blastocoel", "Archenteron", "Coelom", "Notochord"], exp: "The archenteron eventually develops into the digestive tract.", correct: "B" },
+        { q: "Which structure in the embryo eventually becomes the vertebral column?", options: ["Neural tube", "Notochord", "Endoderm", "Primitive streak"], exp: "The notochord acts as the primary longitudinal skeletal axis before being replaced by the vertebrae.", correct: "B" },
+        { q: "A 'Totipotent' cell is one that can:", options: ["Only become a nerve cell", "Become any cell type in the body", "Become any cell type PLUS extra-embryonic tissues", "Only become blood cells"], exp: "Totipotent cells (like the zygote) can give rise to a complete organism including the placenta.", correct: "C" },
+        { q: "The theory of aging that suggests our bodies simply wear out due to accumulated damage is the:", options: ["Genetic clock theory", "Wear and tear theory", "Hormonal theory", "Immune system theory"], exp: "This theory focuses on the accumulation of free radical damage and metabolic byproducts over time.", correct: "B" },
+        { q: "Which extra-embryonic membrane is responsible for waste storage (especially uric acid) in bird eggs?", options: ["Amnion", "Chorion", "Allantois", "Yolk sac"], exp: "The allantois serves as a respiratory surface and a reservoir for nitrogenous waste.", correct: "C" },
+        { q: "The placenta is formed from both maternal tissue and the fetal:", options: ["Amnion", "Yolk sac", "Chorion", "Allantois"], exp: "The chorionic villi interlock with the uterine wall to form the placenta.", correct: "C" },
+        { q: "During aging, the decrease in bone density is specifically known as:", options: ["Arthritis", "Osteoporosis", "Arteriosclerosis", "Senescence"], exp: "Osteoporosis is a common condition in the elderly where bones become porous and fragile.", correct: "B" },
+        { q: "The 'Organizer' experiment in embryology was famously conducted by:", options: ["Watson and Crick", "Spemann and Mangold", "Charles Darwin", "Gregor Mendel"], exp: "Hans Spemann and Hilde Mangold discovered the 'primary organizer' that induces the nervous system.", correct: "B" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        developmentData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        developmentData.forEach((data, index) => {
+            document.getElementById(`exp-${index}`).style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${developmentData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

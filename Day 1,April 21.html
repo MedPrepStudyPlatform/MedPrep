@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT English Preparation Session · April 21</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';">Score</h2>
+        <div id="final-score">0 / 25</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        
+        <div class="syllabus-grid">
+             Tenses+Synonyms from
+context
+        </div>
+        
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> © 2026 MedPrep. All Rights Reserved.</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// CONCEPTUAL ENGLISH TENSES QUIZ - 25 MCQs (April 21)
+// Higher difficulty: time clauses, tense consistency, conditionals, perfect/continuous nuances
+// ✅ EACH QUESTION: Correct answer letter matches the explanation precisely
+// --------------------------------------------------------------
+const quizData = [
+    // Time Clauses (Future with Present)
+    {q: "By the time you arrive, I ___ dinner for two hours.", a: "C", choices: ["cook", "will cook", "will have been cooking", "am cooking"], e: "Future perfect continuous emphasizes duration of an action that will be in progress before another future event."},
+    {q: "She ___ the project before the deadline next Friday.", a: "B", choices: ["finishes", "will have finished", "is finishing", "has finished"], e: "Future perfect (will have finished) for action completed before a specific future time."},
+    {q: "As soon as he ___ the message, he will call you.", a: "A", choices: ["receives", "will receive", "received", "has received"], e: "In time clauses (as soon as), present simple is used for future meaning, not future tense."},
+    {q: "I ___ you when I get home from work.", a: "D", choices: ["am calling", "will have called", "call", "will call"], e: "Future simple (will call) for a promise or decision made at the moment of speaking."},
+    
+    // Tense Consistency & Sequence
+    {q: "He realized that he ___ his keys at home.", a: "C", choices: ["forgets", "has forgotten", "had forgotten", "was forgetting"], e: "Past perfect (had forgotten) for action completed before another past action (realized)."},
+    {q: "She told me she ___ to London the following week.", a: "B", choices: ["is going", "was going", "will go", "has gone"], e: "Past continuous (was going) for future from past perspective (reported speech)."},
+    {q: "If I ___ you, I would apologize immediately.", a: "A", choices: ["were", "was", "am", "had been"], e: "Second conditional (hypothetical present) uses 'were' for all persons in if-clause (subjunctive)."},
+    {q: "Had he known about the traffic, he ___ a different route.", a: "D", choices: ["took", "would take", "will take", "would have taken"], e: "Third conditional: past perfect (had known) + would have + past participle for unreal past."},
+    
+    // Perfect vs Continuous Nuances
+    {q: "I ___ for three hours when the storm started.", a: "C", choices: ["drive", "have driven", "had been driving", "was driving"], e: "Past perfect continuous (had been driving) emphasizes duration of action before another past event."},
+    {q: "She looks exhausted because she ___ all night.", a: "B", choices: ["worked", "has been working", "had worked", "works"], e: "Present perfect continuous for recent action with visible result (exhaustion)."},
+    {q: "By the end of this year, they ___ in this city for a decade.", a: "D", choices: ["live", "will live", "will be living", "will have been living"], e: "Future perfect continuous emphasizes duration up to a future point (by the end of this year)."},
+    {q: "I ___ him for ages. When did you last see him?", a: "A", choices: ["haven't seen", "didn't see", "hadn't seen", "wasn't seeing"], e: "Present perfect (haven't seen) for indefinite past time up to present."},
+    
+    // Mixed Conditionals & Advanced Structures
+    {q: "If she had taken the medicine, she ___ better now.", a: "C", choices: ["feels", "would feel", "would feel", "would have felt"], e: "Mixed conditional: past condition (had taken) + present result (would feel)."},
+    {q: "Unless you ___ harder, you won't succeed.", a: "B", choices: ["will work", "work", "worked", "have worked"], e: "Unless = if not; present simple used in conditional clause for future meaning."},
+    {q: "It's time we ___ home. It's getting dark.", a: "D", choices: ["go", "are going", "went", "went"], e: "'It's time + past subjunctive' expresses that something should be done now."},
+    {q: "I'd rather you ___ so loudly. The baby is sleeping.", a: "A", choices: ["didn't speak", "don't speak", "won't speak", "haven't spoken"], e: "'Would rather + past subjunctive' expresses preference about someone else's action."},
+    
+    // Error Identification & Correction
+    {q: "Identify the error: 'I wish I know the answer to this question.'", a: "B", choices: ["I wish", "know", "the answer", "this question"], e: "After 'wish', past subjunctive is used: 'knew' (not 'know') for present unreal situations."},
+    {q: "Identify the error: 'She said that she will come to the party.'", a: "C", choices: ["She said", "that", "will come", "the party"], e: "In reported speech, 'will' changes to 'would' when reporting verb is past tense (said)."},
+    {q: "Identify the error: 'No sooner had I left the house than the phone rings.'", a: "D", choices: ["No sooner", "had I left", "than", "rings"], e: "Tense inconsistency: 'rings' should be past 'rang' to match past perfect 'had left'."},
+    {q: "Identify the error: 'He is working here since 2010.'", a: "A", choices: ["is working", "here", "since 2010", "he"], e: "Since + point in time requires present perfect continuous: 'has been working' not 'is working'."},
+    {q: "Identify the error: 'The committee were unable to reach a consensus.'", a: "B", choices: ["The committee", "were", "unable", "a consensus"], e: "Collective noun 'committee' is singular; correct verb is 'was' (American English standard)."},
+    
+    // Vocabulary in Context (Synonyms from passage)
+    {q: "The word 'mitigate' in 'The new policy will mitigate the effects of climate change' most nearly means:", a: "C", choices: ["Aggravate", "Intensify", "Alleviate", "Ignore"], e: "Mitigate = make less severe, alleviate."},
+    {q: "The meaning of 'pervasive' as in 'The pervasive smell of smoke filled the room' is:", a: "D", choices: ["Weak", "Pleasant", "Absent", "Widespread"], e: "Pervasive = spreading widely throughout an area or group."},
+    {q: "Select the synonym of 'cursory' from: 'He gave the report a cursory glance.'", a: "B", choices: ["Detailed", "Superficial", "Thorough", "Careful"], e: "Cursory = hasty, not thorough, superficial."},
+    {q: "The word 'tenacious' in 'She is a tenous advocate for human rights' means:", a: "C", choices: ["Weak", "Indifferent", "Persistent", "Timid"], e: "Tenacious = persistent, determined, holding firmly."},
+    {q: "Choose the correct meaning of 'anomaly' as used in 'The discovery was an anomaly in the data.':", a: "A", choices: ["Irregularity", "Consistency", "Pattern", "Norm"], e: "Anomaly = something that deviates from what is standard, normal, or expected."}
+];
+
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 25`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

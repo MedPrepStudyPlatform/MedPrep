@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gases </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: #0c4a6e;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #0e7c9e;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #0f5c7a, #0e7c9e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #0f5c7a;
+            font-weight: 600;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            background: #e0f2fe;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 6px 20px;
+            border-radius: 60px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #dbeafe;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(14, 124, 158, 0.08);
+            border-color: #bae6fd;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #0c4a6e;
+            padding-left: 14px;
+            border-left: 4px solid #0e7c9e;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #0e7c9e;
+            background: #f0f9ff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #0c4a6e;
+            color: white;
+            border-color: #0c4a6e;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #0e7c9e;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(14, 124, 158, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #0a5c77;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(10, 92, 119, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #0c4a6e, #0e7c9e);
+            color: #f0f9ff;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #1e3a5f;
+            display: none;
+            background: #f0f9ff;
+            padding: 16px 22px;
+            border-left: 6px solid #0e7c9e;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #f97316 !important;
+            background: #ffedd5 !important;
+            color: #9a3412 !important;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #0e7c9e;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>🎈 Gases</h1>
+    <div style="text-align: center;">
+        
+    </div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()"> SUBMIT</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+       
+    </div>
+    
+</div>
+
+<script>
+    // 20 high-quality Gases MCQs (FSC Part 1, Chapter 4)
+    const gasesMCQs = [
+        { q: "According to Boyle's law, at constant temperature, the pressure of a fixed amount of gas is:", options: ["Directly proportional to volume", "Inversely proportional to volume", "Directly proportional to density", "Independent of volume"], exp: "Boyle's law: P ∝ 1/V (at constant n, T). Pressure and volume are inversely related.", correct: "B" },
+        { q: "The value of absolute zero on the Celsius scale is:", options: ["-273.15 °C", "-273 °C", "-273.15 K", "0 K"], exp: "Absolute zero is -273.15 °C or 0 K.", correct: "A" },
+        { q: "Which gas law describes the relationship V ∝ n (at constant T and P)?", options: ["Boyle's law", "Charles's law", "Avogadro's law", "Gay-Lussac's law"], exp: "Avogadro's law: equal volumes of gases at same T,P contain equal number of moles.", correct: "C" },
+        { q: "The ideal gas equation is:", options: ["PV = nRT", "PV = RT", "P = nRT/V", "All of these"], exp: "All forms are equivalent: PV = nRT, also P = nRT/V.", correct: "D" },
+        { q: "At STP, the volume occupied by 1 mole of an ideal gas is:", options: ["22.4 L", "22.4 mL", "24.4 L", "2.24 L"], exp: "Standard Temperature and Pressure (0°C, 1 atm) → 22.414 L ≈ 22.4 L.", correct: "A" },
+        { q: "The pressure exerted by a gas is due to:", options: ["Collisions of molecules with container walls", "Attractive forces between molecules", "Volume of gas molecules", "Brownian motion"], exp: "Gas pressure arises from molecular collisions with the walls of the container.", correct: "A" },
+        { q: "Which of the following is NOT an assumption of the kinetic molecular theory?", options: ["Gas molecules are in constant random motion", "Collisions are perfectly elastic", "Gas molecules have significant volume", "No intermolecular forces"], exp: "KMT assumes gas molecules have negligible volume compared to container.", correct: "C" },
+        { q: "The root mean square velocity of gas molecules is directly proportional to:", options: ["√T", "T", "1/√T", "T²"], exp: "u_rms = √(3RT/M) → u_rms ∝ √T.", correct: "A" },
+        { q: "Which gas diffuses fastest among the following at same temperature?", options: ["O₂", "N₂", "He", "CO₂"], exp: "Lighter gases diffuse faster (Graham's law). Helium (M=4) is lightest.", correct: "C" },
+        { q: "The value of R (gas constant) in SI units (J mol⁻¹ K⁻¹) is:", options: ["8.314", "0.0821", "1.987", "62.36"], exp: "R = 8.314 J mol⁻¹ K⁻¹ in SI units.", correct: "A" },
+        { q: "At constant pressure, the volume of a gas is directly proportional to its absolute temperature. This is:", options: ["Boyle's law", "Charles's law", "Avogadro's law", "Dalton's law"], exp: "Charles's law: V ∝ T (at constant P and n).", correct: "B" },
+        { q: "Dalton's law of partial pressures states that total pressure is:", options: ["Sum of partial pressures", "Product of partial pressures", "Average of partial pressures", "Difference of partial pressures"], exp: "P_total = P₁ + P₂ + P₃ + ... for non-reacting gases.", correct: "A" },
+        { q: "A gas behaves most ideally at:", options: ["High temperature and low pressure", "Low temperature and high pressure", "High temperature and high pressure", "Low temperature and low pressure"], exp: "Ideal behavior is favored at high T (overcomes attractions) and low P (negligible volume).", correct: "A" },
+        { q: "The pressure of a gas is increased by a factor of 2 at constant volume. The temperature (in Kelvin) will:", options: ["Become half", "Remain same", "Double", "Become one-fourth"], exp: "Gay-Lussac's law: P ∝ T (constant V). If P doubles, T doubles.", correct: "C" },
+        { q: "Which of the following is equal to 1 atm pressure?", options: ["760 torr", "101325 Pa", "14.7 psi", "All of these"], exp: "1 atm = 760 torr = 101325 Pa = 14.7 psi.", correct: "D" },
+        { q: "The average kinetic energy of gas molecules is directly proportional to:", options: ["Absolute temperature", "Pressure", "Volume", "Number of moles"], exp: "KE_avg = (3/2)RT → directly proportional to absolute temperature.", correct: "A" },
+        { q: "A gas occupies 5 L at 300 K. What volume will it occupy at 600 K if pressure is constant?", options: ["2.5 L", "5 L", "10 L", "15 L"], exp: "Charles's law: V₁/T₁ = V₂/T₂ → V₂ = (5×600)/300 = 10 L.", correct: "C" },
+        { q: "The phenomenon of effusion is described by:", options: ["Graham's law", "Fick's law", "Henry's law", "Raoult's law"], exp: "Graham's law of effusion: rate ∝ 1/√M.", correct: "A" },
+        { q: "For an ideal gas, the compressibility factor Z = PV/nRT is:", options: ["<1", ">1", "=1", "0"], exp: "For an ideal gas, PV = nRT, so Z = 1 exactly.", correct: "C" },
+        { q: "Which of the following gases shows maximum deviation from ideal behavior?", options: ["H₂", "He", "NH₃", "CO₂"], exp: "NH₃ has strong intermolecular hydrogen bonding, so shows significant deviation.", correct: "C" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...gasesMCQs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>💨 Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = ` Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

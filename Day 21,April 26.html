@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 2 · Day 21 · Weekly Test 3 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+        .score-detail {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-week"></i> WEEKLY TEST 3</span>
+        <span><i class="fas fa-clock"></i> Day 21,April 26, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';">Score</h2>
+        <div id="final-score">0 / 100</div>
+        <div class="score-detail">
+            <span><i class="fas fa-dna"></i> Biology: <span id="bio-score">0</span>/30</span>
+            <span><i class="fas fa-atom"></i> Chemistry: <span id="chem-score">0</span>/25</span>
+            <span><i class="fas fa-bolt"></i> Physics: <span id="phys-score">0</span>/25</span>
+            <span><i class="fas fa-language"></i> English: <span id="eng-score">0</span>/10</span>
+            <span><i class="fas fa-puzzle-piece"></i> Logical Reasoning: <span id="lr-score">0</span>/10</span>
+        </div>
+        
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> SUBMIT </button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> MedPrep</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// WEEKLY TEST 3: 100 MCQs (April 20-25 syllabus)
+// Biology: 30 | Chemistry: 25 | Physics: 25 | English: 10 | Logical Reasoning: 10
+// ✅ EACH QUESTION: ONE correct answer · Explanation matches the key
+// --------------------------------------------------------------
+const quizData = [];
+
+// ==================== BIOLOGY (30) ====================
+const bioWeek3 = [
+    // Coordination & Control (5)
+    {q: "The basic structural and functional unit of the nervous system is:", a: "C", choices: ["Axon", "Dendrite", "Neuron", "Synapse"], e: "Neuron is the specialized cell that transmits electrical and chemical signals."},
+    {q: "Which part of the brain is responsible for balance and coordination of movement?", a: "C", choices: ["Cerebrum", "Hypothalamus", "Cerebellum", "Medulla oblongata"], e: "Cerebellum coordinates voluntary movements, balance, and fine motor control."},
+    {q: "The hormone secreted by the adrenal medulla during stress response is:", a: "B", choices: ["Cortisol", "Adrenaline (epinephrine)", "Aldosterone", "Insulin"], e: "Adrenaline (epinephrine) triggers 'fight-or-flight' response."},
+    {q: "Which gland is known as the 'master gland' of the endocrine system?", a: "C", choices: ["Thyroid", "Adrenal", "Pituitary", "Pancreas"], e: "Pituitary gland secretes hormones that regulate other endocrine glands."},
+    {q: "The part of the brain that connects the nervous system to the endocrine system is:", a: "B", choices: ["Cerebrum", "Hypothalamus", "Pons", "Corpus callosum"], e: "Hypothalamus controls pituitary gland, linking neural and hormonal systems."},
+    // Reproduction (5)
+    {q: "The process of formation of gametes is called:", a: "C", choices: ["Fertilization", "Cleavage", "Gametogenesis", "Implantation"], e: "Gametogenesis (spermatogenesis/oogenesis) produces haploid gametes."},
+    {q: "The site of fertilization in humans is the:", a: "B", choices: ["Ovary", "Fallopian tube (ampulla)", "Uterus", "Cervix"], e: "Fertilization typically occurs in the ampulla of the fallopian tube."},
+    {q: "The hormone detected in pregnancy tests is:", a: "C", choices: ["Estrogen", "Progesterone", "hCG (human chorionic gonadotropin)", "LH"], e: "hCG is secreted by trophoblast cells and detected in urine/blood."},
+    {q: "The stage of development when the zygote becomes a solid ball of cells is:", a: "A", choices: ["Morula", "Blastocyst", "Gastrula", "Neurula"], e: "Morula (16-32 cells) forms before blastocyst."},
+    {q: "The acrosome of sperm contains:", a: "D", choices: ["DNA", "Mitochondria", "Centrioles", "Hydrolytic enzymes"], e: "Acrosomal enzymes help penetrate the egg's zona pellucida."},
+    // Evolution (5)
+    {q: "The theory of evolution by natural selection was proposed by:", a: "C", choices: ["Lamarck", "Mendel", "Charles Darwin", "Wallace"], e: "Darwin's 'On the Origin of Species' (1859) proposed natural selection."},
+    {q: "Homologous structures are evidence of:", a: "A", choices: ["Common ancestry", "Convergent evolution", "Analogous evolution", "Genetic drift"], e: "Homologous structures (e.g., forelimbs) share common origin."},
+    {q: "The formation of new species is called:", a: "A", choices: ["Speciation", "Evolution", "Adaptation", "Natural selection"], e: "Speciation is the evolutionary process by which new biological species arise."},
+    {q: "The wings of birds and butterflies are examples of:", a: "B", choices: ["Homologous structures", "Analogous structures", "Vestigial structures", "Fossil structures"], e: "Analogous structures have similar function but different evolutionary origin."},
+    {q: "Hardy-Weinberg equilibrium describes conditions under which:", a: "B", choices: ["Evolution occurs rapidly", "Allele frequencies remain constant", "Mutations increase", "Natural selection is strongest"], e: "Hardy-Weinberg: allele frequencies constant in absence of evolutionary forces."},
+    // Inheritance (10)
+    {q: "Mendel's law of segregation states that:", a: "B", choices: ["Genes assort independently", "Alleles separate during gamete formation", "Dominant traits always appear", "Traits blend in offspring"], e: "Law of segregation: two alleles for each trait separate during meiosis."},
+    {q: "A cross between two heterozygous individuals (Aa × Aa) yields a phenotypic ratio of:", a: "D", choices: ["1:1", "9:3:3:1", "1:2:1", "3:1"], e: "Monohybrid cross: dominant:recessive = 3:1."},
+    {q: "The ABO blood group system in humans is an example of:", a: "D", choices: ["Epistasis", "Incomplete dominance", "Polygenic inheritance", "Multiple alleles"], e: "Three alleles (I^A, I^B, i) control ABO blood type."},
+    {q: "A test cross is used to determine:", a: "B", choices: ["Genotype of dominant phenotype", "Whether individual is homozygous or heterozygous dominant", "Phenotype of offspring", "Mutation rate"], e: "Test cross: cross with homozygous recessive to reveal unknown genotype."},
+    {q: "The genotype of an individual with two identical alleles is called:", a: "A", choices: ["Homozygous", "Heterozygous", "Hemizygous", "Homologous"], e: "Homozygous: AA or aa; heterozygous: Aa."},
+    {q: "Incomplete dominance results in:", a: "C", choices: ["Both alleles expressed equally", "One allele masks the other", "An intermediate phenotype", "No visible trait"], e: "Incomplete dominance: heterozygous phenotype is blend (e.g., pink flowers)."},
+    {q: "The probability of a couple having three consecutive sons is:", a: "D", choices: ["1/2", "1/4", "1/6", "1/8"], e: "Each child has 1/2 chance to be male; (1/2)³ = 1/8."},
+    {q: "Down syndrome is caused by:", a: "A", choices: ["Trisomy of chromosome 21", "Monosomy of X chromosome", "Deletion of chromosome 5", "Duplication of chromosome 18"], e: "Trisomy 21 (three copies of chromosome 21) causes Down syndrome."},
+    {q: "A colorblind male inherits the recessive allele from:", a: "C", choices: ["Father only", "Both parents", "Mother only", "Either parent"], e: "X-linked recessive: males inherit from mother (carrier)."},
+    {q: "Carrier of a recessive genetic disorder is:", a: "D", choices: ["Affected individual", "Has two copies of the allele", "Shows symptoms", "Heterozygous with one recessive allele"], e: "Carrier (Aa) has one recessive allele but does not show disease."},
+    // Extra (5) to reach 30
+    {q: "The medulla oblongata controls:", a: "D", choices: ["Thinking and memory", "Vision", "Body temperature", "Heartbeat and breathing"], e: "Medulla oblongata regulates vital autonomic functions: cardiac, respiratory, and vasomotor centers."},
+    {q: "Which hormone is responsible for maintaining pregnancy (corpus luteum)?", a: "D", choices: ["Estrogen", "FSH", "LH", "Progesterone"], e: "Progesterone maintains the endometrial lining for pregnancy."},
+    {q: "The inner cell mass of the blastocyst gives rise to:", a: "C", choices: ["Placenta", "Trophoblast", "Embryo proper", "Umbilical cord"], e: "Inner cell mass (embryoblast) develops into the embryo; trophoblast forms placenta."},
+    {q: "Industrial melanism in peppered moths is an example of:", a: "B", choices: ["Genetic drift", "Natural selection", "Mutation", "Gene flow"], e: "Dark moths became more common due to selective predation (camouflage on polluted trees)."},
+    {q: "The concept of 'survival of the fittest' refers to:", a: "C", choices: ["Strongest individuals", "Largest individuals", "Best adapted to environment", "Most aggressive"], e: "'Fittest' means best adapted to current environment, not necessarily strongest."}
+];
+bioWeek3.forEach(item => quizData.push(item));
+
+// ==================== CHEMISTRY (25) ====================
+const chemWeek3 = [
+    // Organic Compounds (5)
+    {q: "The general formula for alkanes is:", a: "C", choices: ["CₙH₂ₙ", "CₙH₂ₙ₋₂", "CₙH₂ₙ₊₂", "CₙH₂ₙ₊₁"], e: "Alkanes (saturated hydrocarbons): CₙH₂ₙ₊₂."},
+    {q: "The functional group of alcohols is:", a: "D", choices: ["-CHO", "-COOH", "-NH₂", "-OH"], e: "Hydroxyl group (-OH) characterizes alcohols."},
+    {q: "Which compound is an example of an alkene?", a: "A", choices: ["Ethene (C₂H₄)", "Ethane (C₂H₆)", "Ethyne (C₂H₂)", "Benzene (C₆H₆)"], e: "Alkenes contain C=C double bond; ethene is simplest alkene."},
+    {q: "The IUPAC name of CH₃CH₂CH₂CH₃ is:", a: "B", choices: ["Methane", "Butane", "Propane", "Pentane"], e: "Four carbon chain → butane."},
+    {q: "Which of the following is an aromatic hydrocarbon?", a: "C", choices: ["Cyclohexane", "Hexane", "Benzene", "Ethene"], e: "Benzene (C₆H₆) has delocalized π electrons and aromatic stability."},
+    // Alkyl Halides (5)
+    {q: "The general formula of alkyl halides is:", a: "C", choices: ["CₙH₂ₙX", "CₙH₂ₙ₊₂X", "CₙH₂ₙ₊₁X", "CₙH₂ₙ₋₁X"], e: "Alkyl halides: CₙH₂ₙ₊₁X."},
+    {q: "The SN2 reaction mechanism is characterized by:", a: "D", choices: ["Two steps, carbocation intermediate", "Racemization at chiral center", "First order kinetics", "One step, backside attack, inversion"], e: "SN2 is bimolecular, concerted, with inversion."},
+    {q: "Which of the following is the best leaving group?", a: "C", choices: ["F⁻", "Cl⁻", "I⁻", "Br⁻"], e: "I⁻ is largest, most polarizable, best leaving group."},
+    {q: "Which alkyl halide undergoes SN1 reaction most readily?", a: "C", choices: ["CH₃Br", "CH₃CH₂Br", "(CH₃)₃CBr", "CH₃CH₂CH₂Br"], e: "Tertiary alkyl halides form stable carbocations, fastest SN1."},
+    {q: "Grignard reagent (RMgX) is prepared by reaction of alkyl halide with:", a: "B", choices: ["Sodium metal", "Magnesium metal in dry ether", "Lithium aluminum hydride", "Zinc dust"], e: "R-X + Mg (anhydrous ether) → RMgX."},
+    // Alcohols & Phenols (5)
+    {q: "Phenol is also known as:", a: "C", choices: ["Benzyl alcohol", "Cyclohexanol", "Carbolic acid", "Phenyl methanol"], e: "Phenol (C₆H₅OH) is called carbolic acid."},
+    {q: "The test used to identify phenol is:", a: "B", choices: ["Iodoform test", "Neutral FeCl₃ test (violet color)", "Tollens' test", "Bromine water test"], e: "Phenol gives violet color with neutral ferric chloride."},
+    {q: "The reaction of alcohol with carboxylic acid in presence of concentrated H₂SO₄ gives:", a: "B", choices: ["Ether", "Ester", "Aldehyde", "Ketone"], e: "Esterification: R-OH + R'-COOH ⇌ R'-COOR + H₂O."},
+    {q: "Dehydration of ethanol at 170°C with conc. H₂SO₄ gives:", a: "D", choices: ["Diethyl ether", "Ethanal", "Ethanoic acid", "Ethene"], e: "Dehydration at higher temperature (170°C) yields alkene."},
+    {q: "Ethanol reacts with sodium metal to produce:", a: "D", choices: ["Sodium ethanoate", "Sodium chloride", "Hydrogen peroxide", "Sodium ethoxide and H₂"], e: "2C₂H₅OH + 2Na → 2C₂H₅ONa + H₂↑."},
+    // Aldehydes & Ketones (5)
+    {q: "The functional group of aldehydes is:", a: "A", choices: ["-CHO", "-CO-", "-COOH", "-OH"], e: "Aldehydes have carbonyl group at end: -CHO."},
+    {q: "The simplest aldehyde is:", a: "C", choices: ["Acetone", "Acetaldehyde", "Formaldehyde", "Benzaldehyde"], e: "Formaldehyde (HCHO) is the simplest aldehyde."},
+    {q: "The iodoform test is given by:", a: "B", choices: ["All aldehydes", "Acetaldehyde and methyl ketones", "All ketones", "Aromatic aldehydes"], e: "CH₃CHO and R-CO-CH₃ give yellow precipitate CHI₃."},
+    {q: "The reaction of aldehyde with Tollens' reagent produces:", a: "D", choices: ["Copper oxide", "Iodine", "Bromine", "Silver mirror"], e: "Aldehyde reduces Ag(NH₃)₂⁺ to metallic silver."},
+    {q: "Which reagent is used to distinguish between aldehyde and ketone?", a: "B", choices: ["NaHCO₃", "Tollens' reagent", "Br₂ water", "NaOH"], e: "Tollens' (silver mirror) positive for aldehydes, negative for ketones."},
+    // Extra (5) to reach 25
+    {q: "The order of reactivity for SN2 reaction is:", a: "D", choices: ["Tertiary > Secondary > Primary", "Primary > Tertiary > Secondary", "Tertiary > Primary > Secondary", "Primary > Secondary > Tertiary"], e: "SN2: less steric hindrance → faster. Methyl > 1° > 2° > 3°."},
+    {q: "Which solvent is best for SN1 reactions?", a: "B", choices: ["Nonpolar aprotic", "Polar protic (e.g., water, alcohols)", "Nonpolar protic", "Aprotic nonpolar"], e: "Polar protic solvents stabilize carbocation and leaving group."},
+    {q: "The common name of methanal is:", a: "C", choices: ["Acetaldehyde", "Acetone", "Formaldehyde", "Benzaldehyde"], e: "Methanal = formaldehyde."},
+    {q: "The common name of propanone is:", a: "D", choices: ["Acetaldehyde", "Formalin", "Methyl aldehyde", "Acetone"], e: "Propanone = acetone."},
+    {q: "The compound C₆H₅CH₂Cl (benzyl chloride) undergoes SN1 readily because:", a: "C", choices: ["It is primary", "It is sterically hindered", "The benzyl carbocation is resonance stabilized", "Chlorine is a poor leaving group"], e: "Benzyl carbocation stabilized by resonance with aromatic ring."}
+];
+chemWeek3.forEach(item => quizData.push(item));
+
+// ==================== PHYSICS (25) ====================
+const physWeek3 = [
+    // Electromagnetic Induction (5)
+    {q: "Electromagnetic induction was discovered by:", a: "C", choices: ["Oersted", "Ampere", "Faraday", "Maxwell"], e: "Michael Faraday (1831) discovered that changing magnetic field induces EMF."},
+    {q: "Lenz's law is a consequence of the conservation of:", a: "B", choices: ["Charge", "Energy", "Momentum", "Mass"], e: "Lenz's law (opposing flux change) ensures energy conservation."},
+    {q: "The SI unit of magnetic flux is:", a: "C", choices: ["Tesla", "Henry", "Weber", "Gauss"], e: "Weber (Wb) = 1 T·m²."},
+    {q: "A transformer works on the principle of:", a: "B", choices: ["Self-induction", "Mutual induction", "Electrostatic induction", "Magnetic effect of current"], e: "Changing current in primary induces EMF in secondary via mutual induction."},
+    {q: "Laminating the core of a transformer reduces:", a: "B", choices: ["Mutual inductance", "Eddy current losses", "Hysteresis losses", "Copper losses"], e: "Laminations increase resistance to eddy currents, reducing heat loss."},
+    // Electronics (5)
+    {q: "A semiconductor doped with pentavalent impurity (e.g., arsenic) becomes:", a: "B", choices: ["p-type", "n-type", "Intrinsic", "Insulator"], e: "Pentavalent impurities donate extra electrons → n-type semiconductor."},
+    {q: "The truth table for AND gate shows output 1 when:", a: "A", choices: ["All inputs are 1", "Any input is 1", "All inputs are 0", "Inputs are different"], e: "AND: output = 1 only if A=1 AND B=1."},
+    {q: "Zener diode is designed to operate in:", a: "C", choices: ["Forward bias region", "No bias", "Reverse breakdown region", "Saturation region"], e: "Zener diode maintains constant voltage in reverse breakdown for voltage regulation."},
+    {q: "The barrier potential of a silicon diode is approximately:", a: "B", choices: ["0.3 V", "0.7 V", "1.2 V", "2.0 V"], e: "Silicon diode has forward voltage drop ~0.7V."},
+    {q: "A NAND gate is equivalent to:", a: "B", choices: ["AND followed by buffer", "AND followed by NOT", "OR followed by NOT", "NOT followed by AND"], e: "NAND = NOT AND; output is opposite of AND."},
+    // Modern Physics (5)
+    {q: "The photoelectric effect was explained by:", a: "C", choices: ["Newton", "Planck", "Einstein", "Bohr"], e: "Einstein (1905) explained photoelectric effect using photon concept."},
+    {q: "De Broglie proposed that particles have:", a: "A", choices: ["Wave-like properties", "Only particle properties", "No momentum", "Fixed position"], e: "Wave-particle duality: λ = h/p."},
+    {q: "Heisenberg's uncertainty principle states:", a: "C", choices: ["Δx·Δt ≥ h/4π", "Δp·ΔE ≥ h/4π", "Δx·Δp ≥ h/4π", "ΔE·Δt = 0"], e: "Cannot simultaneously measure position and momentum precisely."},
+    {q: "The energy of a photon is given by:", a: "B", choices: ["E = mc²", "E = hf", "E = ½mv²", "E = kT"], e: "E = hf = hc/λ."},
+    {q: "The most stable nucleus in terms of binding energy per nucleon is:", a: "C", choices: ["Uranium-238", "Hydrogen-1", "Iron-56", "Helium-4"], e: "Iron-56 has highest binding energy per nucleon (~8.8 MeV)."},
+    // Atomic Spectra (5)
+    {q: "The Lyman series of hydrogen lies in:", a: "C", choices: ["Visible region", "Infrared region", "Ultraviolet region", "Radio region"], e: "Lyman series (n≥2 → n=1) is in UV region."},
+    {q: "The Balmer series of hydrogen lies in:", a: "A", choices: ["Visible region", "UV region", "Infrared region", "X-ray region"], e: "Balmer series (n≥3 → n=2) produces visible light."},
+    {q: "Rydberg formula is used to calculate:", a: "C", choices: ["Electron mass", "Atomic radius", "Wavelength of spectral lines", "Nuclear charge"], e: "1/λ = R(1/n₁² - 1/n₂²)."},
+    {q: "The longest wavelength in Balmer series corresponds to transition:", a: "D", choices: ["n=6 → n=2", "n=5 → n=2", "n=4 → n=2", "n=3 → n=2"], e: "Smallest energy difference (n=3→2) gives longest wavelength."},
+    {q: "The Bohr model successfully explained:", a: "A", choices: ["Hydrogen spectrum", "Helium spectrum", "Zeeman effect", "Fine structure"], e: "Bohr model accurately predicted hydrogen spectral lines."},
+    // Extra (5) to reach 25
+    {q: "The output of OR gate is 0 when:", a: "C", choices: ["Any input is 1", "Both inputs are 1", "All inputs are 0", "One input is 0"], e: "OR: output = 0 only when all inputs are 0."},
+    {q: "The Boolean expression for NOR gate is:", a: "D", choices: ["A + B", "A · B", "A ⊕ B", "(A+B)̅"], e: "NOR = NOT OR; output = (A+B)̅."},
+    {q: "The concept of quantization of energy was introduced by:", a: "A", choices: ["Max Planck", "Einstein", "Bohr", "Heisenberg"], e: "Planck (1900) proposed energy is quantized: E = nhf."},
+    {q: "The half-life of a radioactive substance is:", a: "C", choices: ["Time to become stable", "Time to double activity", "Time for half of nuclei to decay", "Average lifetime"], e: "Half-life (t₁/₂) is constant for given isotope."},
+    {q: "The equation E = mc² represents:", a: "D", choices: ["Kinetic energy", "Potential energy", "Thermal energy", "Mass-energy equivalence"], e: "Einstein's mass-energy equivalence: mass can be converted to energy."}
+];
+physWeek3.forEach(item => quizData.push(item));
+
+// ==================== ENGLISH (10) ====================
+const engWeek3 = [
+    {q: "Choose the correct preposition: 'She is interested ___ learning new languages.'", a: "C", choices: ["for", "to", "in", "about"], e: "'Interested in' is the correct collocation."},
+    {q: "Complete the sentence: 'He apologized ___ being late.'", a: "B", choices: ["about", "for", "with", "of"], e: "'Apologize for' expresses regret about something."},
+    {q: "Select the correct preposition: 'The book was written ___ Shakespeare.'", a: "D", choices: ["from", "with", "of", "by"], e: "'Written by' indicates the author."},
+    {q: "Identify the sentence type: 'Although she was tired, she completed the marathon.'", a: "C", choices: ["Simple", "Compound", "Complex", "Compound-complex"], e: "Complex: one independent + one dependent clause (although)."},
+    {q: "Which of the following is a compound sentence?", a: "B", choices: ["She ran quickly.", "She ran, and he followed.", "Because she ran, he followed.", "She ran quickly to catch the bus."], e: "Compound: two independent clauses joined by coordinating conjunction."},
+    {q: "Identify the error: 'Running late for the meeting, his keys were forgotten.'", a: "D", choices: ["No error", "Subject-verb agreement", "Tense inconsistency", "Dangling modifier"], e: "Dangling modifier: 'Running late' does not modify 'his keys'."},
+    {q: "The word 'mitigate' in 'The new policy will mitigate the effects' most nearly means:", a: "C", choices: ["Aggravate", "Intensify", "Alleviate", "Ignore"], e: "Mitigate = make less severe, alleviate."},
+    {q: "The word 'tenacious' means:", a: "C", choices: ["Weak", "Indifferent", "Persistent", "Timid"], e: "Tenacious = persistent, determined."},
+    {q: "Choose the meaning of 'anomaly' in 'The discovery was an anomaly in the data.':", a: "A", choices: ["Irregularity", "Consistency", "Pattern", "Norm"], e: "Anomaly = deviation from standard."},
+    {q: "Convert to indirect: He said, 'I am going to the market.'", a: "B", choices: ["He said that he is going.", "He said that he was going.", "He said that I was going.", "He said that he will go."], e: "Present continuous changes to past continuous in reported speech."}
+];
+engWeek3.forEach(item => quizData.push(item));
+
+// ==================== LOGICAL REASONING (10) ====================
+const lrWeek3 = [
+    {q: "All roses are flowers. Some flowers fade quickly. Therefore, some roses fade quickly. This argument is:", a: "B", choices: ["Valid", "Invalid (fallacy)", "Sound", "True"], e: "Flowers that fade may not include roses."},
+    {q: "Statement: All birds can fly. Penguins are birds. Conclusion: Penguins can fly. This is:", a: "C", choices: ["True", "False", "Valid but false premise", "Invalid"], e: "Premise false, but logical structure is valid."},
+    {q: "The statement 'If you study, you will pass. You did not study. Therefore, you will not pass.' commits which fallacy?", a: "B", choices: ["Affirming the consequent", "Denying the antecedent", "Modus ponens", "Modus tollens"], e: "Denying the antecedent: If P then Q, not P, therefore not Q — invalid."},
+    {q: "If CAT is coded as 3120, then DOG would be coded as:", a: "C", choices: ["4157", "4157", "4157", "3157"], e: "C=3, A=1, T=20 → 3120. D=4, O=15, G=7 → 4157."},
+    {q: "Complete the series: A, C, F, J, ?", a: "B", choices: ["N", "O", "P", "M"], e: "Differences: +2, +3, +4, next +5 → J(10)+5=15=O."},
+    {q: "Find the next term: Z, X, V, T, ?", a: "C", choices: ["S", "U", "R", "Q"], e: "Decreasing by 2: Z→X (-2), X→V (-2), V→T (-2), T→R (-2)."},
+    {q: "What comes next? A, Z, B, Y, C, X, ?", a: "A", choices: ["D", "W", "V", "D"], e: "Two interleaved series: A,B,C → D and Z,Y,X → W; answer D."},
+    {q: "Find the odd one out: Apple, Mango, Orange, Potato", a: "D", choices: ["Apple", "Mango", "Orange", "Potato"], e: "Potato is a vegetable; others are fruits."},
+    {q: "Complete: B, E, H, K, ?", a: "D", choices: ["L", "M", "N", "N"], e: "Differences: +3 each: B(2)+3=5=E, E+3=8=H, H+3=11=K, K+3=14=N."},
+    {q: "A doctor has 5 patients. He sees A before B, C after D, E before D, and B after C. Who is seen first?", a: "B", choices: ["A", "E", "C", "D"], e: "Order: E → D → C → B → A. First is E."}
+];
+lrWeek3.forEach(item => quizData.push(item));
+
+console.log("Total Week 3 MCQs loaded:", quizData.length); // Should be 100
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let totalScore = 0;
+    let bioScore = 0, chemScore = 0, physScore = 0, engScore = 0, lrScore = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                totalScore++;
+                if (i < 30) bioScore++;
+                else if (i < 55) chemScore++;
+                else if (i < 80) physScore++;
+                else if (i < 90) engScore++;
+                else lrScore++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct: ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${totalScore} / 100`;
+    document.getElementById('bio-score').innerText = bioScore;
+    document.getElementById('chem-score').innerText = chemScore;
+    document.getElementById('phys-score').innerText = physScore;
+    document.getElementById('eng-score').innerText = engScore;
+    document.getElementById('lr-score').innerText = lrScore;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

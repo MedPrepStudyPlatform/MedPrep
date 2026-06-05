@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrostatics | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #e0f2fe 0%, #bae6fd 100%);
+            color: #0369a1;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #0284c7;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #0369a1, #0284c7);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #7dd3fc;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(2, 132, 199, 0.08);
+            border-color: #38bdf8;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #0369a1;
+            padding-left: 14px;
+            border-left: 4px solid #0284c7;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #0284c7;
+            background: #e0f2fe;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #0369a1;
+            color: white;
+            border-color: #0369a1;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #0284c7;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(2, 132, 199, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #0369a1;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(3, 105, 161, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #0369a1, #0284c7);
+            color: #e0f2fe;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #0369a1;
+            display: none;
+            background: #e0f2fe;
+            padding: 16px 22px;
+            border-left: 6px solid #0284c7;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Electrostatics</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Electrostatics MCQs (Physics FSC Part 2, Chapter 12)
+    const electrostaticsMcqs = [
+        { q: "Two point charges +q and +4q are separated by a distance r. A third charge is placed on the line joining them such that it experiences no net force. The distance of the third charge from +q is:", options: ["r/3", "r/2", "2r/3", "3r/4"], exp: "Let the third charge be placed at distance x from +q. For equilibrium, forces from both charges must be equal and opposite. kqQ/x² = k(4q)Q/(r-x)² → 1/x² = 4/(r-x)² → (r-x)/x = 2 → r-x = 2x → r = 3x → x = r/3.", correct: "A" },
+        { q: "The electric field intensity at a point on the equatorial line of an electric dipole is:", options: ["Directly proportional to r³", "Inversely proportional to r³", "Directly proportional to r²", "Inversely proportional to r²"], exp: "For an electric dipole, field on equatorial line: E = (1/(4πε₀)) × p/(r² + a²)^(3/2) ≈ p/(4πε₀ r³) for r >> a. So E ∝ 1/r³.", correct: "B" },
+        { q: "The capacitance of a parallel plate capacitor with dielectric constant K inserted between plates is:", options: ["C₀/K", "KC₀", "C₀√K", "C₀/K²"], exp: "Capacitance with dielectric: C = KC₀, where C₀ is vacuum capacitance. K > 1 increases capacitance.", correct: "B" },
+        { q: "A charge of 2 μC is placed at the center of a spherical Gaussian surface of radius 10 cm. The electric flux through the surface is (ε₀ = 8.85 × 10⁻¹² C²/N·m²):", options: ["2.26 × 10⁵ N·m²/C", "4.52 × 10⁵ N·m²/C", "1.13 × 10⁵ N·m²/C", "Zero"], exp: "Gauss's law: Φ = q/ε₀ = (2 × 10⁻⁶)/(8.85 × 10⁻¹²) = 2.26 × 10⁵ N·m²/C.", correct: "A" },
+        { q: "The electric potential at a point due to a point charge is:", options: ["Directly proportional to r", "Inversely proportional to r", "Inversely proportional to r²", "Directly proportional to r²"], exp: "Potential V = kq/r, so V ∝ 1/r.", correct: "B" },
+        { q: "The work done in moving a charge of 5 μC between two points having potential difference 20 V is:", options: ["10⁻⁴ J", "10⁻⁵ J", "10⁻⁶ J", "10⁻⁷ J"], exp: "W = qΔV = 5 × 10⁻⁶ × 20 = 10⁻⁴ J.", correct: "A" },
+        { q: "Two capacitors of capacitances 2 μF and 3 μF are connected in series. The equivalent capacitance is:", options: ["1.2 μF", "5 μF", "6 μF", "0.83 μF"], exp: "For series: 1/C_eq = 1/2 + 1/3 = 5/6 → C_eq = 6/5 = 1.2 μF.", correct: "A" },
+        { q: "The force between two point charges in a medium of dielectric constant K is:", options: ["1/K times the force in vacuum", "K times the force in vacuum", "1/K² times the force in vacuum", "Same as in vacuum"], exp: "Coulomb force in medium: F_med = F_vac / K.", correct: "A" },
+        { q: "The electric field inside a hollow charged spherical conductor is:", options: ["Zero", "Non-zero constant", "Maximum at center", "Inversely proportional to distance"], exp: "Inside a hollow conductor (Faraday cage), electric field is zero due to electrostatic shielding.", correct: "A" },
+        { q: "The potential energy of a system of two point charges q₁ and q₂ separated by distance r is:", options: ["kq₁q₂/r", "kq₁q₂/r²", "kq₁q₂/2r", "0"], exp: "Electrostatic potential energy U = kq₁q₂/r.", correct: "A" },
+        { q: "A capacitor of 10 μF is charged to 100 V. The energy stored in the capacitor is:", options: ["0.05 J", "0.1 J", "0.5 J", "1 J"], exp: "U = ½ CV² = 0.5 × 10 × 10⁻⁶ × (100)² = 0.5 × 10⁻⁵ × 10000 = 0.5 × 0.1 = 0.05 J.", correct: "A" },
+        { q: "The dimension of ε₀ (permittivity of free space) is:", options: ["[M⁻¹L⁻³T⁴A²]", "[M⁻¹L⁻³T²A²]", "[ML³T⁻⁴A⁻²]", "[ML⁻³T⁴A²]"], exp: "From Coulomb's law: F = (1/(4πε₀))q₁q₂/r² → ε₀ = q₁q₂/(4πFr²). Dimensions: q = [AT], F = [MLT⁻²], r² = [L²]. So ε₀ = [A²T²]/[MLT⁻²L²] = [M⁻¹L⁻³T⁴A²].", correct: "A" },
+        { q: "The electric field at a point on the axis of a uniformly charged ring is zero at:", options: ["Center", "Infinity", "Both A and B", "Nowhere"], exp: "At the center of the ring, field is zero due to symmetry. Also at infinity, field approaches zero.", correct: "C" },
+        { q: "Two point charges +10 μC and -10 μC are placed 2 cm apart. The dipole moment is:", options: ["2 × 10⁻⁷ C·m", "2 × 10⁻⁸ C·m", "2 × 10⁻⁹ C·m", "2 × 10⁻⁶ C·m"], exp: "Dipole moment p = q × d = 10 × 10⁻⁶ × 0.02 = 2 × 10⁻⁷ C·m.", correct: "A" },
+        { q: "The capacitance of a parallel plate capacitor increases if:", options: ["Plate area decreases", "Distance between plates increases", "Dielectric slab is inserted", "Both A and B"], exp: "C = ε₀A/d. Inserting dielectric increases C by factor K. Increasing A or decreasing d also increases C.", correct: "C" },
+        { q: "The SI unit of electric potential is:", options: ["Volt", "Joule", "Coulomb", "Newton"], exp: "Electric potential is measured in volts (V) = J/C.", correct: "A" },
+        { q: "Three capacitors of 2 μF each are connected in parallel. The equivalent capacitance is:", options: ["2 μF", "4 μF", "6 μF", "8 μF"], exp: "For parallel: C_eq = C₁ + C₂ + C₃ = 2 + 2 + 2 = 6 μF.", correct: "C" },
+        { q: "The electric field just outside a charged conductor is:", options: ["σ/ε₀", "σ/2ε₀", "2σ/ε₀", "σ/ε₀r"], exp: "For a conductor, surface charge density σ, field just outside is σ/ε₀ (perpendicular to surface).", correct: "A" },
+        { q: "A charge q is placed at the center of a cube. The electric flux through one face of the cube is:", options: ["q/6ε₀", "q/ε₀", "q/4ε₀", "q/8ε₀"], exp: "Total flux through cube = q/ε₀. By symmetry, flux through each of the 6 faces = q/(6ε₀).", correct: "A" },
+        { q: "The work done in bringing a unit positive charge from infinity to a point in an electric field is called:", options: ["Electric field intensity", "Electric potential", "Electric flux", "Electric dipole moment"], exp: "Electric potential at a point is defined as the work done per unit charge to bring a test charge from infinity to that point.", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+    let quizSubmitted = false;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        randomizedQuestions = shuffleArray([...electrostaticsMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+        
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

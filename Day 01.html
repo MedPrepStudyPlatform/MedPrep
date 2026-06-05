@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDCAT 30-Day Crash Course Session 02,Day 01| MedPrep </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a2c48;
+            --accent: #1ecbe1;
+            --bg: #f4f7f9;
+            --white: #ffffff;
+            --text: #1e293b;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Header Style */
+        .main-header {
+            background: var(--primary);
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(10, 44, 72, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-wrapper {
+            background: white;
+            display: inline-flex;
+            padding: 8px 25px;
+            border-radius: 80px;
+            border: 2px solid var(--accent);
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            mix-blend-mode: multiply;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .quiz-intro {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .quiz-intro h1 {
+            font-family: 'Outfit';
+            font-size: 30px;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        /* MCQ Card */
+        .mcq-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(10, 44, 72, 0.08);
+            transition: 0.3s;
+        }
+
+        .q-meta {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .options-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option-btn {
+            padding: 14px 20px;
+            border-radius: 10px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent);
+            background: #f0fdff;
+        }
+
+        .option-btn.selected {
+            background: #e0f2fe;
+            border-color: var(--accent);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Logic Styles */
+        .explanation-box {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f0fdf4;
+            border-left: 5px solid var(--success);
+            font-size: 14px;
+            color: #166534;
+        }
+
+        .correct-ans { background: #d1fae5 !important; border-color: var(--success) !important; color: #065f46 !important; }
+        .wrong-ans { background: #fee2e2 !important; border-color: var(--error) !important; color: #991b1b !important; }
+
+        /* Results Display */
+        #results-screen {
+            display: none;
+            text-align: center;
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(10, 44, 72, 0.1);
+        }
+
+        .score-circle {
+            width: 140px;
+            height: 140px;
+            border: 8px solid var(--accent);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Outfit';
+        }
+
+        .btn-submit {
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 18px 60px;
+            border-radius: 50px;
+            font-family: 'Outfit';
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(30, 203, 225, 0.2);
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<div class="container">
+    <div class="quiz-intro">
+        <h1>MDCAT 30-Day Crash Course Session 02</h1>
+        
+    </div>
+
+    <form id="quizForm">
+        <div id="questions-container"></div>
+        <div style="text-align: center; margin: 50px 0;">
+            <button type="button" class="btn-submit" onclick="submitQuiz()">Submit</button>
+        </div>
+    </form>
+
+    <div id="results-screen">
+        <div class="score-circle">
+            <div style="font-size: 40px; font-weight: 800;" id="score-text">0</div>
+            <div style="font-size: 14px; color: #64748b;">TOTAL SCORE</div>
+        </div>
+        <h2 id="feedback-msg" style="font-family: 'Outfit'; color: var(--primary);"></h2>
+       
+        
+    </div>
+</div>
+
+<footer>
+    <p style="font-family: 'Outfit'; font-size: 20px;">MedPrep </p>
+    <p style="font-size: 13px; opacity: 0.7;">&copy; 2026. All Rights Reserved.</p>
+</footer>
+
+<script>
+    const quizData = [
+        // Bio 1-15
+        { q: "Which organelle's membrane is continuous with the outer nuclear envelope and provides a pathway for the transport of materials?", a: 2, e: "The Endoplasmic Reticulum (ER) forms a network of channels extending from the nuclear membrane to the plasma membrane.", o: ["Golgi Apparatus", "Lysosome", "Endoplasmic Reticulum", "Mitochondrion"] },
+        { q: "The 'Fluid' part of the Fluid Mosaic Model is primarily due to:", a: 0, e: "Phospholipids move laterally quite frequently, giving the membrane its fluid-like consistency.", o: ["Lateral movement of phospholipids", "Transverse movement of integral proteins", "Presence of rigid cholesterol", "Attached carbohydrate chains"] },
+        { q: "In the absence of a nucleolus, which of the following would be directly affected?", a: 2, e: "The nucleolus is the specific site for rRNA synthesis and ribosomal subunit assembly.", o: ["ATP production", "Steroid synthesis", "Assembly of ribosomes", "Secretion of enzymes"] },
+        { q: "A protein destined for secretion will follow which specific route?", a: 2, e: "Proteins are synthesized on RER, modified in Golgi, and transported via secretory vesicles.", o: ["RER → Vesicle → Golgi → Plasma", "SER → Golgi → Vesicle → Plasma", "RER → Golgi → Secretory vesicle → Plasma", "Nucleus → RER → Golgi → Lysosome"] },
+        { q: "Which organelle is responsible for the detoxification of drugs and poisons in the liver?", a: 1, e: "SER enzymes are involved in lipid synthesis and metabolic detoxification of harmful substances.", o: ["Rough ER", "Smooth ER", "Peroxisome", "Golgi Body"] },
+        { q: "Microtubules are composed of subunits of which protein?", a: 2, e: "Tubulin dimers assemble into the hollow tubes known as microtubules.", o: ["Actin", "Myosin", "Tubulin", "Keratin"] },
+        { q: "Which organelle contains hydrolytic enzymes used for autophagy?", a: 0, e: "Lysosomes contain acid hydrolases that digest old or damaged organelles.", o: ["Lysosome", "Glyoxysome", "Peroxisome", "Ribosome"] },
+        { q: "The primary cell wall is mainly composed of:", a: 2, e: "Cellulose forms the framework, while pectin serves as the binding material.", o: ["Lignin", "Suberin", "Cellulose and Pectin", "Chitin"] },
+        { q: "The inner membrane of mitochondria is folded into cristae to:", a: 1, e: "Increased surface area allows for more respiratory assemblies for the ETC.", o: ["Increase matrix volume", "Increase surface area for ETC", "Store more DNA", "House 80S ribosomes"] },
+        { q: "Circular DNA and 70S ribosomes are found in which eukaryotic organelle?", a: 2, e: "Chloroplasts and mitochondria share prokaryotic traits due to endosymbiosis.", o: ["Nucleus", "Lysosome", "Chloroplast", "Golgi Apparatus"] },
+        { q: "The 'cis' face of the Golgi body is:", a: 2, e: "The cis (forming) face receives transport vesicles coming from the endoplasmic reticulum.", o: ["The shipping face", "Facing the plasma membrane", "Facing the ER", "The maturing face"] },
+        { q: "Centrioles are composed of how many triplets of microtubules?", a: 0, e: "Centrioles have a 9+0 arrangement of microtubule triplets.", o: ["9", "11", "27", "18"] },
+        { q: "Which organelle is found in plant seeds and converts fatty acids to carbohydrates?", a: 2, e: "Glyoxysomes contain enzymes for the glyoxylate cycle in fat-storing seeds.", o: ["Peroxisome", "Lysosome", "Glyoxysome", "Vacuole"] },
+        { q: "The nuclear envelope is perforated by pores that allow the exit of:", a: 2, e: "mRNA and ribosomal subunits move from the nucleus to the cytoplasm through these pores.", o: ["Chromatin", "DNA", "mRNA", "Nucleoli"] },
+        { q: "Which of the following is NOT part of the cytoskeleton?", a: 3, e: "Myofilaments (found in muscles) are distinct from the general cellular cytoskeleton.", o: ["Intermediate filaments", "Microfilaments", "Microtubules", "Myofilaments"] },
+
+        // Chem 16-30
+        { q: "How many moles of oxygen atoms are in 0.5 moles of Al2(SO4)3?", a: 2, e: "0.5 moles * 12 Oxygen atoms per molecule = 6 moles of O atoms.", o: ["4", "12", "6", "3"] },
+        { q: "Which of the following has the same number of molecules as 16g of O2?", a: 1, e: "16g O2 = 0.5 mol. 14g N2 = 0.5 mol. Same moles = same molecules.", o: ["16g of O3", "14g of N2", "2g of H2", "44g of CO2"] },
+        { q: "The volume occupied by 2.8g of N2 at STP is:", a: 0, e: "Moles = 2.8/28 = 0.1. Volume = 0.1 * 22.4 = 2.24 dm3.", o: ["2.24 dm3", "1.12 dm3", "22.4 dm3", "4.48 dm3"] },
+        { q: "A compound contains 40% C, 6.7% H, and 53.3% O. Empirical formula?", a: 1, e: "Atomic ratio is 1:2:1, resulting in CH2O.", o: ["CHO", "CH2O", "C2H2O", "CH3O"] },
+        { q: "Isotopes differ in:", a: 3, e: "Mass differences affect the rate of diffusion but not chemical identity.", o: ["Atomic number", "Number of protons", "Chemical properties", "Rate of diffusion"] },
+        { q: "In the combustion of 1.6g of CH4, the mass of H2O produced is:", a: 1, e: "16g CH4 produces 36g H2O. Thus 1.6g produces 3.6g.", o: ["1.8g", "3.6g", "18g", "0.9g"] },
+        { q: "The number of formula units in 5.85g of NaCl is:", a: 1, e: "0.1 moles * Na = 6.02 x 10^22.", o: ["6.02 x 10^23", "6.02 x 10^22", "3.01 x 10^23", "1.2 x 10^24"] },
+        { q: "Which isotope is used as the standard for relative atomic mass?", a: 2, e: "C-12 is the universal standard for measuring atomic mass units.", o: ["H-1", "O-16", "C-12", "C-14"] },
+        { q: "Limiting reactant is the reactant that:", a: 2, e: "It is the reactant consumed first, limiting the theoretical yield.", o: ["Highest mass", "Left over", "Produces least product", "Highest molar mass"] },
+        { q: "What is the mass of one atom of Carbon (Na = 6 x 10^23)?", a: 1, e: "12 / (6 x 10^23) = 2 x 10^-23g.", o: ["12 x 10^23g", "2 x 10^-23g", "12g", "1.66 x 10^-24g"] },
+        { q: "The percentage of Nitrogen in Urea is approximately:", a: 1, e: "(28/60) * 100 = 46.6%.", o: ["28%", "46.6%", "60%", "14%"] },
+        { q: "One mole of H2SO4 contains how many grams of Hydrogen?", a: 1, e: "2 moles of H atoms * 1.008g/mol = 2.016g.", o: ["1.008g", "2.016g", "98g", "1g"] },
+        { q: "Stoichiometric calculations assume that:", a: 3, e: "Both pure reactants and no product loss are baseline assumptions.", o: ["100% pure", "Side reactions", "No loss", "Both A and C"] },
+        { q: "The mass of 11.2 dm3 of CH4 at STP is:", a: 1, e: "0.5 moles * 16 g/mol = 8g.", o: ["16g", "8g", "4g", "32g"] },
+        { q: "Which technique is used to determine the relative abundance of isotopes?", a: 2, e: "Mass Spectrometry calculates relative isotopic abundance.", o: ["Distillation", "Combustion", "Mass Spectrometry", "Filtration"] },
+
+        // Physics 31-45
+        { q: "If two vectors of magnitude 3 and 4 are added, the resultant cannot be:", a: 3, e: "Range is between 1 (4-3) and 7 (4+3).", o: ["1", "5", "7", "8"] },
+        { q: "The cross product of two parallel vectors is:", a: 0, e: "Sin(0) = 0, resulting in a null vector.", o: ["A null vector", "Maximum", "A unit vector", "AB cos theta"] },
+        { q: "A body is in translational equilibrium if the sum of all _____ is zero.", a: 1, e: "Net force must be zero for translational equilibrium.", o: ["Torques", "Forces", "Velocities", "Moments"] },
+        { q: "If A.B = |AxB|, the angle between them is:", a: 1, e: "Cos = Sin at 45 degrees.", o: ["0°", "45°", "90°", "180°"] },
+        { q: "The unit vector in the direction of vector A is:", a: 0, e: "A unit vector is Vector / Magnitude.", o: ["A / |A|", "|A| / A", "A x |A|", "A . |A|"] },
+        { q: "A force of 10N makes 60° with x-axis. Its y-component is:", a: 1, e: "10 * sin(60) = 5√3.", o: ["5 N", "5√3 N", "10 N", "8.66 N"] },
+        { q: "The direction of torque is given by:", a: 2, e: "Use the Right Hand Rule for cross products.", o: ["Head to tail", "Left hand", "Right hand", "Parallelogram"] },
+        { q: "Two equal and opposite forces acting along different lines form a:", a: 2, e: "A couple produces pure rotation.", o: ["Resultant", "Torque", "Couple", "Equilibrium"] },
+        { q: "For which angle are the components of a vector equal?", a: 1, e: "At 45 degrees, both components are equal.", o: ["30°", "45°", "60°", "90°"] },
+        { q: "The dot product of i and j is:", a: 1, e: "Perpendicular unit vectors have a dot product of zero.", o: ["1", "0", "k", "-1"] },
+        { q: "A body is in complete equilibrium if:", a: 2, e: "Both Net Force and Net Torque must be zero.", o: ["Sum F = 0", "Sum T = 0", "Both A and B", "At rest only"] },
+        { q: "The rectangular components of a vector are:", a: 1, e: "They are perpendicular projections along axes.", o: ["Always equal", "Mutually perpendicular", "Parallel", "Larger than vector"] },
+        { q: "If |A.B| = |AxB|, the angle is:", a: 1, e: "Cos = Sin at 45 degrees.", o: ["0°", "45°", "90°", "60°"] },
+        { q: "Torque is maximum when the angle between r and F is:", a: 1, e: "Sin(90) = 1 (Maximum).", o: ["0°", "90°", "180°", "45°"] },
+        { q: "Position vector of a point P(3, 4) in a plane is:", a: 0, e: "r = 3i + 4j.", o: ["3i + 4j", "4i + 3j", "7k", "5r"] },
+
+        // English 46-50
+        { q: "By the time the firemen arrived, the building _____ to the ground.", a: 2, e: "Past Perfect for the earlier of two past events.", o: ["burned", "has burned", "had burned", "was burning"] },
+        { q: "I _____ my homework yet.", a: 2, e: "'Yet' indicates Present Perfect.", o: ["didn't finish", "hadn't finished", "haven't finished", "am not finishing"] },
+        { q: "Choose the correct sentence:", a: 2, e: "Has been living since 2010 (Present Perfect Continuous).", o: ["Living since 2010", "Lived for 2010", "Has been living since 2010", "Lives since 2010"] },
+        { q: "If it _____ tomorrow, we will cancel the match.", a: 0, e: "First conditional: If + Simple Present.", o: ["rains", "will rain", "rained", "is raining"] },
+        { q: "Identify: 'The sun rises in the east.'", a: 2, e: "General truth = Simple Present.", o: ["Continuous", "Perfect", "Simple Present", "Simple Past"] }
+    ];
+
+    const userChoices = new Array(quizData.length).fill(null);
+
+    function buildQuiz() {
+        const container = document.getElementById('questions-container');
+        quizData.forEach((item, idx) => {
+            const card = document.createElement('div');
+            card.className = 'mcq-card';
+            card.id = `q-card-${idx}`;
+            card.innerHTML = `
+                <span class="q-meta">Question ${idx + 1}</span>
+                <div class="question-text">${item.q}</div>
+                <div class="options-list">
+                    ${item.o.map((opt, i) => `
+                        <div class="option-btn" onclick="handleChoice(${idx}, ${i})">
+                            <span style="width: 25px; font-weight: bold;">${String.fromCharCode(65+i)}.</span> ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation-box" id="exp-${idx}">
+                    <strong>Correct: ${String.fromCharCode(65+item.a)}</strong> — ${item.e}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    window.handleChoice = (qIdx, oIdx) => {
+        userChoices[qIdx] = oIdx;
+        const btns = document.getElementById(`q-card-${qIdx}`).querySelectorAll('.option-btn');
+        btns.forEach((b, i) => b.classList.toggle('selected', i === oIdx));
+    };
+
+    window.submitQuiz = () => {
+        let totalScore = 0;
+        quizData.forEach((q, i) => {
+            const card = document.getElementById(`q-card-${i}`);
+            const options = card.querySelectorAll('.option-btn');
+            const exp = document.getElementById(`exp-${i}`);
+            exp.style.display = 'block';
+
+            if (userChoices[i] === q.a) {
+                totalScore++;
+                options[q.a].classList.add('correct-ans');
+            } else {
+                if (userChoices[i] !== null) options[userChoices[i]].classList.add('wrong-ans');
+                options[q.a].classList.add('correct-ans');
+            }
+        });
+
+        document.getElementById('quizForm').style.display = 'none';
+        const rs = document.getElementById('results-screen');
+        rs.style.display = 'block';
+        document.getElementById('score-text').innerText = `${totalScore}/50`;
+        
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    buildQuiz();
+</script>
+
+</body>
+</html>

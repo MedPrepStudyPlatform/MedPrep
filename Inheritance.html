@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inheritance: Randomized MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Theme: Classic Indigo & Slate */
+        body { font-family: 'Inter', sans-serif; background: #f4f7f9; color: #2d3436; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 10px solid #3f51b5; }
+        h1 { font-family: 'Outfit', sans-serif; color: #3f51b5; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #636e72; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        .question { margin-bottom: 35px; padding: 25px; border: 1px solid #dfe6e9; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 20px; color: #2c3e50; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #f1f2f6; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #ffffff; }
+        .option:hover { border-color: #3f51b5; background: #f0f2ff; }
+        .option.selected { background: #2d3436; color: white; border-color: #2d3436; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #3f51b5; color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #303f9f; transform: translateY(-2px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #2d3436; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #f0f2ff; padding: 18px; border-left: 6px solid #3f51b5; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #1c2e36; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Inheritance</h1>
+    
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const inheritanceData = [
+        { q: "Mendel's 'Law of Segregation' states that:", options: ["Alleles of different genes assort independently", "The two alleles for a trait separate during gamete formation", "Hybrids always show the dominant trait", "Genes are located on chromosomes"], exp: "Segregation occurs during Anaphase I of meiosis, where homologous chromosomes (and their alleles) move to opposite poles.", correct: "B" },
+        { q: "A cross between a homozygous red-flowered plant and a white-flowered plant results in pink offspring. This is an example of:", options: ["Codominance", "Incomplete dominance", "Multiple alleles", "Epistasis"], exp: "Incomplete dominance occurs when the heterozygote phenotype is an intermediate blend of the two homozygotes.", correct: "B" },
+        { q: "The physical appearance of an organism as determined by its genetic makeup is called the:", options: ["Genotype", "Phenotype", "Allele", "Locus"], exp: "Phenotype is the observable expression of genes, influenced by both genotype and environment.", correct: "B" },
+        { q: "In a dihybrid cross between two heterozygous individuals (AaBb x AaBb), the expected phenotypic ratio is:", options: ["3:1", "1:2:1", "9:3:3:1", "1:1:1:1"], exp: "Mendel's second law predicts this ratio when two genes assort independently.", correct: "C" },
+        { q: "A person with AB blood type expresses both A and B antigens equally. This is an example of:", options: ["Incomplete dominance", "Codominance", "Pleiotropy", "Polygenic inheritance"], exp: "In codominance, both alleles are fully and simultaneously expressed in the heterozygote.", correct: "B" },
+        { q: "Which of the following is a sex-linked recessive disorder?", options: ["Down Syndrome", "Cystic Fibrosis", "Hemophilia", "Sickle Cell Anemia"], exp: "Hemophilia is carried on the X-chromosome; males are more frequently affected because they only have one X.", correct: "C" },
+        { q: "The failure of homologous chromosomes to separate during meiosis is called:", options: ["Mutation", "Nondisjunction", "Crossing over", "Translocation"], exp: "Nondisjunction leads to aneuploidy, such as trisomy or monosomy.", correct: "B" },
+        { q: "How many autosomes are present in a normal human somatic cell?", options: ["46", "23", "44", "22"], exp: "Humans have 46 total chromosomes: 44 autosomes and 2 sex chromosomes (XX or XY).", correct: "C" },
+        { q: "Down Syndrome (Trisomy 21) is typically the result of:", options: ["Gene mutation", "Chromosomal deletion", "Nondisjunction", "Inversion"], exp: "An extra copy of chromosome 21 is usually caused by nondisjunction during egg formation.", correct: "C" },
+        { q: "When a single gene affects multiple, seemingly unrelated phenotypic traits, it is called:", options: ["Polygenic inheritance", "Epistasis", "Pleiotropy", "Multiple alleles"], exp: "A classic example of pleiotropy is Sickle Cell Anemia, which affects heart, lungs, and joints.", correct: "C" },
+        { q: "The position of a gene on a chromosome is its:", options: ["Allele", "Locus", "Genotype", "Chiasma"], exp: "A locus is the specific physical location of a gene or DNA sequence on a chromosome.", correct: "B" },
+        { q: "In a test cross, an individual with an unknown dominant phenotype is crossed with an individual that is:", options: ["Homozygous dominant", "Heterozygous", "Homozygous recessive", "Wild type"], exp: "Crossing with a homozygous recessive (aa) reveals if the unknown is AA or Aa.", correct: "C" },
+        { q: "Hemophilia is much more common in males than females because:", options: ["The gene is on the Y chromosome", "Males have only one X chromosome", "Testosterone activates the gene", "Females are immune"], exp: "Males are hemizygous for X-linked traits; they lack a second X to mask a recessive mutation.", correct: "B" },
+        { q: "Human skin color and height are examples of:", options: ["Single gene traits", "Polygenic inheritance", "Codominance", "Incomplete dominance"], exp: "Polygenic traits are controlled by two or more genes and usually show a bell-curve distribution.", correct: "B" },
+        { q: "The 'Universal Donor' blood group is:", options: ["Type AB+", "Type AB-", "Type O+", "Type O-"], exp: "Type O- blood lacks A, B, and Rh antigens, meaning it won't be attacked by the recipient's immune system.", correct: "D" },
+        { q: "If a color-blind man marries a woman who is a carrier for color-blindness, what is the probability that their son will be color-blind?", options: ["0%", "25%", "50%", "100%"], exp: "The son gets his Y from dad and has a 50% chance of getting the affected X from the carrier mom.", correct: "C" },
+        { q: "Turner Syndrome is characterized by which chromosomal makeup?", options: ["47, XXY", "45, XO", "47, XYY", "47, XXX"], exp: "Turner Syndrome is a monosomy where the individual has only one X chromosome.", correct: "B" },
+        { q: "Genes that are located close together on the same chromosome and tend to be inherited together are:", options: ["Alleles", "Linked genes", "Homologous", "Epistatic"], exp: "Linked genes do not follow the Law of Independent Assortment unless crossing over occurs between them.", correct: "B" },
+        { q: "The exchange of genetic material between non-sister chromatids of homologous chromosomes is:", options: ["Mutation", "Crossing over", "Segregation", "Independent assortment"], exp: "Crossing over occurs during Prophase I and increases genetic variation.", correct: "B" },
+        { q: "Which of the following represents a 'Back Cross'?", options: ["F1 hybrid x Dominant parent", "F1 hybrid x Recessive parent", "F1 hybrid x F1 hybrid", "Both A and B"], exp: "A back cross is a cross of a hybrid with one of its parents or an individual genetically similar to its parent.", correct: "D" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        inheritanceData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        inheritanceData.forEach((data, index) => {
+            document.getElementById(`exp-${index}`).style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${inheritanceData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

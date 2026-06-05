@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep MDCAT Quiz: Prokaryotes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f5fafd; color: #15304c; padding: 20px; margin: 0; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 30px; border-radius: 24px; box-shadow: 0 10px 25px rgba(10, 44, 72, 0.1); }
+        h1 { font-family: 'Outfit', sans-serif; color: #0a2c48; text-align: center; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #1ecbe1; font-weight: 600; margin-bottom: 30px; }
+        .question { margin-bottom: 30px; padding: 20px; border: 1px solid #e0f2fe; border-radius: 16px; transition: 0.3s; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 15px; line-height: 1.5; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 14px 18px; border: 2px solid #bbe0f0; border-radius: 12px; cursor: pointer; transition: 0.2s; font-size: 0.95rem; }
+        .option:hover { background: #f0faff; border-color: #1ecbe1; }
+        .option.selected { background: #0a2c48; color: white; border-color: #0a2c48; }
+        .btn-submit { display: block; width: 100%; padding: 18px; background: #1ecbe1; color: #0a2c48; border: none; border-radius: 50px; font-weight: 700; font-size: 1.2rem; cursor: pointer; margin-top: 25px; transition: 0.3s; box-shadow: 0 4px 15px rgba(30, 203, 225, 0.3); }
+        .btn-submit:hover { background: #0a2c48; color: white; transform: translateY(-2px); }
+        #results { display: none; margin-top: 30px; padding: 25px; border-radius: 20px; text-align: center; background: #0a2c48; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.92rem; color: #1f6a92; display: none; background: #eff9ff; padding: 15px; border-left: 5px solid #1ecbe1; border-radius: 8px; line-height: 1.4; }
+        .correct { border-color: #2ecc71 !important; background: #eafff2 !important; color: #15304c; }
+        .wrong { border-color: #e74c3c !important; background: #fff2f0 !important; color: #15304c; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Prokaryotes</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const mdcatProkaryotes = [
+        { q: "A researcher observes a bacterium that fails to retain the Crystal Violet-Iodine complex after alcohol treatment but stains red with Safranin. Which of the following structural features is most likely present in this organism?", options: ["A thick homogeneous layer of murein", "Large amounts of teichoic and lipoteichoic acids", "An outer membrane containing lipopolysaccharides", "A cell wall primarily composed of pseudomurein"], exp: "This describes a Gram-negative bacterium. Unlike Gram-positive cells, they have a thin peptidoglycan layer and a characteristic outer membrane with lipopolysaccharides (LPS).", correct: "C" },
+        { q: "During a period of extreme nutrient deprivation and desiccation, certain Bacillus species undergo a morphological change. The resulting dormant structure is highly resistant due to the presence of:", options: ["Dipicolinic acid and calcium", "A thick layer of peptidoglycan only", "High water content in the core", "Active metabolic enzymes in the cortex"], exp: "Endospores owe their resistance to a dehydrated core, a thick coat, and the presence of dipicolinic acid complexed with calcium ions.", correct: "A" },
+        { q: "Which of the following describes the mechanism of action of Penicillin against susceptible bacterial species?", options: ["It inhibits the 30S ribosomal subunit, stopping translation", "It prevents the cross-linking of peptidoglycan chains", "It disrupts the integrity of the plasma membrane bilayer", "It competitive inhibits the enzyme DNA gyrase"], exp: "Penicillin is a beta-lactam antibiotic that interferes with the synthesis of the bacterial cell wall by preventing the cross-linking of peptidoglycan.", correct: "B" },
+        { q: "A bacterial cell is observed with several flagella originating from only one pole of the cell. This specific arrangement is termed as:", options: ["Monotrichous", "Lophotrichous", "Amphitrichous", "Peritrichous"], exp: "Lophotrichous bacteria have a tuft of flagella at one end (pole). Peritrichous means flagella are all over the surface.", correct: "B" },
+        { q: "Genetic recombination in bacteria often involves the transfer of a plasmid through a specialized proteinaceous bridge. This structure is known as a:", options: ["Fimbriae", "Flagellum", "Sex Pilus", "Mesosome"], exp: "Sex pili (singular: pilus) are longer and fewer than fimbriae and are used specifically for the transfer of DNA during conjugation.", correct: "C" },
+        { q: "In the absence of a membrane-bound nucleus, the bacterial chromosome is concentrated in an irregularly shaped region. This region is distinguished from the cytoplasm by:", options: ["The presence of histone proteins for DNA packaging", "The absence of a surrounding nuclear envelope", "The high concentration of mitochondrial DNA", "The presence of a double-layered phospholipid membrane"], exp: "The nucleoid is a region containing the circular DNA molecule but lacks a nuclear membrane and histone proteins (typical of most bacteria).", correct: "B" },
+        { q: "A particular strain of bacteria can grow efficiently in an environment with high oxygen but can also switch to fermentation when oxygen is absent. This organism is classified as a/an:", options: ["Obligate aerobe", "Obligate anaerobe", "Facultative anaerobe", "Microaerophile"], exp: "Facultative anaerobes prefer oxygen for aerobic respiration but can survive via fermentation or anaerobic respiration if oxygen is unavailable.", correct: "C" },
+        { q: "Mycoplasmas are unique among prokaryotes and pose a challenge to certain antibiotic treatments primarily because they:", options: ["Possess an exceptionally thick capsule", "Lack a cell wall entirely", "Reproduce via multiple fission", "Contain 80S ribosomes instead of 70S"], exp: "Mycoplasmas are the smallest known bacteria and naturally lack a cell wall, making them naturally resistant to antibiotics like penicillin that target the cell wall.", correct: "B" },
+        { q: "The invaginations of the plasma membrane in bacteria that increase surface area for respiratory enzymes or DNA replication are called:", options: ["Ribosomes", "Mesosomes", "Plasmids", "Nucleoids"], exp: "Mesosomes are internal foldings of the cell membrane that assist in cell wall synthesis, DNA replication, and enzymatic processes.", correct: "B" },
+        { q: "Which of the following best describes the 'Log phase' of a bacterial growth curve?", options: ["A period of slow growth while bacteria adapt to the environment", "A phase where the death rate equals the rate of multiplication", "A period of rapid, exponential growth with constant doubling time", "A period where nutrients are exhausted and toxic wastes accumulate"], exp: "The log (exponential) phase is the period of most rapid growth where the population increases at a constant rate.", correct: "C" },
+        { q: "Cyanobacteria differ from other photosynthetic bacteria (like purple sulfur bacteria) because they:", options: ["Perform oxygenic photosynthesis using water", "Use hydrogen sulfide as an electron donor", "Lack chlorophyll a and use bacteriochlorophyll", "Are obligate anaerobic organisms"], exp: "Cyanobacteria use water as an electron donor and release oxygen as a byproduct, similar to plants (oxygenic photosynthesis).", correct: "A" },
+        { q: "A small, circular, double-stranded DNA molecule that carries accessory genes such as those for antibiotic resistance is a/an:", options: ["Nucleoid", "Intron", "Mesosome", "Plasmid"], exp: "Plasmids are extrachromosomal DNA elements that often carry beneficial but non-essential genes.", correct: "D" },
+        { q: "Bacterial flagella are structurally distinct from eukaryotic flagella because the bacterial version is:", options: ["Composed of a protein called flagellin", "Arranged in a 9+2 microtubule pattern", "An extension of the cytoskeleton and cytoplasm", "Enclosed by the plasma membrane"], exp: "Bacterial flagella are made of flagellin protein subunits and are not membrane-bound, unlike the tubulin-based eukaryotic flagella.", correct: "A" },
+        { q: "The staining technique developed by Christian Gram is based primarily on the differences in the chemical composition of the bacterial:", options: ["Plasma membrane", "Capsule", "Cell wall", "Cytoplasm"], exp: "The Gram stain distinguishes bacteria based on the thickness and composition of the peptidoglycan in the cell wall.", correct: "C" },
+        { q: "Which of the following prokaryotic structures is primarily responsible for preventing phagocytosis by host immune cells?", options: ["Flagella", "Pili", "Cell wall", "Capsule"], exp: "The capsule is a slimy/gummy layer that protects bacteria from desiccation and increases pathogenicity by avoiding phagocytosis.", correct: "D" },
+        { q: "If a bacterium is categorized as a 'Vibrio', its morphology would be described as:", options: ["A rigid spiral shape", "A spherical shape in clusters", "A rigid rod shape", "A curved, comma-like rod"], exp: "Vibrios are curved or comma-shaped rods, such as Vibrio cholerae.", correct: "D" },
+        { q: "During bacterial conjugation, which of the following is transferred from the donor cell to the recipient cell?", options: ["A single strand of the plasmid DNA", "A fully formed ribosome subunit", "The entire main chromosome", "Lysosomal enzymes for digestion"], exp: "During conjugation, a single strand of the plasmid (F-factor) is transferred through the conjugation tube to the recipient cell.", correct: "A" },
+        { q: "The sedimentation coefficient of the complete prokaryotic ribosome is:", options: ["30S", "50S", "80S", "70S"], exp: "Prokaryotic ribosomes are 70S, composed of a 50S large subunit and a 30S small subunit.", correct: "D" },
+        { q: "Bacteria that require a high concentration of carbon dioxide for growth are known as:", options: ["Microaerophiles", "Halophiles", "Thermophiles", "Capnophiles"], exp: "Capnophiles thrive in environments with CO2 concentrations higher than those found in the atmosphere.", correct: "D" },
+        { q: "Which of the following statements regarding the bacterial plasma membrane is FALSE?", options: ["It contains sterols like cholesterol to maintain fluidity", "It is the site of electron transport chain", "It consists mainly of a phospholipid bilayer", "It acts as a selective barrier for solutes"], exp: "Unlike eukaryotes, bacterial membranes (except for Mycoplasmas) generally lack sterols like cholesterol.", correct: "A" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        mdcatProkaryotes.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        mdcatProkaryotes.forEach((data, index) => {
+            const ex = document.getElementById(`exp-${index}`);
+            ex.style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Total Score: ${score} / ${mdcatProkaryotes.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

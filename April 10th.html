@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 02 · Day 05 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* MedPrep Core Styles */
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+        }
+
+        html, body { 
+            margin: 0; padding: 0; width: 100%; 
+            background: var(--med-light); 
+            font-family: 'Inter', sans-serif; 
+            color: var(--med-text);
+            overflow-x: hidden;
+        }
+
+        .main-header {
+            background: var(--med-dark); color: white; padding: 15px 0;
+            box-shadow: 0 16px 30px -10px #0a2c48cc;
+            width: 100%; text-align: center;
+        }
+        .logo-wrapper {
+            background: white; padding: 5px 20px; border-radius: 80px;
+            display: inline-flex; border: 2px solid var(--med-accent);
+            margin-bottom: 10px;
+        }
+        .logo-img { height: 45px; width: auto; object-fit: contain; mix-blend-mode: multiply; }
+        
+        .pill-nav {
+            display: inline-flex; gap: 10px; background: rgba(255,255,255,0.15);
+            padding: 6px 15px; border-radius: 100px; backdrop-filter: blur(6px);
+            border: 1px solid #1ecbe180; font-size: 0.85rem;
+        }
+
+        .container { 
+            width: 95%; max-width: 850px; margin: 25px auto; 
+            background: white; border-radius: 30px; padding: 30px;
+            box-shadow: 0 15px 30px -10px #0a2c481a;
+            border: 1px solid rgba(30,203,225,0.3);
+            box-sizing: border-box;
+        }
+
+        .syllabus-box {
+            background: #e0f2fe; border: 2px solid var(--med-accent);
+            border-radius: 20px; padding: 20px; margin-bottom: 30px;
+        }
+        .syllabus-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px; margin-top: 10px; font-weight: 600; font-size: 0.9rem;
+        }
+
+        .question-wrap { margin-bottom: 35px; border-bottom: 1px solid #eef2f5; padding-bottom: 20px; }
+        .q-text { font-weight: 700; margin-bottom: 15px; display: block; line-height: 1.4; }
+
+        .opt-label {
+            display: flex; align-items: center; padding: 12px 15px;
+            border: 1px solid #d1d9e0; border-radius: 12px; margin-bottom: 10px;
+            cursor: pointer; transition: 0.2s; font-size: 0.95rem;
+        }
+        .opt-label:hover { border-color: var(--med-accent); background: #f0f9ff; }
+        .opt-label input { margin-right: 12px; transform: scale(1.2); cursor: pointer; }
+
+        .feedback-area {
+            display: none; margin-top: 15px; padding: 15px;
+            border-radius: 15px; font-size: 0.9rem; border-left: 5px solid #ccc;
+            background: #f8fafc;
+        }
+        .correct-ans { color: #059669; font-weight: 700; }
+        .wrong-ans { color: #dc2626; font-weight: 700; }
+        .expl-text { margin-top: 8px; color: #475569; font-style: italic; }
+
+        #score-summary {
+            display: none; text-align: center; background: var(--med-dark);
+            color: white; padding: 30px; border-radius: 25px; margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+        }
+
+        #submit-btn {
+            background: var(--med-accent); color: var(--med-dark);
+            border: none; padding: 18px 40px; border-radius: 50px;
+            font-weight: 800; font-size: 1.2rem; cursor: pointer;
+            width: 100%; transition: 0.3s; box-shadow: 0 10px 20px -5px #1ecbe166;
+        }
+        #submit-btn:hover { transform: translateY(-3px); background: #17b3c7; }
+
+        .main-footer { 
+            background: var(--med-dark); color: #e2f0fa; padding: 30px 15px; 
+            border-top: 4px solid var(--med-accent); margin-top: 50px; text-align: center; 
+            width: 100%; font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px; border-radius: 15px; }
+            .logo-img { height: 35px; }
+            .pill-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div><br>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 02</span>
+        <span><i class="fas fa-clock"></i> Day 05,April 10th, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family: 'Outfit'; margin: 0;"> Score </h2>
+        <div id="final-score" style="font-size: 3.5rem; font-weight: 800; color: var(--med-accent);">0 / 50</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class="fas fa-biohazard"></i> Syllabus</h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-virus"></i> Acellular Life </span>
+            <span><i class="fas fa-link"></i> Chemical Bonding </span>
+            <span><i class="fas fa-water"></i> Fluid Dynamics </span>
+            <span><i class="fas fa-comma"></i> Punctuation </span>
+        </div>
+      
+    </div>
+
+    <form id="quizForm">
+        <div id="bio-section"></div>
+        <div id="chem-section"></div>
+        <div id="phys-section"></div>
+        <div id="eng-section"></div>
+        <button type="button" id="submit-btn" onclick="checkAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class="fas fa-staff-aesculapius" style="color:#1ecbe1;"></i> © MedPrep 2026 · All Rights Reserved</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// TOUGHEST 50 MDCAT-STYLE MCQs - April 10th (VERIFIED: keys & explanations aligned)
+// Biology: Acellular Life (15) | Chemistry: Chemical Bonding (15) | Physics: Fluid Dynamics (15) | English: Punctuation (5)
+// --------------------------------------------------------------
+const quizData = [
+    // ==================== BIOLOGY: ACELLULAR LIFE (Viruses, Prions, Viroids) ====================
+    {q: "Which of the following is NOT a characteristic of viruses?", a: "C", choices: ["Obligate intracellular parasites", "Contain either DNA or RNA, never both", "Have their own ribosomes for protein synthesis", "Can be crystallized"], e: "Viruses lack ribosomes and rely on host machinery for protein synthesis."},
+    {q: "The protein coat that encloses the viral genome is called:", a: "B", choices: ["Capsomere", "Capsid", "Envelope", "Nucleocapsid"], e: "Capsid is the protein shell; capsomeres are the subunits."},
+    {q: "A bacteriophage that integrates its genome into the bacterial chromosome is undergoing:", a: "C", choices: ["Lytic cycle", "Lysogenic cycle", "Lysogenic cycle", "Productive cycle"], e: "Lysogenic cycle: phage DNA integrates as prophage; lytic cycle causes lysis."},
+    {q: "Prions are infectious agents composed solely of:", a: "D", choices: ["RNA", "DNA", "Lipids", "Protein"], e: "Prions are misfolded proteins (PrP^Sc) that cause neurodegenerative diseases like CJD."},
+    {q: "Viroids differ from viruses in that viroids:", a: "A", choices: ["Consist only of circular RNA without a protein coat", "Contain both DNA and RNA", "Have a lipid envelope", "Are larger than viruses"], e: "Viroids are naked infectious RNA molecules that infect plants."},
+    {q: "Which enzyme is carried by retroviruses to convert RNA into DNA?", a: "C", choices: ["RNA polymerase", "DNA polymerase", "Reverse transcriptase", "Integrase"], e: "Reverse transcriptase synthesizes DNA from RNA template, unique to retroviruses."},
+    {q: "The outermost layer of an enveloped virus is derived from:", a: "B", choices: ["Viral capsid", "Host cell membrane", "Viral core", "Nucleus"], e: "Envelope is host-derived lipid bilayer with viral glycoproteins."},
+    {q: "A virus that specifically infects bacteria is called a:", a: "C", choices: ["Retrovirus", "Adenovirus", "Bacteriophage", "Coronavirus"], e: "Bacteriophages are viruses that infect bacterial cells."},
+    {q: "Which of the following diseases is caused by a prion?", a: "D", choices: ["Polio", "Influenza", "HIV/AIDS", "Creutzfeldt-Jakob disease"], e: "CJD, mad cow disease (BSE), and kuru are prion diseases."},
+    {q: "The genetic material of a typical bacteriophage is:", a: "B", choices: ["Single-stranded RNA", "Double-stranded DNA", "Single-stranded DNA", "Double-stranded RNA"], e: "Most bacteriophages (e.g., T4, lambda) have dsDNA genomes."},
+    {q: "During the lytic cycle, the host cell:", a: "C", choices: ["Divides normally", "Integrates viral DNA", "Lyses and releases new virions", "Remains dormant"], e: "Lytic cycle ends with cell lysis and release of progeny viruses."},
+    {q: "Which term describes a viral genome integrated into the host chromosome?", a: "B", choices: ["Capsid", "Provirus (or prophage)", "Viroid", "Plasmid"], e: "Provirus (eukaryotes) or prophage (bacteria) is integrated viral DNA."},
+    {q: "The HIV virus primarily infects which human immune cells?", a: "C", choices: ["B lymphocytes", "Macrophages only", "CD4+ T helper cells", "Natural killer cells"], e: "HIV targets CD4+ T cells, leading to immunosuppression."},
+    {q: "Which of the following statements about viral replication is correct?", a: "D", choices: ["Viruses replicate by binary fission", "Viruses replicate independently of host cells", "Viruses use their own ribosomes", "Viruses hijack host cell machinery to replicate"], e: "Viruses are obligate intracellular parasites that rely entirely on host machinery."},
+    {q: "The term 'acellular' refers to organisms or infectious agents that:", a: "B", choices: ["Have a prokaryotic cell structure", "Lack cellular structure", "Are unicellular", "Have multiple nuclei"], e: "Acellular means without cells; includes viruses, viroids, prions."},
+
+    // ==================== CHEMISTRY: CHEMICAL BONDING (Advanced) ====================
+    {q: "Which of the following molecules has a triple covalent bond?", a: "C", choices: ["O₂", "N₂", "N₂", "CH₄"], e: "N₂ has a triple bond (σ + 2π); O₂ has double bond."},
+    {q: "The bond angle in a water molecule is approximately 104.5° due to:", a: "B", choices: ["Linear geometry", "Lone pair repulsion (VSEPR theory)", "sp hybridization", "Ionic character"], e: "Two lone pairs on oxygen repel bonding pairs, reducing angle from 109.5° to 104.5°."},
+    {q: "Which of the following exhibits hydrogen bonding?", a: "D", choices: ["H₂S", "HCl", "CH₄", "HF"], e: "HF has strong hydrogen bonding (F-H···F). H₂S and HCl have weaker dipole interactions."},
+    {q: "The bond order in O₂²⁻ (peroxide ion) is:", a: "B", choices: ["1", "1", "2", "2.5"], e: "O₂²⁻ has bond order 1 (single bond). O₂ has bond order 2."},
+    {q: "Which molecule is nonpolar despite having polar bonds?", a: "C", choices: ["H₂O", "NH₃", "CO₂", "HCl"], e: "CO₂ is linear; bond dipoles cancel → nonpolar."},
+    {q: "The type of hybridization in methane (CH₄) is:", a: "B", choices: ["sp²", "sp³", "sp", "dsp²"], e: "Four sigma bonds → sp³ hybridization, tetrahedral geometry."},
+    {q: "Which of the following has the highest lattice energy?", a: "D", choices: ["NaCl", "KBr", "MgO", "MgO"], e: "MgO has Mg²⁺ and O²⁻; higher charges and smaller radii → very high lattice energy."},
+    {q: "A sigma bond (σ) is characterized by:", a: "A", choices: ["End-to-end overlap along internuclear axis", "Sideways overlap above and below axis", "Weaker than pi bond", "Only formed by p orbitals"], e: "σ bonds have electron density centered between nuclei; π bonds are side-to-side."},
+    {q: "The number of lone pairs on the central atom in XeF₄ is:", a: "B", choices: ["0", "2", "4", "1"], e: "Xe has 8 valence electrons; 4 used in Xe-F bonds, 4 remain as two lone pairs (square planar)."},
+    {q: "Which of the following is an example of a coordinate covalent bond?", a: "C", choices: ["H₂", "Cl₂", "NH₄⁺", "NaCl"], e: "In NH₄⁺, N donates both electrons to bond with H⁺ → coordinate bond."},
+    {q: "The F-B-F bond angle in BF₃ is:", a: "D", choices: ["90°", "109.5°", "104.5°", "120°"], e: "BF₃ is trigonal planar, sp² hybridized → 120° bond angle."},
+    {q: "Which of the following intermolecular forces is present in all molecules?", a: "D", choices: ["Hydrogen bonding", "Dipole-dipole", "Ion-dipole", "London dispersion forces"], e: "London forces arise from temporary dipoles and exist in all molecules."},
+    {q: "The dipole moment of NH₃ is higher than that of NF₃ because:", a: "B", choices: ["N-F bond is nonpolar", "Lone pair dipole adds to N-H bond dipoles but opposes N-F dipoles", "NF₃ is linear", "NH₃ has no lone pair"], e: "In NH₃, lone pair dipole aligns with N-H dipoles; in NF₃, it opposes N-F dipoles, reducing net moment."},
+    {q: "Which of the following species is paramagnetic?", a: "A", choices: ["O₂", "N₂", "CO", "NO⁺"], e: "O₂ has two unpaired electrons in π* orbitals → paramagnetic."},
+    {q: "The concept of resonance is used to explain:", a: "C", choices: ["Ionic bonding", "Hydrogen bonding", "Delocalization of electrons in molecules like benzene", "Metallic bonding"], e: "Resonance hybrid represents delocalized electrons, e.g., benzene, O₃."},
+
+    // ==================== PHYSICS: FLUID DYNAMICS (Bernoulli, Viscosity, Equation of Continuity) ====================
+    {q: "According to the equation of continuity, for an incompressible fluid flowing through a pipe of varying cross-section:", a: "C", choices: ["Pressure remains constant", "Velocity is constant", "A₁v₁ = A₂v₂", "Density changes"], e: "Continuity equation: product of area and velocity is constant for incompressible flow."},
+    {q: "Bernoulli's equation is derived from the principle of conservation of:", a: "B", choices: ["Mass", "Energy", "Momentum", "Angular momentum"], e: "Bernoulli's equation is a statement of conservation of mechanical energy for ideal fluids."},
+    {q: "The velocity of efflux from a small hole at depth h below the liquid surface is given by:", a: "D", choices: ["√(2gh)", "√(2gh)", "√(2gh)", "Torricelli's theorem: v = √(2gh)"], e: "Torricelli's law: speed of efflux equals √(2gh), same as free fall from height h."},
+    {q: "As the speed of a fluid increases, the pressure within the fluid:", a: "B", choices: ["Increases", "Decreases", "Remains constant", "Becomes zero"], e: "Bernoulli's principle: higher velocity → lower pressure."},
+    {q: "The lift on an airplane wing is primarily due to:", a: "C", choices: ["Viscosity of air", "Weight of the plane", "Pressure difference (Bernoulli effect)", "Thrust of engines"], e: "Faster airflow over curved upper surface creates lower pressure, generating lift."},
+    {q: "A fluid with high viscosity:", a: "B", choices: ["Flows very easily", "Has high internal friction", "Has low density", "Is always compressible"], e: "Viscosity measures resistance to flow; honey has higher viscosity than water."},
+    {q: "The SI unit of viscosity (coefficient of viscosity) is:", a: "A", choices: ["Pa·s (or N·s/m²)", "kg/m·s", "Poise", "Pa·s"], e: "1 Pa·s = 1 N·s/m². Poise is CGS unit (1 P = 0.1 Pa·s)."},
+    {q: "The terminal velocity of a sphere falling through a viscous fluid is reached when:", a: "C", choices: ["Weight > buoyant force", "Drag force > weight", "Net force becomes zero (weight = buoyant + drag)", "Buoyant force = 0"], e: "Terminal velocity: constant speed when gravitational force equals sum of buoyancy and drag."},
+    {q: "Stoke's law gives the drag force on a sphere as:", a: "B", choices: ["F = 6πηrv²", "F = 6πηrv", "F = ½ρAv²", "F = mg"], e: "Stokes' law: F_drag = 6πηrv for laminar flow around a sphere."},
+    {q: "The Reynolds number is used to predict:", a: "D", choices: ["Pressure drop", "Velocity profile", "Density of fluid", "Turbulent or laminar flow"], e: "Re < 2000 laminar, Re > 4000 turbulent."},
+    {q: "An ideal fluid is characterized by:", a: "C", choices: ["Compressible and viscous", "Compressible and inviscid", "Incompressible and inviscid (zero viscosity)", "Incompressible and viscous"], e: "Ideal fluid: no viscosity, incompressible, steady flow."},
+    {q: "Water flows through a horizontal pipe of varying diameter. At a constriction (narrower section), the velocity:", a: "A", choices: ["Increases, pressure decreases", "Decreases, pressure increases", "Increases, pressure increases", "Decreases, pressure decreases"], e: "Continuity: smaller area → higher velocity. Bernoulli: higher velocity → lower pressure."},
+    {q: "A pitot tube is used to measure:", a: "B", choices: ["Flow rate", "Fluid velocity", "Viscosity", "Density"], e: "Pitot tube measures stagnation pressure; used to determine flow velocity."},
+    {q: "Blood flow through arteries is influenced by viscosity. The Reynolds number for blood is typically low because:", a: "C", choices: ["Blood is inviscid", "Blood velocity is very high", "Blood has relatively high viscosity and low velocity", "Arteries are very wide"], e: "High viscosity and low velocity keep Re low, maintaining laminar flow in small vessels."},
+    {q: "The Venturi effect is based on:", a: "D", choices: ["Pascal's law", "Archimedes' principle", "Continuity equation only", "Bernoulli's principle and continuity equation"], e: "Venturi meter uses constriction to create pressure difference, applying both continuity and Bernoulli."},
+
+    // ==================== ENGLISH: PUNCTUATION & SENTENCE FLOW ====================
+    {q: "Choose the correctly punctuated sentence:", a: "B", choices: ["Let's eat Grandma", "Let's eat, Grandma", "Lets eat Grandma", "Let's eat Grandma,"], e: "The comma before 'Grandma' clarifies that we are addressing Grandma, not eating her."},
+    {q: "Which sentence uses a semicolon correctly?", a: "C", choices: ["I have a big test tomorrow; I can't go out.", "I have a big test tomorrow, I can't go out.", "I have a big test tomorrow; therefore, I can't go out.", "I have a big test tomorrow; so I can't go out."], e: "Semicolon joins independent clauses; conjunctive adverb 'therefore' follows with comma."},
+    {q: "Select the sentence with correct apostrophe usage:", a: "D", choices: ["Its a beautiful day", "The dogs' leash is missing", "The dog's leash is missing", "The dog's leash is missing"], e: "Apostrophe + s shows possession for singular noun (dog's leash). 'Its' is possessive without apostrophe."},
+    {q: "Which of the following requires a colon?", a: "B", choices: ["She bought apples oranges and bananas", "She bought three items: apples, oranges, and bananas", "She bought: apples, oranges, bananas", "She bought apples oranges bananas"], e: "Colon introduces a list after a complete independent clause."},
+    {q: "The comma splice in the following sentence can be corrected by:", a: "C", choices: ["Adding a conjunction", "Changing comma to semicolon", "Both A and B", "Removing the comma"], e: "Comma splice (two independent clauses joined only by comma) can be fixed with a conjunction or semicolon."}
+];
+
+function renderQuiz() {
+    const sections = {
+        bio: document.getElementById('bio-section'),
+        chem: document.getElementById('chem-section'),
+        phys: document.getElementById('phys-section'),
+        eng: document.getElementById('eng-section')
+    };
+    quizData.forEach((item, index) => {
+        let sectionKey = index < 15 ? 'bio' : index < 30 ? 'chem' : index < 45 ? 'phys' : 'eng';
+        let html = `
+            <div class="question-wrap" id="q-block-${index}">
+                <span class="q-text">Q${index+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${index}" value="${String.fromCharCode(65+i)}">
+                        ${String.fromCharCode(65+i)}. ${c}
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${index}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        sections[sectionKey].innerHTML += html;
+    });
+}
+
+function checkAnswers() {
+    let score = 0;
+    quizData.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedback = document.getElementById(`feed-${index}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        if (selected) {
+            if (selected.value === item.a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong!</span>`;
+                feedback.style.borderColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:#e67e22"><i class="fas fa-exclamation-triangle"></i> Not answered!</span>`;
+            feedback.style.borderColor = "#f97316";
+        }
+    });
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 50`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('submit-btn').disabled = true;
+    document.getElementById('submit-btn').style.background = "#94a3b8";
+    document.getElementById('submit-btn').innerText = " Submitted";
+}
+
+renderQuiz();
+</script>
+</body>
+</html>

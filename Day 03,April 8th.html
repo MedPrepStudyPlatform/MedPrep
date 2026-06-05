@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 02 · Day 03</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* MedPrep Core Styles (exactly matching Day 02) */
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+        }
+
+        html, body { 
+            margin: 0; padding: 0; width: 100%; 
+            background: var(--med-light); 
+            font-family: 'Inter', sans-serif; 
+            color: var(--med-text);
+            overflow-x: hidden;
+        }
+
+        .main-header {
+            background: var(--med-dark); color: white; padding: 15px 0;
+            box-shadow: 0 16px 30px -10px #0a2c48cc;
+            width: 100%; text-align: center;
+        }
+        .logo-wrapper {
+            background: white; padding: 5px 20px; border-radius: 80px;
+            display: inline-flex; border: 2px solid var(--med-accent);
+            margin-bottom: 10px;
+        }
+        .logo-img { height: 45px; width: auto; object-fit: contain; mix-blend-mode: multiply; }
+        
+        .pill-nav {
+            display: inline-flex; gap: 10px; background: rgba(255,255,255,0.15);
+            padding: 6px 15px; border-radius: 100px; backdrop-filter: blur(6px);
+            border: 1px solid #1ecbe180; font-size: 0.85rem;
+        }
+
+        .container { 
+            width: 95%; max-width: 850px; margin: 25px auto; 
+            background: white; border-radius: 30px; padding: 30px;
+            box-shadow: 0 15px 30px -10px #0a2c481a;
+            border: 1px solid rgba(30,203,225,0.3);
+            box-sizing: border-box;
+        }
+
+        .syllabus-box {
+            background: #e0f2fe; border: 2px solid var(--med-accent);
+            border-radius: 20px; padding: 20px; margin-bottom: 30px;
+        }
+        .syllabus-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px; margin-top: 10px; font-weight: 600; font-size: 0.9rem;
+        }
+
+        .subject-tag {
+            background: var(--med-dark); color: white; padding: 10px 20px;
+            border-radius: 50px; display: inline-block; margin: 30px 0 15px;
+            font-family: 'Outfit', sans-serif; font-size: 1.1rem;
+        }
+
+        .question-wrap { margin-bottom: 35px; border-bottom: 1px solid #eef2f5; padding-bottom: 20px; }
+        .q-text { font-weight: 700; margin-bottom: 15px; display: block; line-height: 1.4; }
+
+        .opt-label {
+            display: flex; align-items: center; padding: 12px 15px;
+            border: 1px solid #d1d9e0; border-radius: 12px; margin-bottom: 10px;
+            cursor: pointer; transition: 0.2s; font-size: 0.95rem;
+        }
+        .opt-label:hover { border-color: var(--med-accent); background: #f0f9ff; }
+        .opt-label input { margin-right: 12px; transform: scale(1.2); cursor: pointer; }
+
+        .feedback-area {
+            display: none; margin-top: 15px; padding: 15px;
+            border-radius: 15px; font-size: 0.9rem; border-left: 5px solid #ccc;
+            background: #f8fafc;
+        }
+        .correct-ans { color: #059669; font-weight: 700; }
+        .wrong-ans { color: #dc2626; font-weight: 700; }
+        .expl-text { margin-top: 8px; color: #475569; font-style: italic; }
+
+        #score-summary {
+            display: none; text-align: center; background: var(--med-dark);
+            color: white; padding: 30px; border-radius: 25px; margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+        }
+
+        #submit-btn {
+            background: var(--med-accent); color: var(--med-dark);
+            border: none; padding: 18px 40px; border-radius: 50px;
+            font-weight: 800; font-size: 1.2rem; cursor: pointer;
+            width: 100%; transition: 0.3s; box-shadow: 0 10px 20px -5px #1ecbe166;
+        }
+        #submit-btn:hover { transform: translateY(-3px); background: #17b3c7; }
+
+        .main-footer { 
+            background: var(--med-dark); color: #e2f0fa; padding: 30px 15px; 
+            border-top: 4px solid var(--med-accent); margin-top: 50px; text-align: center; 
+            width: 100%; font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px; border-radius: 15px; }
+            .logo-img { height: 35px; }
+            .pill-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div><br>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 02</span>
+        <span><i class="fas fa-clock"></i> Day 03,April 08th, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family: 'Outfit'; margin: 0;"> Score </h2>
+        <div id="final-score" style="font-size: 3.5rem; font-weight: 800; color: var(--med-accent);">0 / 50</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class="fas fa-biohazard"></i> Syllabus</h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-dna"></i> Biological Molecules </span>
+            <span><i class="fas fa-wind"></i> Gases </span>
+            <span><i class="fas fa-bicycle"></i> Work, Energy & Power</span>
+            <span><i class="fas fa-spell-check"></i> Pronoun Agreement & Parallelism</span>
+        </div>
+      
+    </div>
+
+    <form id="quizForm">
+        <div id="bio-section"></div>
+        <div id="chem-section"></div>
+        <div id="phys-section"></div>
+        <div id="eng-section"></div>
+        <button type="button" id="submit-btn" onclick="checkAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class="fas fa-staff-aesculapius" style="color:#1ecbe1;"></i> © MedPrep 2026 · All Rights Reserved.</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// TOUGHEST 50 MDCAT-STYLE MCQs (Biology 15, Chemistry 15, Physics 15, English 5)
+// High difficulty: multi-step reasoning, exception-based, integrated concepts.
+// --------------------------------------------------------------
+const quizData = [
+    // BIOLOGY (Biological Molecules - advanced)
+    {q: "A dipeptide is formed by condensation reaction between two amino acids. The resulting bond is partially double in character due to resonance. Which of the following statements about this bond is TRUE?", a: "C", choices: ["It prevents rotation of the entire peptide backbone", "It restricts rotation only around the Cα-N bond", "It restricts rotation around the C-N bond, making the peptide bond planar", "It has no effect on backbone flexibility"], e: "The peptide bond has ~40% double bond character due to resonance, restricting rotation and forcing a planar trans configuration."},
+    {q: "Which of the following is NOT a feature of the induced fit model of enzyme action?", a: "B", choices: ["Conformational change upon substrate binding", "Active site is rigid and pre-shaped like a lock and key", "Enzyme flexibility enhances catalytic efficiency", "Substrate binding induces structural rearrangement"], e: "The lock-and-key model proposes a rigid active site; induced fit emphasizes conformational change."},
+    {q: "A polysaccharide has β-1,4 glycosidic linkages, is unbranched, and provides structural support to plant cell walls. Acid hydrolysis yields only D-glucose. This polysaccharide is:", a: "D", choices: ["Amylopectin", "Amylose", "Glycogen", "Cellulose"], e: "Cellulose has β-1,4 linkages, linear structure, and is the major cell wall component."},
+    {q: "The oxygen dissociation curve of hemoglobin shifts to the right during exercise. Which factor combination is the primary cause?", a: "B", choices: ["Increased pH and decreased temperature", "Increased CO₂ and increased temperature", "Decreased 2,3-BPG and increased pH", "Decreased CO₂ and decreased temperature"], e: "Exercise: higher CO₂, higher temp, lower pH (Bohr effect) → right shift → more O₂ release to tissues."},
+    {q: "Which statement about the Michaelis-Menten constant (Km) is INCORRECT?", a: "C", choices: ["Km is numerically equal to substrate concentration at half Vmax", "Low Km indicates high affinity between enzyme and substrate", "Km varies with enzyme concentration", "Km is independent of enzyme concentration"], e: "Km is a characteristic of the enzyme-substrate pair, not dependent on enzyme concentration."},
+    {q: "In SDS-PAGE, proteins are separated based primarily on:", a: "C", choices: ["Shape and charge", "Isoelectric point", "Molecular weight", "Hydrophobicity"], e: "SDS denatures and gives uniform negative charge, separation by mass only."},
+    {q: "A mutation in the gene encoding hexokinase causes the enzyme to have extremely high affinity for glucose (Km 0.01 mM) but the Vmax is reduced by 80%. In a liver cell at fasting glucose (5 mM), what is the expected effect?", a: "B", choices: ["No glucose phosphorylation due to low Vmax", "Glucose phosphorylation will occur but at a reduced maximal rate", "Complete inhibition of glycolysis", "Enhanced glycolysis due to super affinity"], e: "At physiological glucose, enzyme is saturated (low Km) but lower Vmax means reduced maximal capacity."},
+    {q: "Which lipid is NOT derived from isoprene units?", a: "D", choices: ["Carotenoids", "Steroids", "Terpenes", "Triglycerides"], e: "Triglycerides are esters of glycerol and fatty acids; isoprenoids include steroids, terpenes, carotenoids."},
+    {q: "Chaperonin proteins such as GroEL/GroES function by:", a: "A", choices: ["Providing an isolated environment for protein folding", "Cleaving misfolded proteins", "Synthesizing polypeptides", "Degrading unfolded proteins via ubiquitin"], e: "Chaperonins form cage-like structures to prevent aggregation and promote proper folding."},
+    {q: "Which of the following best describes the role of the enzyme RuBisCO in photorespiration?", a: "C", choices: ["It fixes CO₂ to form 3-phosphoglycerate exclusively", "It binds O₂ leading to production of phosphoglycolate, which is metabolized in peroxisomes", "It only functions in C4 plants to avoid oxygen", "It converts RuBP to 3-PGA and G3P"], e: "Oxygenation of RuBP by RuBisCO produces phosphoglycolate, initiating photorespiratory pathway."},
+    {q: "A 16-carbon saturated fatty acid undergoes complete β-oxidation. How many FADH₂ and NADH molecules are produced (excluding the TCA cycle)?", a: "C", choices: ["6 FADH₂, 7 NADH", "7 FADH₂, 7 NADH", "7 FADH₂, 8 NADH", "8 FADH₂, 8 NADH"], e: "Palmitoyl-CoA (16C) requires 7 cycles: each cycle yields 1 FADH₂, 1 NADH; total 7 FADH₂, 7 NADH; plus 8 acetyl-CoA."},
+    {q: "The Cori cycle involves:", a: "B", choices: ["Conversion of pyruvate to alanine in muscle", "Lactate transport from muscle to liver for gluconeogenesis", "Direct oxidation of glucose to CO₂ in RBCs", "Ketone body synthesis from acetyl-CoA"], e: "Cori cycle: lactate produced in anaerobic muscle is converted back to glucose in liver (gluconeogenesis)."},
+    {q: "Which vitamin is derived from cholesterol and acts as a hormone precursor for calcium homeostasis?", a: "C", choices: ["Vitamin A", "Vitamin E", "Vitamin D", "Vitamin K"], e: "Vitamin D (cholecalciferol) is synthesized from 7-dehydrocholesterol and regulates calcium via calcitriol."},
+    {q: "All of the following are components of the electron transport chain EXCEPT:", a: "B", choices: ["Coenzyme Q (ubiquinone)", "NADPH dehydrogenase", "Cytochrome c oxidase", "Iron-sulfur clusters"], e: "NADPH is used in anabolic reactions; NADH dehydrogenase (Complex I) is part of ETC."},
+    {q: "In the malate-aspartate shuttle, reducing equivalents from NADH are transferred to the mitochondrial matrix via:", a: "D", choices: ["Glycerol-3-phosphate", "FADH₂", "Lactate dehydrogenase", "Oxaloacetate → malate"], e: "Cytosolic NADH reduces oxaloacetate to malate; malate enters matrix and regenerates NADH."},
+
+    // CHEMISTRY: Gases & Kinetic Theory + atomic nuances
+    {q: "A real gas deviates from ideal behavior at high pressure because:", a: "C", choices: ["Molecules have negligible volume", "Intermolecular attractive forces become significant", "Molecular volume and intermolecular forces become non-negligible", "The gas condenses into liquid"], e: "High pressure → molecules close together, volume correction (b) and attractive forces (a) cause deviation."},
+    {q: "According to the kinetic molecular theory, the average kinetic energy of gas molecules is directly proportional to:", a: "C", choices: ["Pressure", "Volume", "Absolute temperature", "Molar mass"], e: "KE_avg = (3/2)RT, depends only on T."},
+    {q: "The van der Waals constant 'a' accounts for:", a: "B", choices: ["Molecular volume", "Intermolecular attraction", "Molecular shape", "Molecular speed"], e: "'a' corrects for attractive forces; 'b' corrects for finite volume."},
+    {q: "Which of the following gases will have the highest root mean square velocity at 300 K?", a: "D", choices: ["O₂", "N₂", "CO₂", "He"], e: "urms = √(3RT/M). Lowest molar mass (He, 4 g/mol) gives highest speed."},
+    {q: "For a given mass of an ideal gas, the pressure vs. temperature graph at constant volume is:", a: "B", choices: ["Hyperbola", "Straight line passing through origin", "Exponential curve", "Parabola"], e: "P ∝ T (Gay-Lussac's law), straight line through absolute zero on Kelvin scale."},
+    {q: "The compressibility factor Z for a real gas is 0.9 at a certain temperature and pressure. This indicates:", a: "A", choices: ["Attractive forces dominate, gas is more compressible than ideal", "Repulsive forces dominate", "Gas behaves ideally", "Gas is close to liquefaction"], e: "Z < 1 → attractive forces reduce volume relative to ideal."},
+    {q: "Which condition favors maximum deviation from ideal behavior for H₂ gas?", a: "C", choices: ["High temperature, low pressure", "Low temperature, low pressure", "Very low temperature, very high pressure", "Standard conditions"], e: "Low T and high P maximize intermolecular interactions and volume effects."},
+    {q: "A mixture of 3 mol N₂ and 2 mol O₂ exerts total pressure 5 atm. Partial pressure of O₂ is:", a: "B", choices: ["3 atm", "2 atm", "1 atm", "2.5 atm"], e: "Mole fraction O₂ = 2/5 = 0.4; PO₂ = 0.4×5 = 2 atm."},
+    {q: "The ratio of rate of diffusion of methane to sulfur dioxide under identical conditions is (molar masses: CH₄=16, SO₂=64):", a: "D", choices: ["1:2", "2:1", "1:4", "2:1"], e: "Graham's law: r1/r2 = √(M2/M1) = √(64/16)=√4=2 → CH₄ diffuses 2x faster."},
+    {q: "Which of the following statements about the critical temperature (Tc) is correct?", a: "C", choices: ["Above Tc, gas can be liquefied by increasing pressure", "Below Tc, gas cannot be liquefied", "Above Tc, no amount of pressure can liquefy the gas", "Tc is same for all gases"], e: "Critical temperature: above it, liquid phase cannot exist regardless of pressure."},
+    {q: "A gas occupies 500 mL at 27°C and 760 mm Hg. What volume will it occupy at 127°C and 380 mm Hg?", a: "C", choices: ["250 mL", "1000 mL", "1333 mL", "1500 mL"], e: "Combined gas law: V2 = V1×(P1/P2)×(T2/T1) = 500×(760/380)×(400/300) = 500×2×1.333 = 1333 mL."},
+    {q: "Two gases X and Y have densities in ratio 1:4 at same T and P. The ratio of their molecular masses is:", a: "D", choices: ["1:4", "4:1", "1:2", "1:4"], e: "density ∝ molar mass at constant T,P → M_X/M_Y = d_X/d_Y = 1:4."},
+    {q: "Which of the following is NOT an assumption of the kinetic molecular theory?", a: "C", choices: ["Gas molecules are in constant random motion", "Collisions are perfectly elastic", "Molecules exert long-range attractive forces on each other", "Volume of molecules is negligible compared to container volume"], e: "Ideal gas assumes no intermolecular forces."},
+    {q: "The root mean square speed of oxygen molecules at 0°C is 460 m/s. What is the RMS speed at 273°C?", a: "B", choices: ["460 m/s", "650 m/s", "920 m/s", "325 m/s"], e: "urms ∝ √T. T1=273K, T2=546K (273+273). √(546/273)=√2=1.414. 460×1.414=650 m/s."},
+    {q: "A certain gas obeys van der Waals equation. At low pressure, which factor dominates the deviation?", a: "B", choices: ["Volume correction (b)", "Attractive forces (a/V²)", "Both equally", "Thermal energy"], e: "At low P, intermolecular attractions dominate causing negative deviation."},
+
+    // PHYSICS: Work, Energy, Power & advanced mechanics
+    {q: "A 2 kg block is pushed against a spring (k=500 N/m) compressing it 0.2 m. When released, the block slides on a rough horizontal surface (μ=0.25). How far does it travel before stopping? (g=10 m/s²)", a: "C", choices: ["0.5 m", "1 m", "2 m", "4 m"], e: "Spring PE = ½×500×0.04 = 10 J. Work by friction = μmgd = 0.25×2×10×d = 5d. Set 10=5d → d=2 m."},
+    {q: "A particle of mass m is moving in a circular path of radius r with constant speed v. The work done by the centripetal force in half revolution is:", a: "C", choices: ["½ mv²", "mv²", "2mv²", "0"], e: "Centripetal force is perpendicular to displacement → zero work."},
+    {q: "A 1 kW motor pumps water from a well 10 m deep. The mass of water lifted per minute (efficiency 100%) is (g=10 m/s²):", a: "B", choices: ["600 kg", "6000 kg", "600 kg", "6000 kg"], e: "Power = mgh/t → 1000 = (m×10×10)/60 → m = 600 kg."},
+    {q: "A body of mass 5 kg is dropped from a height of 20 m. Its kinetic energy just before hitting ground is (g=10):", a: "D", choices: ["100 J", "500 J", "200 J", "1000 J"], e: "KE = mgh = 5×10×20 = 1000 J."},
+    {q: "Two springs of spring constants k1 and k2 (k1>k2) are stretched by same force. The ratio of potential energies stored (U1/U2) is:", a: "C", choices: ["k1/k2", "k2/k1", "1", "√(k1/k2)"], e: "F = kx → x = F/k, U = ½kx² = ½F²/k. So U ∝ 1/k. Thus U1/U2 = k2/k1."},
+    {q: "A particle moves along x-axis from x=0 to x=5 m under influence of force F = 3x² + 2 (N). Work done is:", a: "D", choices: ["125 J", "100 J", "115 J", "135 J"], e: "W = ∫₀⁵ (3x²+2)dx = [x³+2x]₀⁵ = 125+10 = 135 J."},
+    {q: "If kinetic energy of a body becomes 4 times, the momentum becomes:", a: "B", choices: ["2 times", "4 times", "8 times", "16 times"], e: "KE = p²/2m → p ∝ √KE → √4 = 2 times."},
+    {q: "A man weighing 60 kg climbs 20 stairs each of height 0.2 m in 10 seconds. Power developed (g=10) is:", a: "A", choices: ["240 W", "120 W", "480 W", "600 W"], e: "Total height = 20×0.2=4m. Work = mgh=60×10×4=2400 J. Power = 2400/10=240 W."},
+    {q: "A body of mass 1 kg is projected vertically upward with speed 20 m/s. The loss in kinetic energy during upward journey till highest point is:", a: "C", choices: ["100 J", "150 J", "200 J", "400 J"], e: "Initial KE = ½×1×400=200 J, at top KE=0, loss=200 J."},
+    {q: "A force F = 5i + 3j N acts on a particle causing displacement d = 2i - j m. Work done is:", a: "A", choices: ["7 J", "10 J", "13 J", "4 J"], e: "W = F·d = 5×2 + 3×(-1)=10-3=7 J."},
+    {q: "The power of a pump motor required to lift 2000 kg of water per minute from a well of depth 15 m is (g=10):", a: "D", choices: ["2 kW", "3 kW", "4 kW", "5 kW"], e: "Power = mgh/t = (2000×10×15)/60 = 5000 W = 5 kW."},
+    {q: "A bullet of mass 10 g moving with 400 m/s penetrates a target and comes to rest after 5 cm. Average resistive force offered by target is:", a: "C", choices: ["8 kN", "12 kN", "16 kN", "20 kN"], e: "Work-energy: ½×0.01×400² = F×0.05 → 0.5×0.01×160000=800 J; F=800/0.05=16000 N =16 kN."},
+    {q: "A body of mass 2 kg has initial velocity 3i+4j m/s. A constant force -2i N acts for 2 seconds. Final kinetic energy is:", a: "A", choices: ["17 J", "29 J", "20 J", "36 J"], e: "vx_f = 3 + (-2/2)*2 = 3-2 = 1 m/s, vy_f = 4 m/s, speed² = 1+16=17, KE = ½×2×17=17 J."},
+    {q: "Which of the following is a non-conservative force?", a: "B", choices: ["Gravitational force", "Air resistance", "Electrostatic force", "Spring force"], e: "Air resistance dissipates energy, path-dependent."},
+    {q: "An engine develops 10 kW power. How much time will it take to lift 500 kg to a height of 40 m? (g=10)", a: "C", choices: ["10 s", "15 s", "20 s", "25 s"], e: "Work = 500×10×40=200000 J; time = work/power = 200000/10000=20 s."},
+
+    // ENGLISH: Pronoun Agreement & advanced grammar
+    {q: "Each of the employees, along with the manager, ______ responsible for the quarterly report.", a: "B", choices: ["are", "is", "were", "have been"], e: "With 'each', the verb remains singular. Phrases like 'along with' do not change subject number."},
+    {q: "The committee members, who ______ been arguing for hours, finally reached a consensus.", a: "C", choices: ["has", "have", "had", "was"], e: "Plural subject 'members' requires plural verb; past perfect 'had' indicates action completed before another past action."},
+    {q: "If I ______ you, I would study pronoun agreement more carefully.", a: "A", choices: ["were", "was", "am", "is"], e: "Subjunctive mood: 'If I were you' is correct for hypothetical/unreal situations."},
+    {q: "Neither the quality of the products nor the prices ______ acceptable to the customers.", a: "B", choices: ["is", "are", "was", "has been"], e: "With 'neither/nor', verb agrees with the nearer subject ('prices' = plural)."},
+    {q: "The dean, together with the faculty, ______ reviewing the new curriculum guidelines.", a: "A", choices: ["is", "are", "were", "have been"], e: "Phrase 'together with' does not change singular subject 'dean'."}
+];
+
+function renderQuiz() {
+    const sections = {
+        bio: document.getElementById('bio-section'),
+        chem: document.getElementById('chem-section'),
+        phys: document.getElementById('phys-section'),
+        eng: document.getElementById('eng-section')
+    };
+    quizData.forEach((item, index) => {
+        let sectionKey = index < 15 ? 'bio' : index < 30 ? 'chem' : index < 45 ? 'phys' : 'eng';
+        let html = `
+            <div class="question-wrap" id="q-block-${index}">
+                <span class="q-text">Q${index+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${index}" value="${String.fromCharCode(65+i)}">
+                        ${String.fromCharCode(65+i)}. ${c}
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${index}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        sections[sectionKey].innerHTML += html;
+    });
+}
+
+function checkAnswers() {
+    let score = 0;
+    quizData.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedback = document.getElementById(`feed-${index}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        if (selected) {
+            if (selected.value === item.a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong!</span>`;
+                feedback.style.borderColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:#e67e22"><i class="fas fa-exclamation-triangle"></i> Not answered!</span>`;
+            feedback.style.borderColor = "#f97316";
+        }
+    });
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 50`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('submit-btn').disabled = true;
+    document.getElementById('submit-btn').style.background = "#94a3b8";
+    document.getElementById('submit-btn').innerText = " Submitted";
+}
+
+renderQuiz();
+</script>
+</body>
+</html>

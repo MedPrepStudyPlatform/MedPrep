@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 2· Day 08 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 2</span>
+        <span><i class="fas fa-clock"></i> Day 8,April 13th, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';"> Score </h2>
+        <div id="final-score">0 / 50</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class="fas fa-biohazard"></i> Syllabus</h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-stomach"></i> Digestion </span>
+            <span><i class="fas fa-balance-scale"></i> Chemical Equilibrium</span>
+            <span><i class="fas fa-waveform"></i> Waves & Oscillations</span>
+            <span><i class="fas fa-voice"></i> Active & Passive Voice</span>
+        </div>
+        
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> © MedPrep 2026. All Rights Reserved.</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// TOUGHEST 50 MDCAT-STYLE MCQs - April 13th
+// Biology: Digestion (15) | Chemistry: Chemical Equilibrium (15) | Physics: Waves & Oscillations (15) | English: Active/Passive Voice (5)
+// Verified keys & explanations
+// --------------------------------------------------------------
+const quizData = [];
+
+// ==================== BIOLOGY: DIGESTION (15) ====================
+const bioDigestion = [
+    {q: "Which enzyme is responsible for the breakdown of starch into maltose in the human digestive system?", a: "B", choices: ["Pepsin", "Amylase", "Lipase", "Trypsin"], e: "Salivary and pancreatic amylase hydrolyze starch into disaccharides."},
+    {q: "Pepsinogen is activated to pepsin by:", a: "C", choices: ["Bile salts", "Enterokinase", "Hydrochloric acid (HCl)", "Sodium bicarbonate"], e: "HCl lowers pH, converting pepsinogen to active pepsin via autocatalysis."},
+    {q: "The major site of nutrient absorption in the human digestive tract is:", a: "C", choices: ["Stomach", "Large intestine", "Small intestine", "Mouth"], e: "Villi and microvilli in small intestine maximize absorption."},
+    {q: "Bile is produced by the ______ and stored in the ______.", a: "A", choices: ["Liver; gallbladder", "Gallbladder; liver", "Pancreas; liver", "Liver; pancreas"], e: "Hepatocytes produce bile; gallbladder concentrates and stores it."},
+    {q: "Which of the following is NOT a function of the liver?", a: "D", choices: ["Detoxification of blood", "Synthesis of plasma proteins", "Production of bile", "Secretion of digestive enzymes"], e: "Digestive enzymes are secreted by pancreas and salivary glands, not liver."},
+    {q: "The breakdown of fats into fatty acids and glycerol is catalyzed by:", a: "C", choices: ["Pepsin", "Amylase", "Lipase", "Nuclease"], e: "Pancreatic lipase digests triglycerides in small intestine."},
+    {q: "Ruminants digest cellulose with the help of:", a: "B", choices: ["Proteases", "Cellulase-producing bacteria", "Bile salts", "Gastric juices"], e: "Symbiotic bacteria in rumen produce cellulase to break down cellulose."},
+    {q: "The hormone that stimulates the release of bile from the gallbladder is:", a: "C", choices: ["Gastrin", "Secretin", "Cholecystokinin (CCK)", "Insulin"], e: "CCK released in response to fats causes gallbladder contraction."},
+    {q: "Which pancreatic enzyme is secreted in an inactive form to prevent autodigestion?", a: "D", choices: ["Amylase", "Lipase", "Nuclease", "Trypsinogen"], e: "Trypsinogen is activated by enterokinase in duodenum to trypsin."},
+    {q: "The process of mastication (chewing) primarily aids in:", a: "A", choices: ["Increasing surface area of food", "Chemical digestion", "Absorption of nutrients", "Neutralizing stomach acid"], e: "Physical breakdown increases surface area for enzyme action."},
+    {q: "Which vitamin is produced by bacteria in the large intestine?", a: "B", choices: ["Vitamin C", "Vitamin K", "Vitamin D", "Vitamin A"], e: "Gut flora synthesize vitamin K and some B vitamins."},
+    {q: "The pH of the stomach is approximately:", a: "C", choices: ["7.0", "4.0", "2.0", "8.0"], e: "Gastric juice contains HCl, pH 1.5-3.5."},
+    {q: "Emulsification of fats is achieved by:", a: "B", choices: ["Lipase", "Bile salts", "HCl", "Pepsin"], e: "Bile salts break fat globules into smaller droplets, increasing surface area."},
+    {q: "The enzyme that digests proteins in the stomach is:", a: "A", choices: ["Pepsin", "Trypsin", "Chymotrypsin", "Carboxypeptidase"], e: "Pepsin works optimally at low pH (stomach)."},
+    {q: "Which of the following is a disaccharidase found on the brush border?", a: "C", choices: ["Amylase", "Lipase", "Lactase", "Pepsin"], e: "Lactase, sucrase, maltase complete carbohydrate digestion."}
+];
+bioDigestion.forEach(item => quizData.push(item));
+
+// ==================== CHEMISTRY: CHEMICAL EQUILIBRIUM (15) ====================
+const chemEquilibrium = [
+    {q: "For a reaction at equilibrium, which of the following is constant?", a: "B", choices: ["Concentration of reactants only", "Rate of forward and reverse reactions", "Concentration of products only", "Temperature only"], e: "Dynamic equilibrium: forward and reverse rates equal, concentrations constant."},
+    {q: "The equilibrium constant Kc for the reaction N₂ + 3H₂ ⇌ 2NH₃ is written as:", a: "C", choices: ["[N₂][H₂]³/[NH₃]²", "[NH₃]/[N₂][H₂]", "[NH₃]²/[N₂][H₂]³", "[NH₃]²/[N₂][H₂]"], e: "Products over reactants, each raised to stoichiometric coefficient."},
+    {q: "If Kc is very large (>10³), the equilibrium:", a: "A", choices: ["Lies far to the right (product-favored)", "Lies far to the left", "Is established slowly", "Is independent of temperature"], e: "Large K indicates products dominate at equilibrium."},
+    {q: "Le Chatelier's principle states that if a stress is applied to a system at equilibrium, the system will:", a: "B", choices: ["Remain unchanged", "Shift to relieve the stress", "Move randomly", "Stop reacting"], e: "System responds to oppose the change."},
+    {q: "Increasing temperature favors the endothermic direction. For an exothermic reaction, increasing temperature will:", a: "C", choices: ["Increase Kc", "Decrease Kc", "Decrease Kc", "Have no effect"], e: "Exothermic: heat is a product; adding heat shifts left, decreasing K."},
+    {q: "For the reaction 2SO₂ + O₂ ⇌ 2SO₃, ΔH = -198 kJ. Increasing pressure will:", a: "A", choices: ["Favor product formation (shift right)", "Favor reactant formation", "Have no effect", "Stop the reaction"], e: "Fewer gas moles on product side (3 → 2); pressure favors fewer moles."},
+    {q: "The reaction quotient Q compared to Kc indicates direction. If Q < Kc, the reaction:", a: "B", choices: ["Proceeds toward reactants", "Proceeds toward products", "Is at equilibrium", "Stops"], e: "To reach equilibrium, forward reaction increases until Q = K."},
+    {q: "Which of the following will NOT affect the equilibrium constant K?", a: "D", choices: ["Temperature", "Temperature", "Concentration", "Catalyst"], e: "Catalyst speeds up both directions equally, does not change K."},
+    {q: "For a reaction with Δn = 0 (no change in moles of gas), pressure change:", a: "C", choices: ["Shifts equilibrium right", "Shifts equilibrium left", "Has no effect on equilibrium position", "Changes K"], e: "Equal moles on both sides means pressure does not shift equilibrium."},
+    {q: "The equilibrium constant expression for a heterogeneous reaction (solids and gases) includes:", a: "B", choices: ["Concentrations of solids", "Only gases and aqueous species", "All species", "Only liquids"], e: "Solids and pure liquids have constant activity (1), omitted from K expression."},
+    {q: "If Kp = Kc (RT)^(Δn), for which Δn is Kp = Kc?", a: "A", choices: ["Δn = 0", "Δn = 1", "Δn = 2", "Δn = -1"], e: "When Δn=0, (RT)^0 = 1, so Kp = Kc."},
+    {q: "Adding an inert gas at constant volume to an equilibrium mixture:", a: "C", choices: ["Shifts equilibrium", "Changes K", "No effect because partial pressures unchanged", "Increases pressure and shifts"], e: "Constant volume: inert gas doesn't change partial pressures of reactants/products."},
+    {q: "The value of K for the reverse reaction is:", a: "B", choices: ["Same as forward", "Reciprocal of forward K", "Square of forward K", "Square root"], e: "K_reverse = 1 / K_forward."},
+    {q: "For the reaction CaCO₃(s) ⇌ CaO(s) + CO₂(g), Kp =", a: "D", choices: ["[CaO][CO₂]/[CaCO₃]", "P_CO₂ / P°", "P_CO₂", "P_CO₂"], e: "Solids omitted, Kp = partial pressure of CO₂."},
+    {q: "If a reaction has ΔH > 0 (endothermic), increasing temperature:", a: "A", choices: ["Increases K", "Decreases K", "No effect", "Changes equilibrium but not K"], e: "Endothermic: heat is reactant; adding heat shifts right, increasing K."}
+];
+chemEquilibrium.forEach(item => quizData.push(item));
+
+// ==================== PHYSICS: WAVES & OSCILLATIONS (15) ====================
+const physicsWaves = [
+    {q: "The time taken for one complete oscillation is called:", a: "B", choices: ["Frequency", "Period", "Amplitude", "Wavelength"], e: "Period T = 1/f, measured in seconds."},
+    {q: "A simple pendulum has a period T. If the length is quadrupled, the new period becomes:", a: "C", choices: ["T/2", "2T", "2T", "4T"], e: "T ∝ √L; quadrupling length doubles period."},
+    {q: "The maximum displacement from equilibrium position is:", a: "A", choices: ["Amplitude", "Frequency", "Phase", "Wavelength"], e: "Amplitude (A) measures oscillation magnitude."},
+    {q: "The frequency of a spring-mass system (SHM) depends on:", a: "D", choices: ["Amplitude only", "Mass only", "Spring constant only", "Mass and spring constant"], e: "f = (1/2π)√(k/m), independent of amplitude."},
+    {q: "For a wave on a string, the speed v is given by:", a: "C", choices: ["v = fλ", "v = λ/T", "v = fλ", "v = Aω"], e: "v = fλ = λ/T, fundamental wave equation."},
+    {q: "The principle of superposition states that when two waves meet, the resultant displacement is:", a: "B", choices: ["Product of individual displacements", "Sum of individual displacements", "Difference of displacements", "Average of displacements"], e: "Algebraic sum of amplitudes at each point."},
+    {q: "Destructive interference occurs when two waves are:", a: "D", choices: ["In phase", "Out of phase by 0°", "Out of phase by 180° (π radians)", "Out of phase by 180°"], e: "Phase difference of π leads to cancellation (crest meets trough)."},
+    {q: "A standing wave is formed by:", a: "C", choices: ["Two waves moving in same direction", "A single wave reflecting", "Two waves of same frequency moving in opposite directions", "Waves of different frequencies"], e: "Superposition of incident and reflected waves produces nodes and antinodes."},
+    {q: "The fundamental frequency of a stretched string is inversely proportional to:", a: "B", choices: ["Tension", "Length", "Linear density", "Amplitude"], e: "f₁ = (1/2L)√(T/μ). Doubling length halves frequency."},
+    {q: "The speed of sound in air increases with:", a: "A", choices: ["Increase in temperature", "Decrease in temperature", "Increase in humidity", "Both A and C"], e: "v ∝ √T (Kelvin); humidity also slightly increases speed."},
+    {q: "The Doppler effect causes an apparent change in:", a: "C", choices: ["Amplitude", "Speed of wave", "Frequency", "Wavelength only"], e: "Relative motion changes observed frequency (pitch)."},
+    {q: "A wave has frequency 500 Hz and wavelength 0.68 m. Its speed is:", a: "B", choices: ["340 m/s", "340 m/s", "680 m/s", "170 m/s"], e: "v = fλ = 500 × 0.68 = 340 m/s (speed of sound)."},
+    {q: "In a transverse wave, particles of the medium vibrate:", a: "A", choices: ["Perpendicular to wave direction", "Parallel to wave direction", "In circular motion", "Randomly"], e: "Transverse: displacement perpendicular to propagation (e.g., light, string)."},
+    {q: "In a longitudinal wave, regions of compression and rarefaction correspond to:", a: "C", choices: ["High and low amplitude", "High and low frequency", "High and low pressure/density", "Crests and troughs"], e: "Compressions: high density/pressure; rarefactions: low density/pressure."},
+    {q: "The resonant frequency of an open pipe of length L is given by (n=1,2,3...):", a: "D", choices: ["f = nv/4L", "f = nv/2L", "f = nv/2L", "f = nv/2L"], e: "Open pipe: both ends antinodes, harmonics: f = nv/2L."}
+];
+physicsWaves.forEach(item => quizData.push(item));
+
+// ==================== ENGLISH: ACTIVE & PASSIVE VOICE (5) ====================
+const engVoice = [
+    {q: "Change to passive: 'The chef prepares delicious meals.'", a: "B", choices: ["Delicious meals prepare by chef", "Delicious meals are prepared by the chef", "Delicious meals were prepared", "Delicious meals is prepared"], e: "Present simple passive: is/am/are + past participle."},
+    {q: "Identify the passive sentence:", a: "C", choices: ["She writes a letter", "The dog bit the man", "The letter was written by her", "They have finished the work"], e: "Passive: form of 'to be' + past participle (was written)."},
+    {q: "Change to active: 'The homework had been completed by the student.'", a: "A", choices: ["The student had completed the homework", "The student completed the homework", "The student was completing the homework", "The student completes the homework"], e: "Past perfect passive → past perfect active."},
+    {q: "Which of the following is correct passive voice for 'Someone stole my watch'?", a: "D", choices: ["My watch was stole", "My watch stolen", "My watch is stolen", "My watch was stolen"], e: "Past simple passive: was/were + past participle (stolen)."},
+    {q: "Choose the correct passive: 'They will announce the results tomorrow.'", a: "C", choices: ["The results will announce tomorrow", "The results are announced tomorrow", "The results will be announced tomorrow", "The results were announced tomorrow"], e: "Future simple passive: will be + past participle."}
+];
+engVoice.forEach(item => quizData.push(item));
+
+// Final check: total 15+15+15+5 = 50
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong!</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered!</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 50`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

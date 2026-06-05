@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alcohols, Phenols & Ethers </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fff1f2 0%, #ffe4e6 100%);
+            color: #9f1239;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #e11d48;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #be123c, #e11d48);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #fecdd3;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(225, 29, 72, 0.08);
+            border-color: #fda4af;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #9f1239;
+            padding-left: 14px;
+            border-left: 4px solid #e11d48;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #e11d48;
+            background: #fff1f2;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #be123c;
+            color: white;
+            border-color: #be123c;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #e11d48;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(225, 29, 72, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #be123c;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(190, 18, 60, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #9f1239, #be123c);
+            color: #fff1f2;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #9f1239;
+            display: none;
+            background: #fff1f2;
+            padding: 16px 22px;
+            border-left: 6px solid #e11d48;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #f97316 !important;
+            background: #ffedd5 !important;
+            color: #9a3412 !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Alcohols, Phenols & Ethers</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual, high-difficulty Alcohols, Phenols & Ethers MCQs (FSC Part 2, Chapter 11)
+    const alcoholPhenolEtherMcqs = [
+        { q: "Which of the following alcohols will give the most stable carbocation upon reaction with concentrated H₂SO₄?", options: ["Methanol", "Ethanol", "Propan-2-ol", "2-Methylpropan-2-ol"], exp: "2-Methylpropan-2-ol (tert-butyl alcohol) gives a tertiary carbocation which is most stable due to hyperconjugation and inductive effect. Tertiary carbocation > secondary > primary > methyl.", correct: "D" },
+        { q: "The major product formed when phenol is treated with excess bromine water is:", options: ["2-Bromophenol", "4-Bromophenol", "2,4,6-Tribromophenol", "2,4-Dibromophenol"], exp: "Phenol is highly reactive towards electrophilic substitution. With excess bromine water, it undergoes tribromination at ortho and para positions to form 2,4,6-tribromophenol (white precipitate).", correct: "C" },
+        { q: "Which of the following is the correct order of acidity of alcohols?", options: ["Primary > Secondary > Tertiary", "Tertiary > Secondary > Primary", "Methanol > Primary > Secondary > Tertiary", "All have same acidity"], exp: "Acidity of alcohols decreases with increasing alkyl group substitution due to +I effect which destabilizes the alkoxide ion. Methanol is most acidic among alcohols, then primary, secondary, tertiary. So order: CH₃OH > 1° > 2° > 3°.", correct: "C" },
+        { q: "The product formed when ethyl alcohol is treated with excess concentrated H₂SO₄ at 170°C is:", options: ["Diethyl ether", "Ethylene", "Ethyl hydrogen sulphate", "Ethanal"], exp: "At 170°C (higher temperature), concentrated H₂SO₄ causes dehydration of ethanol to form ethene (ethylene). At 140°C, it forms diethyl ether.", correct: "B" },
+        { q: "Identify the incorrect statement regarding phenol.", options: ["Phenol is more acidic than ethanol", "Phenol gives violet colour with neutral FeCl₃", "Phenol undergoes nucleophilic substitution easily", "Phenol can be prepared from cumene"], exp: "Phenol undergoes electrophilic substitution easily, not nucleophilic substitution. The -OH group is an activating and ortho/para directing group for electrophiles. The statement that phenol undergoes nucleophilic substitution easily is incorrect.", correct: "C" },
+        { q: "The reaction of ethyl alcohol with sodium metal produces:", options: ["Sodium ethoxide and hydrogen gas", "Sodium ethoxide and water", "Ethene and sodium hydroxide", "Ethanal and sodium hydride"], exp: "Alcohols react with sodium metal to form sodium alkoxide and hydrogen gas. 2C₂H₅OH + 2Na → 2C₂H₅ONa + H₂↑.", correct: "A" },
+        { q: "Which of the following reagents can be used to distinguish between phenol and benzyl alcohol?", options: ["Bromine water", "Neutral FeCl₃ solution", "Sodium metal", "Both A and B"], exp: "Phenol gives a violet colour with neutral FeCl₃ (due to enol form) and gives white precipitate with bromine water (2,4,6-tribromophenol). Benzyl alcohol does not give these tests. Both A and B can distinguish. Sodium metal reacts with both (both have -OH). So correct is Both A and B.", correct: "D" },
+        { q: "The IUPAC name of the compound CH₃-O-CH₂-CH₂-CH₃ is:", options: ["Methoxypropane", "1-Methoxypropane", "Methyl propyl ether", "Both A and B"], exp: "According to IUPAC, ethers are named as alkoxyalkanes. CH₃-O-CH₂CH₂CH₃ is methoxypropane or specifically 1-methoxypropane. Both A and B are correct.", correct: "D" },
+        { q: "The major product of the reaction of propene with H₂O in the presence of H₂SO₄ is:", options: ["Propan-1-ol", "Propan-2-ol", "Propane", "Propanal"], exp: "Hydration of alkenes follows Markovnikov's rule. H⁺ adds to less substituted carbon, OH adds to more substituted carbon. Propene gives propan-2-ol (isopropyl alcohol).", correct: "B" },
+        { q: "Which of the following is the best method for the preparation of methyl tert-butyl ether (MTBE)?", options: ["Williamson synthesis using sodium methoxide and tert-butyl bromide", "Williamson synthesis using sodium tert-butoxide and methyl bromide", "Dehydration of tert-butyl alcohol with methanol", "Reaction of isobutylene with methanol in presence of acid"], exp: "Williamson synthesis using sodium tert-butoxide and methyl bromide gives MTBE because tert-butoxide is a strong base and methyl bromide is an excellent SN2 substrate. Using sodium methoxide with tert-butyl bromide leads to elimination (E2) due to steric hindrance. Also, industrial preparation is from isobutylene and methanol with acid, but the best laboratory method is sodium tert-butoxide + methyl bromide.", correct: "B" },
+        { q: "The number of isomeric ethers with molecular formula C₄H₁₀O is:", options: ["2", "3", "4", "5"], exp: "Ethers with formula C₄H₁₀O: methyl propyl ether, methyl isopropyl ether, ethyl ethyl ether (diethyl ether). Also but not counting cyclic. So 3 structural isomers. Option B.", correct: "B" },
+        { q: "Phenol is more acidic than alcohol because:", options: ["Phenoxide ion is resonance stabilized", "Alcohols have stronger O-H bond", "Phenol has electron withdrawing group", "Phenol is more volatile"], exp: "The phenoxide ion is stabilized by resonance delocalization of negative charge into the benzene ring, making phenol more acidic than alcohols, whose alkoxide ions lack such resonance.", correct: "A" },
+        { q: "The product formed when ethylene oxide is treated with excess Grignard reagent (CH₃MgBr) followed by hydrolysis is:", options: ["Propan-1-ol", "Propan-2-ol", "Butan-1-ol", "Butan-2-ol"], exp: "Ethylene oxide (epoxide) reacts with Grignard reagent via ring opening at less substituted carbon. CH₃MgBr attacks the less hindered carbon, followed by hydrolysis gives propan-1-ol (n-propyl alcohol).", correct: "A" },
+        { q: "Which of the following alcohols will not undergo oxidation with K₂Cr₂O₇/H₂SO₄?", options: ["Ethanol", "Propan-2-ol", "2-Methylpropan-2-ol", "Butan-1-ol"], exp: "2-Methylpropan-2-ol (tert-butyl alcohol) is a tertiary alcohol. Tertiary alcohols do not undergo oxidation under normal conditions because they have no hydrogen on the carbon bearing the -OH group. They undergo dehydration instead.", correct: "C" },
+        { q: "The reaction of phenol with chloroform in presence of aqueous NaOH is called:", options: ["Reimer-Tiemann reaction", "Kolbe's reaction", "Coupling reaction", "Friedel-Crafts reaction"], exp: "The Reimer-Tiemann reaction introduces an aldehyde group (-CHO) ortho to the -OH group of phenol using CHCl₃ and aqueous NaOH.", correct: "A" },
+        { q: "The major product of the reaction of isopropyl alcohol with concentrated H₂SO₄ at 140°C is:", options: ["Propene", "Diisopropyl ether", "Propanal", "Acetone"], exp: "At 140°C (moderate temperature), concentrated H₂SO₄ causes intermolecular dehydration of alcohols to form ethers. Isopropyl alcohol gives diisopropyl ether (isopropyl ether).", correct: "B" },
+        { q: "Which of the following tests is used to distinguish between ethanol and methanol?", options: ["Iodoform test", "Lucas test", "Ceric ammonium nitrate test", "No test"], exp: "Methanol does not give iodoform test (requires CH₃CHOH- or CH₃CO- group), while ethanol gives positive iodoform test. Lucas test distinguishes 1°,2°,3° but not methanol vs ethanol (both are 1°). Ceric ammonium nitrate gives positive for both. So iodoform test distinguishes them: ethanol gives yellow precipitate, methanol does not.", correct: "A" },
+        { q: "The product formed when anisole (methoxybenzene) is treated with excess HI is:", options: ["Phenol + Methyl iodide", "Iodobenzene + Methanol", "Phenol + Iodomethane", "Benzene + Iodomethane"], exp: "HI cleaves the ether bond. Anisole (C₆H₅-OCH₃) with excess HI gives phenol (C₆H₅OH) and methyl iodide (CH₃I).", correct: "C" },
+        { q: "Identify the correct order of boiling points for the following compounds: (i) CH₃CH₂OH, (ii) CH₃-O-CH₃, (iii) CH₃CH₂CH₃", options: ["i > ii > iii", "ii > i > iii", "iii > ii > i", "i > iii > ii"], exp: "Alcohols have hydrogen bonding, so highest boiling point. Ethers have dipole-dipole but no H-bonding, so intermediate. Alkanes have only London forces, so lowest. Order: ethanol > dimethyl ether > propane. Hence i > ii > iii.", correct: "A" },
+        { q: "The Kolbe's reaction of phenol with CO₂ in presence of NaOH gives:", options: ["Benzaldehyde", "Salicylaldehyde", "Salicylic acid", "Benzoic acid"], exp: "Kolbe's reaction (Kolbe-Schmitt reaction) involves carboxylation of phenol. Phenol reacts with CO₂ under pressure in presence of NaOH to form sodium salicylate, which on acidification gives salicylic acid (2-hydroxybenzoic acid).", correct: "C" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...alcoholPhenolEtherMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

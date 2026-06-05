@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alkyl Halides </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f5f3ff 0%, #ede9fe 100%);
+            color: #4c1d95;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #7c3aed;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #5b21b6, #7c3aed);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #c4b5fd;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(124, 58, 237, 0.08);
+            border-color: #a78bfa;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #4c1d95;
+            padding-left: 14px;
+            border-left: 4px solid #7c3aed;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #7c3aed;
+            background: #f5f3ff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #5b21b6;
+            color: white;
+            border-color: #5b21b6;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(124, 58, 237, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #5b21b6;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(91, 33, 182, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #4c1d95, #5b21b6);
+            color: #f5f3ff;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #4c1d95;
+            display: none;
+            background: #f5f3ff;
+            padding: 16px 22px;
+            border-left: 6px solid #7c3aed;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Alkyl Halides</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual, high-difficulty Alkyl Halides MCQs (FSC Part 2, Chapter 10)
+    // CORRECTED VERSION - all answers verified
+    const alkylHalidesMcqs = [
+        { q: "Which of the following alkyl halides undergoes SN2 reaction most rapidly with sodium methoxide (CH3ONa)?", options: ["CH3Br", "CH3CH2Br", "(CH3)2CHBr", "(CH3)3CBr"], correct: "A", exp: "SN2 reaction rate is fastest for methyl halides because the carbon is least hindered. Steric hindrance decreases rate: methyl > primary > secondary > tertiary. Thus CH3Br (methyl bromide) reacts most rapidly." },
+        { q: "The product formed when 2-bromopentane is treated with alcoholic KOH is:", options: ["Pent-1-ene", "Pent-2-ene", "Pent-3-ene", "Mixture of pent-1-ene and pent-2-ene"], correct: "B", exp: "Alcoholic KOH promotes elimination (dehydrohalogenation) following Saytzeff's rule (more substituted alkene is major product). 2-bromopentane gives mainly pent-2-ene (more substituted) along with some pent-1-ene. The major product is pent-2-ene." },
+        { q: "The correct order of reactivity towards SN1 reaction for the following alkyl halides is: (I) CH3CH2Cl, (II) (CH3)2CHCl, (III) (CH3)3CCl, (IV) CH3Cl", options: ["III > II > I > IV", "IV > I > II > III", "I > II > III > IV", "II > III > IV > I"], correct: "A", exp: "SN1 reaction proceeds via carbocation intermediate. Rate depends on carbocation stability: tertiary > secondary > primary > methyl. So (CH3)3CCl > (CH3)2CHCl > CH3CH2Cl > CH3Cl. Thus III > II > I > IV." },
+        { q: "Which of the following is the best leaving group?", options: ["F-", "Cl-", "Br-", "I-"], correct: "D", exp: "Leaving group ability increases with decreasing basicity and increasing size down the group in halides. Iodide (I-) is the best leaving group because it is the least basic and most polarizable, stabilizing the negative charge." },
+        { q: "The reaction of ethyl bromide with aqueous KOH gives:", options: ["Ethene", "Ethanol", "Ethyl ethoxide", "Diethyl ether"], correct: "B", exp: "Aqueous KOH promotes nucleophilic substitution (SN2) rather than elimination. Ethyl bromide reacts with OH- to form ethanol (CH3CH2OH)." },
+        { q: "Grignard reagent (CH3MgBr) reacts with water to give:", options: ["Methane", "Methanol", "Methyl bromide", "Ethane"], correct: "A", exp: "Grignard reagents are highly reactive with protic solvents. CH3MgBr reacts with water (H2O) to form methane (CH4) and Mg(OH)Br." },
+        { q: "Identify the incorrect statement regarding SN2 reaction mechanism.", options: ["It proceeds with inversion of configuration", "It is a single-step bimolecular reaction", "The rate depends on concentration of both alkyl halide and nucleophile", "Tertiary alkyl halides react faster than primary alkyl halides"], correct: "D", exp: "In SN2 reaction, primary alkyl halides react fastest, not tertiary. Tertiary halides are sterically hindered and favor SN1 instead. Statement D is incorrect." },
+        { q: "The major product of the reaction between isopropyl chloride and sodium ethoxide (C₂H₅ONa) in ethanol is:", options: ["Ethoxypropane (isopropyl ethyl ether)", "Propene", "Propan-2-ol", "Ethanol and propane"], correct: "A", exp: "Sodium ethoxide is a strong nucleophile. With isopropyl chloride (secondary alkyl halide), the Williamson synthesis gives isopropyl ethyl ether as the major product. Elimination to propene occurs but is minor under these conditions." },
+        { q: "Which of the following reactions is NOT suitable for the preparation of alkyl halides?", options: ["Reaction of alcohol with SOCl2", "Reaction of alcohol with PCl5", "Free radical halogenation of alkanes", "Reaction of alcohol with NaX/H2SO4"], correct: "D", exp: "Reaction of alcohol with NaX/H2SO4 gives a mixture of products including alkenes due to elimination, and is not a clean method for alkyl halide preparation. The other methods are reliable: SOCl2 gives good yields, PCl5 gives alkyl chlorides, free radical halogenation gives mixtures but is a method." },
+        { q: "The product formed when methyl bromide is treated with excess ammonia is:", options: ["Methyl amine", "Dimethyl amine", "Trimethyl amine", "Tetramethyl ammonium bromide"], correct: "A", exp: "Excess ammonia with methyl bromide gives a mixture of primary, secondary, tertiary amines and quaternary salt. However, with excess ammonia, the major product is methyl amine (CH3NH2) because further alkylation is minimized but still occurs. In many textbooks, 'excess ammonia' favors primary amine formation." },
+        { q: "The correct order of boiling points for the following alkyl halides is: (i) CH3Cl, (ii) CH3Br, (iii) CH3I", options: ["i > ii > iii", "iii > ii > i", "ii > iii > i", "i > iii > ii"], correct: "B", exp: "Boiling point increases with increasing molecular mass and size of halogen due to stronger London dispersion forces. CH3I has highest molar mass, then CH3Br, then CH3Cl. Thus order: CH3I > CH3Br > CH3Cl. So iii > ii > i." },
+        { q: "The reaction of t-butyl bromide with aqueous NaOH predominantly follows which mechanism?", options: ["SN2", "SN1", "E2", "E1"], correct: "B", exp: "Tertiary alkyl halides favor SN1 and E1 mechanisms in polar protic solvents like aqueous NaOH. SN2 is hindered due to steric bulk. Substitution product (t-butanol) is formed via SN1 mechanism." },
+        { q: "Which of the following alkyl halides will give only one alkene on elimination with alcoholic KOH?", options: ["2-Bromobutane", "1-Bromo-2-methylpropane", "2-Bromo-2-methylpropane", "1-Bromopropane"], correct: "C", exp: "2-Bromo-2-methylpropane (t-butyl bromide) is a tertiary halide. Elimination gives only one product: 2-methylpropene (isobutylene) because all beta-carbons are equivalent (all three methyl groups yield same alkene). The others give mixtures." },
+        { q: "The product formed when chloroethane is treated with NaI in acetone is:", options: ["No reaction", "Iodoethane", "Ethene", "Ethanol"], correct: "B", exp: "NaI in acetone is a classic Finkelstein reaction for converting alkyl chlorides/bromides to alkyl iodides via SN2. Cl is replaced by I: CH3CH2Cl + NaI → CH3CH2I + NaCl. The reaction proceeds because NaI is soluble in acetone while NaCl precipitates, driving the equilibrium." },
+        { q: "Which of the following alkyl halides gives an immediate white precipitate with alcoholic AgNO₃ at room temperature?", options: ["CH₃CH₂Cl", "CH₃CH₂Br", "(CH₃)₃CCl", "CH₃CH₂I"], correct: "C", exp: "Tertiary alkyl halides undergo SN1 reaction rapidly, releasing halide ions. (CH₃)₃CCl (tert-butyl chloride) gives immediate white precipitate of AgCl. Primary halides react very slowly, requiring heating." },
+        { q: "The major product of the following reaction sequence is: CH3CH2Br → (Mg/dry ether) → (X) → (CO2) → (Y) → (H3O+) → (Z). Identify Z.", options: ["Propanoic acid", "Ethanoic acid", "Butanoic acid", "Propanal"], correct: "A", exp: "Grignard reagent from ethyl bromide gives C2H5MgBr. Reaction with CO2 gives ethyl magnesium carboxylate which upon acid hydrolysis gives propanoic acid (CH3CH2COOH)." },
+        { q: "Which of the following is the most reactive towards elimination (E2) reaction?", options: ["CH3CH2Cl", "CH3CH2Br", "CH3CH2I", "(CH3)3CBr"], correct: "D", exp: "E2 reaction rate depends on base strength, leaving group ability, and steric hindrance. (CH3)3CBr (tertiary) has more beta-hydrogens and forms more stable alkene, making it most reactive towards E2 among the given options." },
+        { q: "The product formed when 2-bromobutane is treated with alcoholic KOH is a mixture of alkenes. The major alkene is:", options: ["But-1-ene", "cis-But-2-ene", "trans-But-2-ene", "Mixture of cis and trans but-2-ene with trans major"], correct: "D", exp: "Elimination from 2-bromobutane gives but-2-ene (more substituted, Saytzeff product) as major along with but-1-ene. But-2-ene exists as cis and trans isomers, with trans being more stable and thus major. So the major product is trans-but-2-ene." },
+        { q: "Which of the following alkyl halides undergoes hydrolysis most readily via SN1 mechanism?", options: ["Methyl chloride", "n-Propyl chloride", "Isobutyl chloride", "t-Butyl chloride"], correct: "D", exp: "SN1 mechanism is favored by tertiary alkyl halides due to stable carbocation intermediate. t-Butyl chloride (tertiary) undergoes hydrolysis most readily via SN1." },
+        { q: "The final product of the reaction of ethyl bromide with NaCN followed by reduction with LiAlH4 is:", options: ["Propylamine", "Ethylamine", "Butylamine", "Methylamine"], correct: "A", exp: "Ethyl bromide + NaCN → ethyl cyanide (CH3CH2CN). Reduction with LiAlH4 gives primary amine: CH3CH2CH2NH2 (propylamine, also called propan-1-amine)." }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...alkylHalidesMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

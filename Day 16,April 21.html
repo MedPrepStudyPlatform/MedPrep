@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MedPrep · MDCAT 30-Day Crash Course Session 2· Day 16 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --med-dark: #0a2c48;
+            --med-light: #f5fafd;
+            --med-accent: #1ecbe1;
+            --med-text: #15304c;
+            --white: #ffffff;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: var(--med-light);
+            font-family: 'Inter', sans-serif;
+            color: var(--med-text);
+            line-height: 1.5;
+        }
+
+        .main-header {
+            background: var(--med-dark);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: 0 12px 30px -10px rgba(10,44,72,0.4);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-wrapper {
+            background: white;
+            padding: 6px 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            border: 2px solid var(--med-accent);
+            margin-bottom: 8px;
+        }
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .pill-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 100px;
+            backdrop-filter: blur(8px);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .pill-nav span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        #score-summary {
+            display: none;
+            background: var(--med-dark);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            border: 3px solid var(--med-accent);
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+        }
+        #final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--med-accent);
+            letter-spacing: -1px;
+        }
+
+        .syllabus-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+            border: 2px solid var(--med-accent);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .syllabus-grid span {
+            background: rgba(10,44,72,0.08);
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .question-wrap {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            transition: 0.2s;
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.45;
+            color: #0a2c48;
+        }
+        .opt-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+        .opt-label:hover {
+            border-color: var(--med-accent);
+            background: #f0f9ff;
+        }
+        .opt-label input {
+            margin-top: 2px;
+            transform: scale(1.1);
+            flex-shrink: 0;
+        }
+        .feedback-area {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            background: #f8fafc;
+            border-left: 5px solid #ccc;
+        }
+        .correct-ans { color: var(--success); font-weight: 700; }
+        .wrong-ans { color: var(--danger); font-weight: 700; }
+
+        #submit-btn {
+            background: var(--med-accent);
+            color: var(--med-dark);
+            border: none;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(30,203,225,0.3);
+            margin: 20px 0 30px;
+        }
+        #submit-btn:active { transform: scale(0.98); }
+        #submit-btn.disabled-btn {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 10px;
+            margin: 15px 0 25px;
+        }
+        .progress-fill {
+            background: var(--med-accent);
+            width: 0%;
+            height: 10px;
+            border-radius: 40px;
+            transition: width 0.3s;
+        }
+
+        .main-footer {
+            background: var(--med-dark);
+            color: #e2f0fa;
+            padding: 35px 20px;
+            border-top: 4px solid var(--med-accent);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .question-wrap { padding: 16px; }
+            .opt-label { padding: 10px 12px; font-size: 0.85rem; }
+            .q-text { font-size: 0.92rem; }
+            #final-score { font-size: 3rem; }
+            .pill-nav span { font-size: 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .opt-label { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="Gemini_Generated_Image_n3wf4vn3wf4vn3wf.jpg" alt="MedPrep Logo" class="logo-img">
+    </div>
+    <div class="pill-nav">
+        <span><i class="fas fa-calendar-alt"></i> Crash Course Session 2</span>
+        <span><i class="fas fa-clock"></i> Day 16,April 21, 2026</span>
+        
+    </div>
+</header>
+
+<div class="container">
+    <div id="score-summary">
+        <h2 style="font-family:'Outfit';"> Score </h2>
+        <div id="final-score">0 / 50</div>
+        
+    </div>
+
+    <div class="syllabus-box">
+        <h3 style="margin:0; font-family:'Outfit'; color: var(--med-dark);"><i class="fas fa-biohazard"></i>  Syllabus</h3>
+        <div class="syllabus-grid">
+            <span><i class="fas fa-bone"></i> Support & Movement</span>
+            <span><i class="fas fa-oil-can"></i> Hydrocarbons </span>
+            <span><i class="fas fa-waveform"></i> Alternating Current</span>
+            <span><i class="fas fa-arrow-right"></i> Transitions </span>
+        </div>
+        
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div id="quiz-container"></div>
+        <button type="button" id="submit-btn" onclick="checkAllAnswers()"> Submit</button>
+    </form>
+</div>
+
+<footer class="main-footer">
+    <span><i class=""></i> © MedPrep 2026 · All Rights Reserved.</span>
+</footer>
+
+<script>
+// --------------------------------------------------------------
+// TOUGHEST 50 MDCAT-STYLE MCQs - April 21st
+// Biology: Support & Movement (15) | Chemistry: Hydrocarbons (15) | Physics: Alternating Current (15) | English: Transitions (5)
+// ✅ EACH QUESTION: Correct answer letter matches the explanation precisely
+// --------------------------------------------------------------
+const quizData = [];
+
+// ==================== BIOLOGY: SUPPORT & MOVEMENT (15) ====================
+const bioSupport = [
+    {q: "The human skeleton is primarily composed of:", a: "C", choices: ["Cartilage only", "Ligaments", "Bones and cartilage", "Tendons"], e: "Skeleton includes bones (206 in adults) and associated cartilage for support and movement."},
+    {q: "The point where two or more bones meet is called a:", a: "B", choices: ["Ligament", "Joint", "Tendon", "Cartilage"], e: "Joint allows movement between bones (e.g., knee, elbow)."},
+    {q: "Which type of joint allows the greatest range of motion?", a: "D", choices: ["Hinge joint", "Pivot joint", "Gliding joint", "Ball and socket joint"], e: "Ball and socket (shoulder, hip) allows movement in multiple planes."},
+    {q: "The long bone of the thigh is called:", a: "A", choices: ["Femur", "Tibia", "Fibula", "Patella"], e: "Femur is the longest and strongest bone in the human body."},
+    {q: "The protein that gives strength and flexibility to bones is:", a: "C", choices: ["Keratin", "Elastin", "Collagen", "Actin"], e: "Collagen fibers provide tensile strength and flexibility to bone matrix."},
+    {q: "The mineral primarily responsible for bone hardness is:", a: "B", choices: ["Magnesium", "Calcium phosphate", "Potassium", "Sodium"], e: "Hydroxyapatite (calcium phosphate) crystals make bone rigid and hard."},
+    {q: "The functional unit of a skeletal muscle is the:", a: "D", choices: ["Myofibril", "Sarcomere", "Muscle fiber", "Sarcomere"], e: "Sarcomere is the repeating unit between Z-lines responsible for contraction."},
+    {q: "The thick filament in muscle is composed of:", a: "C", choices: ["Actin", "Troponin", "Myosin", "Tropomyosin"], e: "Myosin heads form cross-bridges with actin during contraction."},
+    {q: "The neurotransmitter released at the neuromuscular junction is:", a: "B", choices: ["Dopamine", "Acetylcholine", "Serotonin", "GABA"], e: "Acetylcholine (ACh) binds to receptors on muscle membrane, initiating depolarization."},
+    {q: "The energy source for muscle contraction is:", a: "D", choices: ["Glucose", "Fatty acids", "Creatine phosphate", "ATP"], e: "ATP is directly hydrolyzed by myosin ATPase; creatine phosphate regenerates ATP quickly."},
+    {q: "Which of the following is an example of a hinge joint?", a: "A", choices: ["Elbow", "Shoulder", "Hip", "Wrist"], e: "Hinge joint (elbow, knee) allows flexion/extension like a door hinge."},
+    {q: "The axial skeleton includes:", a: "C", choices: ["Arms and legs", "Shoulder and pelvic girdles", "Skull, vertebral column, and rib cage", "Fingers and toes"], e: "Axial skeleton forms central axis; appendicular includes limbs and girdles."},
+    {q: "The tough connective tissue that attaches muscle to bone is:", a: "B", choices: ["Ligament", "Tendon", "Cartilage", "Fascia"], e: "Tendons transmit force from muscle to bone."},
+    {q: "Rigor mortis occurs after death because:", a: "D", choices: ["ATP is overproduced", "Calcium is depleted", "Actin and myosin separate", "ATP is absent, cross-bridges cannot detach"], e: "Without ATP, myosin heads remain attached to actin, causing stiffness."},
+    {q: "The bone that protects the brain is the:", a: "C", choices: ["Femur", "Rib", "Skull", "Sternum"], e: "Cranium (skull) encases and protects the brain."}
+];
+bioSupport.forEach(item => quizData.push(item));
+
+// ==================== CHEMISTRY: HYDROCARBONS (15) ====================
+const chemHydrocarbons = [
+    {q: "Hydrocarbons are compounds that contain only:", a: "B", choices: ["Carbon and oxygen", "Carbon and hydrogen", "Carbon, hydrogen, and oxygen", "Carbon and nitrogen"], e: "Hydrocarbons are organic compounds composed exclusively of C and H atoms."},
+    {q: "The simplest alkane is:", a: "A", choices: ["Methane (CH₄)", "Ethane (C₂H₆)", "Propane (C₃H₈)", "Butane (C₄H₁₀)"], e: "Methane has one carbon atom, is the smallest alkane."},
+    {q: "Alkenes are characterized by:", a: "C", choices: ["Single bonds only", "Triple bonds", "At least one double bond", "Aromatic ring"], e: "Alkenes contain C=C double bond; general formula CₙH₂ₙ."},
+    {q: "Which reaction is typical for alkanes?", a: "D", choices: ["Addition", "Polymerization", "Hydration", "Substitution (halogenation)"], e: "Alkanes undergo free radical substitution (e.g., chlorination in presence of UV light)."},
+    {q: "The IUPAC name of CH₃CH=CHCH₃ is:", a: "B", choices: ["1-butene", "2-butene", "Butane", "Butyne"], e: "Double bond between carbons 2 and 3 → 2-butene."},
+    {q: "Which of the following is an unsaturated hydrocarbon?", a: "C", choices: ["Hexane", "Cyclohexane", "Hexene", "Methane"], e: "Hexene contains C=C double bond (unsaturated); hexane is saturated."},
+    {q: "The test used to distinguish alkenes from alkanes is:", a: "D", choices: ["Tollens' test", "Iodoform test", "Fehling's test", "Bromine water test (decolorization)"], e: "Alkenes decolorize brown bromine water via addition reaction; alkanes do not."},
+    {q: "The general formula for alkynes is:", a: "A", choices: ["CₙH₂ₙ₋₂", "CₙH₂ₙ₊₂", "CₙH₂ₙ", "CₙH₂ₙ₊₁"], e: "Alkynes have triple bond, two less hydrogens than alkenes."},
+    {q: "Benzene is an example of:", a: "C", choices: ["Alkane", "Alkene", "Aromatic hydrocarbon", "Alkyne"], e: "Benzene (C₆H₆) has delocalized π electrons, exhibits aromaticity."},
+    {q: "The process of converting alkene to alkane is called:", a: "B", choices: ["Hydration", "Hydrogenation", "Dehydrogenation", "Halogenation"], e: "Hydrogenation adds H₂ across double bond in presence of Ni/Pd/Pt catalyst."},
+    {q: "Which hydrocarbon is used as fuel in LPG cylinders?", a: "D", choices: ["Methane", "Ethane", "Propane and butane", "Propane and butane"], e: "LPG (liquefied petroleum gas) is primarily propane and butane."},
+    {q: "The first member of the alkyne family is:", a: "B", choices: ["Methyne (does not exist)", "Ethyne (C₂H₂)", "Propyne", "Butyne"], e: "Ethyne (acetylene) is the simplest alkyne with triple bond."},
+    {q: "Markovnikov's rule applies to:", a: "C", choices: ["Free radical substitution", "Elimination reactions", "Addition of HX to unsymmetrical alkenes", "Combustion"], e: "Markovnikov: hydrogen adds to carbon with more hydrogens (rich gets richer)."},
+    {q: "The catalyst used in cracking of hydrocarbons is:", a: "D", choices: ["Nickel", "Platinum", "Palladium", "Zeolite (aluminosilicate)"], e: "Catalytic cracking uses zeolites to break large hydrocarbons into smaller ones."},
+    {q: "The octane number of gasoline indicates:", a: "A", choices: ["Anti-knocking property", "Volatility", "Viscosity", "Density"], e: "Higher octane number means less engine knocking (pre-ignition)."}
+];
+chemHydrocarbons.forEach(item => quizData.push(item));
+
+// ==================== PHYSICS: ALTERNATING CURRENT (15) ====================
+const physicsAC = [
+    {q: "The frequency of AC in Pakistan is:", a: "B", choices: ["60 Hz", "50 Hz", "220 Hz", "110 Hz"], e: "Pakistan uses 50 Hz AC mains frequency (standard in many countries)."},
+    {q: "The peak value of voltage V₀ is related to RMS value by:", a: "C", choices: ["V₀ = V_rms", "V₀ = V_rms/√2", "V₀ = V_rms × √2", "V₀ = 2V_rms"], e: "V_rms = V₀/√2 → V₀ = V_rms × √2."},
+    {q: "The average value of AC over a complete cycle is:", a: "A", choices: ["Zero", "Peak value", "RMS value", "Half of peak value"], e: "AC waveform is symmetric; positive and negative areas cancel."},
+    {q: "The device that converts AC to DC is called:", a: "D", choices: ["Transformer", "Inverter", "Generator", "Rectifier"], e: "Rectifier (using diodes) converts alternating current to direct current."},
+    {q: "A transformer works on the principle of:", a: "B", choices: ["DC only", "Mutual induction (AC only)", "Self-induction", "Electrostatic induction"], e: "Transformer requires changing magnetic flux; thus AC input is necessary."},
+    {q: "In a purely resistive AC circuit, the phase difference between voltage and current is:", a: "C", choices: ["90°", "180°", "0°", "45°"], e: "Resistor: voltage and current are in phase (θ = 0°)."},
+    {q: "In a purely inductive AC circuit, the current lags voltage by:", a: "D", choices: ["0°", "45°", "60°", "90°"], e: "Inductor: voltage leads current by 90° (current lags)."},
+    {q: "In a purely capacitive AC circuit, the current leads voltage by:", a: "B", choices: ["0°", "90°", "90°", "180°"], e: "Capacitor: current leads voltage by 90°."},
+    {q: "The power factor of a pure inductor or capacitor is:", a: "A", choices: ["0", "1", "0.5", "0.707"], e: "cos φ = 0 for purely reactive load; no real power consumed."},
+    {q: "The resonant frequency of an LC circuit is given by:", a: "C", choices: ["f = 2π√(LC)", "f = 1/√(LC)", "f = 1/(2π√(LC))", "f = 2π/√(LC)"], e: "Resonance occurs when inductive reactance equals capacitive reactance."},
+    {q: "In a series RLC circuit at resonance, impedance is:", a: "B", choices: ["Maximum", "Minimum (equal to R)", "Infinite", "Zero"], e: "At resonance, XL = XC, impedance Z = R (minimum)."},
+    {q: "The purpose of a choke coil in fluorescent tubes is:", a: "D", choices: ["Increase voltage", "Store energy", "Filter harmonics", "Limit current and provide high initial voltage"], e: "Choke (ballast) limits current and provides starting voltage pulse."},
+    {q: "The root mean square (RMS) value of AC is defined as:", a: "C", choices: ["Peak value", "Average value", "Equivalent DC value that produces same heating effect", "Peak-to-peak value"], e: "RMS = √(mean of square of instantaneous values)."},
+    {q: "A step-down transformer:", a: "B", choices: ["Increases voltage", "Decreases voltage and increases current", "Increases both voltage and current", "Decreases both"], e: "Step-down: Nₛ < Nₚ → Vₛ < Vₚ, Iₛ > Iₚ (power conserved)."},
+    {q: "The phase difference between voltage and current in an RC circuit depends on:", a: "D", choices: ["Resistance only", "Capacitance only", "Frequency only", "Resistance, capacitance, and frequency"], e: "tan φ = Xc/R = 1/(2πfCR); phase angle varies with f, R, C."}
+];
+physicsAC.forEach(item => quizData.push(item));
+
+// ==================== ENGLISH: TRANSITIONS (Linking Words) (5) ====================
+const engTransitions = [
+    {q: "Choose the correct transition: 'She studied hard; _____, she passed the exam.'", a: "B", choices: ["However", "Therefore", "Moreover", "Nevertheless"], e: "'Therefore' indicates cause-and-effect conclusion."},
+    {q: "Select the appropriate transition: 'He is very rich; _____, he is not happy.'", a: "C", choices: ["Consequently", "Thus", "However", "Furthermore"], e: "'However' shows contrast between being rich and not happy."},
+    {q: "Complete the sentence: 'First, mix the ingredients. _____, bake for 30 minutes.'", a: "D", choices: ["In contrast", "Similarly", "Nevertheless", "Then"], e: "'Then' indicates sequence/next step in process."},
+    {q: "Choose the best transition: 'The weather was terrible; _____, we decided to stay home.'", a: "A", choices: ["Therefore", "However", "On the other hand", "In addition"], e: "'Therefore' shows logical consequence of bad weather."},
+    {q: "Select the correct transition: 'He is intelligent; _____, he is very hardworking.'", a: "B", choices: ["But", "Moreover", "However", "Nevertheless"], e: "'Moreover' adds additional positive information."}
+];
+engTransitions.forEach(item => quizData.push(item));
+
+// Final check: total 15+15+15+5 = 50
+console.log("Total MCQs loaded:", quizData.length);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    quizData.forEach((item, idx) => {
+        const qHtml = `
+            <div class="question-wrap" id="q-wrap-${idx}">
+                <span class="q-text">${idx+1}. ${item.q}</span>
+                ${item.choices.map((c, i) => `
+                    <label class="opt-label">
+                        <input type="radio" name="q${idx}" value="${String.fromCharCode(65+i)}">
+                        <span>${String.fromCharCode(65+i)}. ${c}</span>
+                    </label>
+                `).join('')}
+                <div class="feedback-area" id="feed-${idx}">
+                    <div class="status"></div>
+                    <div class="correct-was">✔ Correct Answer: <b>${item.a}</b></div>
+                    <div class="expl-text"><i class="fas fa-lightbulb"></i> <b>Explanation:</b> ${item.e}</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += qHtml;
+    });
+}
+
+function updateProgress() {
+    let totalAnswered = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) totalAnswered++;
+    }
+    const percent = (totalAnswered / quizData.length) * 100;
+    document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function checkAllAnswers() {
+    let score = 0;
+    for (let i = 0; i < quizData.length; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const feedback = document.getElementById(`feed-${i}`);
+        const statusDiv = feedback.querySelector('.status');
+        feedback.style.display = 'block';
+        
+        if (selected) {
+            if (selected.value === quizData[i].a) {
+                score++;
+                statusDiv.innerHTML = `<span class="correct-ans"><i class="fas fa-check-circle"></i> Correct!</span>`;
+                feedback.style.borderLeftColor = "#059669";
+            } else {
+                statusDiv.innerHTML = `<span class="wrong-ans"><i class="fas fa-times-circle"></i> Wrong! Correct answer is ${quizData[i].a}</span>`;
+                feedback.style.borderLeftColor = "#dc2626";
+            }
+        } else {
+            statusDiv.innerHTML = `<span class="wrong-ans" style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Not answered! Correct: ${quizData[i].a}</span>`;
+            feedback.style.borderLeftColor = "#f59e0b";
+        }
+    }
+    
+    document.getElementById('score-summary').style.display = 'block';
+    document.getElementById('final-score').innerText = `${score} / 50`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.classList.add('disabled-btn');
+    btn.innerText = " Submitted";
+}
+
+renderQuiz();
+setTimeout(() => {
+    updateProgress();
+    for (let i = 0; i < quizData.length; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => radio.addEventListener('change', updateProgress));
+    }
+}, 100);
+</script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physical Optics | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f5f3ff 0%, #ede9fe 100%);
+            color: #4c1d95;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #7c3aed;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #5b21b6, #7c3aed);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #c4b5fd;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(124, 58, 237, 0.08);
+            border-color: #a78bfa;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #4c1d95;
+            padding-left: 14px;
+            border-left: 4px solid #7c3aed;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #7c3aed;
+            background: #f5f3ff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #5b21b6;
+            color: white;
+            border-color: #5b21b6;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(124, 58, 237, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #5b21b6;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(91, 33, 182, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #4c1d95, #5b21b6);
+            color: #f5f3ff;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #4c1d95;
+            display: none;
+            background: #f5f3ff;
+            padding: 16px 22px;
+            border-left: 6px solid #7c3aed;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Physical Optics</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Physical Optics MCQs (Physics FSC Part 1, Chapter 9)
+    const opticsMcqs = [
+        { q: "In Young's double slit experiment, the fringe width is β. If the distance between the slits is doubled, the new fringe width becomes:", options: ["β/2", "β", "2β", "4β"], exp: "Fringe width β = λD/d. If d becomes 2d, β' = λD/(2d) = β/2.", correct: "A" },
+        { q: "The condition for constructive interference in Young's double slit experiment is (path difference):", options: ["nλ", "(2n+1)λ/2", "nλ/2", "(2n+1)λ"], exp: "Constructive interference occurs when path difference = nλ, where n = 0,1,2,...", correct: "A" },
+        { q: "A diffraction grating has 5000 lines per cm. The grating element (d) is:", options: ["2 × 10⁻⁶ m", "2 × 10⁻⁵ m", "2 × 10⁻⁴ m", "2 × 10⁻³ m"], exp: "d = 1/(number of lines per meter) = 1/(5000 × 100) = 1/500000 = 2 × 10⁻⁶ m.", correct: "A" },
+        { q: "The phenomenon of polarization of light confirms that light waves are:", options: ["Longitudinal", "Transverse", "Both", "Neither"], exp: "Only transverse waves can be polarized. Polarization proves light is a transverse electromagnetic wave.", correct: "B" },
+        { q: "In Young's double slit experiment, the slits are 0.5 mm apart and the screen is 1 m away. The wavelength of light used is 600 nm. The fringe width is:", options: ["0.6 mm", "1.2 mm", "2.4 mm", "3.6 mm"], exp: "β = λD/d = (600 × 10⁻⁹ × 1)/(0.5 × 10⁻³) = (6 × 10⁻⁷)/(5 × 10⁻⁴) = 1.2 × 10⁻³ m = 1.2 mm.", correct: "B" },
+        { q: "Which of the following cannot produce interference fringes?", options: ["Two independent light sources", "Two slits illuminated by same source", "Laser light through two slits", "White light through two slits"], exp: "Two independent light sources are incoherent (phase difference not constant) and cannot produce sustained interference fringes.", correct: "A" },
+        { q: "The diffraction pattern of a single slit has a central maximum. The angular width of the central maximum is:", options: ["λ/a", "2λ/a", "λ/2a", "2a/λ"], exp: "Angular width of central maximum = 2θ = 2(λ/a) = 2λ/a (from first minima at sinθ = λ/a).", correct: "B" },
+        { q: "A light of wavelength 500 nm is incident on a single slit of width 0.1 mm. The angular position of the first minimum is:", options: ["0.005 rad", "0.01 rad", "0.02 rad", "0.04 rad"], exp: "First minimum: a sinθ = λ → sinθ ≈ θ = λ/a = (500 × 10⁻⁹)/(0.1 × 10⁻³) = 5 × 10⁻⁷/10⁻⁴ = 5 × 10⁻³ = 0.005 rad.", correct: "A" },
+        { q: "The phenomenon of interference is based on the principle of:", options: ["Huygens' principle", "Superposition principle", "Fermat's principle", "Uncertainty principle"], exp: "Interference is the superposition of two or more waves, described by the principle of superposition.", correct: "B" },
+        { q: "In a diffraction grating experiment, the first order maximum for light of wavelength 500 nm occurs at an angle of 30°. The number of lines per cm on the grating is:", options: ["5000", "10000", "15000", "20000"], exp: "d sinθ = nλ → d = (1 × 500 × 10⁻⁹)/sin30° = (5 × 10⁻⁷)/(0.5) = 1 × 10⁻⁶ m. Lines per meter = 1/d = 10⁶, lines per cm = 10⁶/100 = 10,000.", correct: "B" },
+        { q: "The Brewster angle for a medium of refractive index √3 is:", options: ["30°", "45°", "60°", "90°"], exp: "Brewster angle θ_B = tan⁻¹(n) = tan⁻¹(√3) = 60°.", correct: "C" },
+        { q: "In Young's double slit experiment, if the wavelength of light is doubled, the fringe width becomes:", options: ["Half", "Double", "Same", "Four times"], exp: "β ∝ λ, so if λ doubles, β also doubles.", correct: "B" },
+        { q: "The condition for destructive interference in thin film interference (normal incidence) for reflected light from a soap bubble (μ > 1) is:", options: ["2μt = nλ", "2μt = (2n+1)λ/2", "2μt = nλ/2", "μt = nλ"], exp: "For reflected light from a thin film with one phase reversal (μ > 1), destructive interference occurs when 2μt = nλ (since the extra path difference plus phase reversal gives destructive for integer n). Actually careful: For reflected light, destructive: 2μt = nλ, constructive: 2μt = (2n+1)λ/2.", correct: "A" },
+        { q: "The resolving power of a microscope is increased by using:", options: ["Red light", "Blue light", "White light", "Infrared light"], exp: "Resolving power ∝ 1/λ, so smaller wavelength (blue light) gives higher resolving power than red light.", correct: "B" },
+        { q: "A polarizer and an analyzer are crossed (angle 90°). If a third polarizer is placed between them at 45°, the transmitted intensity is (I₀ is incident intensity):", options: ["0", "I₀/8", "I₀/4", "I₀/2"], exp: "After first polarizer: I₁ = I₀/2. After middle polarizer at 45°: I₂ = I₁ cos²45° = (I₀/2)×(1/2) = I₀/4. After analyzer at 45° to middle: I₃ = I₂ cos²45° = (I₀/4)×(1/2) = I₀/8.", correct: "B" },
+        { q: "In a single slit diffraction experiment, the width of the central maximum is inversely proportional to:", options: ["Slit width", "Wavelength", "Distance to screen", "None"], exp: "Central width = 2λD/a, so inversely proportional to slit width a.", correct: "A" },
+        { q: "Which of the following is NOT a necessary condition for sustained interference?", options: ["Coherent sources", "Same frequency", "Constant phase difference", "Same amplitude"], exp: "Sources must be coherent, same frequency, and constant phase difference. Same amplitude is not necessary; interference occurs even with different amplitudes (just contrast reduces).", correct: "D" },
+        { q: "The refractive index of a medium is 1.5. The Brewster angle for light incident from air is:", options: ["33.7°", "48.2°", "56.3°", "63.4°"], exp: "θ_B = tan⁻¹(n) = tan⁻¹(1.5) ≈ 56.3°.", correct: "C" },
+        { q: "In Young's double slit experiment, the intensity at a point where path difference is λ/3 is (I_max is maximum intensity):", options: ["I_max/4", "I_max/2", "I_max/√2", "I_max/√3"], exp: "Phase difference φ = (2π/λ) × path difference = (2π/λ)×(λ/3) = 2π/3. Intensity I = I_max cos²(φ/2) = I_max cos²(π/3) = I_max × (1/2)² = I_max/4.", correct: "A" },
+        { q: "A diffraction grating is used to observe the spectrum of white light. The color that is deviated the most is:", options: ["Red", "Green", "Yellow", "Violet"], exp: "For diffraction grating, d sinθ = nλ. For fixed n, sinθ ∝ λ. Violet has shortest λ, so least deviation? Wait, smaller λ gives smaller θ. Actually red has longest λ, so greatest deviation. The question asks 'deviated the most' — that means largest angle, so red. But many students think blue deviates more in prism, but in grating, red deviates more because θ = sin⁻¹(nλ/d), larger λ gives larger θ. So red is deviated most.", correct: "A" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...opticsMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>
