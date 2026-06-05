@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solids</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fefce8 0%, #fef3c7 100%);
+            color: #78350f;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #d97706;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #b45309, #d97706);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #b45309;
+            font-weight: 600;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            background: #fef3c7;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 6px 20px;
+            border-radius: 60px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #fde68a;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(217, 119, 6, 0.08);
+            border-color: #fcd34d;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #78350f;
+            padding-left: 14px;
+            border-left: 4px solid #d97706;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #d97706;
+            background: #fffbeb;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #b45309;
+            color: white;
+            border-color: #b45309;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #d97706;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(217, 119, 6, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #b45309;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(180, 83, 9, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #78350f, #b45309);
+            color: #fffbeb;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #78350f;
+            display: none;
+            background: #fffbeb;
+            padding: 16px 22px;
+            border-left: 6px solid #d97706;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #d97706;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1> Solids</h1>
+    <div style="text-align: center;">
+        
+    </div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()"> SUBMIT </button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+    
+</div>
+
+<script>
+    // 20 high-quality Solids MCQs (FSC Part 1, Chapter 6)
+    const solidsMCQs = [
+        { q: "Which of the following is an example of an amorphous solid?", options: ["NaCl", "Diamond", "Glass", "Iron"], exp: "Glass lacks long-range order and has a disordered structure, making it amorphous.", correct: "C" },
+        { q: "The number of Bravais lattices in three-dimensional crystal systems is:", options: ["7", "14", "32", "230"], exp: "There are 14 Bravais lattices distributed among 7 crystal systems.", correct: "B" },
+        { q: "In a simple cubic unit cell, the number of atoms per unit cell is:", options: ["1", "2", "4", "6"], exp: "Simple cubic has atoms only at corners, each corner shared by 8 cells → 8 × 1/8 = 1 atom.", correct: "A" },
+        { q: "The packing efficiency of a face-centered cubic (FCC) lattice is approximately:", options: ["52.4%", "68%", "74%", "86%"], exp: "FCC has packing efficiency of 74%, the highest among cubic lattices.", correct: "C" },
+        { q: "Which crystal system has all three axes equal and all angles 90°?", options: ["Tetragonal", "Cubic", "Orthorhombic", "Rhombohedral"], exp: "Cubic system: a = b = c and α = β = γ = 90°.", correct: "B" },
+        { q: "The coordination number of NaCl crystal structure is:", options: ["4", "6", "8", "12"], exp: "NaCl has FCC arrangement with each Na⁺ surrounded by 6 Cl⁻ ions (octahedral coordination).", correct: "B" },
+        { q: "Which type of solid conducts electricity in both molten and solid state?", options: ["Ionic solid", "Metallic solid", "Covalent network solid", "Molecular solid"], exp: "Metallic solids have delocalized electrons that conduct in both solid and molten states.", correct: "B" },
+        { q: "Diamond is a good example of:", options: ["Ionic crystal", "Molecular crystal", "Covalent network crystal", "Metallic crystal"], exp: "Diamond has a three-dimensional network of covalent bonds between carbon atoms.", correct: "C" },
+        { q: "The phenomenon of isomorphism is shown by:", options: ["NaCl and KCl", "H₂O and H₂S", "CO₂ and SiO₂", "CaO and MgO"], exp: "NaCl and KCl have similar crystal structures (both FCC) and form isomorphous crystals.", correct: "A" },
+        { q: "The Bragg's law equation for X-ray diffraction is:", options: ["nλ = 2d sinθ", "nλ = d sinθ", "nλ = 2d cosθ", "nλ = d cosθ"], exp: "Bragg's law: nλ = 2d sinθ, where d is interplanar spacing.", correct: "A" },
+        { q: "Which of the following is a property of crystalline solids?", options: ["Definite heat of fusion", "Isotropic nature", "Short range order only", "No sharp melting point"], exp: "Crystalline solids have a sharp melting point and definite heat of fusion due to long-range order.", correct: "A" },
+        { q: "The number of formula units (Z) in NaCl unit cell is:", options: ["1", "2", "4", "8"], exp: "NaCl has 4 Na⁺ and 4 Cl⁻ ions per unit cell, so Z = 4 formula units.", correct: "C" },
+        { q: "In hexagonal close packing (HCP), the coordination number is:", options: ["6", "8", "10", "12"], exp: "Both HCP and FCC have coordination number 12, the maximum for identical spheres.", correct: "D" },
+        { q: "Which of the following solids is expected to have the highest melting point?", options: ["NaCl", "MgO", "CsCl", "KBr"], exp: "MgO has high charge (+2, -2) and small ionic radii, leading to very high lattice energy and melting point.", correct: "B" },
+        { q: "The voids formed in close packing where a sphere is surrounded by four spheres are called:", options: ["Octahedral voids", "Tetrahedral voids", "Cubic voids", "Trigonal voids"], exp: "Tetrahedral voids are formed when four spheres surround a void in a tetrahedral arrangement.", correct: "B" },
+        { q: "Which of the following is an example of a molecular solid?", options: ["Silicon carbide", "Iodine", "Graphite", "Silver"], exp: "Iodine (I₂) is a molecular solid held together by weak London dispersion forces.", correct: "B" },
+        { q: "The distance between two adjacent layers in a crystal is determined by:", options: ["Bragg's equation", "Schrödinger equation", "Van der Waals equation", "Debye equation"], exp: "Bragg's law (nλ = 2d sinθ) is used to calculate interplanar spacing d.", correct: "A" },
+        { q: "Which crystal system has two axes equal and all angles 90°?", options: ["Cubic", "Tetragonal", "Orthorhombic", "Monoclinic"], exp: "Tetragonal: a = b ≠ c, α = β = γ = 90°.", correct: "B" },
+        { q: "The property of a crystal to exist in two different forms with same chemical composition but different crystal structures is called:", options: ["Isomorphism", "Polymorphism", "Allotropy", "Anisotropy"], exp: "Polymorphism is when the same substance exists in different crystal forms (e.g., diamond and graphite).", correct: "B" },
+        { q: "In a body-centered cubic (BCC) unit cell, the number of atoms per unit cell is:", options: ["1", "2", "4", "3"], exp: "BCC has 1 atom at center (full) + 8 corners (1/8 each) = 1 + 1 = 2 atoms.", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...solidsMCQs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>📐 Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `🔷 Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

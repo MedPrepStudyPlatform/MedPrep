@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>s and p Block Elements | FSC Chemistry MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #e0f2fe 0%, #bae6fd 100%);
+            color: #075985;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #0284c7;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #0369a1, #0284c7);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #7dd3fc;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(2, 132, 199, 0.08);
+            border-color: #38bdf8;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #075985;
+            padding-left: 14px;
+            border-left: 4px solid #0284c7;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #0284c7;
+            background: #e0f2fe;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #0369a1;
+            color: white;
+            border-color: #0369a1;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #0284c7;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(2, 132, 199, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #0369a1;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(3, 105, 161, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #075985, #0369a1);
+            color: #e0f2fe;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #075985;
+            display: none;
+            background: #e0f2fe;
+            padding: 16px 22px;
+            border-left: 6px solid #0284c7;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>s and p Block Elements</h1>
+    <div style="text-align: center;"></div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 high-quality s and p Block Elements MCQs (FSC Part 2, Chapter 1-2)
+    const sAndPMcqs = [
+        { q: "The elements of Group IA are called:", options: ["Alkaline earth metals", "Alkali metals", "Halogens", "Noble gases"], exp: "Group IA (Li, Na, K, Rb, Cs, Fr) are known as alkali metals.", correct: "B" },
+        { q: "Which of the following is an s-block element?", options: ["Chlorine", "Calcium", "Aluminium", "Nitrogen"], exp: "Calcium (Ca) has electronic configuration [Ar] 4s², so it belongs to s-block (Group IIA).", correct: "B" },
+        { q: "The most abundant metal in the earth's crust is:", options: ["Iron", "Aluminium", "Calcium", "Sodium"], exp: "Aluminium is the most abundant metal (about 8.3% by mass) in the earth's crust.", correct: "B" },
+        { q: "Which of the following is not a property of alkali metals?", options: ["Low ionization energy", "High electronegativity", "Form basic oxides", "React vigorously with water"], exp: "Alkali metals have low electronegativity. They are highly electropositive.", correct: "B" },
+        { q: "The element that does not belong to p-block is:", options: ["Oxygen", "Carbon", "Sodium", "Chlorine"], exp: "Sodium (Na) has electronic configuration ending in 3s¹, so it belongs to s-block.", correct: "C" },
+        { q: "Which of the following has the smallest atomic radius in Group IA?", options: ["Li", "Na", "K", "Cs"], exp: "Atomic radius increases down the group. Lithium (Li) has the smallest atomic radius.", correct: "A" },
+        { q: "The oxide of beryllium is:", options: ["Basic", "Acidic", "Amphoteric", "Neutral"], exp: "BeO is amphoteric; it reacts with both acids and bases.", correct: "C" },
+        { q: "Which of the following is a diagonal relationship?", options: ["Li with Mg", "Na with Ca", "K with Ba", "Be with Al"], exp: "Lithium shows diagonal relationship with magnesium due to similar charge density.", correct: "A" },
+        { q: "The noble gas with the highest boiling point is:", options: ["Helium", "Neon", "Argon", "Radon"], exp: "Boiling point increases down the group. Radon (Rn) has the highest boiling point among noble gases.", correct: "D" },
+        { q: "Which of the following is used in water softening (Clark's method)?", options: ["NaOH", "Ca(OH)₂", "Na₂CO₃", "NaHCO₃"], exp: "Clark's method uses calcium hydroxide (slaked lime) to remove temporary hardness.", correct: "B" },
+        { q: "The element that exhibits maximum oxidation state of +7 is:", options: ["Cl", "Br", "I", "F"], exp: "Chlorine shows +7 oxidation state in compounds like HClO₄ (perchloric acid).", correct: "A" },
+        { q: "Which of the following is not a characteristic of p-block elements?", options: ["Include metals and non-metals", "Have valence electrons in p-orbital", "Include noble gases", "All are highly reactive"], exp: "Not all p-block elements are highly reactive; noble gases are inert.", correct: "D" },
+        { q: "The most electronegative element in the periodic table is:", options: ["Chlorine", "Oxygen", "Fluorine", "Nitrogen"], exp: "Fluorine has the highest electronegativity (4.0 on Pauling scale).", correct: "C" },
+        { q: "Alkaline earth metals belong to group:", options: ["IA", "IIA", "VIIA", "VIIIA"], exp: "Group IIA elements (Be, Mg, Ca, Sr, Ba, Ra) are called alkaline earth metals.", correct: "B" },
+        { q: "Which of the following is used in photography?", options: ["NaCl", "AgBr", "KCl", "CaCO₃"], exp: "Silver bromide (AgBr) is light-sensitive and used in photographic films.", correct: "B" },
+        { q: "The element which has the highest ionization energy among the following is:", options: ["Na", "Mg", "Al", "Si"], exp: "Ionization energy increases across a period. Silicon (Si) has the highest IE among these.", correct: "D" },
+        { q: "Which of the following is used as a bleaching agent?", options: ["Chlorine water", "Sodium chloride", "Calcium carbonate", "Sodium sulphate"], exp: "Chlorine water has bleaching properties due to its oxidizing nature.", correct: "A" },
+        { q: "The flame color of potassium is:", options: ["Crimson red", "Golden yellow", "Lilac (violet)", "Apple green"], exp: "Potassium gives a lilac (violet) flame color in the flame test.", correct: "C" },
+        { q: "Which of the following is an inert gas?", options: ["Nitrogen", "Oxygen", "Argon", "Hydrogen"], exp: "Argon is a noble gas (Group VIIIA) and is chemically inert.", correct: "C" },
+        { q: "The formula of borax is:", options: ["Na₂B₄O₇·10H₂O", "Na₂B₄O₇·5H₂O", "Na₂B₄O₇·H₂O", "Na₃BO₃"], exp: "Borax is sodium tetraborate decahydrate: Na₂B₄O₇·10H₂O.", correct: "A" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...sAndPMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

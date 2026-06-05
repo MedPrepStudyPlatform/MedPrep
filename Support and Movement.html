@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support & Movement: Randomized MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Theme: Charcoal & Amber */
+        body { font-family: 'Inter', sans-serif; background: #fdfaf4; color: #2d3436; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 10px solid #f39c12; }
+        h1 { font-family: 'Outfit', sans-serif; color: #d35400; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #636e72; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.9rem; }
+        .question { margin-bottom: 35px; padding: 25px; border: 1px solid #dfe6e9; border-radius: 15px; background: #ffffff; }
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 20px; color: #2c3e50; }
+        .options { display: grid; gap: 12px; }
+        .option { padding: 16px 20px; border: 2px solid #f1f2f6; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #ffffff; }
+        .option:hover { border-color: #f39c12; background: #fffbf0; }
+        .option.selected { background: #2d3436; color: white; border-color: #2d3436; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: #f39c12; color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.3rem; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #e67e22; transform: translateY(-2px); }
+        #results { display: none; margin-top: 40px; padding: 30px; border-radius: 20px; text-align: center; background: #2d3436; color: white; }
+        .explanation { margin-top: 15px; font-size: 0.95rem; color: #2d3748; display: none; background: #fff9ed; padding: 18px; border-left: 6px solid #f39c12; border-radius: 8px; }
+        .correct { border-color: #2ecc71 !important; background: #e8f8f0 !important; color: #145a32; font-weight: bold; }
+        .wrong { border-color: #e74c3c !important; background: #fdedec !important; color: #1c2e36; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Support and Movement</h1>
+    
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+</div>
+
+<script>
+    const skeletalData = [
+        { q: "Which of the following ions is essential for exposing the binding sites on actin filaments during muscle contraction?", options: ["Sodium", "Potassium", "Calcium", "Magnesium"], exp: "Calcium ions bind to troponin, causing tropomyosin to shift and expose actin's myosin-binding sites.", correct: "C" },
+        { q: "The functional unit of a skeletal muscle fiber is the:", options: ["Myofibril", "Sarcomere", "Sarcolemma", "Sarcoplasmic Reticulum"], exp: "The sarcomere is the region between two Z-lines and is the basic contractile unit.", correct: "B" },
+        { q: "Which type of bone cell is responsible for the 'resorption' or breakdown of bone matrix?", options: ["Osteoblasts", "Osteocytes", "Osteoclasts", "Chondrocytes"], exp: "Osteoclasts are large multinucleated cells that dissolve bone minerals and matrix.", correct: "C" },
+        { q: "According to the sliding filament model, which of the following shortens during contraction?", options: ["A-band", "I-band", "Myosin filaments", "Actin filaments"], exp: "The I-band and H-zone shorten, while the A-band (myosin length) remains constant.", correct: "B" },
+        { q: "The storage site for calcium ions within a muscle fiber is the:", options: ["Mitochondria", "Sarcoplasmic reticulum", "T-tubules", "Nucleus"], exp: "The sarcoplasmic reticulum (SR) releases calcium upon receiving an action potential from T-tubules.", correct: "B" },
+        { q: "How many bones are present in the human axial skeleton?", options: ["80", "126", "206", "60"], exp: "The axial skeleton consists of the skull, vertebral column, ribs, and sternum (80 bones).", correct: "A" },
+        { q: "A state of physiological inability of a muscle to contract even though it is still receiving stimuli is called:", options: ["Muscle twitch", "Tetanus", "Muscle fatigue", "Treppe"], exp: "Fatigue is usually due to a lack of ATP or accumulation of lactic acid/ionic imbalances.", correct: "C" },
+        { q: "Which connective tissue attaches a muscle to a bone?", options: ["Ligament", "Tendon", "Cartilage", "Fascia"], exp: "Tendons connect muscle to bone; ligaments connect bone to bone.", correct: "B" },
+        { q: "The 'All-or-None' principle in muscle physiology applies to:", options: ["The whole muscle", "An individual muscle fiber", "A motor unit", "Both B and C"], exp: "While a whole muscle has graded responses, individual fibers and motor units contract fully or not at all.", correct: "D" },
+        { q: "Which of the following is a multinucleated tissue?", options: ["Skeletal Muscle", "Cardiac Muscle", "Smooth Muscle", "Cartilage"], exp: "Skeletal muscle fibers are formed by the fusion of many cells (myoblasts), resulting in multiple nuclei.", correct: "A" },
+        { q: "The 'H-zone' in a sarcomere contains only:", options: ["Actin", "Myosin", "Troponin", "Both Actin and Myosin"], exp: "The H-zone is the central part of the A-band where only thick (myosin) filaments are present.", correct: "B" },
+        { q: "Which protein acts as a 'molecular ruler' to stabilize myosin in the sarcomere?", options: ["Titin", "Nebulin", "Actinin", "Dystrophin"], exp: "Titin is a giant protein that provides elasticity and stabilizes myosin.", correct: "A" },
+        { q: "The joint found between the humerus and the scapula is a:", options: ["Hinge joint", "Pivot joint", "Ball and socket joint", "Gliding joint"], exp: "The shoulder joint is a ball and socket joint, allowing multi-axial movement.", correct: "C" },
+        { q: "What is the role of ATP during the 'detachment' phase of muscle contraction?", options: ["It cocks the myosin head", "It causes myosin to release actin", "It moves tropomyosin", "It pumps calcium"], exp: "Binding of a new ATP molecule to the myosin head causes it to release from the actin filament.", correct: "B" },
+        { q: "Which of the following is an example of an 'Irregular Bone'?", options: ["Femur", "Carpals", "Vertebra", "Sternum"], exp: "Vertebrae have complex shapes that do not fit other categories.", correct: "C" },
+        { q: "The 'Pectoral Girdle' consists of which bones?", options: ["Ilium and Ischium", "Clavicle and Scapula", "Sternum and Ribs", "Radius and Ulna"], exp: "The pectoral (shoulder) girdle connects the upper limbs to the axial skeleton.", correct: "B" },
+        { q: "In the presence of high oxygen, muscle cells produce ATP primarily through:", options: ["Lactic acid fermentation", "Creatine phosphate", "Aerobic respiration", "Anaerobic glycolysis"], exp: "Aerobic respiration in mitochondria is the most efficient long-term ATP source.", correct: "C" },
+        { q: "Rigor mortis occurs after death because:", options: ["Calcium leaks out", "ATP is no longer available", "Myosin heads stay attached", "All of the above"], exp: "Without ATP, myosin cross-bridges cannot detach from actin, leading to muscle stiffness.", correct: "D" },
+        { q: "Which type of cartilage is found at the ends of long bones (articular cartilage)?", options: ["Fibrocartilage", "Elastic cartilage", "Hyaline cartilage", "Calcified cartilage"], exp: "Hyaline cartilage provides a smooth, low-friction surface for joints.", correct: "C" },
+        { q: "The dark bands of skeletal muscle are known as:", options: ["I-bands", "A-bands", "Z-lines", "H-zones"], exp: "A-bands (Anisotropic) are dark because they contain the full length of thick filaments.", correct: "B" }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('questionsContainer');
+        skeletalData.forEach((data, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `
+                <div class="q-text">${index + 1}. ${data.q}</div>
+                <div class="options">
+                    ${data.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(this, ${index}, '${String.fromCharCode(65 + i)}')">
+                            ${String.fromCharCode(65 + i)}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${index}"><strong>Explanation:</strong> ${data.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    let userAnswers = {};
+    function selectOption(el, qIndex, val) {
+        const parent = el.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userAnswers[qIndex] = val;
+    }
+
+    function calculateScore() {
+        let score = 0;
+        skeletalData.forEach((data, index) => {
+            document.getElementById(`exp-${index}`).style.display = 'block';
+            const options = document.querySelectorAll(`.question:nth-child(${index + 1}) .option`);
+            options.forEach((opt, i) => {
+                const letter = String.fromCharCode(65 + i);
+                if (letter === data.correct) opt.classList.add('correct');
+                if (userAnswers[index] === letter && letter !== data.correct) opt.classList.add('wrong');
+            });
+            if (userAnswers[index] === data.correct) score++;
+        });
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${skeletalData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    loadQuiz();
+</script>
+
+</body>
+</html>

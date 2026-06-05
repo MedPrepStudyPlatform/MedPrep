@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions & Colloids </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #e8f4f8 0%, #d1ecf5 100%);
+            color: #0369a1;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #0d9488;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #0f766e, #0d9488);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #0f766e;
+            font-weight: 600;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            background: #d1ecf5;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 6px 20px;
+            border-radius: 60px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #b0e0e6;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(13, 148, 136, 0.08);
+            border-color: #76cbd4;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #0369a1;
+            padding-left: 14px;
+            border-left: 4px solid #0d9488;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #0d9488;
+            background: #e8f4f8;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #0f766e;
+            color: white;
+            border-color: #0f766e;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #0d9488;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(13, 148, 136, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #0f766e;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(15, 118, 110, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #0369a1, #0f766e);
+            color: #e8f4f8;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #0369a1;
+            display: none;
+            background: #e8f4f8;
+            padding: 16px 22px;
+            border-left: 6px solid #0d9488;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #0d9488;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1> Solutions & Colloids</h1>
+    <div style="text-align: center;">
+        
+    </div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()"> Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+       
+    </div>
+   
+</div>
+
+<script>
+    // 20 high-quality Solutions & Colloids MCQs (FSC Part 1, Chapter 11)
+    const solutionsMCQs = [
+        { q: "A solution in which no more solute can be dissolved at a given temperature is called:", options: ["Unsaturated solution", "Saturated solution", "Supersaturated solution", "Ideal solution"], exp: "Saturated solution is in equilibrium with undissolved solute at that temperature.", correct: "B" },
+        { q: "The number of moles of solute dissolved per liter of solution is called:", options: ["Molality", "Molarity", "Normality", "Mole fraction"], exp: "Molarity (M) = moles of solute / volume of solution in liters.", correct: "B" },
+        { q: "The mass of solute dissolved in 1000 g of solvent is called:", options: ["Molarity", "Molality", "Normality", "Percentage concentration"], exp: "Molality (m) = moles of solute / mass of solvent in kg.", correct: "B" },
+        { q: "Which of the following is a colligative property?", options: ["Vapor pressure lowering", "Boiling point elevation", "Freezing point depression", "All of these"], exp: "All three are colligative properties (depend on number of solute particles, not nature).", correct: "D" },
+        { q: "The expression for relative lowering of vapor pressure is given by:", options: ["Raoult's law", "Henry's law", "Dalton's law", "Boyle's law"], exp: "Raoult's law: (P° - P)/P° = mole fraction of solute.", correct: "A" },
+        { q: "The molal freezing point depression constant (Kf) depends upon:", options: ["Nature of solvent", "Nature of solute", "Concentration of solution", "Temperature"], exp: "Kf is a property of the solvent (e.g., water Kf = 1.86 °C·kg/mol).", correct: "A" },
+        { q: "The boiling point of a solution is always _______ than the pure solvent.", options: ["Lower", "Higher", "Same", "Unpredictable"], exp: "Boiling point elevation: ΔTb = Kb × m, so boiling point increases.", correct: "B" },
+        { q: "The osmotic pressure (π) is given by the equation:", options: ["π = CRT", "π = nRT/V", "π = MRT", "All of these"], exp: "π = (n/V)RT = CRT, where C is molar concentration.", correct: "D" },
+        { q: "Which of the following is an example of a lyophilic colloid?", options: ["Gold sol", "Sulfur sol", "Gelatin", "Ferric hydroxide sol"], exp: "Lyophilic colloids are solvent-loving (e.g., gelatin, starch). Gold sol is lyophobic.", correct: "C" },
+        { q: "The Tyndall effect is observed in:", options: ["True solutions", "Colloidal solutions", "Suspensions", "Both B and C"], exp: "Colloids and suspensions scatter light (Tyndall effect); true solutions do not.", correct: "B" },
+        { q: "The mole fraction of solute in a solution is 0.2. The mole fraction of solvent is:", options: ["0.2", "0.4", "0.8", "1.0"], exp: "Sum of mole fractions = 1, so solvent = 1 - 0.2 = 0.8.", correct: "C" },
+        { q: "Which of the following concentration units is temperature independent?", options: ["Molarity", "Molality", "Normality", "Formality"], exp: "Molality depends on mass of solvent (temperature independent), while molarity depends on volume (temperature dependent).", correct: "B" },
+        { q: "The process of precipitation of a colloid by adding an electrolyte is called:", options: ["Peptization", "Coagulation", "Dialysis", "Electrophoresis"], exp: "Coagulation is the destabilization and settling of colloidal particles by electrolyte addition.", correct: "B" },
+        { q: "For a non-volatile solute, the relative lowering of vapor pressure equals:", options: ["Mole fraction of solute", "Mole fraction of solvent", "Molality of solute", "Molarity of solute"], exp: "Raoult's law: (P° - P)/P° = X_solute (mole fraction of solute).", correct: "A" },
+        { q: "The instrument used to measure osmotic pressure is called:", options: ["Osmometer", "Osmoscope", "Barometer", "Manometer"], exp: "Osmometer measures osmotic pressure of a solution.", correct: "A" },
+        { q: "A colloidal system in which the dispersed phase is liquid and dispersion medium is liquid is called:", options: ["Emulsion", "Foam", "Gel", "Sol"], exp: "Emulsion: liquid dispersed in liquid (e.g., milk, mayonnaise).", correct: "A" },
+        { q: "The molarity of a solution containing 4 g of NaOH in 500 mL of solution is:", options: ["0.1 M", "0.2 M", "0.5 M", "1.0 M"], exp: "Molar mass NaOH=40 g/mol, moles=4/40=0.1, volume=0.5 L, M=0.1/0.5=0.2 M.", correct: "B" },
+        { q: "Which of the following colloids is protected by gelatin?", options: ["Gold sol", "Silver sol", "Both A and B", "None"], exp: "Gelatin acts as a protective colloid for many hydrophobic sols including gold and silver.", correct: "C" },
+        { q: "The phenomenon of movement of colloidal particles under an electric field is called:", options: ["Brownian motion", "Tyndall effect", "Electrophoresis", "Dialysis"], exp: "Electrophoresis is the migration of charged colloidal particles towards opposite electrodes.", correct: "C" },
+        { q: "The Van't Hoff factor (i) for NaCl in dilute solution is approximately:", options: ["1", "2", "3", "0.5"], exp: "NaCl dissociates into Na⁺ and Cl⁻, i ≈ 2 (assuming complete dissociation).", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...solutionsMCQs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>📖 Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = ` Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

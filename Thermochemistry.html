@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermochemistry </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fff7ed 0%, #ffedd5 100%);
+            color: #9a3412;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #ea580c;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #c2410c, #ea580c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #c2410c;
+            font-weight: 600;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            background: #ffedd5;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 6px 20px;
+            border-radius: 60px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #fed7aa;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(234, 88, 12, 0.08);
+            border-color: #fdba74;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #9a3412;
+            padding-left: 14px;
+            border-left: 4px solid #ea580c;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #ea580c;
+            background: #fff7ed;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #c2410c;
+            color: white;
+            border-color: #c2410c;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #ea580c;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(234, 88, 12, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #c2410c;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(194, 65, 12, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #9a3412, #c2410c);
+            color: #fff7ed;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #9a3412;
+            display: none;
+            background: #fff7ed;
+            padding: 16px 22px;
+            border-left: 6px solid #ea580c;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #ea580c;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1> Thermochemistry</h1>
+    <div style="text-align: center;">
+        
+    </div>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()"> SUBMIT</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+        
+    </div>
+    
+</div>
+
+<script>
+    // 20 high-quality Thermochemistry MCQs (FSC Part 1, Chapter 9)
+    const thermochemistryMCQs = [
+        { q: "The branch of chemistry that deals with heat changes during chemical reactions is called:", options: ["Electrochemistry", "Thermochemistry", "Chemical kinetics", "Quantum chemistry"], exp: "Thermochemistry is the study of heat changes accompanying chemical reactions and physical transformations.", correct: "B" },
+        { q: "A reaction in which heat is absorbed from the surroundings is called:", options: ["Exothermic", "Endothermic", "Isothermal", "Adiabatic"], exp: "Endothermic reactions absorb heat, causing the surroundings to cool down.", correct: "B" },
+        { q: "The SI unit of enthalpy is:", options: ["Joule (J)", "Calorie (cal)", "Kilowatt-hour", "Electron volt"], exp: "Enthalpy (like energy) is measured in Joules (J) in SI system.", correct: "A" },
+        { q: "Which of the following is an exothermic process?", options: ["Melting of ice", "Evaporation of water", "Burning of methane", "Dissolution of NH₄Cl in water"], exp: "Burning of methane (combustion) releases heat, making it exothermic.", correct: "C" },
+        { q: "The enthalpy change when one mole of a compound is formed from its constituent elements in their standard states is called:", options: ["Bond enthalpy", "Enthalpy of formation", "Enthalpy of combustion", "Enthalpy of neutralization"], exp: "Standard enthalpy of formation (ΔH°f) is defined for formation of 1 mole of compound from elements.", correct: "B" },
+        { q: "According to Hess's law, the enthalpy change of a reaction depends only on:", options: ["Pathway of the reaction", "Initial and final states", "Number of intermediates", "Temperature only"], exp: "Hess's law states enthalpy change is independent of the path taken, depending only on initial and final states.", correct: "B" },
+        { q: "The enthalpy of formation of the most stable form of an element in its standard state is:", options: ["Zero", "Positive", "Negative", "Variable"], exp: "By convention, ΔH°f for elements in their standard states (e.g., O₂, H₂, C graphite) is zero.", correct: "A" },
+        { q: "The heat required to raise the temperature of one gram of a substance by 1°C is called:", options: ["Heat capacity", "Specific heat capacity", "Molar heat capacity", "Enthalpy"], exp: "Specific heat capacity (c) is the heat needed per gram per degree Celsius.", correct: "B" },
+        { q: "For an exothermic reaction, the sign of ΔH is:", options: ["Positive", "Negative", "Zero", "Depends on temperature"], exp: "Exothermic reactions release heat (H decreases), so ΔH is negative.", correct: "B" },
+        { q: "Bond energy is defined as the energy required to:", options: ["Break a bond in a molecule", "Form a bond", "Break all bonds in a molecule", "Convert solid to gas"], exp: "Bond dissociation energy is the energy needed to break one mole of a specific bond in gaseous state.", correct: "A" },
+        { q: "The standard enthalpy of combustion of carbon (graphite) is approximately:", options: ["+393.5 kJ/mol", "-393.5 kJ/mol", "+285.8 kJ/mol", "-285.8 kJ/mol"], exp: "C(s) + O₂(g) → CO₂(g) releases heat, so ΔH°comb = -393.5 kJ/mol.", correct: "B" },
+        { q: "Which of the following has the highest bond energy?", options: ["C–C", "C=C", "C≡C", "C–H"], exp: "Triple bond (C≡C) has the highest bond dissociation energy (~839 kJ/mol).", correct: "C" },
+        { q: "The enthalpy change for the reaction: H⁺(aq) + OH⁻(aq) → H₂O(l) is called:", options: ["Enthalpy of formation", "Enthalpy of neutralization", "Enthalpy of solution", "Enthalpy of hydration"], exp: "Enthalpy of neutralization for strong acid-strong base is approximately -57.1 kJ/mol.", correct: "B" },
+        { q: "A process that occurs without any heat exchange with the surroundings is called:", options: ["Isothermal", "Adiabatic", "Isobaric", "Isochoric"], exp: "Adiabatic process has q = 0 (no heat transfer).", correct: "B" },
+        { q: "The enthalpy change when one mole of a substance is converted from liquid to gas at its boiling point is called:", options: ["Enthalpy of fusion", "Enthalpy of vaporization", "Enthalpy of sublimation", "Enthalpy of condensation"], exp: "Enthalpy of vaporization (ΔH_vap) is the heat required to vaporize one mole of liquid.", correct: "B" },
+        { q: "If ΔH for a reaction is positive and the reaction is spontaneous at high temperature, then ΔS is:", options: ["Positive", "Negative", "Zero", "Cannot be determined"], exp: "Spontaneity: ΔG = ΔH - TΔS. If ΔH > 0 and spontaneous at high T, then ΔS must be positive.", correct: "A" },
+        { q: "The heat capacity of 1 mole of a substance is called:", options: ["Specific heat", "Molar heat capacity", "Heat capacity", "Thermal capacity"], exp: "Molar heat capacity is the heat required to raise the temperature of one mole by 1°C.", correct: "B" },
+        { q: "A bomb calorimeter measures the heat of reaction at:", options: ["Constant pressure", "Constant volume", "Constant temperature", "Constant entropy"], exp: "Bomb calorimeter operates at constant volume, measuring internal energy change (ΔU).", correct: "B" },
+        { q: "The relationship between ΔH and ΔU is:", options: ["ΔH = ΔU + PΔV", "ΔH = ΔU - PΔV", "ΔH = ΔU + ΔnRT", "Both A and C"], exp: "ΔH = ΔU + PΔV = ΔU + ΔnRT for ideal gases.", correct: "D" },
+        { q: "The enthalpy of formation of water (liquid) is -286 kJ/mol. The enthalpy of formation of water vapor would be:", options: ["More negative", "Less negative", "Same", "Zero"], exp: "Water vapor has higher energy than liquid (requires heat to vaporize), so ΔH°f(H₂O,g) is less negative (~ -242 kJ/mol).", correct: "B" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+
+    function loadQuiz() {
+        randomizedQuestions = shuffleArray([...thermochemistryMCQs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>📖 Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = ` Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

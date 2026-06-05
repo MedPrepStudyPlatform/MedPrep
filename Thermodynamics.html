@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermodynamics | Physics MDCAT Mock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fff7ed 0%, #ffedd5 100%);
+            color: #9a3412;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12), 0 5px 12px rgba(0, 0, 0, 0.05);
+            border-top: 8px solid #d97706;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #b45309, #d97706);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #fed7aa;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .question:hover {
+            box-shadow: 0 6px 14px rgba(217, 119, 6, 0.08);
+            border-color: #fdba74;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            color: #9a3412;
+            padding-left: 14px;
+            border-left: 4px solid #d97706;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #d97706;
+            background: #fff7ed;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            background: #b45309;
+            color: white;
+            border-color: #b45309;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #d97706;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 8px 16px rgba(217, 119, 6, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #b45309;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(180, 83, 9, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 45px;
+            padding: 28px 25px;
+            border-radius: 28px;
+            text-align: center;
+            background: linear-gradient(110deg, #9a3412, #b45309);
+            color: #fff7ed;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        #results h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .explanation {
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #9a3412;
+            display: none;
+            background: #fff7ed;
+            padding: 16px 22px;
+            border-left: 6px solid #d97706;
+            border-radius: 18px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #064e3b !important;
+            font-weight: 700;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 24px 18px;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Thermodynamics</h1>
+    
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" class="btn-submit" onclick="calculateScore()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2 id="scoreText"></h2>
+    </div>
+</div>
+
+<script>
+    // 20 conceptual + numerical, high-difficulty Thermodynamics MCQs (Physics FSC Part 1, Chapter 11)
+    const thermodynamicsMcqs = [
+        { q: "The first law of thermodynamics is a statement of:", options: ["Conservation of mass", "Conservation of energy", "Conservation of momentum", "Conservation of charge"], exp: "The first law (ΔU = Q - W) is the law of conservation of energy applied to thermodynamic systems.", correct: "B" },
+        { q: "The internal energy of an ideal gas depends only on:", options: ["Pressure", "Volume", "Temperature", "Both pressure and volume"], exp: "For an ideal gas, internal energy is a function of temperature only (U ∝ T for monatomic).", correct: "C" },
+        { q: "In an isothermal process, the change in internal energy (ΔU) is:", options: ["Zero", "Positive", "Negative", "Maximum"], exp: "For an ideal gas, ΔU = 0 in isothermal process because temperature is constant.", correct: "A" },
+        { q: "A Carnot engine operates between 500 K and 300 K. Its efficiency is:", options: ["20%", "40%", "60%", "80%"], exp: "η = 1 - T_c/T_h = 1 - 300/500 = 1 - 0.6 = 0.4 = 40%.", correct: "B" },
+        { q: "The entropy of a system increases in:", options: ["Reversible process", "Irreversible process", "Isothermal process", "Adiabatic process"], exp: "Entropy increases in irreversible (spontaneous) processes and remains constant in reversible processes (for isolated system).", correct: "B" },
+        { q: "A gas expands adiabatically. The temperature of the gas:", options: ["Increases", "Decreases", "Remains constant", "May increase or decrease"], exp: "In adiabatic expansion, the gas does work on surroundings using its internal energy, so temperature decreases.", correct: "B" },
+        { q: "The molar specific heat at constant pressure (C_p) and at constant volume (C_v) are related by:", options: ["C_p - C_v = R", "C_p + C_v = R", "C_p/C_v = R", "C_p × C_v = R"], exp: "Mayer's relation: C_p - C_v = R for an ideal gas.", correct: "A" },
+        { q: "For a monatomic ideal gas, the ratio C_p/C_v (γ) is:", options: ["1.4", "1.67", "1.33", "1.0"], exp: "For monatomic gas, γ = 5/3 ≈ 1.67. For diatomic, 1.4; for triatomic, 1.33.", correct: "B" },
+        { q: "A heat engine absorbs 1000 J of heat and rejects 600 J to the sink. The work done by the engine is:", options: ["200 J", "400 J", "600 J", "1000 J"], exp: "W = Q_h - Q_c = 1000 - 600 = 400 J.", correct: "B" },
+        { q: "The second law of thermodynamics implies that:", options: ["Heat cannot be completely converted into work", "Heat can be completely converted into work", "Work cannot be completely converted into heat", "Energy is conserved"], exp: "The second law states that it is impossible to convert all heat into work in a cyclic process without other changes.", correct: "A" },
+        { q: "In a cyclic process, the net change in internal energy (ΔU) is:", options: ["Positive", "Negative", "Zero", "Maximum"], exp: "For a cyclic process (system returns to initial state), ΔU = 0.", correct: "C" },
+        { q: "The work done in an isobaric process is given by:", options: ["PΔV", "nRT ln(V₂/V₁)", "0", "ΔU"], exp: "For constant pressure (isobaric), W = PΔV.", correct: "A" },
+        { q: "A Carnot engine has efficiency 50%. If the sink temperature is 300 K, the source temperature is:", options: ["450 K", "600 K", "900 K", "150 K"], exp: "η = 1 - T_c/T_h → 0.5 = 1 - 300/T_h → 300/T_h = 0.5 → T_h = 600 K.", correct: "B" },
+        { q: "The process in which no heat enters or leaves the system is called:", options: ["Isothermal", "Adiabatic", "Isobaric", "Isochoric"], exp: "Adiabatic process: Q = 0.", correct: "B" },
+        { q: "The change in entropy for a reversible isothermal process is given by:", options: ["ΔS = Q/T", "ΔS = T/Q", "ΔS = Q × T", "ΔS = 0"], exp: "For reversible isothermal process, ΔS = Q_rev/T.", correct: "A" },
+        { q: "A gas is compressed isothermally. The work done on the gas is:", options: ["Positive", "Negative", "Zero", "Infinite"], exp: "During isothermal compression, the volume decreases (V₂ < V₁). Work done BY the gas is negative (W = nRT ln(V₂/V₁) gives a negative value). Therefore, work done ON the gas is positive with magnitude nRT ln(V₁/V₂).", correct: "A" },
+        { q: "The internal energy of a diatomic ideal gas at temperature 300 K for 1 mole is (R = 8.31 J/mol·K):", options: ["6232.5 J", "12465 J", "18697.5 J", "24930 J"], exp: "For diatomic gas, U = (5/2)nRT = (5/2) × 1 × 8.31 × 300 = (5/2) × 2493 = 2.5 × 2493 = 6232.5 J.", correct: "A" },
+        { q: "Which of the following is a state function?", options: ["Work", "Heat", "Internal energy", "All of these"], exp: "Internal energy is a state function (depends only on state, not path). Work and heat are path functions.", correct: "C" },
+        { q: "If 200 J of heat is added to a system and the system does 50 J of work, the change in internal energy is:", options: ["250 J", "200 J", "150 J", "50 J"], exp: "ΔU = Q - W = 200 - 50 = 150 J.", correct: "C" },
+        { q: "The efficiency of a Carnot engine can be increased by:", options: ["Increasing source temperature", "Decreasing source temperature", "Increasing sink temperature", "Both A and B"], exp: "η = 1 - T_c/T_h. Efficiency increases when T_h increases or T_c decreases.", correct: "A" }
+    ];
+
+    // Shuffle questions for randomized order each load
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let randomizedQuestions = [];
+    let userSelections = {};
+    let quizSubmitted = false;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        randomizedQuestions = shuffleArray([...thermodynamicsMcqs]);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        userSelections = {};
+
+        randomizedQuestions.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">
+                            ${letter}. ${opt}
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+        
+        let score = 0;
+        randomizedQuestions.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        const scoreSpan = document.getElementById('scoreText');
+        const percent = Math.round((score / randomizedQuestions.length) * 100);
+        scoreSpan.innerHTML = `Score: ${score} / ${randomizedQuestions.length}  |  ${percent}%`;
+        
+        setTimeout(() => {
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>
