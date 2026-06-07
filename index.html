@@ -540,47 +540,66 @@
             <div class="back-link" onclick="nav('nestedMDCAT')">Back to MDCAT</div>
         </div>
 
-        <!-- ==================== PHYSICS SECTION (Fully Available) ==================== -->
+        <!-- ==================== COMING SOON MESSAGE FUNCTION ==================== -->
+        <script>
+            function showComingSoon(sectionName) {
+                const modal = document.createElement('div');
+                modal.className = 'coming-soon-modal';
+                modal.innerHTML = `
+                    <div class="coming-soon-content">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h3>Coming Soon!</h3>
+                        <div class="date-badge">📅 Available from <strong>8th June 2026</strong></div>
+                        <p>${sectionName} section will be available from <strong>8th June 2026</strong>.</p>
+                        <button onclick="this.closest('.coming-soon-modal').remove()">Got it</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.remove();
+                });
+            }
+        </script>
+
+        <!-- ==================== PHYSICS SECTION ==================== -->
         <div id="nestedPhysics" class="nested-section">
             <div class="card-grid">
                 <div class="sub-card" onclick="nav('nestedPhysicsFSc1')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-book"></i></div><h4>FSc Part I</h4></div>
                 <div class="sub-card" onclick="nav('nestedPhysicsFSc2')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-book-open"></i></div><h4>FSc Part II</h4></div>
             </div>
-            <div class="back-link" onclick="nav('nestedChapterWise')">Back to Chapter-wise</div>
+            <div class="back-link" onclick="nav('nestedChapterWise')">Back</div>
         </div>
 
-        <!-- PHYSICS FSc Part 1 (11th) Quizzes -->
         <div id="nestedPhysicsFSc1" class="nested-section">
             <h3 style="margin-bottom: 20px;">FSc Part I</h3>
             <div class="card-grid">
-                <a href="Measurment.html" class="quiz-item"><i class="fas fa-ruler"></i> Measurements</a>
-                <a href="Vectors and Equillibrium.html" class="quiz-item"><i class="fas fa-arrows-alt"></i> Vectors & Equilibrium</a>
-                <a href="Force and Motion.html" class="quiz-item"><i class="fas fa-car"></i> Force and Motion</a>
-                <a href="Work and Energy.html" class="quiz-item"><i class="fas fa-bolt"></i> Work and Energy</a>
-                <a href="Rotational  and Circular Motion.html" class="quiz-item"><i class="fas fa-sync-alt"></i> Rotational & Circular Motion</a>
-                <a href="Oscillation and Waves.html" class="quiz-item"><i class="fas fa-waveform"></i> Oscillations and Waves</a>
-                <a href="Physical Optics.html" class="quiz-item"><i class="fas fa-lightbulb"></i> Physical Optics</a>
-                <a href="Thermodynamics.html" class="quiz-item"><i class="fas fa-fire"></i> Thermodynamics</a>
+                <a href="Measurment.html" class="quiz-item">Measurements</a>
+                <a href="Vectors and Equillibrium.html" class="quiz-item">Vectors & Equilibrium</a>
+                <a href="Force and Motion.html" class="quiz-item">Force and Motion</a>
+                <a href="Work and Energy.html" class="quiz-item">Work and Energy</a>
+                <a href="Rotational  and Circular Motion.html" class="quiz-item">Rotational & Circular Motion</a>
+                <a href="Oscillation and Waves.html" class="quiz-item">Oscillations and Waves</a>
+                <a href="Physical Optics.html" class="quiz-item">Physical Optics</a>
+                <a href="Thermodynamics.html" class="quiz-item">Thermodynamics</a>
             </div>
-            <div class="back-link" onclick="nav('nestedPhysics')">Back to Physics</div>
+            <div class="back-link" onclick="nav('nestedPhysics')">Back</div>
         </div>
 
-        <!-- PHYSICS FSc Part 2 (12th) Quizzes -->
         <div id="nestedPhysicsFSc2" class="nested-section">
-            <h3 style="margin-bottom: 20px;">FSc Part II</h3>
+            <h3 style="margin-bottom: 20px;">FSc Part 2</h3>
             <div class="card-grid">
-                <a href="Electrostatics.html" class="quiz-item"><i class="fas fa-bolt"></i> Electrostatics</a>
-                <a href="Current Electricity.html" class="quiz-item"><i class="fas fa-charging-station"></i> Current Electricity</a>
-                <a href="Electromagnetism.html" class="quiz-item"><i class="fas fa-magnet"></i> Electromagnetism</a>
-                <a href="Electromagnetic Induction.html" class="quiz-item"><i class="fas fa-coil"></i> Electromagnetic Induction</a>
-                <a href="Alternating Current.html" class="quiz-item"><i class="fas fa-wave-square"></i> Alternating Current</a>
-                <a href="Physics of Solids.html" class="quiz-item"><i class="fas fa-cube"></i> Physics of Solids</a>
-                <a href="Electronics .html" class="quiz-item"><i class="fas fa-microchip"></i> Electronics</a>
-                <a href="Dawn of Modern Physics.html" class="quiz-item"><i class="fas fa-atom"></i> Dawn of Modern Physics</a>
-                <a href="Atomic Spectra.html" class="quiz-item"><i class="fas fa-chart-line"></i> Atomic Spectra</a>
-                <a href="Nuclear Physics.html" class="quiz-item"><i class="fas fa-radiation"></i> Nuclear Physics</a>
+                <a href="Electrostatics.html" class="quiz-item">Electrostatics</a>
+                <a href="Current Electricity.html" class="quiz-item">Current Electricity</a>
+                <a href="Electromagnetism.html" class="quiz-item">Electromagnetism</a>
+                <a href="Electromagnetic Induction.html" class="quiz-item">Electromagnetic Induction</a>
+                <a href="Alternating Current.html" class="quiz-item">Alternating Current</a>
+                <a href="Physics of Solids.html" class="quiz-item">Physics of Solids</a>
+                <a href="Electronics .html" class="quiz-item">Electronics</a>
+                <a href="Dawn of Modern Physics.html" class="quiz-item">Dawn of Modern Physics</a>
+                <a href="Atomic Spectra.html" class="quiz-item">Atomic Spectra</a>
+                <a href="Nuclear Physics.html" class="quiz-item">Nuclear Physics</a>
             </div>
-            <div class="back-link" onclick="nav('nestedPhysics')">Back to Physics</div>
+            <div class="back-link" onclick="nav('nestedPhysics')">Back</div>
         </div>
 
         <!-- ==================== BIOLOGY SECTION ==================== -->
@@ -595,7 +614,7 @@
         <div id="nestedFSc1" class="nested-section"><h3>FSc Part I</h3><div class="card-grid"><a href="Cell_Structure.html" class="quiz-item">Cell Structure</a><a href="Biological_Molecules.html" class="quiz-item">Biological Molecules</a><a href="Enzymes.html" class="quiz-item">Enzymes</a><a href="Bioenergetics.html" class="quiz-item">Bioenergetics</a><a href="Acellular_Life.html" class="quiz-item">Acellular Life</a><a href="Prokaryotes.html" class="quiz-item">Prokaryotes</a><a href="Protists_Fungi.html" class="quiz-item">Protists and Fungi</a><a href="Plant_Diversity.html" class="quiz-item">Plant Diversity</a><a href="Animal_Diversity.html" class="quiz-item">Animal Diversity</a><a href="Form and Functions in Plants.html" class="quiz-item">Form and Functions in Plants</a><a href="Digestion.html" class="quiz-item">Digestion</a><a href="Circulation.html" class="quiz-item">Circulation</a><a href="Immunity.html" class="quiz-item">Immunity</a></div><div class="back-link" onclick="nav('nestedBiology')">Back</div></div>
         <div id="nestedFSc2" class="nested-section"><h3>FSc Part II</h3><div class="card-grid"><a href="Respiration.html" class="quiz-item">Respiration</a><a href="Homeostasis.html" class="quiz-item">Homeostasis</a><a href="Support and Movement.html" class="quiz-item">Support and Movement</a><a href="Nervous Coordination.html" class="quiz-item">Nervous Coordination</a><a href="Chemical Coordination.html" class="quiz-item">Chemical Coordination</a><a href="Behaviour.html" class="quiz-item">Behaviour</a><a href="Reproduction.html" class="quiz-item">Reproduction</a><a href="Development and Aging.html" class="quiz-item">Development and Aging</a><a href="Inheritance.html" class="quiz-item">Inheritance</a><a href="Chromosomes and DNA.html" class="quiz-item">Chromosomes and DNA</a><a href="Evolution.html" class="quiz-item">Evolution</a><a href="Man and His Environment.html" class="quiz-item">Man and His Environment</a><a href="Biotechnology.html" class="quiz-item">Biotechnology</a><a href="Biology and Human Welfare.html" class="quiz-item">Biology and Human Welfare</a></div><div class="back-link" onclick="nav('nestedBiology')">Back</div></div>
 
-        <!-- CHEMISTRY SECTION -->
+        <!-- ==================== CHEMISTRY SECTION ==================== -->
         <div id="nestedChemistry" class="nested-section">
             <div class="card-grid">
                 <div class="sub-card" onclick="nav('nestedChemFSc1')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-flask"></i></div><h4>FSc Part I</h4></div>
@@ -607,7 +626,7 @@
         <div id="nestedChemFSc1" class="nested-section"><h3>FSc Part I</h3><div class="card-grid"><a href="Stoichiometry.html" class="quiz-item">Stoichiometry</a><a href="Atomic Structure.html" class="quiz-item">Atomic Structure</a><a href="Chemical Bonding.html" class="quiz-item">Chemical Bonding</a><a href="Gases.html" class="quiz-item">Gases</a><a href="Liquids.html" class="quiz-item">Liquids</a><a href="Solids.html" class="quiz-item">Solids</a><a href="Chemical Equilibrium.html" class="quiz-item">Chemical Equilibrium</a><a href="Thermochemistry.html" class="quiz-item">Thermochemistry</a><a href="Chemical Kinetics.html" class="quiz-item">Chemical Kinetics</a><a href="Electrochemistry.html" class="quiz-item">Electrochemistry</a><a href="Solutions & Colloids.html" class="quiz-item">Solutions & Colloids</a><a href="Acids,Bases and Salts.html" class="quiz-item">Acids, Bases & Salts</a></div><div class="back-link" onclick="nav('nestedChemistry')">Back</div></div>
         <div id="nestedChemFSc2" class="nested-section"><h3>FSc Part II</h3><div class="card-grid"><a href="S and P Block.html" class="quiz-item">s & p Block</a><a href="d and f Block.html" class="quiz-item">d & f Block</a><a href="Organic Compounds.html" class="quiz-item">Organic Compounds</a><a href="Hydrocarbons.html" class="quiz-item">Hydrocarbons</a><a href="Alkyl Halides.html" class="quiz-item">Alkyl Halides</a><a href="Alcohol,Phenol and Ethers.html" class="quiz-item">Alcohols, Phenols & Ethers</a><a href="Carboxylic acid.html" class="quiz-item">Carboxylic Acids</a><a href="Macromolecules.html" class="quiz-item">Macromolecules</a><a href="Industrial Chemistry.html" class="quiz-item">Industrial Chemistry</a></div><div class="back-link" onclick="nav('nestedChemistry')">Back</div></div>
 
-        <!-- MEDICAL STUDIES (Only 4th Year + Block J) -->
+        <!-- ==================== MEDICAL STUDIES ==================== -->
         <div id="nestedMedicalStudies" class="nested-section">
             <div class="card-grid">
                 <div class="sub-card" onclick="nav('nestedFourthYear')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-4"></i></div><h4>4th Year MBBS</h4></div>
@@ -655,7 +674,9 @@
         { email: "dr.yaseen4003@gmail.com", password: "Yaseen123", role: "full" },
         { email: "naeemtaiba4@gmail.com", password: "Tayyaba123", role: "limited" },
         { email: "abbaskhanbjr87@gmail.com", password: "Abbas123", role: "limited" },
-        { email: "rmomina2013@gmail.com", password: "Momina123", role: "limited" }
+        { email: "rmomina2013@gmail.com", password: "Momina123", role: "limited" },
+        { email: "aqeel246116@gmail.com", password: "Aqeel123", role: "limited" },
+        { email: "abdulkareemchandio312006@gmail.com", password: "Kareem123", role: "limited" }
     ];
     
     let currentUserRole = null;
