@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep | MDCAT Super Session</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
+            border-top: 8px solid #3b82f6;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            background: #f1f5f9;
+            padding: 12px 20px;
+            border-radius: 60px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+        }
+
+        .question:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.02rem;
+            margin-bottom: 14px;
+            color: #0f172a;
+            padding-left: 12px;
+            border-left: 3px solid #3b82f6;
+            line-height: 1.55;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 10px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-submit:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit.submitted {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+        }
+
+        .btn-submit.submitted:hover {
+            background: #94a3b8;
+            transform: none;
+        }
+
+        #results {
+            display: none;
+            margin-top: 35px;
+        }
+
+        .score-card {
+            background: linear-gradient(110deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 25px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .score-card h2 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .weakness-summary {
+            background: #fefce8;
+            border-left: 6px solid #eab308;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+        }
+
+        .weakness-summary h3 {
+            color: #854d0e;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .weakness-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .weakness-topic {
+            background: #fef3c7;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #92400e;
+            font-weight: 500;
+        }
+
+        .high-yield {
+            background: #f0fdf4;
+            border-left: 6px solid #10b981;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .high-yield h3 {
+            color: #166534;
+            margin-bottom: 15px;
+        }
+
+        .high-yield ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+            list-style: none;
+        }
+
+        .high-yield li {
+            font-size: 0.85rem;
+            padding: 6px 0;
+            border-bottom: 1px solid #dcfce7;
+            color: #14532d;
+        }
+
+        .explanation {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #475569;
+            display: none;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 14px;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+        }
+
+        @media (max-width: 680px) {
+            .quiz-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>MDCAT Super Session</h1>
+    <div class="stats-bar">
+        
+    </div>
+    
+    <div id="questionsContainer"></div>
+    <button type="button" class="btn-submit" id="submitBtn" onclick="calculateScore()">Submit</button>
+
+    <div id="results">
+        <div class="score-card">
+            <h2 id="scoreText"></h2>
+        </div>
+        <div class="weakness-summary" id="weaknessSummary">
+            <h3>Weak Areas</h3>
+            <div id="subjectWeaknessContent"></div>
+        </div>
+        <div class="high-yield" id="highYieldPoints">
+            <h3>High-Yield Points</h3>
+            <ul id="highYieldList"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 50 MDCAT-Level MCQs (each question at least 2 sentences) in order: Biomolecules(20), Atomic Structure(15), Force and Motion(10), English(5)
+    const allMcqs = [
+        // ==================== BIOMOLECULES - 20 MCQs (2+ sentences each) ====================
+        { q: "Glycogen is a highly branched polysaccharide that serves as the primary energy reserve in animals. Where in the body is glycogen mainly stored, and what is its monomeric unit?", options: ["Liver and muscles; glucose", "Adipose tissue; fatty acids", "Brain; fructose", "Bones; amino acids"], exp: "Glycogen is stored primarily in the liver and muscles and is composed of glucose monomers linked by alpha-1,4 and alpha-1,6 glycosidic bonds.", correct: "A", topic: "Carbohydrates" },
+        { q: "Proteins are macromolecules that perform countless functions within living organisms, from catalyzing reactions to providing structural support. What are the monomeric subunits that polymerize to form proteins, and what type of bond links them together?", options: ["Monosaccharides; glycosidic bonds", "Fatty acids; ester bonds", "Nucleotides; phosphodiester bonds", "Amino acids; peptide bonds"], exp: "Amino acids are the monomers of proteins, and they are linked by covalent peptide bonds formed between the carboxyl group of one amino acid and the amino group of the next.", correct: "D", topic: "Proteins" },
+        { q: "The primary structure of a protein refers to the linear sequence of amino acids as determined by genetic information. Which level of protein structure is stabilized primarily by hydrogen bonds between the backbone amide and carbonyl groups, forming alpha-helices and beta-pleated sheets?", options: ["Primary structure", "Secondary structure", "Tertiary structure", "Quaternary structure"], exp: "Secondary structure consists of local folding patterns like alpha-helices and beta-sheets, stabilized by hydrogen bonds between the polypeptide backbone atoms.", correct: "B", topic: "Proteins" },
+        { q: "Enzymes are biological catalysts that dramatically accelerate the rate of biochemical reactions. According to the induced fit model of enzyme-substrate binding, what happens to the enzyme's active site when the substrate binds?", options: ["The active site remains rigid and unchanged", "The active site undergoes conformational change to mold around the substrate", "The active site becomes denatured immediately", "The active site releases a product before binding"], exp: "The induced fit model proposes that the enzyme's active site is flexible and changes shape to fit snugly around the substrate, optimizing catalysis.", correct: "B", topic: "Enzymes" },
+        { q: "Fat-soluble vitamins are absorbed along with dietary fats and can be stored in the body's fatty tissues and liver. Which of the following vitamins is classified as fat-soluble, unlike the water-soluble B-complex and vitamin C?", options: ["Vitamin B12", "Vitamin C", "Vitamin D", "Folic acid"], exp: "Vitamin D (along with A, E, and K) is fat-soluble. Vitamins B12, C, and folic acid are water-soluble and are not stored in significant amounts.", correct: "C", topic: "Vitamins" },
+        { q: "Nucleotides serve as the monomeric building blocks of nucleic acids like DNA and RNA. What three molecular components make up a single nucleotide?", options: ["Amino acid, glucose, and phosphate", "Sugar, phosphate group, and nitrogenous base", "Fatty acid, glycerol, and phosphate", "Sugar, nitrogenous base, and a protein"], exp: "Each nucleotide consists of a pentose sugar (ribose or deoxyribose), a phosphate group, and a nitrogenous base (purine or pyrimidine).", correct: "B", topic: "Nucleic Acids" },
+        { q: "DNA and RNA differ in several structural aspects, including the type of pentose sugar and one of the nitrogenous bases. Which base is found in RNA but is replaced by thymine in DNA?", options: ["Adenine", "Guanine", "Cytosine", "Uracil"], exp: "RNA contains uracil (U) instead of thymine (T). Uracil pairs with adenine during transcription, similar to how thymine pairs with adenine in DNA.", correct: "D", topic: "Nucleic Acids" },
+        { q: "Saturated fatty acids are characterized by the absence of double bonds between carbon atoms in their hydrocarbon chain. How does this structural feature affect their physical state at room temperature compared to unsaturated fatty acids?", options: ["They are usually liquid at room temperature", "They are usually solid at room temperature", "They are gaseous at room temperature", "They have no difference in physical state"], exp: "Saturated fatty acids pack tightly together due to straight chains, making them solid at room temperature (e.g., butter). Unsaturated fatty acids have kinks that prevent tight packing, making them liquid (e.g., olive oil).", correct: "B", topic: "Lipids" },
+        { q: "A reducing sugar is any sugar that has a free aldehyde or ketone group capable of reducing mild oxidizing agents like Benedict's reagent. Which of the following carbohydrates is a non-reducing sugar because its anomeric carbons are both involved in the glycosidic bond?", options: ["Glucose", "Fructose", "Sucrose", "Maltose"], exp: "Sucrose (table sugar) is a disaccharide of glucose and fructose linked by an alpha-1,2-beta-glycosidic bond that involves both anomeric carbons, preventing it from opening to a free aldehyde or ketone.", correct: "C", topic: "Carbohydrates" },
+        { q: "Enzymes can be inhibited by molecules that interfere with their catalytic activity through different mechanisms. A competitive inhibitor binds to the enzyme's active site, competing directly with the substrate. How can the effect of a competitive inhibitor be overcome?", options: ["By heating the enzyme", "By increasing the substrate concentration", "By adding more inhibitor", "By decreasing the pH"], exp: "Increasing substrate concentration outcompetes the competitive inhibitor for the active site, restoring the reaction rate to near-normal levels.", correct: "B", topic: "Enzymes" },
+        { q: "Denaturation of a protein involves the unfolding of its higher-order structures without breaking the peptide bonds. Which types of interactions are primarily disrupted during denaturation, leading to loss of biological function?", options: ["Covalent peptide bonds", "Hydrogen bonds and hydrophobic interactions", "Phosphodiester bonds", "Glycosidic linkages"], exp: "Denaturation disrupts non-covalent interactions like hydrogen bonds, hydrophobic interactions, and sometimes disulfide bridges, but the primary structure (peptide bonds) remains intact.", correct: "B", topic: "Proteins" },
+        { q: "Cellulose is a linear polysaccharide composed of glucose monomers, yet humans cannot digest it despite its glucose content. What type of glycosidic bond in cellulose makes it indigestible to humans, and which enzyme do herbivores produce to break it down?", options: ["Alpha-1,4 bonds; pepsin", "Beta-1,4 bonds; cellulase", "Alpha-1,6 bonds; amylase", "Beta-1,6 bonds; lipase"], exp: "Cellulose contains beta-1,4-glycosidic bonds, which human digestive enzymes cannot hydrolyze. Herbivores have symbiotic bacteria that produce cellulase.", correct: "B", topic: "Carbohydrates" },
+        { q: "The active site of an enzyme is a specialized region where substrate molecules bind and undergo a chemical reaction. Which of the following statements best describes the specificity of an enzyme's active site?", options: ["It can bind any substrate regardless of shape", "It is highly specific and usually binds only one particular substrate", "It changes shape after every reaction", "It requires cofactors for all reactions"], exp: "Enzymes exhibit high specificity; the active site's unique three-dimensional structure allows it to bind only specific substrate molecules, like a lock and key or induced fit.", correct: "B", topic: "Enzymes" },
+        { q: "ATP (adenosine triphosphate) is often called the energy currency of the cell because it captures and transfers chemical energy within cells. Which of the following processes directly requires the hydrolysis of ATP to proceed?", options: ["Simple diffusion", "Osmosis", "Active transport across a membrane", "Facilitated diffusion"], exp: "Active transport moves solutes against their concentration gradient and requires energy from ATP hydrolysis. Passive processes like diffusion and osmosis do not require ATP.", correct: "C", topic: "Bioenergetics" },
+        { q: "Cholesterol is a steroid lipid that plays essential roles in animal cell membranes despite being associated with cardiovascular disease. What specific function does cholesterol serve within the cell membrane?", options: ["It provides energy storage", "It acts as a signaling molecule only", "It modulates membrane fluidity and stability", "It catalyzes membrane transport"], exp: "Cholesterol inserts between phospholipids, preventing them from packing too tightly at low temperatures and restricting excessive movement at high temperatures, thus regulating fluidity.", correct: "C", topic: "Lipids" },
+        { q: "Polysaccharides like starch and glycogen are polymers of glucose but serve different storage functions. Why is glycogen the preferred storage polysaccharide in animals rather than starch?", options: ["Glycogen is more highly branched, allowing rapid glucose release", "Starch cannot be synthesized in animal cells", "Glycogen contains more energy per gram", "Starch is toxic to animals"], exp: "Glycogen's extensive branching provides many terminal ends for rapid enzymatic breakdown, allowing quick glucose mobilization when energy is needed.", correct: "A", topic: "Carbohydrates" },
+        { q: "The quaternary structure of a protein refers to the arrangement of multiple polypeptide subunits into a single functional protein complex. Which of the following proteins exhibits quaternary structure because it consists of four polypeptide chains (two alpha and two beta)?", options: ["Myoglobin", "Hemoglobin", "Insulin", "Collagen"], exp: "Hemoglobin has quaternary structure with four subunits (two alpha-globin and two beta-globin chains). Myoglobin is a single chain, insulin has two chains but not true quaternary structure, collagen is triple helix.", correct: "B", topic: "Proteins" },
+        { q: "Enzymes are sensitive to changes in pH because the ionization state of amino acid residues in the active site affects substrate binding and catalysis. What generally happens to the rate of an enzyme-catalyzed reaction when the pH deviates significantly from the enzyme's optimum pH?", options: ["The rate increases proportionally", "The rate decreases as the enzyme denatures", "The rate remains unchanged", "The rate doubles"], exp: "Extreme pH changes disrupt hydrogen bonds and ionic interactions, causing denaturation and loss of active site shape, leading to a sharp decrease in reaction rate.", correct: "B", topic: "Enzymes" },
+        { q: "Peptide bonds form between amino acids through a condensation reaction that releases a water molecule. Which two functional groups react to form a peptide bond?", options: ["Amino group and carboxyl group", "Hydroxyl group and carboxyl group", "Amino group and sulfhydryl group", "Carboxyl group and methyl group"], exp: "The amino group (-NH₂) of one amino acid reacts with the carboxyl group (-COOH) of another, releasing water and forming a covalent amide bond (peptide bond).", correct: "A", topic: "Proteins" },
+        { q: "DNA carries the genetic blueprint of the cell, while RNA plays multiple roles in protein synthesis including acting as a messenger, adaptor, and catalytic component. Which type of RNA carries the genetic code from DNA to the ribosome for translation?", options: ["tRNA", "rRNA", "mRNA", "snRNA"], exp: "Messenger RNA (mRNA) is transcribed from DNA and carries the codon sequence that specifies the amino acid order of a protein during translation.", correct: "C", topic: "Nucleic Acids" },
+        
+        // ==================== ATOMIC STRUCTURE - 15 MCQs (2+ sentences each) ====================
+        { q: "Quantum numbers are a set of four numbers that describe the unique state of an electron in an atom. Which quantum number determines the shape of an orbital (for example, whether it is s, p, d, or f)?", options: ["Principal quantum number (n)", "Azimuthal quantum number (l)", "Magnetic quantum number (m)", "Spin quantum number (s)"], exp: "The azimuthal quantum number (l) defines the subshell and the shape of the orbital: l=0 (s, spherical), l=1 (p, dumbbell), l=2 (d, cloverleaf), l=3 (f, complex).", correct: "B", topic: "Quantum Numbers" },
+        { q: "The electronic configuration of chromium (atomic number 24) is anomalous because it differs from the expected Aufbau order. What is the actual ground state electronic configuration of chromium?", options: ["[Ar] 3d⁴ 4s²", "[Ar] 3d⁵ 4s¹", "[Ar] 3d⁶ 4s⁰", "[Ar] 3d³ 4s² 4p¹"], exp: "Chromium has configuration [Ar] 3d⁵ 4s¹ due to the extra stability of a half-filled d-subshell (d⁵). The expected [Ar] 3d⁴ 4s² would have less exchange energy.", correct: "B", topic: "Electronic Configuration" },
+        { q: "The Heisenberg uncertainty principle states that it is impossible to simultaneously determine both the exact position and exact momentum of an electron with unlimited precision. Which equation mathematically represents this principle?", options: ["Δx·Δp ≥ h/4π", "Δx·Δp ≤ h/4π", "ΔE·Δt ≥ h/4π", "Δv·Δx = h"], exp: "Heisenberg's uncertainty principle: Δx·Δp ≥ h/4π (or ≥ ħ/2). This means the product of uncertainties in position and momentum has a minimum nonzero value.", correct: "A", topic: "Quantum Mechanics" },
+        { q: "The energy of an electron in a hydrogen atom depends only on the principal quantum number n according to the Bohr model. What is the energy of the electron in the n=3 energy level of hydrogen (given that the ground state energy is -13.6 eV)?", options: ["-13.6 eV", "-3.4 eV", "-1.51 eV", "-0.85 eV"], exp: "Eₙ = -13.6/n² eV. For n=3, E = -13.6/9 = -1.51 eV. The negative sign indicates the electron is bound to the nucleus.", correct: "C", topic: "Bohr Model" },
+        { q: "The de Broglie wavelength of a moving particle illustrates the wave-particle duality of matter. If an electron is accelerated through a potential difference of 100 volts, what is its approximate de Broglie wavelength (using the formula λ = 12.3/√V Å)?", options: ["0.123 nm", "1.23 nm", "12.3 nm", "0.0123 nm"], exp: "λ = h/√(2meV) ≈ 12.3/√V Å. For V = 100 V, λ = 12.3/10 = 1.23 Å = 0.123 nm.", correct: "A", topic: "Wave-Particle Duality" },
+        { q: "The Pauli exclusion principle is a fundamental rule governing the arrangement of electrons in an atom. Which of the following statements correctly describes this principle?", options: ["Electrons fill orbitals in order of increasing energy", "No two electrons in an atom can have the same set of four quantum numbers", "Electrons occupy degenerate orbitals singly before pairing", "The spin quantum number can only be +½"], exp: "Pauli exclusion principle states that each electron in an atom has a unique combination of n, l, m, and s. Therefore, an orbital can hold at most two electrons with opposite spins.", correct: "B", topic: "Pauli Principle" },
+        { q: "Isotopes are atoms of the same element that differ in their number of neutrons, resulting in different mass numbers. How many protons, neutrons, and electrons are present in a neutral atom of carbon-14 (¹⁴C)?", options: ["6 protons, 8 neutrons, 6 electrons", "6 protons, 6 neutrons, 6 electrons", "8 protons, 6 neutrons, 8 electrons", "14 protons, 0 neutrons, 14 electrons"], exp: "Carbon always has 6 protons (atomic number 6). Mass number 14 means neutrons = 14-6 = 8. Neutral atom has equal protons and electrons: 6 electrons.", correct: "A", topic: "Isotopes" },
+        { q: "The Rydberg formula allows calculation of the wavelengths of spectral lines emitted by hydrogen atoms during electronic transitions. What is the name of the series of spectral lines that results from transitions where electrons fall from higher energy levels to the n=1 ground state?", options: ["Balmer series", "Lyman series", "Paschen series", "Brackett series"], exp: "The Lyman series corresponds to transitions from n ≥ 2 to n = 1 and lies in the ultraviolet region. Balmer (n=2) is visible, Paschen (n=3) and Brackett (n=4) are infrared.", correct: "B", topic: "Atomic Spectra" },
+        { q: "Hund's rule governs how electrons fill degenerate orbitals within the same subshell. Which of the following statements accurately describes Hund's rule of maximum multiplicity?", options: ["Electrons pair up before occupying empty orbitals", "Electrons occupy orbitals singly with parallel spins first", "Electrons fill orbitals from lowest to highest energy", "Electrons can only have opposite spins"], exp: "Hund's rule states that electrons will occupy each orbital singly with parallel spins before any orbital receives a second electron, maximizing total spin.", correct: "B", topic: "Electronic Configuration" },
+        { q: "The orbital angular momentum of an electron depends on its azimuthal quantum number (l). If an electron is in a p-orbital (l=1), what is the magnitude of its orbital angular momentum in terms of h/2π?", options: ["0", "1 (h/2π)", "√2 (h/2π)", "√6 (h/2π)"], exp: "Angular momentum = √[l(l+1)] (h/2π) = √(1×2) = √2 (h/2π).", correct: "C", topic: "Angular Momentum" },
+        { q: "The principal quantum number (n) indicates the main energy level or shell of an electron. What is the maximum number of electrons that can be accommodated in the n=4 energy shell?", options: ["8", "18", "32", "50"], exp: "Maximum electrons = 2n² = 2 × 16 = 32 electrons (4s² 4p⁶ 4d¹⁰ 4f¹⁴).", correct: "C", topic: "Quantum Numbers" },
+        { q: "The Aufbau principle states that electrons occupy the lowest available energy orbitals first before filling higher energy orbitals. According to this principle, what is the correct order of orbital filling after 4s is filled?", options: ["4p, 5s, 4d", "3d, 4p, 5s", "3d, 4p, 5s", "4p, 3d, 5s"], exp: "The order follows the (n+l) rule: 3d (n=3, l=2 → n+l=5) fills after 4s (n=4, l=0 → n+l=4) and before 4p (n=4, l=1 → n+l=5). So sequence: 4s → 3d → 4p.", correct: "B", topic: "Electronic Configuration" },
+        { q: "The magnetic quantum number (m) describes the orientation of an orbital in space relative to an external magnetic field. How many possible values of m are there for an electron in an f-orbital (l=3)?", options: ["3", "5", "7", "9"], exp: "m can have integer values from -l to +l, including zero. For l=3, m = -3, -2, -1, 0, +1, +2, +3 → 7 possible values, corresponding to 7 f-orbitals.", correct: "C", topic: "Quantum Numbers" },
+        { q: "The ionization energy of an element is the energy required to remove the most loosely bound electron from a gaseous atom. Within a period from left to right, ionization energy generally increases. Which of the following elements has the highest first ionization energy among the third period elements (Na, Mg, Al, Si, P, S, Cl, Ar)?", options: ["Na", "Cl", "Ar", "P"], exp: "Argon (Ar) has the highest ionization energy in period 3 because it has a complete octet (3s² 3p⁶) and the greatest effective nuclear charge.", correct: "C", topic: "Periodic Trends" },
+        { q: "The maximum number of electrons that can occupy a d-subshell is 10 because there are 5 d-orbitals, each holding 2 electrons. How many nodes (both radial and angular) does a 3d orbital have in total?", options: ["0", "1", "2", "3"], exp: "Total nodes = n-1 = 3-1 = 2 nodes. For 3d, angular nodes = l = 2, radial nodes = n-l-1 = 3-2-1 = 0, so total = 2 (both angular).", correct: "C", topic: "Quantum Numbers" },
+        
+        // ==================== FORCE AND MOTION - 10 MCQs (2+ sentences each) ====================
+        { q: "Newton's first law of motion, often called the law of inertia, describes the behavior of objects when no net external force acts upon them. Which of the following scenarios best illustrates this law?", options: ["A car accelerating on a highway", "A book remaining at rest on a flat table", "A ball slowing down due to friction", "A rocket launching into space"], exp: "A book at rest on a table remains at rest because no net external force acts on it horizontally, demonstrating inertia. The other options involve unbalanced forces causing acceleration.", correct: "B", topic: "Newton's Laws" },
+        { q: "A force of 25 newtons is applied to a 5 kilogram mass initially at rest on a frictionless surface. According to Newton's second law (F = ma), what will be the velocity of the mass after 4 seconds of constant force application?", options: ["5 m/s", "10 m/s", "20 m/s", "40 m/s"], exp: "First, a = F/m = 25/5 = 5 m/s². Then, v = u + at = 0 + (5)(4) = 20 m/s.", correct: "C", topic: "Newton's Laws" },
+        { q: "A stone is thrown vertically upward from ground level with an initial velocity of 30 meters per second. Assuming negligible air resistance and g = 10 m/s², what is the total time the stone will remain in the air before returning to the ground?", options: ["3 seconds", "4 seconds", "6 seconds", "8 seconds"], exp: "Time to reach maximum height: t = u/g = 30/10 = 3 s. Total time of flight = 2 × t = 6 seconds (symmetric trajectory).", correct: "C", topic: "Kinematics" },
+        { q: "Impulse is defined as the product of the average net force acting on an object and the time interval over which it acts. A 0.5 kg ball moving at 10 m/s strikes a wall and rebounds with a velocity of 6 m/s in the opposite direction. What is the magnitude of the impulse imparted to the ball by the wall?", options: ["2 Ns", "5 Ns", "8 Ns", "16 Ns"], exp: "Impulse = change in momentum = m(v₂ - v₁). Take initial direction as positive: v₁ = +10 m/s, v₂ = -6 m/s. Δp = 0.5(-6 - 10) = 0.5(-16) = -8 Ns. Magnitude = 8 Ns.", correct: "C", topic: "Impulse" },
+        { q: "A 1200 kg car traveling at 15 m/s collides head-on with a stationary 800 kg car and the two vehicles lock together after impact. Applying the law of conservation of momentum, what is the common velocity of the combined wreckage immediately after the collision?", options: ["6 m/s", "9 m/s", "12 m/s", "15 m/s"], exp: "Total initial momentum = (1200×15) + (800×0) = 18000 kg·m/s. Total final mass = 2000 kg. v = 18000 / 2000 = 9 m/s in the direction of the initially moving car.", correct: "B", topic: "Momentum" },
+        { q: "A body is said to be in translational equilibrium when the vector sum of all external forces acting on it is zero. If a 10 kg block is suspended by two strings making angles of 30° and 60° with the horizontal, the tensions T₁ and T₂ are different. Which condition must hold true for this system to remain in equilibrium?", options: ["T₁ = T₂ = 50 N", "T₁ sin30° + T₂ sin60° = 100 N", "T₁ cos30° = T₂ cos60°", "Both B and C"], exp: "For equilibrium: horizontal forces: T₁ cos30° = T₂ cos60°. Vertical forces: T₁ sin30° + T₂ sin60° = mg = 100 N. Both conditions must be satisfied simultaneously.", correct: "D", topic: "Equilibrium" },
+        { q: "The slope of a velocity versus time graph provides information about an object's motion. If a car's velocity-time graph shows a straight line with a positive slope, what does this indicate about the car's motion?", options: ["The car is moving at constant velocity", "The car is accelerating uniformly in the positive direction", "The car is decelerating", "The car is at rest"], exp: "A straight line with positive slope on a v-t graph indicates constant positive acceleration, meaning the car's velocity is increasing uniformly over time.", correct: "B", topic: "Graph Analysis" },
+        { q: "A body of mass 2 kg is initially at rest on a horizontal frictionless surface. A constant horizontal force of 8 N acts on the body for 5 seconds and then ceases. What is the total distance traveled by the body during the first 10 seconds from the start?", options: ["50 m", "100 m", "150 m", "200 m"], exp: "First 5 s: a = F/m = 8/2 = 4 m/s². Distance s₁ = ½at² = 0.5×4×25 = 50 m. Velocity at t=5 s: v = at = 4×5 = 20 m/s. Next 5 s (no force): constant velocity, s₂ = vt = 20×5 = 100 m. Total = 150 m.", correct: "C", topic: "Kinematics" },
+        { q: "Newton's third law states that for every action force, there is an equal and opposite reaction force acting on a different object. Which of the following correctly identifies the reaction force to the weight of a book resting on a table?", options: ["The normal force of the table pushing up on the book", "The gravitational force of the book pulling on the Earth", "The force of the book pushing down on the table", "The friction force between the book and table"], exp: "The action-reaction pair for gravity: Earth pulls book down (weight), and the book pulls Earth up with an equal and opposite gravitational force. The normal force is a different interaction.", correct: "B", topic: "Newton's Laws" },
+        { q: "A projectile is launched from ground level at an angle of 30° above the horizontal with an initial speed of 40 m/s. Assuming no air resistance and g = 10 m/s², what is the maximum height reached by the projectile?", options: ["10 m", "20 m", "40 m", "80 m"], exp: "Vertical component u_y = 40 sin30° = 20 m/s. At maximum height v_y = 0. Using v_y² = u_y² - 2gh, 0 = 400 - 20h → h = 20 m.", correct: "B", topic: "Projectile Motion" },
+        
+        // ==================== ENGLISH (Pronoun-Antecedent + Sentence Structure) - 5 MCQs (2+ sentences each) ====================
+        { q: "When using indefinite pronouns such as 'everyone,' 'each,' or 'neither' as the subject of a sentence, the pronoun that refers back to them must be singular to maintain proper agreement. Which of the following sentences demonstrates correct pronoun-antecedent agreement?", options: ["Everyone must submit their assignment by Friday.", "Everyone must submit his or her assignment by Friday.", "Everyone must submit our assignment by Friday.", "Everyone must submit your assignment by Friday."], exp: "Indefinite pronoun 'everyone' is grammatically singular. While 'their' is commonly used in modern English, 'his or her' is the traditionally correct formal singular pronoun. The question expects standard formal grammar.", correct: "B", topic: "Pronoun-Antecedent" },
+        { q: "Collective nouns like 'committee,' 'team,' or 'family' can take either a singular or plural pronoun depending on whether the group is acting as a single unit or as individual members. If the committee members are acting individually and have differing opinions, which pronoun correctly completes the sentence: 'The committee were divided in _____ opinions.'?", options: ["its", "his", "their", "our"], exp: "When the collective noun refers to individuals acting separately, the plural pronoun 'their' is appropriate. 'Its' would be used if the committee acted as a single unanimous unit.", correct: "C", topic: "Pronoun-Antecedent" },
+        { q: "A dangling modifier occurs when the subject of a modifying phrase is missing or unclear, making the sentence illogical or ambiguous. Which of the following sentences correctly avoids a dangling modifier by ensuring the modifying phrase logically attaches to the intended subject?", options: ["Walking to school, the bus passed me by.", "Walking to school, I saw the bus pass me by.", "Walking to school, the bus was seen passing me.", "Walking to school, the bus passed by."], exp: "The phrase 'Walking to school' must modify the person who is walking. Only option B correctly has 'I' as the subject, making the sentence logical. The other options incorrectly imply the bus was walking.", correct: "B", topic: "Sentence Structure" },
+        { q: "When two subjects are joined by 'or' or 'nor,' the verb agrees with the subject that is closer to the verb. This rule is crucial for constructing grammatically correct sentences. Which sentence follows correct subject-verb and pronoun-antecedent agreement?", options: ["Neither the teacher nor the students was willing to change their schedule.", "Neither the teacher nor the students were willing to change their schedule.", "Neither the teacher nor the students was willing to change his schedule.", "Neither the teacher nor the students were willing to change his schedule."], exp: "With 'neither/nor,' the verb agrees with the closer subject: 'students' is plural → 'were.' The pronoun 'their' is appropriate for plural antecedent 'students.'", correct: "B", topic: "Pronoun-Antecedent" },
+        { q: "A misplaced modifier can cause confusion by modifying the wrong word in a sentence. Clear sentence structure requires placing modifiers as close as possible to the words they modify. Which of the following sentences has the modifier placed correctly for clarity?", options: ["He almost drove his car for six hours every day.", "He drove his car for almost six hours every day.", "For six hours every day, almost he drove his car.", "He drove his car almost every day for six hours."], exp: "The adverb 'almost' should be placed directly before the word it modifies. Here, 'almost' modifies 'six hours' (meaning nearly six hours), so it belongs immediately before 'six hours.' The placement in option B is clear and logical.", correct: "B", topic: "Sentence Structure" }
+    ];
+    
+    let userSelections = {};
+    let quizSubmitted = false;
+    let submitBtn = null;
+    
+    function loadQuiz() {
+        quizSubmitted = false;
+        const container = document.getElementById('questionsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        userSelections = {};
+        
+        submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.textContent = 'Submit';
+            submitBtn.classList.remove('submitted');
+            submitBtn.style.pointerEvents = 'auto';
+        }
+        
+        const resultsDiv = document.getElementById('results');
+        if (resultsDiv) resultsDiv.style.display = 'none';
+        
+        allMcqs.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">${letter}. ${opt}</div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+    
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+    
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+        
+        if (submitBtn) {
+            submitBtn.textContent = 'Submitted ';
+            submitBtn.classList.add('submitted');
+            submitBtn.style.pointerEvents = 'none';
+        }
+        
+        let score = 0;
+        let weakTopicsSet = new Set();
+        
+        allMcqs.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) opt.classList.add('correct');
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            } else if (userSelections[idx]) {
+                weakTopicsSet.add(data.topic);
+            }
+        });
+        
+        const allOptions = document.querySelectorAll('.option');
+        allOptions.forEach(opt => {
+            opt.style.pointerEvents = 'none';
+        });
+        
+        const percent = Math.round((score / 50) * 100);
+        document.getElementById('scoreText').innerHTML = `Score: ${score} / 50  |  ${percent}%`;
+        document.getElementById('results').style.display = 'block';
+        
+        let weakHtml = '<ul class="weakness-list">';
+        if (weakTopicsSet.size === 0) {
+            weakHtml += '<li class="weakness-topic">Excellent! No weak areas identified.</li>';
+        } else {
+            let sortedTopics = Array.from(weakTopicsSet).sort();
+            sortedTopics.forEach(topic => {
+                weakHtml += `<li class="weakness-topic">${topic}</li>`;
+            });
+        }
+        weakHtml += '</ul>';
+        document.getElementById('subjectWeaknessContent').innerHTML = weakHtml;
+        
+        const highYieldPoints = [
+            "Glycogen (animal storage) is highly branched for rapid glucose release; stored in liver and muscles.",
+            "Amino acids linked by peptide bonds form proteins; peptide bonds form between -NH₂ and -COOH.",
+            "Secondary protein structure (α-helices, β-sheets) stabilized by hydrogen bonds between backbone atoms.",
+            "Induced fit model: enzyme active site molds around substrate for optimal catalysis.",
+            "Fat-soluble vitamins: A, D, E, K; water-soluble: B-complex and C.",
+            "Nucleotide = pentose sugar + phosphate + nitrogenous base.",
+            "RNA has uracil (U); DNA has thymine (T).",
+            "Saturated fatty acids: no double bonds, solid at room temperature; unsaturated: liquid.",
+            "Sucrose is non-reducing sugar (both anomeric carbons involved in glycosidic bond).",
+            "Competitive inhibition overcome by increasing substrate concentration.",
+            "Denaturation disrupts non-covalent interactions (H-bonds, hydrophobic), not peptide bonds.",
+            "Cellulose has β-1,4 bonds; humans cannot digest it (lack cellulase).",
+            "ATP hydrolysis powers active transport; passive transport requires no ATP.",
+            "Cholesterol regulates membrane fluidity.",
+            "Hemoglobin has quaternary structure (4 subunits).",
+            "Azimuthal quantum number (l) determines orbital shape (s,p,d,f).",
+            "Chromium exception: [Ar] 3d⁵ 4s¹ (half-filled d-subshell stability).",
+            "Heisenberg uncertainty: Δx·Δp ≥ h/4π.",
+            "Bohr model: Eₙ = -13.6/n² eV for hydrogen.",
+            "de Broglie wavelength: λ = h/p = h/(mv).",
+            "Pauli exclusion: no two electrons with same set of four quantum numbers.",
+            "Lyman series (n→1) in UV; Balmer (n→2) in visible.",
+            "Hund's rule: electrons occupy orbitals singly with parallel spins first.",
+            "Maximum electrons in shell = 2n²; n=4 holds 32 electrons.",
+            "Newton's laws, impulse-momentum theorem, conservation of momentum, kinematic equations."
+        ];
+        
+        let highYieldHtml = '';
+        highYieldPoints.forEach(point => {
+            highYieldHtml += `<li>${point}</li>`;
+        });
+        document.getElementById('highYieldList').innerHTML = highYieldHtml;
+        
+        setTimeout(() => { document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+    };
+    
+    loadQuiz();
+</script>
+</body>
+</html>

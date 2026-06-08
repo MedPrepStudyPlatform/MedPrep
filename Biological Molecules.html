@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep | Biological Molecules | Past Papers MCQs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+                * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
+            border-top: 8px solid #3b82f6;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            color: #1e40af;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            background: #f1f5f9;
+            padding: 12px 20px;
+            border-radius: 60px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+        }
+
+        .question:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            color: #0f172a;
+            padding-left: 12px;
+            border-left: 3px solid #3b82f6;
+            line-height: 1.5;
+        }
+
+        .source-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.65rem;
+            padding: 3px 10px;
+            border-radius: 30px;
+            margin-left: 12px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            vertical-align: middle;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 10px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-submit:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit.submitted {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+        }
+
+        .btn-submit.submitted:hover {
+            background: #94a3b8;
+            transform: none;
+        }
+
+        #results {
+            display: none;
+            margin-top: 35px;
+        }
+
+        .score-card {
+            background: linear-gradient(110deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 25px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .score-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .explanation {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #1e293b;
+            display: none;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #065f46 !important;
+        }
+
+        .wrong {
+            border-color: #dc2626 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 680px) {
+            .quiz-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Biological Molecules</h1>
+    
+    
+    
+    <div id="questionsContainer"></div>
+    <button type="button" class="btn-submit" id="submitBtn" onclick="calculateScore()">Submit</button>
+
+    <div id="results">
+        <div class="score-card">
+            <h2 id="scoreText"></h2>
+        </div>
+    </div>
+</div>
+
+<script>
+    // =================================================================
+    // PASTE YOUR MCQ ARRAY HERE (SECTION BY SECTION)
+    // Each question object format:
+    // { q: "question text", options: ["A", "B", "C", "D"], correct: "A", source: "Exam Source", exp: "explanation text" }
+    // =================================================================
+    
+        
+		
+		
+		
+		
+		const bioMcqs = [
+    { q: "Hydrolysis process is a reverse of process:", options: ["Photolysis", "Condensation", "Deduction", "Convection"], correct: "B", source: "KIPS", exp: "Hydrolysis is essentially reverse of condensation. Hydrolysis breaks down polymers into monomers by adding water, while condensation joins monomers by removing water." },
+    { q: "Hydrolysis is the breakdown of polymers into its monomers by the addition of:", options: ["Hydroxyl group", "Hydrogen", "Water", "Nitrogen"], correct: "C", source: "NUMS-2022", exp: "Hydrolysis involves the addition of a water molecule to break bonds. A hydroxyl group from water attaches to one monomer and hydrogen attaches to the other." },
+    { q: "The four types of fundamental biological molecules present in protoplasm are carbohydrates, proteins, lipids and:", options: ["Enzymes", "Hormones", "Nucleic acids", "Alkaloids"], correct: "C", source: "ETEA-2022", exp: "The four fundamental biological molecules are carbohydrates, proteins, lipids, and nucleic acids. They play different roles in living organisms." },
+    { q: "The most abundant element present in human body is:", options: ["Sulphur", "Nitrogen", "Carbon", "Manganese"], correct: "C", source: "ETEA-2022", exp: "Carbon is the most abundant element in the human body by mass after oxygen. It forms the backbone of all organic molecules." },
+    { q: "If water has high latent heat of vaporization, how this property of water could be helpful to plants and animals?", options: ["With the release of large amount of water vapors, a small amount of heat loss can take place", "No cooling effect with the release of even large amount of water vapors", "It will keep their temperature very high", "With the release of small amount of water vapors, a great amount of heat loss can take place"], correct: "D", source: "MDCAT-2019", exp: "Water absorbs much heat as it changes from liquid to gas. Evaporation of only a small amount of water causes significant cooling, helping organisms regulate body temperature." },
+    { q: "Which property of water helps to maintain the integrity of lipid membranes?", options: ["Specific heat capacity", "Cohesion and adhesion", "Hydrogen bonding", "Hydrophobic exclusion"], correct: "D", source: "PMC-2020", exp: "Hydrophobic exclusion forces non-polar molecules (like lipid tails) to cluster together, away from water. This maintains the integrity of lipid bilayers." },
+    { q: "Water acts as universal solvent because of:", options: ["Heat of vaporization", "High polarity", "Hydrogen bonding", "Cohesion and adhesion"], correct: "B", source: "PMC-2020", exp: "Water's high polarity allows it to dissolve many ionic and polar substances. The partial positive and negative charges attract and surround solutes." },
+    { q: "Human bone cells contain ___ % of water:", options: ["20", "30", "85", "90"], correct: "A", source: "UHS-2022", exp: "Water content varies in different tissues. Bone cells contain about 20% water, while brain cells contain 85-90% water." },
+    { q: "Due to its high heat of vaporization, water plays important role in living organisms as:", options: ["Being an excellent solvent", "Cooling agent", "Membrane stabilizer", "Thermal shock resistant"], correct: "B", source: "NUMS-2022", exp: "High heat of vaporization gives animals an efficient way to release excess body heat. Body heat is used to vaporize sweat, thus cooling the animal." },
+    { q: "Which of the following molecules would yield glucose and fructose on hydrolysis?", options: ["Starch", "Lactose", "Sucrose", "Maltose"], correct: "C", source: "NUMS-2022", exp: "Sucrose is a disaccharide composed of glucose and fructose. On hydrolysis, it breaks down into its two monosaccharide units." },
+    { q: "Which property of water enables it to act as temperature stabilizer in living organisms?", options: ["High polarity", "Being non-polar", "High specific heat capacity", "High heat of vaporization"], correct: "C", source: "SZABMU-2022", exp: "Water has great ability to absorb heat with minimum change in its own temperature due to higher specific heat capacity and act as thermo-stabilizer." },
+    { q: "Which of the following is antagonistic to condensation?", options: ["Decarboxylation", "Hydration", "Dehydration", "Hydrolysis"], correct: "D", source: "BUMHS-2022", exp: "Condensation is reverse of hydrolysis. During condensation, two monomers join to form a dimer. In hydrolysis, polymers are broken down into their monomers." },
+    { q: "Water is the most abundant compound in living organisms; its amount varies from:", options: ["30% to 60%", "50% to 60%", "10% to 20%", "70% to 90%"], correct: "D", source: "DUHS-2022", exp: "Water content in living organisms ranges from 70% to 90% depending on the organism and tissue type." },
+    { q: "The simplest monosaccharide containing keto group is:", options: ["Glyceraldehyde", "Glucose", "Dihydroxyacetone", "Ribose"], correct: "C", source: "MDCAT-2014", exp: "Dihydroxyacetone is the simplest three-carbon ketose sugar containing a keto group. Glyceraldehyde is an aldose." },
+    { q: "The compounds which, on hydrolysis, yield polyhydroxy aldehyde or ketone subunits are:", options: ["Lipids", "Polynucleotides", "Proteins", "Carbohydrates"], correct: "D", source: "MDCAT-2016", exp: "Carbohydrates are polyhydroxy aldehydes or ketones or complex substances which on hydrolysis yield polyhydroxy aldehyde or ketone subunits." },
+    { q: "Which of the following type of carbohydrates has high molecular weight and is sparingly soluble in water?", options: ["Monosaccharide", "Oligosaccharides", "Disaccharides", "Polysaccharides"], correct: "D", source: "MDCAT-2017", exp: "Polysaccharides are made up of many monosaccharide subunits and have higher molecular weight. They are sparingly soluble in water compared to monosaccharides." },
+    { q: "Glycosidic bond is formed by the:", options: ["Removal of water", "Removal of oxygen", "Addition of oxygen", "Addition of water"], correct: "A", source: "MDCAT-2018", exp: "A glycosidic bond is formed between two monosaccharides by a condensation reaction, which involves the removal of a water molecule." },
+    { q: "Starch is present in tuber, fruits and grains but absent in animal cells. Instead, animals have a substance stored in liver and muscles known as:", options: ["Glucose", "Galactose", "Glycogen", "Fructose"], correct: "C", source: "MDCAT-2019", exp: "Glycogen is animal starch found in liver and muscle cells, while starch is stored in plant cells." },
+    { q: "The covalent bond or bridge between two monosaccharides to form a disaccharide is called a:", options: ["Carbohydral bond", "Hydrogen bond", "Hydroxy bond", "Glycosidic bond"], correct: "D", source: "MDCAT-2019", exp: "The bond formed between two monosaccharides to form a disaccharide is called a glycosidic bond, created through a condensation reaction." },
+    { q: "Which is an example of a disaccharide?", options: ["Lactose", "Starch", "Glycogen", "Cellulose"], correct: "A", source: "MDCAT-2019", exp: "Lactose is a disaccharide composed of glucose and galactose. Starch, glycogen, and cellulose are polysaccharides." },
+    { q: "___ is stored in animal cells:", options: ["Starch", "Cellulose", "Sucrose", "Glycogen"], correct: "D", source: "ETEA-2019", exp: "Glycogen is the storage form of carbohydrates in animal cells (muscles and liver). Starch is stored in plants." },
+    { q: "Pure form of cellulose is:", options: ["Cotton", "Chitin", "Cellophane", "Paper"], correct: "A", source: "AJK-2019", exp: "Cotton is the purest natural form of cellulose, consisting of about 90% cellulose. Cellophane and paper are derived from cellulose." }
+,
+
+    { q: "C₅H₁₀O₄ is the formula of:", options: ["Deoxyribose sugar", "Ribose sugar", "Glucose", "Fructose"], correct: "A", source: "AJK-2019", exp: "C₅H₁₀O₄ is the molecular formula of deoxyribose sugar, which is a pentose sugar found in DNA." },
+    { q: "Monosaccharides have a general formula represented by:", options: ["Cn(H₂O)n", "Cn(H₂O)n-1", "Cn(H₂O)n+1", "Cn(H₂O)2n"], correct: "A", source: "PMC-2020", exp: "Monosaccharides have the general formula Cn(H₂O)n, where n is typically 3, 4, 5, 6, or 7." },
+    { q: "___ are the major sites for the storage of glycogen in an animal's body:", options: ["Muscle and liver", "Around the ribs and belly", "Around the ribs and belly", "Liver and kidneys"], correct: "A", source: "MDCAT-2017", exp: "Glycogen is abundantly stored in muscle and liver cells of animal tissue. It is called animal starch." },
+    { q: "Chitin is a:", options: ["Lipoprotein", "Polysaccharide", "Glycoprotein", "Phospholipid"], correct: "B", source: "ETEA-2019", exp: "Chitin is a nitrogen-containing polysaccharide. It is the component of fungal cell walls and exoskeleton of insects." },
+    { q: "Which of the following is not a carbohydrate?", options: ["Glucose", "Sucrose", "Rhamnose", "Lactic acid"], correct: "D", source: "NUMS-2023", exp: "Lactic acid contains a carboxyl group and shows acidic behavior. Glucose, sucrose, and rhamnose are carbohydrates." },
+    { q: "Upon initial hydrolysis, starch yields:", options: ["Maltose", "Glucose", "Sucrose", "Mannose"], correct: "A", source: "UHS-2022", exp: "When amylase breaks down starch, it is first converted into maltose (a disaccharide). Then maltose is further broken down into glucose molecules." },
+    { q: "Butyric acid is a ___ carbon fatty acid:", options: ["6", "2", "4", "8"], correct: "C", source: "UHS-2022", exp: "Butyric acid contains 4 carbon atoms. It is a saturated short-chain fatty acid found in butter." },
+    { q: "Which bond is the potential source of chemical energy for cellular activities?", options: ["C=O", "C-H", "C-R", "C-N"], correct: "B", source: "SZABMU-2022", exp: "C-H bond is the potential source of chemical energy for cellular respiration. Breakdown of these bonds releases energy for cellular activities." },
+    { q: "Which of the following carbohydrates are the sweetest among all?", options: ["Monosaccharides", "Disaccharides", "Oligosaccharides", "Polysaccharides"], correct: "A", source: "SZABMU-2022", exp: "Monosaccharides are the sweetest among all carbohydrates. Fructose has a ketone functional group that gives a sweet taste when dissolved in water." },
+    { q: "Ribose is a pentose sugar (5-carbon) that contains:", options: ["Aldehyde group", "Ketone group", "Carboxyl group", "Ester group"], correct: "A", source: "ETEA-2022", exp: "Ribose is an aldopentose sugar containing an aldehyde group. It is a component of RNA." },
+    { q: "Diastase/amylase acts on:", options: ["Maltose", "Sucrose", "Lactose", "Starch"], correct: "D", source: "BUMHS-2022", exp: "Diastase or amylase breaks starch into maltose. This maltose is further broken down by maltase into glucose molecules." },
+    { q: "Maltose is a:", options: ["Polysaccharide", "Disaccharide", "Oligosaccharide", "Monosaccharide"], correct: "B", source: "BUMHS-2022", exp: "Maltose is a disaccharide consisting of two glucose molecules bonded by a single glycosidic bond." },
+    { q: "Synthesis of disaccharide by condensation of two glucose joined by glycosidic linkage to form:", options: ["Galactose", "Lactose", "Fructose", "Maltose"], correct: "D", source: "DUHS-2022", exp: "When two glucose molecules are bonded by a glycosidic linkage, the resultant structure is maltose." },
+    { q: "Molecules of amylose consists of unbranched chains of hundreds of glucose subunits, joined together by:", options: ["1-2 glycosidic linkage", "2-3 glycosidic linkage", "1-4 glycosidic linkage", "1-3 glycosidic linkage"], correct: "C", source: "DUHS-2022", exp: "Amylose is an unbranched chain of glucose subunits connected by α-1,4 glycosidic linkages." },
+    { q: "Which level of protein structure maintains the helix shape of enzymes?", options: ["Primary", "Secondary", "Tertiary", "Quaternary"], correct: "B", source: "LUMHS-2014", exp: "Secondary structure of proteins (α-helix and β-pleated sheet) is maintained by hydrogen bonds between amino acids." },
+    { q: "Enzymes are molecules of one of the following group of biomolecules. Mark the correct answer which can also be defined as a biological catalyst:", options: ["Protein", "Fats", "Carbohydrate", "Vitamins"], correct: "A", source: "KMDC-2014", exp: "Most enzymes are proteins in nature that act as biological catalysts to speed up chemical reactions." },
+    { q: "Which molecular structure of enzyme is essential for activity of enzyme?", options: ["Primary structure", "Secondary structure", "Quaternary structure", "Tertiary structure"], correct: "D", source: "MDCAT-2015", exp: "The globular (tertiary) structure of an enzyme is essential for its catalytic activity and binding to substrates." },
+    { q: "Secondary structure of protein is found in:", options: ["Trypsin", "Insulin", "Keratin", "Glucagon"], correct: "C", source: "MDCAT-2016", exp: "Keratin is a fibrous protein having secondary structure (α-helix) and is mostly found in nails and hair." },
+    { q: "The number of amino acids that have been found to occur in cells and tissues are:", options: ["170", "25", "20", "45"], correct: "A", source: "MDCAT-2017", exp: "About 170 types of amino acids have been found to occur in cells and tissues. Of these, about 25 are constituents of proteins, and most proteins are made of 20 types." },
+    { q: "Backbone of amino acid comprises of:", options: ["C-C-N", "-NH₂ Group", "-COOH group", "-H group"], correct: "A", source: "MDCAT-2017", exp: "The backbone of an amino acid consists of a central carbon (C) bonded to an amino group (-NH₂) and a carboxyl group (-COOH), forming the C-C-N backbone." }
+,
+		
+		
+	
+	
+	    { q: "Which of the following holds the alpha helix of protein in its place?", options: ["Hydrogen bond", "R-group", "Amino group", "Disulphide bond"], correct: "A", source: "MDCAT-2018", exp: "The α-helix is a very uniform geometric structure with 3.6 amino acids in each turn. The helical structure is kept by the formation of hydrogen bonds among the amino acid molecules in successive turns of the spiral." },
+    { q: "The number and sequence of amino acids along a polypeptide chain is called ___ structure of a protein:", options: ["Secondary", "Primary", "Quaternary", "Tertiary"], correct: "B", source: "MDCAT-2018", exp: "The primary structure of a protein is described by the number, sequence, and type of amino acids in a polypeptide chain." },
+    { q: "Most proteins are made up of:", options: ["16 types of amino acids", "25 types of amino acids", "10 types of amino acids", "20 types of amino acids"], correct: "D", source: "MDCAT-2019", exp: "About 25 amino acids are constituents of proteins. Most proteins are, however, made of 20 types of amino acids." },
+    { q: "The structure of a fibrous protein comprises of polypeptide chains in the form of:", options: ["Cluster", "Spherical or curled up ball", "Flat uncoiled chains", "Long strands or fibrils"], correct: "D", source: "MDCAT-2019", exp: "Fibrous proteins have polypeptide chains arranged in long strands or fibrils, giving them structural and protective functions." },
+    { q: "In glycine, 'R' is:", options: ["Fatty acid", "Hydrogen", "Ethane", "Methane"], correct: "B", source: "ETEA-2019", exp: "Glycine has the simplest structure among amino acids where the R-group is a hydrogen atom." },
+    { q: "Which type of bonds is required to maintain the alpha helix configuration of a protein?", options: ["Hydrophobic interactions", "Disulfide bonds", "Hydrogen bonds", "Ionic bonds"], correct: "C", source: "AJK-2019", exp: "The α-helix configuration is stabilized by hydrogen bonds between the carbonyl oxygen of one amino acid and the amide hydrogen of another amino acid four residues away." },
+    { q: "The structure given below is the constituent part of: (R - H₂N - C - COOH / H)", options: ["Lipids", "Carbohydrates", "Vitamins", "Proteins"], correct: "D", source: "NUMS-2019", exp: "The structure shows a general amino acid with an amino group, carboxyl group, and R-group. Amino acids are the building blocks of proteins." },
+    { q: "Unique three-dimensional shape of the fully folded polypeptide constitutes:", options: ["Primary structure of protein", "Secondary structure of protein", "Tertiary structure of protein", "Quaternary structure of protein"], correct: "C", source: "UHS-2022", exp: "The tertiary structure of a protein refers to the overall three-dimensional arrangement of its polypeptide chain in space, stabilized by various interactions." },
+    { q: "Which of the following molecules contains amino acid?", options: ["Cellulose", "Collagen", "Sucrose", "Ascorbic acid"], correct: "B", source: "NUMS-2022", exp: "Collagen is a protein consisting of amino acids. Cellulose and sucrose are carbohydrates. Ascorbic acid is vitamin C." },
+    { q: "Select an example of fibrous protein:", options: ["Enzymes", "Collagen", "Hemoglobin", "Hormones"], correct: "B", source: "SZABMU-2022", exp: "Collagen is a fibrous protein found in connective tissues, while enzymes, hemoglobin, and hormones are globular proteins." },
+    { q: "Which function is not performed by proteins?", options: ["Providing structural support to cell", "Catalyzing biochemical reactions", "Transporting materials across cell membrane", "Providing insulation against heat loss"], correct: "D", source: "ETEA-2022", exp: "Providing insulation against heat loss is a function of lipids, not proteins. Proteins perform structural, catalytic, and transport functions." },
+    { q: "Proteins are macromolecules formed of units known as amino acids. The amino acids in which the variable group (R) is represented by an H atom is:", options: ["Lysine", "Phenylalanine", "Glycine", "Alanine"], correct: "C", source: "ETEA-2022", exp: "If the R-group is a hydrogen atom, the amino acid is glycine. This is the simplest amino acid." },
+    { q: "Haemoglobin is a:", options: ["Carbohydrate", "Protein", "Nucleic acid", "Enzyme"], correct: "B", source: "ETEA-2022", exp: "Hemoglobin is the oxygen-carrying protein found within all red blood cells." },
+    { q: "The most common protein in nature is:", options: ["Collagen", "Rubisco", "DNAase", "Keratin"], correct: "B", source: "ETEA-2022", exp: "Rubisco (Ribulose bisphosphate carboxylase) is the most common and abundant protein on Earth. Collagen is common in animals." },
+    { q: "A haemoglobin molecule consists of ___ amino acids:", options: ["874", "474", "674", "574"], correct: "D", source: "ETEA-2022", exp: "Hemoglobin consists of four polypeptide chains. Two alpha chains (141 amino acids each = 282) and two beta chains (146 amino acids each = 292). Total = 574 amino acids." },
+    { q: "Two simplest amino acids are:", options: ["Trypsin and glycine", "Trypsin and alanine", "Glycine and alanine", "Glutamate and alanine"], correct: "C", source: "BUMHS-2022", exp: "Glycine and alanine are the simplest amino acids. Glycine has R = H, and alanine has R = CH₃ (methyl group)." },
+    { q: "Which protein establishes the matrix of bone and cartilage?", options: ["Myoglobin", "Hemoglobin", "Fibrinogen", "Collagen"], correct: "D", source: "BUMHS-2022", exp: "Collagen is the protein that forms the matrix of bone and cartilage. Myoglobin is muscle hemoglobin, and fibrinogen is involved in blood clotting." },
+    { q: "If in lipids there is a higher proportion of unsaturated fatty acid, then it will be:", options: ["Oils", "Phenols", "Waxes", "Fats"], correct: "A", source: "MDCAT-2017", exp: "Fats containing unsaturated fatty acids are usually liquid at room temperature and are called oils. Fats containing saturated fatty acids are solids." },
+    { q: "Which of the following is an unsaturated fatty acid?", options: ["Butyric acid", "Oleic acid", "Stearic acid", "Palmitic acid"], correct: "B", source: "MDCAT-2018, PMC-2020", exp: "Oleic acid is an example of a mono-unsaturated fatty acid and has a double bond between C₉ and C₁₀. Butyric, stearic, and palmitic acids are saturated." },
+    { q: "Lipids contain double amount of energy as compared to the same amount of carbohydrates due to the presence of:", options: ["Lower proportion of C-H bonds", "Higher proportion of C-O bonds", "Higher proportion of C-H bonds", "Higher proportion of oxygen"], correct: "C", source: "MDCAT-2019", exp: "C-H bond is a potential source of energy. Lipids have a higher proportion of C-H bonds as compared to carbohydrates and proteins." }
+,
+	
+	
+	
+	
+	
+	
+	    { q: "All are the properties of water excluding:", options: ["Universal solvent", "Polar nature", "Hydrogen bonding", "Becomes dense when it freezes"], correct: "D", source: "ETEA-2023 Retake", exp: "Unlike most substances, water becomes less dense when it freezes, making ice float. It does not become dense when it freezes." },
+    { q: "___ is the heat required to convert a gram of water into vapors at its boiling point:", options: ["Heat of vaporization", "Specific heat capacity", "Heat of ionization", "Polarity of water"], correct: "A", source: "ETEA-2023 Retake", exp: "Heat of vaporization is the energy needed to convert water into vapor at its boiling point." },
+    { q: "Which statement is true regarding both starch and cellulose?", options: ["They are both polymers of glucose", "They are geometric isomers of each other", "They can both be digested by humans", "They are both used for energy storage in plants"], correct: "A", source: "UHS-2023", exp: "Both starch and cellulose are polymers of glucose but differ in bonding and function. Starch has α-glycosidic bonds, cellulose has β-glycosidic bonds." },
+    { q: "These carbohydrates are sweetest among all carbohydrates:", options: ["Monosaccharides", "Disaccharides", "Oligosaccharides", "Polysaccharides"], correct: "A", source: "NUMS-2023", exp: "Monosaccharides are the sweetest carbohydrates due to their simple structure and high solubility." },
+    { q: "Most of the monosaccharides form a ring structure when in solution. For example ribose will form a five cornered ring known as:", options: ["Glucopyranose", "Ribofuranose", "Glyceraldehyde", "Acetaldehyde"], correct: "B", source: "UHS-2023", exp: "Ribofuranose is a five-membered ring formed by ribose in solution." },
+    { q: "Lactose is composed of:", options: ["Glucose + Galactose", "Glucose + Fructose", "Glucose + Glucose", "Fructose + Glucose"], correct: "A", source: "ETEA-2023", exp: "Lactose is a disaccharide composed of glucose and galactose." },
+    { q: "Glucose is classified as a:", options: ["Monosaccharide", "Disaccharide", "Oligosaccharide", "Polysaccharide"], correct: "A", source: "ETEA-2023 Retake", exp: "Glucose is a monosaccharide, the simplest form of carbohydrate." },
+    { q: "Sucrose is hydrolyzed into:", options: ["Lactose and glucose", "Lactose and fructose", "Glucose and fructose", "Glucose and galactose"], correct: "C", source: "ETEA-2023 Retake", exp: "Sucrose is hydrolyzed into glucose and fructose, its component monosaccharides." },
+    { q: "Which of the following process is involved in decomposition of protein into amino acids?", options: ["Condensation", "Hydrolysis", "Glycolysis", "Fixation"], correct: "B", source: "SZABMU-2023", exp: "Hydrolysis breaks down proteins into amino acids by adding water molecules." },
+    { q: "Which of the following protein establishes the matrix of bone & cartilage?", options: ["Elastin", "Keratin", "Collagen", "Histone"], correct: "C", source: "NUMS-2023", exp: "Collagen forms the structural matrix of bones and cartilage, providing strength and support." },
+    { q: "Most abundant organic compound in mammalian cells are:", options: ["Water", "Lipids", "Carbohydrates", "Proteins"], correct: "D", source: "NUMS-2023", exp: "Proteins are the most abundant organic compounds in mammalian cells, essential for various functions." },
+    { q: "Select the protein providing support for the connective tissues:", options: ["Histones", "Keratin", "Elastin", "Collagen"], correct: "D", source: "SZABMU-2023", exp: "Collagen provides structural support and strength to connective tissues such as tendons, ligaments, and skin." },
+    { q: "Fibrous proteins do not take part in:", options: ["Blood clotting", "Formation of nails", "Muscle contraction", "Oxygen transport in blood"], correct: "D", source: "SZABMU-2023", exp: "Fibrous proteins do not participate in oxygen transport, which is the function of hemoglobin (a globular protein)." },
+    { q: "In sickle cell hemoglobin molecule, glutamic acid is replaced by:", options: ["Proline", "Glutamine", "Valine", "Glycine"], correct: "C", source: "ETEA-2023", exp: "In sickle cell anemia, glutamic acid is replaced by valine, altering hemoglobin structure and function." },
+    { q: "___ is found in the exoskeleton of crabs:", options: ["Cellulose", "Chitin", "Murein", "Hemi-cellulose"], correct: "B", source: "ETEA-2023", exp: "Chitin is a structural polysaccharide found in the exoskeleton of crabs and insects." },
+    { q: "Amino acids mainly differ from each other by the difference in their:", options: ["R-group", "Amino group", "Carboxyl group", "Hydrogen alpha carbon"], correct: "A", source: "ETEA-2023", exp: "Amino acids differ from each other based on their R-group (side chain), which determines their properties." },
+    { q: "Three hydrophobic fatty acid tails and a glycerol molecule join to form a:", options: ["Monoglyceride", "Diglyceride", "Triglyceride", "Phospholipid"], correct: "C", source: "SZABMU-2023", exp: "A triglyceride consists of three fatty acid tails and a glycerol molecule, forming a major energy storage lipid." },
+    { q: "Choose the unsaturated fatty acid among the following:", options: ["Palmitic acid", "Arachidic acid", "Stearic acid", "Oleic acid"], correct: "D", source: "ETEA-2023", exp: "Oleic acid is an unsaturated fatty acid, containing at least one double bond in its hydrocarbon chain." },
+    { q: "C-H bonds in lipids are important:", options: ["As insulating material", "As exoskeleton", "As energy source", "As waterproof covering"], correct: "C", source: "KIPS", exp: "The C-H bonds in lipids store high energy, making them a key energy source." },
+    { q: "The sugar which is part of ribonucleic acid is:", options: ["Ribulose", "Ribose", "Deoxyribulose", "Glucose"], correct: "B", source: "KIPS", exp: "Ribose is the sugar found in ribonucleic acid (RNA), differentiating it from DNA." }
+,
+	
+	
+	
+	
+	    { q: "Purines are ___ nitrogenous bases:", options: ["Double ringed", "Single ringed", "Double bond", "Single bond"], correct: "A", source: "KIPS", exp: "Purines (adenine and guanine) are double-ringed nitrogenous bases in nucleotides." },
+    { q: "Cells of different types can be distinguished on the basis of surface:", options: ["Phospholipids", "Cholesterol", "Glycolipids and glycoprotein", "Proteins"], correct: "C", source: "UHS-2023", exp: "Glycoproteins and glycolipids are present on cell surface and function as markers for cell recognition, distinguishing different cell types." },
+    { q: "The basic structural framework of all types of membranes is:", options: ["Glycolipids", "Phospholipids", "Lipoproteins", "Proteins"], correct: "C", source: "SZABMU-2023", exp: "Lipoproteins form the basic structural framework of all types of membranes in the cells." },
+    { q: "The conjugated molecule that is primarily present in egg albumin is:", options: ["Lipoprotein", "Nucleoprotein", "Glycolipid", "Glycoprotein"], correct: "D", source: "ETEA-2023", exp: "Glycoproteins are integral components of the plasma membrane. They are also present in egg albumin." },
+    { q: "What is the percentage of H₂O in bone cells?", options: ["70%", "20%", "99%", "60%"], correct: "B", source: "UHS-2024", exp: "Bone cells contain 20% water, with the rest composed of minerals (calcium phosphate) and collagen for strength." },
+    { q: "At 25 degrees Celsius, the concentration of each of H⁺ and OH⁻ ions in pure water is about ___ moles per liter:", options: ["10⁻⁶", "10⁻⁷", "10⁻¹²", "10⁻¹¹"], correct: "B", source: "SZABMU-2024", exp: "At 25°C, pure water has equal H⁺ and OH⁻ concentrations, both at 10⁻⁷ M, maintaining a neutral pH of 7." },
+    { q: "Which property of water helps to maintain the integrity of lipid bilayer membranes?", options: ["Specific heat capacity", "Hydrogen bonding", "Cohesion and adhesion", "Hydrophobic exclusion"], correct: "D", source: "SZABMU-2024-Reconduct", exp: "Water excludes non-polar molecules, helping lipids self-assemble into a stable bilayer membrane." },
+    { q: "Monosaccharides have a general formula represented by:", options: ["Cn(H₂O)n", "Cn(H₂O)n-1", "C2(H₂O)n", "Cn(H₂O)2n"], correct: "A", source: "UHS-2024", exp: "Monosaccharides follow the formula Cn(H₂O)n, showing a 1:2:1 ratio of carbon, hydrogen, and oxygen." },
+    { q: "Polysaccharides in plants are synthesized by the process of:", options: ["Hydrolysis", "Oxidation", "Condensation", "Glycolysis"], correct: "C", source: "UHS-2024", exp: "Polysaccharides form by condensation, where monosaccharides join together, releasing water molecules." },
+    { q: "Which monosaccharide will form a glucose pyranose ring in solution?", options: ["Fructose", "Glucose", "Ribose", "Deoxyribose"], correct: "B", source: "UHS-2024", exp: "In solution, glucose forms a stable six-membered pyranose ring due to intramolecular interactions." },
+    { q: "Sugarcane contains:", options: ["Fructose", "Glucose", "Ribose", "Sucrose"], correct: "D", source: "KIPS", exp: "Sugarcane contains sucrose, a disaccharide composed of glucose and fructose." },
+    { q: "Which of the following monosaccharides is an aldehyde-hexose sugar?", options: ["Ribose", "Galactose", "Glucose", "Fructose"], correct: "C", source: "SZABMU-2024", exp: "Glucose is an aldehyde (aldose) hexose sugar, while fructose is a ketose." },
+    { q: "Which of the following carbohydrates gives dark brown colour with iodine solution?", options: ["Starch", "Glycogen", "Sucrose", "Glucose"], correct: "B", source: "SZABMU-2024", exp: "Glycogen gives a reddish-brown color with iodine, while starch turns blue-black." },
+    { q: "Less reactivity of sucrose is due to its:", options: ["High solubility in water", "Polar nature", "Unavailability of functional group", "1-2 glycosidic linkage"], correct: "C", source: "KIPS", exp: "Sucrose is a non-reducing sugar, as both anomeric carbons are involved in the glycosidic bond formation, making the functional group unavailable." },
+    { q: "Sucrose is used as a transport carbohydrate instead of glucose because:", options: ["It is disaccharide", "It is non-reducing sugar", "It is soluble in water", "It does not change osmotic potential of water"], correct: "D", source: "NUMS-2024", exp: "Sucrose is used for transport as it does not react easily and remains chemically stable, not affecting osmotic potential significantly." },
+    { q: "Percentage of glucose normally in human body is:", options: ["8%", "1.8%", "0.8%", "0.08%"], correct: "D", source: "SZABMU-2024-Reconduct", exp: "Normal blood glucose concentration is around 80-120 mg/dL, which equals 0.08%." },
+    { q: "Polysaccharide found most commonly in grains and seeds is:", options: ["Starch", "Glycogen", "Pectin", "Dextrin"], correct: "A", source: "SZABMU-2024-Reconduct", exp: "Starch is the main storage polysaccharide in grains and seeds." },
+    { q: "Glycogen is most abundant in:", options: ["Brain cells", "Liver cells", "Adipose cells", "Smooth muscle cells"], correct: "B", source: "SZABMU-2024-Reconduct", exp: "The liver stores the highest amount of glycogen for energy regulation." },
+    { q: "Stereoisomers are molecules containing atoms that are:", options: ["Same and bonded identically", "Same and bonded dependently", "Dependent and bonded identically", "Dependent and bonded same"], correct: "A", source: "SZABMU-2024-Reconduct", exp: "Stereoisomers have the same molecular formula and bonding, but different spatial arrangements." },
+    { q: "Which of the following process is involved in breakdown of protein into Amino acids?", options: ["Condensation", "Hydrolysis", "Glycolysis", "Fixation"], correct: "B", source: "UHS-2024", exp: "Proteins break down into amino acids via hydrolysis, using water to cleave peptide bonds." }
+,
+	
+	
+	    { q: "Sickle cell anaemia results from:", options: ["Reduction in oxygen carrying capacity of haemoglobin", "Linkage between the polypeptide chains", "Single amino acid substitution in the haemoglobin molecule", "Viral infections of RNA viruses"], correct: "C", source: "KMU-2024", exp: "Sickle cell anemia occurs due to glutamic acid being replaced by valine in the hemoglobin molecule." },
+    { q: "Which is incorrect about the globular proteins?", options: ["Abundantly found in hair", "Are spherical in shape", "Have polypeptide chains", "Soluble in water"], correct: "A", source: "KIPS", exp: "Hair contains fibrous proteins (keratin), not globular proteins. Globular proteins are spherical and soluble in water." },
+    { q: "The bond between hydroxyl group of carboxylic group of one amino acid and hydrogen of amino group of second amino acid with release of water molecule is called?", options: ["Glycosidic bond", "Peptide bond", "Hydrogen bond", "Disulfide bridge"], correct: "B", source: "SZABMU-2024", exp: "A peptide bond forms between the amino (-NH₂) and carboxyl (-COOH) groups, releasing water." },
+    { q: "Which of the following does not have a quaternary structure?", options: ["Antibodies", "Hemoglobin", "DNA polymerase III", "Myoglobin"], correct: "D", source: "SZABMU-2024", exp: "Myoglobin has a tertiary structure but lacks multiple subunits, so it has no quaternary structure." },
+    { q: "Protein with tertiary structures are helpful in:", options: ["Carrying messages from glands to target organs", "Maintaining epithelial lining of skin", "Maintaining the matrix of connective tissues", "Helping muscle contraction"], correct: "A", source: "KIPS", exp: "Proteins with tertiary structures function as hormones for cell signaling, carrying messages from glands to target organs." },
+    { q: "Rebonding is process of straightening the curly hairs, which bond is targeted by oxidizing agents used during the process?", options: ["Peptide Bond", "Ionic bond", "Disulphide bridge", "Hydrogen bond"], correct: "C", source: "NUMS-2024", exp: "Rebonding of hair targets disulfide bonds (S-S bonds) to change hair structure." },
+    { q: "Number of amino acids in each alpha chain of hemoglobin is:", options: ["141", "146", "414", "416"], correct: "A", source: "SZABMU-2024-Reconduct", exp: "Hemoglobin has two alpha chains, and each alpha chain contains 141 amino acids." },
+    { q: "Two amino acids form a dipeptide through:", options: ["Condensation reaction", "Hydrolysis", "Ionic bond formation", "Hydrogen bonding"], correct: "A", source: "SZABMU-2024-Reconduct", exp: "Dipeptides form via condensation, releasing water and forming a peptide bond." },
+    { q: "The protein present in blood plasma and involved in blood clotting is:", options: ["Hormones", "Fibrinogen", "Antibodies", "Enzymes"], correct: "B", source: "SZABMU-2024-Reconduct", exp: "Fibrinogen helps in blood clot formation by converting into fibrin." },
+    { q: "When glycerol reacts with fatty acid, which type of chemical bond will form?", options: ["Ester Bond", "Peptide Bond", "Hydrogen Bond", "Ionic Bond"], correct: "A", source: "UHS-2024", exp: "Glycerol and fatty acids form ester bonds in lipids by releasing OH from fatty acids and H from glycerol. As a result, water molecules are released." },
+    { q: "The hydrophilic end of phospholipid molecule is polar because of the presence of:", options: ["Glycerol", "Phosphate", "Fatty Acid", "Cholesterol"], correct: "B", source: "UHS-2024", exp: "Phospholipids have a polar phosphate head, making them hydrophilic as PO₄³⁻ has a negative charge making it polar." },
+    { q: "What is the ester of fatty acids and long chain alcohol called?", options: ["Acylglycerol", "Glycerol", "Phospholipid", "Wax"], correct: "D", source: "KMU-2024", exp: "Waxes are fatty acid esters with long-chain alcohols (other than glycerol)." },
+    { q: "Lipids, which do not contain fatty acid are:", options: ["Neutral lipids", "Phosphatidic acids", "Steroids", "Waxes"], correct: "C", source: "KMU-2024", exp: "Steroids like cholesterol are lipids but lack fatty acids because they belong to terpenes and terpenes lack fatty acids." },
+    { q: "Which of the following is a basic component of lipid bilayer of plasma membrane?", options: ["Acylglycerol", "Lecithin", "Triglyceride", "Waxes"], correct: "B", source: "SZABMU-2024", exp: "Lecithin (a phospholipid) is a major component of the plasma membrane as it is frequently associated with the membrane." },
+    { q: "Which fatty acid would have the highest melting point?", options: ["Oleic acid", "Lauric acid", "Palmitic acid", "Stearic acid"], correct: "D", source: "SZABMU-2024-Reconduct", exp: "Saturated fatty acids like stearic acid have higher melting points due to no double bonds." },
+    { q: "Lipids that protect plants from water loss are:", options: ["Phospholipids", "Waxes", "Terpenoid", "Triglyceride"], correct: "B", source: "SZABMU-2024-Reconduct", exp: "Plants use waxes for waterproofing to prevent water loss." },
+    { q: "Which of the following is found in both messenger RNA and DNA of a mammalian cell?", options: ["Double helical structure", "Ribose sugar", "Thymine", "Sugar phosphate backbone"], correct: "D", source: "SZABMU-2024-Reconduct", exp: "Both RNA and DNA share a sugar-phosphate backbone structure." },
+    { q: "Transcription is the process in which an RNA copy of the DNA sequence and coding the gene is produced with the help of an enzyme called:", options: ["DNA polymerase", "RNA dependent DNA polymerase", "RNA polymerase", "RNA transcriptase"], correct: "C", source: "SZABMU-2024-Reconduct", exp: "RNA polymerase synthesizes RNA from DNA during transcription." },
+    { q: "Nucleoproteins are involved in:", options: ["Cell to cell recognition", "Passing hereditary information to next generation", "Ensuring fast speed of nerve impulse", "Acting as a surface marker"], correct: "B", source: "NUMS-2024", exp: "Nucleoproteins (DNA + proteins) are present in chromosomes and help transmit genetic information." },
+    { q: "Which of the following is not a characteristic of animal cell membrane?", options: ["Provides mechanical shape", "Regulate passage of molecules", "Maintain cellular homeostasis", "Prevent from osmotic lysis"], correct: "D", source: "KIPS", exp: "The animal cell membrane does not prevent osmotic lysis; this function is performed by the cell wall in plant cells." }
+];
+	
+	
+	
+	
+	
+	
+	
+	
+		
+    
+    let userSelections = {};
+    let quizSubmitted = false;
+    let submitBtn = null;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        const container = document.getElementById('questionsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        userSelections = {};
+
+        submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.textContent = 'Submit';
+            submitBtn.classList.remove('submitted');
+            submitBtn.style.pointerEvents = 'auto';
+        }
+
+        const resultsDiv = document.getElementById('results');
+        if (resultsDiv) resultsDiv.style.display = 'none';
+
+        const totalSpan = document.getElementById('totalQuestions');
+        if (totalSpan) totalSpan.textContent = `Total Questions: ${bioMcqs.length}`;
+
+        bioMcqs.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}
+                    <span class="source-badge" style="display:none;">${item.source}</span>
+                </div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">${letter}. ${opt}</div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+
+        if (submitBtn) {
+            submitBtn.textContent = 'Submitted';
+            submitBtn.classList.add('submitted');
+            submitBtn.style.pointerEvents = 'none';
+        }
+
+        let score = 0;
+
+        bioMcqs.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) opt.classList.add('correct');
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+
+        const allOptions = document.querySelectorAll('.option');
+        allOptions.forEach(opt => {
+            opt.style.pointerEvents = 'none';
+        });
+
+        const percent = Math.round((score / bioMcqs.length) * 100);
+        const scoreCard = document.getElementById('scoreText');
+        scoreCard.innerHTML = `Score: ${score} / ${bioMcqs.length}  |  ${percent}%`;
+        document.getElementById('results').style.display = 'block';
+
+        setTimeout(() => { document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep | Atomic Structure | Past Papers MCQs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
+            border-top: 8px solid #3b82f6;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            color: #1e40af;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            background: #f1f5f9;
+            padding: 12px 20px;
+            border-radius: 60px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+        }
+
+        .question:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            color: #0f172a;
+            padding-left: 12px;
+            border-left: 3px solid #3b82f6;
+            line-height: 1.5;
+        }
+
+        .source-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.65rem;
+            padding: 3px 10px;
+            border-radius: 30px;
+            margin-left: 12px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            vertical-align: middle;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 10px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-submit:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit.submitted {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+        }
+
+        .btn-submit.submitted:hover {
+            background: #94a3b8;
+            transform: none;
+        }
+
+        #results {
+            display: none;
+            margin-top: 35px;
+        }
+
+        .score-card {
+            background: linear-gradient(110deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 25px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .score-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .explanation {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #1e293b;
+            display: none;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #065f46 !important;
+        }
+
+        .wrong {
+            border-color: #dc2626 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 680px) {
+            .quiz-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Atomic Structure</h1>
+    
+    <div class="stats-bar">
+        
+    </div>
+    
+    <div id="questionsContainer"></div>
+    <button type="button" class="btn-submit" id="submitBtn" onclick="calculateScore()">Submit</button>
+
+    <div id="results">
+        <div class="score-card">
+            <h2 id="scoreText"></h2>
+        </div>
+    </div>
+</div>
+
+<script>
+    // =================================================================
+    // PASTE YOUR MCQ ARRAY HERE (SECTION BY SECTION)
+    // Each question object format:
+    // { q: "question text", options: ["A", "B", "C", "D"], correct: "A", source: "Exam Source", exp: "explanation text" }
+    // =================================================================
+    const chemistryMcqs = [
+    { q: "Which quantum number tells us about orientation of orbitals?", options: ["Principal quantum number", "Spin quantum number", "Azimuthal quantum number", "Magnetic quantum number"], correct: "D", source: "MDCAT (2016)", exp: "Magnetic quantum number explains the orientation of orbitals in three-dimensional space." },
+    { q: "The relative energies of 4s, 4p and 3d orbitals are in the order:", options: ["3d < 4p < 4s", "4p < 4s < 3d", "4s < 3d < 4p", "4p < 3d < 4s"], correct: "C", source: "MDCAT (2012)", exp: "According to (n+l) rule, 4s has n+l=4, 3d has n+l=5, 4p has n+l=5. When (n+l) is same, lower n has lower energy. So order: 4s < 3d < 4p." },
+    { q: "With increase in the value of principal quantum number n, the shape of the orbitals remains same although their sizes:", options: ["Decrease", "Remain the same", "Increase", "May or may not remain the same"], correct: "C", source: "MDCAT (2012)", exp: "As n increases, the size of orbitals increases. The shape (s, p, d, f) remains the same for each type." },
+    { q: "Number of electrons in the outermost shell of chloride ion (Cl⁻) is:", options: ["17", "1", "7", "8"], correct: "D", source: "MDCAT (2013)", exp: "Chlorine atom (Z=17) has electronic configuration 1s² 2s² 2p⁶ 3s² 3p⁵. Chloride ion (Cl⁻) gains one electron to complete octet, so outermost shell has 8 electrons." },
+    { q: "Correct order of energy in the given sub-shells is:", options: ["5s > 3d > 3p > 4s", "3p > 3d > 5s > 4s", "5s > 3d > 4s > 3p", "3p > 3d > 4s > 5s"], correct: "C", source: "MDCAT (2013)", exp: "According to (n+l) rule: 3p (n+l=4), 4s (n+l=4), 3d (n+l=5), 5s (n+l=5). For same (n+l), lower n has lower energy. So order: 3p < 4s < 3d < 5s." },
+    { q: "According to the number of protons, neutrons and electrons given in the table (As: 33 protons, 42 neutrons; Ga: 31 protons, 39 neutrons; Ca: 20 protons, 20 neutrons), which one of the following options is correct?", options: ["As, Ga, Ca are isotopes", "As, Ga, Ca are isobars", "As, Ga, Ca are isotones", "None of these"], correct: "D", source: "MDCAT (2014)", exp: "Isotopes have same atomic number (different proton numbers here). Isobars have same mass number (As=75, Ga=70, Ca=40). Isotones have same neutron number (As=42, Ga=39, Ca=20). None of these relationships apply. So correct answer is 'None of these'." },
+    { q: "There are four orbitals s, p, d and f. Which order is correct with respect to the increasing energy of the orbitals?", options: ["4s < 4p < 4d < 4f", "4s < 4f < 4p < 4d", "4p < 4s < 4f < 4d", "4f < 4s < 4d < 4p"], correct: "A", source: "MDCAT (2015)", exp: "For the same principal quantum number (n=4), the energy order is s < p < d < f due to increasing azimuthal quantum number." },
+    { q: "Which one of the following pairs has the same electronic configuration as possessed by neon (Ne-10)?", options: ["Na, Cl", "Na⁺, Mg²⁺", "K⁺, Cl⁻", "Na⁺, F⁻"], correct: "D", source: "MDCAT (2015)", exp: "Neon has 10 electrons. Na⁺ (11-1=10 electrons) and F⁻ (9+1=10 electrons) both have 10 electrons, same as neon." },
+    { q: "Number of neutrons in ⁶⁵₃₀Zn will be:", options: ["30", "38", "35", "36"], correct: "C", source: "MDCAT (2016)", exp: "Number of neutrons = Mass number - Atomic number = 65 - 30 = 35." },
+    { q: "The maximum number of electrons in electronic configuration can be calculated by using formula:", options: ["2l+1", "2n²", "2n²+2", "2n²+1"], correct: "B", source: "MDCAT (2016)", exp: "The maximum number of electrons in a shell is given by 2n², where n is the principal quantum number." },
+    { q: "Number of electrons in ⁷¹₃₁Ga will be:", options: ["28", "30", "31", "34"], correct: "C", source: "MDCAT (2017)", exp: "Number of electrons in a neutral atom equals the atomic number. Atomic number of Ga is 31, so it has 31 electrons." },
+    { q: "Isotopic symbol of ion of Sulphur-33 is ³³S²⁻. How many numbers of protons and neutrons are present if number of electrons are 18?", options: ["Protons=18, Neutrons=15", "Protons=16, Neutrons=18", "Protons=16, Neutrons=17", "Protons=17, Neutrons=16"], correct: "C", source: "MDCAT (2017)", exp: "Sulphur has atomic number 16, so protons=16. Mass number 33, so neutrons=33-16=17. S²⁻ has gained 2 electrons (16+2=18 electrons)." },
+    { q: "Among the following, which contains same number of electrons and protons but different number of neutrons?", options: ["Isobars", "Isotones", "Isotopes", "None of these"], correct: "C", source: "MDCAT (2017)", exp: "Isotopes have same atomic number (same protons and electrons) but different mass numbers (different neutrons)." },
+    { q: "Identify the correct option associated with the shape of p-orbital:", options: ["Dumbbell shape", "Spherical shape", "Double dumbbell shape", "Complex shape"], correct: "A", source: "MDCAT (2017)", exp: "p-orbitals have a dumbbell shape with two lobes on opposite sides of the nucleus." },
+    { q: "Which is the correct electronic configuration of chromium (₂₄Cr)?", options: ["1s², 2s², 2p⁶, 3s², 3p⁶, 4s², 3d⁴", "1s², 2s², 2p⁶, 3s², 3p⁶, 4s¹, 3d⁵", "1s², 2s², 2p⁶, 3s², 3p⁶, 3d⁶", "1s², 2s², 2p⁶, 3s², 3p⁶, 4s², 3d⁶"], correct: "B", source: "MDCAT (2018)", exp: "Chromium has exceptional configuration: [Ar] 4s¹ 3d⁵ for extra stability due to half-filled d-subshell." }
+,
+
+
+    { q: "Maximum numbers of electron in a sub-shell is given by:", options: ["2(2l-1)", "2(2l+1)", "2(l+1)", "2l+1"], correct: "B", source: "NUMS (2019)", exp: "Number of electrons in a subshell = 2(2l+1), where l is the azimuthal quantum number." },
+    { q: "The order of energy level in ₁₉K is:", options: ["4s, 4p", "4s, 3d", "3p, 4s", "3s, 3d"], correct: "C", source: "KIPS", exp: "For potassium (Z=19), the order of energy levels is 3p then 4s according to the Aufbau principle. 4s has lower energy than 3d." },
+    { q: "Which of the following element in its atomic state has electrons fully occupying first two spherically symmetrical orbitals?", options: ["Oxygen", "Helium", "Beryllium", "Carbon"], correct: "C", source: "SET (2019)", exp: "Beryllium (Z=4) has electronic configuration 1s² 2s². Both 1s and 2s orbitals are spherically symmetrical and fully occupied." },
+    { q: "What are the values of principal quantum number and azimuthal quantum number for the last electron in chlorine atom?", options: ["n=1, l=6", "n=1, l=3", "n=3, l=1", "n=6, l=1"], correct: "C", source: "KIPS", exp: "Chlorine (Z=17) has configuration 1s² 2s² 2p⁶ 3s² 3p⁵. The last electron is in 3p orbital, so n=3, l=1." },
+    { q: "Which of the following electronic configuration is/are correct? (i) ₂₉Cu = 1s²2s²3p⁶3s¹ (ii) ₂₉Cu = [Ar]4s¹3d¹⁰ (iii) ₂₄Cr = [Ar]4s¹3d¹⁰ (iv) ₂₄Cr = [Ar]4s¹3d⁴", options: ["(i) only", "(ii) only", "(i) and (ii) only", "(ii) and (iii) only"], correct: "B", source: "KIPS", exp: "Copper has exceptional configuration [Ar]4s¹3d¹⁰. Chromium has exceptional configuration [Ar]4s¹3d⁵, not 3d¹⁰ or 3d⁴." },
+    { q: "Quantum number which describes the orientation of orbitals in three dimensional space is:", options: ["Spin quantum number", "Azimuthal quantum number", "Magnetic quantum number", "Principal quantum number"], correct: "C", source: "MDCAT (2019)", exp: "Magnetic quantum number (m) describes the orientation of orbitals in three-dimensional space." },
+    { q: "Which of the following is the electronic configuration of Cr?", options: ["[Ar].3d⁴,4s²", "[Ar].3d⁵,4s¹", "[Ar].3d⁴,4s⁰", "[Ar].3d⁵,4s⁰"], correct: "B", source: "NMDCAT (2020)", exp: "Chromium has exceptional configuration [Ar] 4s¹ 3d⁵ due to extra stability of half-filled d-subshell." },
+    { q: "The relationship between quantum number n and l is:", options: ["n = l-1", "l = n-2", "l = n-1", "n = l-2"], correct: "C", source: "NMDCAT (2020)", exp: "Azimuthal quantum number l can have values from 0 to n-1. So the maximum value of l is n-1." },
+    { q: "Quantum number values for 2p orbitals are:", options: ["n=2, l=1", "n=1, l=2", "n=2, l=0", "n=1, l=0"], correct: "A", source: "NMDCAT (2020)", exp: "For 2p orbital, principal quantum number n=2 and azimuthal quantum number l=1." },
+    { q: "Which pair has 1 electron in its outermost s orbital?", options: ["Li and Fe", "Na and Cr", "K and Mn", "H and He"], correct: "B", source: "NMDCAT (2020)", exp: "Na has configuration [Ne]3s¹. Cr has exceptional configuration [Ar]4s¹3d⁵. Both have one electron in outermost s orbital." },
+    { q: "Which of the following has the lowest e/m ratio?", options: ["Li²⁺", "H⁺", "He⁺", "Be²⁺"], correct: "A", source: "PMC (2021)", exp: "e/m ratio is inversely proportional to mass. Li²⁺ has the largest mass among these, so it has the lowest e/m ratio." },
+    { q: "M-shell contain:", options: ["s only", "s, p, d", "s, p, d, f", "s, p"], correct: "B", source: "PMC (2021)", exp: "M-shell is the third shell (n=3) which contains three subshells: s, p, and d." },
+    { q: "Total no. of electrons that can be accommodated in f-subshell:", options: ["6", "14", "10", "18"], correct: "B", source: "PMC (2021)", exp: "Number of electrons in subshell = 2(2l+1). For f-subshell, l=3, so electrons = 2(2×3+1) = 2×7 = 14." },
+    { q: "n + l value for 5d is:", options: ["5", "6", "7", "8"], correct: "C", source: "KIPS", exp: "n + l for 5d = 5 + 2 = 7." },
+    { q: "Each electron in an atom must have its own unique set of quantum number is a statement of:", options: ["Aufbau principle", "Hund's rule", "Pauli exclusion principle", "None of these"], correct: "C", source: "PMC (2021)", exp: "Pauli's exclusion principle states that no two electrons in an atom can have the same set of four quantum numbers." },
+    { q: "According to which scientist, the probability of finding an electron at a certain position is possible?", options: ["Bohr", "Hund", "de-Broglie", "Schrodinger"], correct: "D", source: "UHS (2022)", exp: "Schrodinger's wave equation gives the probability of finding an electron at a certain position in an atom." },
+    { q: "Which gas in the discharge tube produces lightest canal rays particles?", options: ["Ar", "H₂", "He", "Ne"], correct: "B", source: "UHS (2022)", exp: "Hydrogen (H₂) is the lightest gas among given options and has minimum mass with maximum e/m value for positive rays (canal rays)." },
+    { q: "Which element has the ground state electronic configuration of 1s², 2s², 2p⁶, 3s², 3p⁶?", options: ["Ar", "Na", "Cl", "S"], correct: "A", source: "UHS (2022)", exp: "Argon (Ar, Z=18) has the electronic configuration 1s² 2s² 2p⁶ 3s² 3p⁶." },
+    { q: "What is the proton (Atomic Number) of an element that has four unpaired electrons in its ground state?", options: ["6", "22", "14", "26"], correct: "D", source: "UHS (2022)", exp: "Iron (Fe, Z=26) has configuration [Ar] 4s² 3d⁶. In ground state, it has 4 unpaired electrons in 3d subshell." },
+    { q: "Principal quantum number is represented by the symbol:", options: ["m", "n", "s", "l"], correct: "B", source: "SZABMU (2022)", exp: "Principal quantum number is represented by the symbol n." }
+,
+
+
+
+
+
+
+
+
+    { q: "Shape of the sub shell is explained by which quantum number?", options: ["Principal quantum number", "Azimuthal quantum number", "Magnetic quantum number", "Spin quantum number"], correct: "B", source: "SZABMU (2022)", exp: "Azimuthal quantum number (l) explains the shapes of subshells (s, p, d, f)." },
+    { q: "The electronic configuration for degenerated orbitals is explained by:", options: ["Aufbau's Principle", "(n+l) rule", "Hund's rule", "Pauli's exclusion principle"], correct: "C", source: "SZABMU (2022)", exp: "Hund's rule states that electrons fill degenerate orbitals singly first with parallel spins before pairing up." },
+    { q: "Maximum number of electrons which can be placed in one orbital is:", options: ["1", "2", "3", "5"], correct: "B", source: "SZABMU (2022)", exp: "An orbital can hold a maximum of 2 electrons with opposite spins according to Pauli's exclusion principle." },
+    { q: "Greater the wavelength associated with the photon:", options: ["Greater is its energy", "Smaller is its energy", "Its energy will be variable", "Its energy will remains constant"], correct: "B", source: "ETEA (2022)", exp: "Energy of a photon is inversely proportional to wavelength (E = hc/λ). Greater wavelength means smaller energy." },
+    { q: "Photon of which of the following series will have largest wavelength?", options: ["Bracket series", "Pfund series", "Balmer series", "Paschen series"], correct: "B", source: "ETEA (2022)", exp: "Pfund series lies in the infrared region with the largest wavelength. Wavelength order: Pfund > Bracket > Paschen > Balmer > Lyman." },
+    { q: "The equation ν = Rh[1/2² - 1/n²] where n > 2 is the equation of H-spectrum for:", options: ["Paschen series", "Pfund series", "Bracket series", "Lyman series", "Balmer series"], correct: "E", source: "DUHS (2022)", exp: "Balmer series has n₁ = 2 and n₂ = 3,4,5,...∞, so the equation is ν = Rh[1/2² - 1/n²]." },
+    { q: "The quantum number allows following orbitals in N-shell:", options: ["s-orbital", "s, p, d & f orbital", "s & p orbital", "All options correct"], correct: "B", source: "DUHS (2022)", exp: "N-shell is the fourth shell (n=4), which contains s, p, d and f subshells." },
+    { q: "Which concept was introduced by the scientist Bohr?", options: ["Energy levels", "Sub-energy levels", "Orbitals", "Sub-orbits"], correct: "A", source: "KIPS", exp: "Bohr introduced the concept of energy levels (orbits) in which electrons revolve around the nucleus." },
+    { q: "What is the electronic configuration of C?", options: ["1s², 2s², 2p²", "1s², 2s², 2p⁴", "1s², 2s², 2p⁶, 3s², 3p³", "1s², 2s², 2p⁶, 3s²"], correct: "A", source: "KIPS", exp: "Carbon (Z=6) has electronic configuration 1s² 2s² 2p²." },
+    { q: "Why do electrons have opposite spins when they are in the same orbital?", options: ["This condition reduces friction", "This condition creates more energy", "This condition results in zero magnetism and removes the charge of the electron", "This condition results in less repulsion and opposite magnetic fields"], correct: "D", source: "BMU (2022)", exp: "Electrons in the same orbital have opposite spins due to less repulsion and opposite magnetic fields (Pauli's exclusion principle)." },
+    { q: "With the increase in the value of principal quantum number n the size of the s-orbitals:", options: ["Decrease", "Increase", "May or may not remain the same", "Remain the same"], correct: "B", source: "BMU (2022)", exp: "Size of orbital increases with increase in principal quantum number n." },
+    { q: "Maximum electrons that can be placed in p subshell are:", options: ["2", "10", "6", "14"], correct: "C", source: "NUMS (2022)", exp: "p-subshell has l=1, number of orbitals = 2l+1 = 3, maximum electrons = 3 × 2 = 6." },
+    { q: "Apply (n+l) rule and calculate which of the following orbital has maximum energy?", options: ["4s", "2d", "2p", "3s"], correct: "A", source: "NUMS (2022)", exp: "4s has n+l=4+0=4, 2p has n+l=2+1=3, 3s has n+l=3+0=3. 2d does not exist. So 4s has highest n+l value, thus maximum energy." },
+    { q: "The mass of electron is:", options: ["1836 times more than mass of proton", "1836 times less than mass of proton", "1836 times more than mass of neutron", "1836 times more than mass of hydrogen atom"], correct: "B", source: "NUMS (2022)", exp: "The mass of electron is 1/1836 times the mass of proton, i.e., 1836 times less than mass of proton." },
+    { q: "The shape of an orbital is determined by which quantum number?", options: ["n", "m", "l", "s"], correct: "C", source: "NUMS (2022)", exp: "Azimuthal quantum number (l) determines the shape of an orbital." },
+    { q: "Proton number of ₁₁Na²³ is:", options: ["23", "12", "11", "34"], correct: "C", source: "NUMS (2022)", exp: "Proton number is also called atomic number. The atomic number of sodium is 11." },
+    { q: "The electronic configuration for degenerate orbitals is explained by:", options: ["Aufbau's Principle", "(n+l) Rule", "Hund's Rule", "Pauli's Exclusion Principle"], correct: "C", source: "KIPS", exp: "Hund's rule explains the filling of electrons in degenerate orbitals." },
+    { q: "What is the proton (Atomic Number) of an element that has four unpaired electrons in its ground state?", options: ["6", "22", "14", "26"], correct: "D", source: "UHS (2023)", exp: "Iron (Fe, Z=26) has configuration [Ar] 4s² 3d⁶. In ground state, it has 4 unpaired electrons in 3d subshell." },
+    { q: "When 6d orbital is filled, the entering electron goes into?", options: ["7f", "7d", "7p", "7s"], correct: "C", source: "UHS (2023)", exp: "According to (n+l) rule, after 6d (n+l=8), the next orbital to fill is 7p (n+l=8, higher n)." },
+    { q: "Which of the following orbital will be filled first than 4p?", options: ["4s", "2p", "3d", "1s"], correct: "A", source: "SZABMU (2023)", exp: "According to (n+l) rule, 4s (n+l=4) has lower energy than 4p (n+l=5), so it fills first." }
+,
+
+
+
+    { q: "If value of azimuthal quantum number is 1 then value of m will range from:", options: ["-1 to 1", "-1 to 2", "-1 to 3", "-1 to 4"], correct: "A", source: "SZABMU (2023)", exp: "For l=1, magnetic quantum number m ranges from -1 to +1, i.e., -1, 0, +1." },
+    { q: "The dumbbell like orbitals can move in how many directions?", options: ["7", "5", "1", "3"], correct: "D", source: "SZABMU (2023)", exp: "p-orbitals have dumbbell shape and have three space orientations (px, py, pz)." },
+    { q: "The relationship between quantum number n and l is:", options: ["n = l-1", "l = n-2", "l = n-1", "n = l-2"], correct: "C", source: "SZABMU (2023)", exp: "Azimuthal quantum number l can have values from 0 to n-1. So l = n-1 is the maximum value." },
+    { q: "The number of orientations of a sub-shell for which n = 4 and l = 3 will be:", options: ["5", "3", "7", "1"], correct: "C", source: "ETEA (2023)", exp: "Number of orientations = 2l+1. For l=3, orientations = 2(3)+1 = 7. This represents the f-subshell." },
+    { q: "Photon of the lowest wavelength is related to:", options: ["Balmer series", "Pfund series", "Bracket series", "Paschen series"], correct: "A", source: "ETEA (2023)", exp: "Lowest wavelength corresponds to highest energy. In hydrogen spectrum, Lyman series has shortest wavelength (UV region), but among given options, Balmer series has the shortest wavelength (visible region)." },
+    { q: "The maximum e/m ratio for positive rays is obtained when the discharge tube contains:", options: ["He", "N₂", "Ne", "H₂"], correct: "D", source: "ETEA (2023)", exp: "e/m value is inversely proportional to mass. Hydrogen (H₂) is the lightest gas, so it has the highest e/m ratio for positive rays." },
+    { q: "The correct sequence of electronic configuration is:", options: ["4p → 5s → 4d → 5p → 6s → 4f → 5d", "4p → 4s → 4d → 5p → 6s → 4f → 6d", "4p → 4s → 4d → 5p → 5s → 4f → 5d", "4p → 3s → 4d → 5p → 6s → 4f → 5d"], correct: "A", source: "ETEA (2023)", exp: "According to (n+l) rule, the correct order of filling is: 4p (n+l=5), 5s (n+l=5, higher n), 4d (n+l=6), 5p (n+l=6, higher n), 6s (n+l=6), 4f (n+l=7), 5d (n+l=7, higher n)." },
+    { q: "Radius of first orbit of hydrogen is 0.53 Å. Which orbit has a radius of 4.77 Å?", options: ["First", "Second", "Third", "Fourth"], correct: "C", source: "DUHS (2023)", exp: "Radius rn = r1 × n². rn = 0.53 × n² = 4.77, so n² = 4.77/0.53 = 9, n = 3. So third orbit." },
+    { q: "Which of the following has only one orientation in space in the magnetic field?", options: ["p orbital", "s orbital", "d orbital", "f orbital"], correct: "B", source: "DUHS (2023)", exp: "s-orbital is spherically symmetrical and has only one orientation in space (m=0)." },
+    { q: "What's the mass of one proton?", options: ["Equal to 1836 electron", "Equal to positron", "Equal to electron", "Equal to 1836 neutron"], correct: "A", source: "KIPS", exp: "The mass of a proton is approximately 1836 times the mass of an electron." },
+    { q: "What is the quantum number for the unpaired electron of chlorine atom (n, l, m)?", options: ["2, 1, 0", "2, 1, 1", "3, 1, 1", "3, 0, 0"], correct: "C", source: "BUMHS (2023)", exp: "Chlorine configuration: 1s² 2s² 2p⁶ 3s² 3p⁵. The last unpaired electron is in 3p orbital, so n=3, l=1, m=+1 (or -1 depending on orientation)." },
+    { q: "Which statement about a 4d orbital is correct?", options: ["It is at a higher energy level than a 4p orbital but has the same shape", "It is occupied by one electron in an isolated Zn atom", "It can hold a maximum of 10 electrons", "It has highest energy of orbitals with principal quantum number four"], correct: "C", source: "KIPS", exp: "d-orbital can hold a maximum of 10 electrons (5 orbitals × 2 electrons each)." },
+    { q: "Which of the following is not true about canal rays?", options: ["Mass 1.6726 × 10⁻²⁷ kg", "9.54 × 10⁻⁷ C/kg", "Show deflection under electric & magnetic fields", "Do not cause mechanical motion"], correct: "D", source: "BUMHS (2023)", exp: "Canal rays (positive rays) can cause mechanical motion like cathode rays. They are positively charged particles." },
+    { q: "Why do electrons have opposite spins when they are in the same orbital?", options: ["This condition reduces friction", "This condition creates more energy", "This condition results in zero magnetism and removes the charge of the electron", "This condition results in less repulsion and opposite magnetic fields"], correct: "D", source: "BUMHS (2023)", exp: "Electrons in the same orbital have opposite spins to minimize repulsion and due to opposite magnetic fields (Pauli's exclusion principle)." },
+    { q: "The amount of energy associated with quantum of radiation is directly proportional to:", options: ["Photon", "Wavelength", "Frequency", "Velocity"], correct: "C", source: "NUMS (2023)", exp: "E = hν, so energy is directly proportional to frequency." },
+    { q: "If value of azimuthal quantum number is 2 then total values of magnetic quantum number will be:", options: ["3", "5", "7", "10"], correct: "B", source: "NUMS (2023)", exp: "For l=2, magnetic quantum number m ranges from -2 to +2, i.e., 5 values (-2, -1, 0, +1, +2)." },
+    { q: "Total number of directions of f-orbitals in space are:", options: ["5", "3", "7", "6"], correct: "C", source: "KIPS", exp: "f-orbitals have l=3, number of orientations = 2l+1 = 2(3)+1 = 7." },
+    { q: "Which of the following quantum number is not obtained from Schrodinger Wave equation?", options: ["Principal Quantum Number", "Spin Quantum Number", "Azimuthal Quantum Number", "Magnetic Quantum Number"], correct: "B", source: "NUMS (2023)", exp: "Spin quantum number was not derived from Schrodinger's wave equation; it was introduced separately to explain electron spin." },
+    { q: "The electronic configuration for degenerate orbitals is explained by:", options: ["Aufbau Principle", "n+1 rule", "Hund's rule", "Pauli exclusion principle"], correct: "C", source: "UHS (2024)", exp: "Hund's rule explains the filling of electrons in degenerate orbitals (electrons fill singly first with parallel spins)." },
+    { q: "The p orbital has:", options: ["2 lobes", "3 lobes", "4 lobes", "5 lobes"], correct: "A", source: "KIPS", exp: "p-orbital has two lobes on opposite sides of the nucleus." }
+,
+
+
+    { q: "Which of the following electronic configuration is correct for carbon?", options: ["1s² 2s² 2p³", "1s² 2s² 2p⁴", "1s² 2s² 2p²", "1s² 2s² 2p¹"], correct: "C", source: "KIPS", exp: "Carbon (Z=6) has electronic configuration 1s² 2s² 2p²." },
+    { q: "The e/m ratio of proton is ___ that of an electron:", options: ["1837 times greater than", "Equal to", "Greater than", "Smaller than"], correct: "D", source: "KIPS", exp: "e/m ratio is directly proportional to charge and inversely proportional to mass. Electron has much smaller mass, so its e/m ratio is about 1837 times greater than that of proton. Therefore, proton's e/m ratio is smaller than electron's." },
+    { q: "How many electrons will be accommodated in sub-shell with Azimuthal quantum number l = 2?", options: ["2", "6", "10", "12"], correct: "C", source: "SZABMU (2024)", exp: "For l=2 (d-subshell), number of orbitals = 2l+1 = 5, maximum electrons = 5 × 2 = 10." },
+    { q: "Which of the following element will show electronic configuration of outermost shell like ns², np⁵?", options: ["C", "Cl", "S", "Si"], correct: "B", source: "SZABMU (2024)", exp: "ns² np⁵ represents Group VII-A elements (halogens). Chlorine (Cl) is a halogen with 7 valence electrons." },
+    { q: "Electronic configuration of ²³Na₁₁ is:", options: ["[Ne] 3s¹", "[Ne] 3s²", "[Ne] 3s⁰", "[Ne] 3s² 3p"], correct: "A", source: "SZABMU-RC (2024)", exp: "Sodium (Z=11) has configuration 1s² 2s² 2p⁶ 3s¹ or [Ne] 3s¹." },
+    { q: "Which of the following sub-shell does not exist?", options: ["1p", "1s", "5d", "6f"], correct: "A", source: "ETEA (2024)", exp: "For n=1, the only possible azimuthal quantum number is l=0 (s-orbital). 1p would require l=1, which is not possible for n=1." },
+    { q: "The splitting of spectral lines in magnetic field is:", options: ["Auf-Bau principle", "Pauli's exclusion principle", "Stark effect", "Zeeman effect"], correct: "D", source: "ETEA (2024)", exp: "Zeeman effect is the splitting of spectral lines when an atom is placed in a magnetic field. Stark effect is splitting in electric field." },
+    { q: "In an orbital of an atom, no two electrons can have the same set of four quantum numbers, at least one quantum number must be different. This statement is:", options: ["Aufbau principle", "Pauli's exclusion principle", "Hund's rule", "Wissesser rule"], correct: "B", source: "DUHS (2024)", exp: "Pauli's exclusion principle states that no two electrons in an atom can have the same set of four quantum numbers." },
+    { q: "Maximum number of electrons in a given sub-shell are calculated by:", options: ["n²", "2(n+1)", "2n²", "2l+1"], correct: "D", source: "DUHS (2024)", exp: "Number of electrons in a subshell = 2(2l+1), not just 2l+1. 2l+1 gives number of orbitals. The question asks for maximum electrons, which is 2(2l+1)." },
+    { q: "The neutron was discovered by:", options: ["Max Planck", "Chadwick", "J.J. Thomson", "Goldstein"], correct: "B", source: "DUHS (2024)", exp: "James Chadwick discovered the neutron in 1932." },
+    { q: "The charge of electron is:", options: ["1.602 × 10⁻¹⁶ C", "1.602 × 10⁻¹⁹ C", "1.602 × 10⁻¹⁷ C", "1.602 × 10⁻¹⁸ C"], correct: "B", source: "BMU (2024)", exp: "The charge of an electron is 1.602 × 10⁻¹⁹ coulombs." },
+    { q: "Which statement is not correct for cathode rays?", options: ["Cathode rays consist of moving material particles", "Cathode rays have definite velocity", "Cathode rays have definite velocity", "Cathode rays travel with the velocity of light"], correct: "D", source: "KIPS", exp: "Cathode rays (electrons) travel at speeds close to but less than the speed of light. They do not travel at exactly the speed of light." },
+    { q: "An electron in an atom is completely described by its ___ quantum numbers:", options: ["Eight", "Six", "Five", "Four"], correct: "D", source: "BMU (2024)", exp: "An electron is completely described by four quantum numbers: n, l, m, and s." },
+    { q: "One picometer (pm) = ?", options: ["10⁻⁶ m", "10⁻⁸ m", "10⁻¹⁰ m", "10⁻¹² m"], correct: "D", source: "KIPS", exp: "1 picometer (pm) = 10⁻¹² meters." },
+    { q: "The only group of lines occurring in the visible region of the hydrogen spectrum is labelled as the:", options: ["Paschen series", "Pfund series", "Balmer series", "Lyman series"], correct: "C", source: "BMU (2024)", exp: "Balmer series lies in the visible region of the electromagnetic spectrum." },
+    { q: "Select the correct one:", options: ["Only electrons of atoms get shuffled during chemical reaction", "All the sub-atomic particles of an atom take part in chemical reaction", "Protons of an atom spearhead chemical reaction", "Protons and neutrons of an atom collectively make chemical reactions possible"], correct: "A", source: "NUMS (2024)", exp: "During chemical reactions, only electrons are involved (shared, transferred, or rearranged). Protons and neutrons remain unchanged in the nucleus." },
+    { q: "The value of l for 4p orbital is:", options: ["0", "1", "2", "3"], correct: "B", source: "KIPS", exp: "For p-orbital, azimuthal quantum number l = 1 regardless of principal quantum number." },
+    { q: "The element having the electronic configuration of noble gas notation (Kr) 5s² 4d⁶ is:", options: ["³⁵Br", "⁴⁴Ru", "⁴⁶Pd", "⁴⁰Zr"], correct: "B", source: "NUMS (2024)", exp: "[Kr] 5s² 4d⁶ represents Ruthenium (Ru) with atomic number 44." },
+    { q: "Choose the allowed sets of quantum numbers from the following:", options: ["n=3, l=2, m=0, s=+1/2", "n=3, l=3, m=0, s=-1/2", "n=4, l=3, m=4, s=+1/2", "n=4, l=2, m=4, s=-1/2"], correct: "A", source: "NUMS (2024)", exp: "For n=3, l can be 0,1,2. m ranges from -l to +l. In option A: n=3, l=2, m=0, s=+1/2 is valid. Other options violate quantum number rules." },
+    { q: "The neutron was discovered by:", options: ["Max Planck", "Chadwick", "J.J. Thomson", "Goldstein"], correct: "B", source: "KIPS", exp: "James Chadwick discovered the neutron in 1932." }
+
+
+
+
+
+
+
+    ];
+
+    let userSelections = {};
+    let quizSubmitted = false;
+    let submitBtn = null;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        const container = document.getElementById('questionsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        userSelections = {};
+
+        submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.textContent = 'Submit';
+            submitBtn.classList.remove('submitted');
+            submitBtn.style.pointerEvents = 'auto';
+        }
+
+        const resultsDiv = document.getElementById('results');
+        if (resultsDiv) resultsDiv.style.display = 'none';
+
+        const totalSpan = document.getElementById('totalQuestions');
+        if (totalSpan) totalSpan.textContent = `Total Questions: ${chemistryMcqs.length}`;
+
+        chemistryMcqs.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}
+                    <span class="source-badge" style="display:none;">${item.source}</span>
+                </div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">${letter}. ${opt}</div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+
+        if (submitBtn) {
+            submitBtn.textContent = 'Submitted';
+            submitBtn.classList.add('submitted');
+            submitBtn.style.pointerEvents = 'none';
+        }
+
+        let score = 0;
+
+        chemistryMcqs.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) opt.classList.add('correct');
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+
+        const allOptions = document.querySelectorAll('.option');
+        allOptions.forEach(opt => {
+            opt.style.pointerEvents = 'none';
+        });
+
+        const percent = Math.round((score / chemistryMcqs.length) * 100);
+        const scoreCard = document.getElementById('scoreText');
+        scoreCard.innerHTML = `Score: ${score} / ${chemistryMcqs.length}  |  ${percent}%`;
+        document.getElementById('results').style.display = 'block';
+
+        setTimeout(() => { document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>
