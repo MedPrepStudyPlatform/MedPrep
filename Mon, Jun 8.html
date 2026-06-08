@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep | MDCAT Super Session</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
+            border-top: 8px solid #3b82f6;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            background: #f1f5f9;
+            padding: 12px 20px;
+            border-radius: 60px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+        }
+
+        .question:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.02rem;
+            margin-bottom: 14px;
+            color: #0f172a;
+            padding-left: 12px;
+            border-left: 3px solid #3b82f6;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 10px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-submit:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit.submitted {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+        }
+
+        .btn-submit.submitted:hover {
+            background: #94a3b8;
+            transform: none;
+        }
+
+        #results {
+            display: none;
+            margin-top: 35px;
+        }
+
+        .score-card {
+            background: linear-gradient(110deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 25px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .score-card h2 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .weakness-summary {
+            background: #fefce8;
+            border-left: 6px solid #eab308;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+        }
+
+        .weakness-summary h3 {
+            color: #854d0e;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .weakness-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .weakness-topic {
+            background: #fef3c7;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #92400e;
+            font-weight: 500;
+        }
+
+        .high-yield {
+            background: #f0fdf4;
+            border-left: 6px solid #10b981;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .high-yield h3 {
+            color: #166534;
+            margin-bottom: 15px;
+        }
+
+        .high-yield ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+            list-style: none;
+        }
+
+        .high-yield li {
+            font-size: 0.85rem;
+            padding: 6px 0;
+            border-bottom: 1px solid #dcfce7;
+            color: #14532d;
+        }
+
+        .explanation {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #475569;
+            display: none;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 14px;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+        }
+
+        @media (max-width: 680px) {
+            .quiz-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>MDCAT Super Session</h1>
+    <div class="stats-bar">
+        
+    </div>
+    
+    <div id="questionsContainer"></div>
+    <button type="button" class="btn-submit" id="submitBtn" onclick="calculateScore()">Submit</button>
+
+    <div id="results">
+        <div class="score-card">
+            <h2 id="scoreText"></h2>
+            
+        </div>
+        <div class="weakness-summary" id="weaknessSummary">
+            <h3>Weak Areas Summary</h3>
+            <div id="subjectWeaknessContent"></div>
+        </div>
+        <div class="high-yield" id="highYieldPoints">
+            <h3>High-Yield Points</h3>
+            <ul id="highYieldList"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 50 MDCAT-Level MCQs in order: Bio(20), Chem(15), Physics(10), English(5)
+    const allMcqs = [
+        // ==================== BIOLOGY (Cell Structure & Function) - 20 MCQs ====================
+        { q: "A person has genetic disorder affecting ATP production. Which organelle is most likely dysfunctional?", options: ["Nucleus", "Mitochondria", "Rough ER", "Golgi apparatus"], exp: "Mitochondria are responsible for ATP synthesis via oxidative phosphorylation. Dysfunction leads to energy deficiency disorders.", correct: "B", topic: "Mitochondria" },
+        { q: "A newly synthesized protein destined for secretion must travel through which sequence of organelles?", options: ["Nucleus → Golgi → ER", "Rough ER → Golgi → Vesicle → Plasma membrane", "Smooth ER → Lysosome → Nucleus", "Golgi → Mitochondria → Vesicle"], exp: "Secretory proteins are synthesized on rough ER, modified in Golgi, then packaged into vesicles for exocytosis.", correct: "B", topic: "Protein Secretion" },
+        { q: "Which of the following would you expect to find in higher abundance in a cell specialized for lipid synthesis?", options: ["Rough ER", "Smooth ER", "Lysosomes", "Peroxisomes"], exp: "Smooth ER is the primary site for lipid and steroid hormone synthesis, as well as detoxification.", correct: "B", topic: "Smooth ER" },
+        { q: "A researcher observes a cell under electron microscope and notices a double membrane surrounding the genetic material. This cell is most likely:", options: ["Prokaryotic", "Eukaryotic", "Bacterial", "Archaeal"], exp: "The presence of a nucleus with a double membrane (nuclear envelope) is a defining feature of eukaryotic cells.", correct: "B", topic: "Cell Types" },
+        { q: "Which statement about the fluid mosaic model is incorrect?", options: ["Phospholipids can move laterally", "Integral proteins span the bilayer", "Carbohydrates are only found on the cytoplasmic side", "Cholesterol provides membrane fluidity"], exp: "Carbohydrates are attached to proteins or lipids on the extracellular side (glycocalyx), not the cytoplasmic side.", correct: "C", topic: "Cell Membrane" },
+        { q: "A drug that inhibits ribosome function would most directly affect which cellular process?", options: ["DNA replication", "Transcription", "Translation", "Cellular respiration"], exp: "Ribosomes are the site of translation (protein synthesis). Inhibiting them blocks polypeptide formation.", correct: "C", topic: "Ribosomes" },
+        { q: "Which organelle contains hydrolytic enzymes that function optimally at acidic pH?", options: ["Peroxisome", "Lysosome", "Endosome", "Vacuole"], exp: "Lysosomes have a low internal pH (≈4.5-5) and contain acid hydrolases for intracellular digestion.", correct: "B", topic: "Lysosomes" },
+        { q: "A cell is treated with a toxin that disassembles microtubules. Which process would be directly impaired?", options: ["Protein synthesis", "DNA replication", "Chromosome segregation during mitosis", "ATP production"], exp: "Microtubules form the spindle fibers that separate chromosomes during mitosis. Disruption prevents proper segregation.", correct: "C", topic: "Cytoskeleton" },
+        { q: "Plant cells differ from animal cells because they possess:", options: ["Mitochondria and ribosomes", "Cell wall and chloroplasts", "Nucleus and ER", "Golgi and lysosomes"], exp: "Plant cells have a rigid cell wall (cellulose) and chloroplasts (photosynthesis), which are absent in animal cells.", correct: "B", topic: "Plant vs Animal" },
+        { q: "The nucleolus is the site of:", options: ["mRNA splicing", "tRNA synthesis", "rRNA synthesis and ribosome assembly", "DNA replication"], exp: "The nucleolus contains rRNA genes and is where rRNA is transcribed and ribosome subunits are assembled.", correct: "C", topic: "Nucleus" },
+        { q: "Which transport process requires direct cellular energy (ATP)?", options: ["Osmosis", "Simple diffusion", "Facilitated diffusion", "Active transport"], exp: "Active transport moves substances against their concentration gradient and requires ATP (e.g., Na⁺/K⁺ pump).", correct: "D", topic: "Membrane Transport" },
+        { q: "A cell is placed in a hypertonic solution. What will happen?", options: ["It will swell and burst", "It will shrink (crenate)", "No change", "It will undergo lysis"], exp: "In hypertonic solution, water leaves the cell by osmosis, causing it to shrink (crenation in animal cells).", correct: "B", topic: "Osmosis" },
+        { q: "Which organelle is involved in detoxifying harmful substances like alcohol and hydrogen peroxide?", options: ["Lysosome", "Peroxisome", "Mitochondrion", "Vacuole"], exp: "Peroxisomes contain catalase and oxidases to break down H₂O₂ and detoxify alcohols and other compounds.", correct: "B", topic: "Peroxisomes" },
+        { q: "The endomembrane system includes all of the following EXCEPT:", options: ["ER", "Golgi", "Lysosomes", "Mitochondria"], exp: "Mitochondria are not part of the endomembrane system; they have their own membranes and DNA.", correct: "D", topic: "Endomembrane System" },
+        { q: "Which statement about prokaryotic cells is true?", options: ["They have a nucleus", "They have membrane-bound organelles", "They have 70S ribosomes", "They undergo mitosis"], exp: "Prokaryotes have 70S ribosomes (vs 80S in eukaryotes), no nucleus, and no membrane-bound organelles.", correct: "C", topic: "Cell Types" },
+        { q: "The primary function of the Golgi apparatus is:", options: ["Lipid synthesis", "Protein synthesis", "Modification, sorting, and packaging of proteins", "ATP synthesis"], exp: "Golgi modifies (glycosylation, phosphorylation) and packages proteins into vesicles for transport.", correct: "C", topic: "Golgi" },
+        { q: "Which organelle is responsible for oxidative phosphorylation and contains its own DNA?", options: ["Nucleus", "Mitochondria", "Chloroplast", "Both B and C"], exp: "Both mitochondria and chloroplasts contain their own DNA and perform energy transformations (ATP synthesis).", correct: "D", topic: "Mitochondria" },
+        { q: "A cell that is actively secreting digestive enzymes would have abundant:", options: ["Smooth ER", "Rough ER and Golgi", "Peroxisomes", "Lysosomes"], exp: "Secretion of proteins requires rough ER for synthesis and Golgi for packaging into secretory vesicles.", correct: "B", topic: "Protein Secretion" },
+        { q: "The cytoskeletal component made of actin is called:", options: ["Microtubule", "Microfilament", "Intermediate filament", "Cilium"], exp: "Microfilaments are polymers of actin (7 nm diameter) and are involved in cell movement and contraction.", correct: "B", topic: "Cytoskeleton" },
+        { q: "Which pair correctly matches the organelle with its function?", options: ["Nucleus - ATP production", "Lysosome - protein synthesis", "Rough ER - lipid synthesis", "Mitochondria - cellular respiration"], exp: "Mitochondria are the site of cellular respiration (Krebs cycle and ETC), producing ATP.", correct: "D", topic: "Organelles" },
+        
+        // ==================== CHEMISTRY (Fundamentals) - 15 MCQs ====================
+        { q: "A 0.5 M solution of H₂SO₄ contains how many grams of H₂SO₄ per liter? (Molar mass = 98 g/mol)", options: ["49 g", "98 g", "196 g", "24.5 g"], exp: "Molarity = moles/L. 0.5 mol/L × 98 g/mol = 49 g/L.", correct: "A", topic: "Molarity" },
+        { q: "Which of the following has the highest number of atoms? (Atomic masses: H=1, C=12, O=16, Na=23)", options: ["1 g of H₂", "12 g of C", "18 g of H₂O", "23 g of Na"], exp: "18 g H₂O = 1 mol H₂O = 3 × 6.02×10²³ atoms = 1.8×10²⁴ atoms (highest). Others have ~6.02×10²³ atoms.", correct: "C", topic: "Mole Concept" },
+        { q: "The empirical formula of a compound is CH. If its molecular mass is 78 g/mol, the molecular formula is:", options: ["C₂H₂", "C₄H₄", "C₆H₆", "C₈H₈"], exp: "Empirical mass = 12+1 = 13. n = 78/13 = 6. Molecular formula = C₆H₆ (benzene).", correct: "C", topic: "Empirical Formula" },
+        { q: "Which of the following is an isoelectronic series?", options: ["Na⁺, Mg²⁺, Al³⁺", "O²⁻, F⁻, Ne, Na⁺", "Both A and B", "None"], exp: "Both series have 10 electrons each, isoelectronic with neon.", correct: "C", topic: "Atomic Structure" },
+        { q: "Calculate the mass of CO₂ produced when 24 g of carbon is burned in excess oxygen. (C + O₂ → CO₂)", options: ["44 g", "88 g", "132 g", "176 g"], exp: "Moles C = 24/12 = 2 mol. 2 mol CO₂ = 2 × 44 = 88 g.", correct: "B", topic: "Stoichiometry" },
+        { q: "Which statement about the periodic table is correct?", options: ["Electronegativity decreases from left to right", "Atomic radius increases from left to right", "Ionization energy increases from left to right across a period", "Metallic character increases from left to right"], exp: "Ionization energy generally increases across a period due to increasing nuclear charge and decreasing atomic radius.", correct: "C", topic: "Periodic Trends" },
+        { q: "The bond in HF is polar covalent because:", options: ["H and F share electrons equally", "F is more electronegative than H", "H is more electronegative than F", "It is an ionic bond"], exp: "Fluorine (4.0) is much more electronegative than hydrogen (2.1), creating a polar covalent bond.", correct: "B", topic: "Chemical Bonding" },
+        { q: "A gas occupies 5 L at 27°C and 1 atm. What volume will it occupy at 127°C at constant pressure? (Convert to Kelvin)", options: ["5 L", "6.67 L", "7.5 L", "10 L"], exp: "V₁/T₁ = V₂/T₂. T₁=300K, T₂=400K. V₂ = 5 × 400/300 = 6.67 L.", correct: "B", topic: "Gas Laws" },
+        { q: "Which of the following is a redox reaction?", options: ["NaCl + AgNO₃ → AgCl + NaNO₃", "2H₂ + O₂ → 2H₂O", "NaOH + HCl → NaCl + H₂O", "CaCO₃ → CaO + CO₂"], exp: "In 2H₂ + O₂ → 2H₂O, H is oxidized (0 to +1) and O is reduced (0 to -2).", correct: "B", topic: "Redox" },
+        { q: "The pH of a 0.001 M HCl solution is:", options: ["1", "2", "3", "4"], exp: "[H⁺] = 10⁻³ M, pH = -log(10⁻³) = 3.", correct: "C", topic: "Acid Base" },
+        { q: "Which element has the electronic configuration [Ar] 3d¹⁰ 4s² 4p⁵?", options: ["Bromine", "Chlorine", "Iodine", "Fluorine"], exp: "[Ar] 3d¹⁰ 4s² 4p⁵ represents bromine (Z=35).", correct: "A", topic: "Atomic Structure" },
+        { q: "Calculate the number of moles in 5.6 L of CO₂ at STP.", options: ["0.25 mol", "0.5 mol", "1.0 mol", "2.0 mol"], exp: "At STP, 1 mole gas = 22.4 L. Moles = 5.6/22.4 = 0.25 mol.", correct: "A", topic: "Gas Laws" },
+        { q: "Which of the following has the strongest London dispersion forces?", options: ["CH₄", "C₂H₆", "C₃H₈", "C₄H₁₀"], exp: "London dispersion forces increase with molecular size. Butane (C₄H₁₀) has the largest electron cloud.", correct: "D", topic: "Intermolecular Forces" },
+        { q: "The oxidation state of chromium in K₂Cr₂O₇ is:", options: ["+3", "+4", "+6", "+7"], exp: "2 + 2Cr - 14 = 0 → 2Cr = 12 → Cr = +6.", correct: "C", topic: "Redox" },
+        { q: "Which of the following is an example of a Lewis acid?", options: ["NH₃", "H₂O", "BF₃", "CH₄"], exp: "BF₃ has an incomplete octet and can accept an electron pair, making it a Lewis acid.", correct: "C", topic: "Chemical Bonding" },
+        
+        // ==================== PHYSICS (Vectors & Equilibrium) - 10 MCQs ====================
+        { q: "Two forces of 5 N and 12 N act at a point. Their resultant can have a magnitude of:", options: ["5 N", "12 N", "17 N", "7 N"], exp: "Resultant magnitude ranges between |5-12|=7 N and 5+12=17 N. 7 N is possible (anti-parallel).", correct: "D", topic: "Vector Addition" },
+        { q: "If vector A = 2i + 3j and B = -4i + 2j, then the magnitude of A + B is:", options: ["5", "7", "√41", "√29"], exp: "A+B = -2i + 5j. Magnitude = √(4+25) = √29.", correct: "D", topic: "Vectors" },
+        { q: "The scalar product of A = 3i + 4j and B = 2i - j + k is:", options: ["2", "6", "10", "14"], exp: "A·B = 3×2 + 4×(-1) + 0×1 = 6 - 4 = 2.", correct: "A", topic: "Dot Product" },
+        { q: "A force of 10 N is applied at an angle of 60° to the horizontal. The horizontal and vertical components are:", options: ["5 N, 5√3 N", "5√3 N, 5 N", "10 N, 0 N", "0 N, 10 N"], exp: "F_x = 10 cos60° = 5 N; F_y = 10 sin60° = 5√3 N.", correct: "B", topic: "Components" },
+        { q: "For two vectors to have a resultant zero, they must be:", options: ["Equal in magnitude and same direction", "Equal in magnitude and opposite direction", "Perpendicular", "At 60°"], exp: "Equal magnitude and opposite direction (180°) give zero resultant.", correct: "B", topic: "Vector Addition" },
+        { q: "A torque of 20 Nm is produced by a force of 10 N. If the force is applied perpendicular to the position vector, the distance from the pivot is:", options: ["1 m", "2 m", "3 m", "4 m"], exp: "τ = rF sinθ → r = τ/F = 20/10 = 2 m.", correct: "B", topic: "Torque" },
+        { q: "A 5 kg block is placed on a frictionless inclined plane of angle 30°. The acceleration of the block is (g = 10 m/s²):", options: ["5 m/s²", "10 m/s²", "8.66 m/s²", "20 m/s²"], exp: "a = g sinθ = 10 × 0.5 = 5 m/s².", correct: "A", topic: "Inclined Plane" },
+        { q: "The cross product of two vectors is maximum when the angle between them is:", options: ["0°", "45°", "90°", "180°"], exp: "|A×B| = AB sinθ, maximum at θ = 90°.", correct: "C", topic: "Cross Product" },
+        { q: "A body of weight 100 N is suspended by two strings making angles of 30° and 60° with the horizontal. The tension in the string at 30° is approximately:", options: ["50 N", "86.6 N", "100 N", "173.2 N"], exp: "Using Lami's theorem or equilibrium equations: T₁ ≈ 86.6 N.", correct: "B", topic: "Equilibrium" },
+        { q: "The angle between vectors A = i + j and B = i - j is:", options: ["0°", "45°", "90°", "60°"], exp: "A·B = 0 → θ = 90°.", correct: "C", topic: "Dot Product" },
+        
+        // ==================== ENGLISH (Tenses & Subject-Verb Agreement) - 5 MCQs ====================
+        { q: "Choose the correct sentence:", options: ["Neither the teacher nor the students was present", "Neither the teacher nor the students were present", "Neither the teacher nor the students is present", "Neither the teacher nor the students am present"], exp: "With 'neither/nor', the verb agrees with the closer subject. 'Students' is plural, so 'were' is correct.", correct: "B", topic: "Subject-Verb Agreement" },
+        { q: "By next year, she _____ her degree.", options: ["will complete", "will have completed", "completes", "has completed"], exp: "Future perfect tense is used for an action that will be completed before a specific future time.", correct: "B", topic: "Tenses" },
+        { q: "Every one of the boys _____ to participate in the competition.", options: ["want", "wants", "are wanting", "have wanted"], exp: "'Every one' is singular, so the verb must be singular: 'wants'.", correct: "B", topic: "Subject-Verb Agreement" },
+        { q: "I wish I _____ harder for the exam.", options: ["studied", "had studied", "have studied", "would study"], exp: "Wish about the past requires past perfect: 'had studied'.", correct: "B", topic: "Tenses" },
+        { q: "The committee _____ divided in their opinions.", options: ["is", "are", "was", "has"], exp: "Collective noun 'committee' takes plural verb when members act individually. 'Their opinions' indicates plurality.", correct: "B", topic: "Subject-Verb Agreement" }
+    ];
+    
+    let userSelections = {};
+    let quizSubmitted = false;
+    let submitBtn = null;
+    
+    function loadQuiz() {
+        quizSubmitted = false;
+        const container = document.getElementById('questionsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        userSelections = {};
+        
+        // Reset submit button
+        submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.textContent = 'Submit';
+            submitBtn.classList.remove('submitted');
+            submitBtn.style.pointerEvents = 'auto';
+        }
+        
+        // Hide results section
+        const resultsDiv = document.getElementById('results');
+        if (resultsDiv) resultsDiv.style.display = 'none';
+        
+        allMcqs.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">${letter}. ${opt}</div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+    
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+    
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+        
+        // Change button to "Submitted" and fade it
+        if (submitBtn) {
+            submitBtn.textContent = 'Submitted';
+            submitBtn.classList.add('submitted');
+            submitBtn.style.pointerEvents = 'none';
+        }
+        
+        let score = 0;
+        let weakTopicsSet = new Set();
+        
+        allMcqs.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) opt.classList.add('correct');
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            } else if (userSelections[idx]) {
+                weakTopicsSet.add(data.topic);
+            }
+        });
+        
+        // Disable all options after submission
+        const allOptions = document.querySelectorAll('.option');
+        allOptions.forEach(opt => {
+            opt.style.pointerEvents = 'none';
+        });
+        
+        const percent = Math.round((score / 50) * 100);
+        document.getElementById('scoreText').innerHTML = `Score: ${score} / 50  |  ${percent}%`;
+        document.getElementById('results').style.display = 'block';
+        
+        // Weak Area Summary - Clean list of topic names only
+        let weakHtml = '<ul class="weakness-list">';
+        if (weakTopicsSet.size === 0) {
+            weakHtml += '<li class="weakness-topic">Excellent! No weak areas identified.</li>';
+        } else {
+            let sortedTopics = Array.from(weakTopicsSet).sort();
+            sortedTopics.forEach(topic => {
+                weakHtml += `<li class="weakness-topic">${topic}</li>`;
+            });
+        }
+        weakHtml += '</ul>';
+        document.getElementById('subjectWeaknessContent').innerHTML = weakHtml;
+        
+        // High Yield Points (25)
+        const highYieldPoints = [
+            "Mitochondria are the powerhouse of the cell - site of ATP synthesis via oxidative phosphorylation.",
+            "Rough ER synthesizes proteins; Smooth ER synthesizes lipids and detoxifies.",
+            "The Golgi apparatus modifies, sorts, and packages proteins for secretion.",
+            "Lysosomes contain hydrolytic enzymes that digest waste at acidic pH (~4.5-5).",
+            "Prokaryotes lack a nucleus and have 70S ribosomes; eukaryotes have a nucleus and 80S ribosomes.",
+            "The cell membrane fluid mosaic model: phospholipid bilayer with embedded proteins; carbohydrates on extracellular side.",
+            "Active transport requires ATP to move substances against concentration gradient.",
+            "In hypertonic solutions, cells lose water and shrink (crenation).",
+            "Molarity = moles of solute per liter of solution. M = mol/L.",
+            "Avogadro's number = 6.022 × 10²³ particles per mole.",
+            "Empirical formula is the simplest whole-number ratio; molecular formula = n × empirical formula.",
+            "Ionization energy increases across a period; atomic radius decreases across a period.",
+            "Electronegativity is highest for Fluorine (4.0).",
+            "pH = -log[H⁺]; neutral pH = 7; acidic pH < 7; basic pH > 7.",
+            "Redox reactions involve transfer of electrons; oxidizing agent gains electrons.",
+            "At STP (0°C, 1 atm), 1 mole of ideal gas occupies 22.4 L.",
+            "Vector addition: resultant magnitude ranges between |A-B| and A+B.",
+            "Dot product of perpendicular vectors is zero; dot product of parallel vectors is maximum.",
+            "Cross product of parallel vectors is zero; cross product of perpendicular vectors is maximum.",
+            "Torque = rF sinθ; maximum torque at θ = 90°.",
+            "For equilibrium: ΣF = 0 (translational) and Στ = 0 (rotational).",
+            "On a frictionless incline, acceleration = g sinθ, independent of mass.",
+            "Subject-verb agreement: 'each', 'everyone', 'neither/nor' with plural closer subject.",
+            "Future perfect tense: will have + past participle for actions completed before a future time.",
+            "Wish about the past requires past perfect tense (had + past participle)."
+        ];
+        
+        let highYieldHtml = '';
+        highYieldPoints.forEach(point => {
+            highYieldHtml += `<li>${point}</li>`;
+        });
+        document.getElementById('highYieldList').innerHTML = highYieldHtml;
+        
+        setTimeout(() => { document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+    };
+    
+    loadQuiz();
+</script>
+</body>
+</html>
