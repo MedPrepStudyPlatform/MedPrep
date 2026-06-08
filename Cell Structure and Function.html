@@ -433,7 +433,7 @@
             qDiv.setAttribute('data-qidx', idx);
             qDiv.innerHTML = `
                 <div class="q-text">${idx + 1}. ${item.q}
-                    <span class="source-badge">${item.source}</span>
+                    <span class="source-badge" style="display:none;">${item.source}</span>
                 </div>
                 <div class="options">
                     ${item.options.map((opt, optIdx) => {
