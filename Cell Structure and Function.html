@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep | Cell Structure and Function |Past Papers MCQs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
+            border-top: 8px solid #3b82f6;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            color: #1e40af;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .subhead {
+            text-align: center;
+            color: #475569;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            background: #f1f5f9;
+            padding: 12px 20px;
+            border-radius: 60px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+        }
+
+        .question:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            color: #0f172a;
+            padding-left: 12px;
+            border-left: 3px solid #3b82f6;
+            line-height: 1.5;
+        }
+
+        .source-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.65rem;
+            padding: 3px 10px;
+            border-radius: 30px;
+            margin-left: 12px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            vertical-align: middle;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 10px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-submit:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit.submitted {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+        }
+
+        .btn-submit.submitted:hover {
+            background: #94a3b8;
+            transform: none;
+        }
+
+        #results {
+            display: none;
+            margin-top: 35px;
+        }
+
+        .score-card {
+            background: linear-gradient(110deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 25px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .score-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .explanation {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #475569;
+            display: none;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 14px;
+        }
+
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+        }
+
+        .wrong {
+            border-color: #ef4444 !important;
+            background: #fee2e2 !important;
+        }
+
+        @media (max-width: 680px) {
+            .quiz-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Cell Structure and Function</h1>
+    
+    
+    
+    <div id="questionsContainer"></div>
+    <button type="button" class="btn-submit" id="submitBtn" onclick="calculateScore()">Submit</button>
+
+    <div id="results">
+        <div class="score-card">
+            <h2 id="scoreText"></h2>
+        </div>
+    </div>
+</div>
+
+<script>
+    // =================================================================
+    // PASTE YOUR MCQ ARRAY HERE (SECTION BY SECTION)
+    // Each question object format:
+    // { q: "question text", options: ["A", "B", "C", "D"], correct: "A", source: "Exam Source", exp: "explanation text" }
+    // =================================================================
+    const cellMcqs = [
+        
+		
+			
+    { q: "Out of the given options, choose the one which shows the structures found only in plants:", options: ["Vacuole, chloroplast, ribosomes", "Chloroplast, cell wall, large vacuole", "Chloroplast, microtubules, peroxisomes", "Chloroplast, cell wall, mitochondria"], correct: "B", source: "MDCAT-2016", exp: "Chloroplast, cell wall and large central vacuole are absent in animal cells but present in plant cells." },
+    { q: "Which features do animal cells share with plant cells? (Table: Chloroplast, Cytoplasm, Nucleus, Mitochondria)", options: ["Chloroplast, Cytoplasm, Nucleus, Mitochondria", "Cytoplasm, Nucleus, Mitochondria", "Cytoplasm, Nucleus", "Nucleus, Mitochondria"], correct: "B", source: "MDCAT-2016", exp: "Chloroplast is not present in animal cells, while cytoplasm, nucleus and mitochondria are present in both." },
+    { q: "Select the organelle which is only present in animal cells:", options: ["Centrioles", "Microtubules", "R.E.R", "Ribosomes"], correct: "A", source: "MDCAT-2017", exp: "Centrioles are present only in animal cells and help in spindle formation during cell division." },
+    { q: "Which of the following structure is present in both plant and animal cells but is absent in prokaryotic cells?", options: ["Centrioles", "Plastids", "Microtubule", "Sieve tubes"], correct: "C", source: "MDCAT-2017", exp: "Microtubules are present in eukaryotic cells (both plant and animal) but absent in prokaryotes." },
+    { q: "In which type of cells, cell wall is not present?", options: ["Plant cells", "Bacterial cells", "Fungal cells", "Liver cells"], correct: "D", source: "PMC-2020", exp: "Liver cells are animal cells; they lack a cell wall and have only a plasma membrane." },
+    { q: "Cell wall may be absent in which of the following?", options: ["Plant and algae", "Algae and fungi", "Fungi and archaea", "Bacteria and archaea"], correct: "D", source: "UHS-2022", exp: "Some bacteria and archaea (like Mycoplasma) lack cell walls." },
+    { q: "The cell wall of bacteria is made up of:", options: ["Chitin", "Murein", "Cellulose", "Hemicellulose"], correct: "B", source: "UHS-2022", exp: "Bacterial cell wall contains peptidoglycan (murein) - a polymer of sugars and amino acids." },
+    { q: "Which of the following is correct for cell wall?", options: ["Semi-permeable", "Differentially permeable", "Permeable", "Not permeable"], correct: "C", source: "NUMS-2022", exp: "Cell wall is completely permeable to water and solutes because it has pores." },
+    { q: "Chemically, cell wall of fungi is made up of:", options: ["Cellulose", "Lignin", "Chitin", "Murein"], correct: "C", source: "SZABMU-2022", exp: "Fungal cell walls are composed of chitin, a nitrogen-containing polysaccharide." },
+    { q: "Cell without cell wall would burst in:", options: ["Hypotonic solution", "Hypertonic solution", "Isotonic solution", "Solution having more electrolytes"], correct: "A", source: "BUMHS-2021", exp: "In hypotonic solution, water enters the cell by osmosis causing it to swell and burst (lysis)." },
+    { q: "Plant cell wall is mainly made up of:", options: ["Lignin", "Murein", "Cutin", "Cellulose"], correct: "D", source: "DUHS-2023", exp: "Primary cell wall is chiefly composed of cellulose along with pectin and hemicellulose." },
+    { q: "Cell become dead due to the deposition of:", options: ["Cellulose", "Cutin", "Chitin", "Lignin"], correct: "D", source: "DUHS-2022", exp: "Lignin deposition in secondary cell wall makes it thick and the cell loses its protoplasm, becoming dead." },
+    { q: "The intake of liquid materials across the cell membrane is:", options: ["Phagocytosis", "Pinocytosis", "Endocytosis", "Exocytosis"], correct: "B", source: "MDCAT-2016", exp: "Pinocytosis is the ingestion of liquid material into a cell by budding of small vesicles." },
+    { q: "Which statement best describes the fluid mosaic model of membrane structure?", options: ["Proteins and lipids form a lipoprotein bilayer", "Phospholipid bilayer with embedded proteins that can move", "Triglyceride bilayer with embedded proteins", "Proteins form a layer over the lipid bilayer"], correct: "B", source: "MDCAT-2017", exp: "Fluid mosaic model describes proteins embedded in a fluid lipid bilayer that allows lateral movement." },
+    { q: "Phagocytosis is:", options: ["Cell drinking", "Cell eating", "Cell division", "Cell movement"], correct: "B", source: "MDCAT-2018", exp: "Phagocytosis is the engulfment of large solid particles by the cell membrane, also known as 'cell eating'." },
+    { q: "The process by which damaged organelles are digested by the cell is called:", options: ["Phagocytosis", "Pinocytosis", "Autophagy", "Exocytosis"], correct: "C", source: "PMC-2020", exp: "Autophagy is the natural mechanism where the cell removes unnecessary or dysfunctional components using lysosomes." },
+    { q: "Passive transport of molecules across the cell membrane includes:", options: ["Osmosis, diffusion and facilitated diffusion", "Endocytosis and exocytosis", "Active transport only", "Phagocytosis only"], correct: "A", source: "MDCAT-2021", exp: "Osmosis, diffusion and facilitated diffusion are passive processes requiring no energy." },
+    { q: "All of the following are functions of cell membrane except:", options: ["Protection of cytoplasm", "Regulating passage of molecules", "Protein synthesis", "Cellular communication"], correct: "C", source: "MDCAT-2021", exp: "Protein synthesis is the function of ribosomes, not the cell membrane." },
+    { q: "The hydrophobic portion of plasma membrane is present:", options: ["Towards extracellular matrix", "Inner core of plasma membrane", "Towards cytoplasm", "Towards the cytoskeleton"], correct: "B", source: "MDCAT-2020", exp: "The hydrophobic fatty acid tails are oriented toward the inner core of the bilayer." },
+    { q: "Which molecules do not contribute to the formation of biological membranes?", options: ["Glycerophospholipids", "Glycerolipids", "Phospholipids", "Nucleoproteins"], correct: "D", source: "NUMS-2022", exp: "Nucleoproteins are not involved in cell membrane formation; they are found in chromosomes." },
+    { q: "A group of ribosomes attached to mRNA is known as polysome and the attachment is controlled by:", options: ["Na+", "Mg2+", "Cu2+", "K+"], correct: "B", source: "NUMS-2022", exp: "Mg2+ ions stabilize ribosomal subunits and facilitate binding to mRNA to form polysomes." },
+    { q: "Adenylate cyclase in the cell membrane acts as:", options: ["Channel protein", "Carrier protein", "Enzyme", "Receptor"], correct: "C", source: "SZABMU-2022", exp: "Adenylate cyclase is an enzyme that converts ATP to cyclic AMP." },
+    { q: "The statement 'the membrane is like a sea of lipids in which proteins are floating' represents:", options: ["Gorter and Grendel model", "Davson and Danielli model", "Robertson model", "Singer and Nicolson model"], correct: "D", source: "ETEA-2022", exp: "Singer and Nicolson's fluid mosaic model describes proteins floating in a sea of lipids." },
+    { q: "Facilitated diffusion involves carrier molecules. The carrier molecules are chemically in nature:", options: ["Glycerolipids", "Lipids", "Proteins", "Carbohydrates"], correct: "C", source: "BUMHS-2022", exp: "Carrier molecules involved in facilitated diffusion are proteins." },
+    { q: "Who proposed fluid mosaic model?", options: ["Lorenz Oken and Brown", "Robert Brown and Palade", "Singer and Nicolson", "Singer and De-Duve"], correct: "C", source: "BUMHS-2022", exp: "Singer and Nicolson proposed the fluid mosaic model in 1972." },
+    { q: "Plasma membrane is:", options: ["Permeable", "Selective permeable", "Impermeable", "Sub-permeable"], correct: "B", source: "DUHS-2022", exp: "Plasma membrane allows only selective substances to pass through (selective permeability)." },
+    { q: "Glycolysis is the common stage in both aerobic and anaerobic respiration and it occurs in of the cell:", options: ["Inner membrane of mitochondria", "Mitochondrial matrix", "Chloroplast", "Cytoplasm"], correct: "D", source: "AJK-2019", exp: "Glycolysis occurs in the cytoplasm of the cell." },
+    { q: "Which of the following are single membranous organelles?", options: ["Mitochondria and ribosomes", "Cytosol, mitochondria and ribosomes", "Golgi bodies, lysosome and ER", "Golgi bodies, lysosome and mitochondria"], correct: "C", source: "UHS-2022", exp: "Golgi bodies, lysosomes and endoplasmic reticulum are single membrane-bound organelles." },
+    { q: "Glycogen, lipid droplets form the most important of the cell:", options: ["Cell organelles", "Cell inclusions", "Cytoplasmic matrix", "Non-membranous organelles"], correct: "B", source: "SZABMU-2022", exp: "Glycogen and lipid droplets are cell inclusions (non-living part of cytoplasm)." },
+    { q: "Ribosomes present in prokaryotes are:", options: ["80S", "50S", "60S", "70S"], correct: "D", source: "MDCAT-2017, MDCAT-2019", exp: "Prokaryotes have 70S ribosomes; eukaryotes have 80S ribosomes." },
+    { q: "Group of ribosomes attached to mRNA is called:", options: ["Polypeptide", "Polynucleotide", "Polysome", "Polysaccharide"], correct: "C", source: "MDCAT-2017", exp: "A group of ribosomes attached to mRNA is called a polysome or polyribosome." },
+
+
+
+    { q: "Which of the following organelle consist of two subunits?", options: ["Golgi body", "Ribosome", "Mitochondria", "Plastid"], correct: "B", source: "MDCAT-2017", exp: "Ribosomes are composed of a large and a small subunit." },
+    { q: "Ribosomes are made up of:", options: ["RNA and proteins", "RNA and carbohydrates", "RNA and lipids", "Proteins and carbohydrate"], correct: "A", source: "MDCAT-2018", exp: "Ribosomes are ribonucleoprotein particles (rRNA + ribosomal proteins)." },
+    { q: "The cytoplasmic organelle commonly found both in prokaryotes and eukaryotes is:", options: ["Flagellum", "Ribosome", "Mitochondria", "Nucleoid"], correct: "B", source: "AJK-2019", exp: "Ribosomes are non-membranous organelles present in both prokaryotes and eukaryotes." },
+    { q: "70S sized ribosomes are found in the cells of:", options: ["Algae", "Protozoans", "Fungi", "Bacteria"], correct: "D", source: "PMC-2020", exp: "70S ribosomes are found in bacteria and also in mitochondria and chloroplasts." },
+    { q: "Within the nucleus, are made by the nucleolus:", options: ["Ribosomes", "mRNA", "Proteins", "Enzymes"], correct: "A", source: "NUMS-2022", exp: "Nucleolus is the site of rRNA synthesis and ribosomal subunit assembly." },
+    { q: "Which one of the following cell structures is involved in the synthesis of lipids?", options: ["Endoplasmic reticulum", "Centriole", "Golgi complex", "Mitochondria"], correct: "A", source: "MDCAT-2015", exp: "Smooth endoplasmic reticulum is involved in lipid synthesis." },
+    { q: "Nuclear membrane is continuous with:", options: ["Endoplasmic reticulum", "Lysosome", "Golgi Body", "Peroxisome"], correct: "A", source: "MDCAT-2017", exp: "Nuclear envelope is continuous with the endoplasmic reticulum." },
+    { q: "Smooth endoplasmic reticulum is responsible for the metabolism of:", options: ["Carbohydrates", "Nucleic acids", "Proteins", "Lipids"], correct: "D", source: "MDCAT-2019", exp: "SER is responsible for lipid metabolism, detoxification and calcium storage." },
+    { q: "Select the one which is not a function of smooth endoplasmic reticulum:", options: ["Metabolism of lipids", "Transport of materials", "Transmission of impulses", "Processing of glycoproteins"], correct: "D", source: "PMC-2020", exp: "Processing of glycoproteins is a function of Golgi apparatus, not SER." },
+    { q: "The organelle which provides neurotransmitters in the nervous pathway is:", options: ["Glycosome", "Peroxisome", "Golgi apparatus", "Endoplasmic reticulum"], correct: "C", source: "SZABMU-2022", exp: "Golgi apparatus packages neurotransmitters into synaptic vesicles." },
+    { q: "The cisternae break up into vesicles from of Golgi complex:", options: ["Convex, forming face", "Convex, maturing face", "Concave, forming face", "Concave, maturing face"], correct: "D", source: "MDCAT-2018", exp: "Vesicles bud off from the concave (maturing) face of Golgi complex." },
+    { q: "Which cell organelle is responsible for cell secretion?", options: ["Mitochondrion", "Ribosomes", "Chloroplast", "Golgi body"], correct: "D", source: "MDCAT-2014, 2019", exp: "Golgi apparatus processes and packages secretory proteins for release." },
+    { q: "Which of the following organelles are involved in the synthesis of plant cell wall?", options: ["Endoplasmic reticulum", "Lysosomes", "Golgi complex", "Peroxisomes"], correct: "C", source: "PMC-2020", exp: "Golgi vesicles fuse to form the cell plate during plant cell cytokinesis." },
+    { q: "Which organelles would be more abundant in a secretory cell than non-secretory cell?", options: ["Lysosomes", "Golgi complex", "Vacuoles", "Centrioles"], correct: "B", source: "NUMS-2022", exp: "Secretory cells have abundant Golgi complexes for protein modification and packaging." },
+    { q: "When and who discovered Golgi apparatus?", options: ["1888-Camillo Golgi", "1898-Camillo Golgi", "1988-Camillo Golgi", "1998-Camillo Golgi"], correct: "B", source: "BUMHS-2022", exp: "Camillo Golgi discovered the Golgi apparatus in 1898." },
+    { q: "Which of the following cell does not possess Golgi apparatus?", options: ["Bacterial cell", "Animal cell", "Plant cell", "Fungal cell"], correct: "A", source: "BUMHS-2022", exp: "Bacteria are prokaryotes and lack membrane-bound organelles like Golgi apparatus." },
+    { q: "These structures are involved in the breakdown of old organelles:", options: ["Leucoplasts", "Glyoxysomes", "Lysosomes", "Peroxisomes"], correct: "C", source: "MDCAT-2018", exp: "Lysosomes digest old organelles through the process of autophagy." },
+    { q: "The digestive vacuoles and autophagosomes are also known as:", options: ["Phagocytosis", "Primary lysosomes", "Secondary lysosomes", "Peroxisomes"], correct: "C", source: "UHS-2022", exp: "Secondary lysosomes are formed by fusion of primary lysosomes with phagosomes or autophagosomes." },
+    { q: "are spherical sacs surrounded by a single membrane and contain hydrolytic enzymes:", options: ["Mitochondria", "Golgi bodies", "Lysosomes", "Chloroplast"], correct: "C", source: "NUMs-2022", exp: "Lysosomes are single membrane-bound organelles containing hydrolytic enzymes." },
+    { q: "Intracellular digestion of food is done by the organelle:", options: ["Vacuole", "Lysosome", "Golgi apparatus", "Ribosome"], correct: "B", source: "SZABMU-2022", exp: "Lysosomes are responsible for intracellular digestion of engulfed food particles." },
+    { q: "Which statement is correct about mitochondria and chloroplast?", options: ["Chloroplast and mitochondria cannot live independently", "70S ribosome is attached with the inner membrane", "Chloroplast and mitochondria are single membrane structure", "Number of mitochondria and chloroplast are same in all cells"], correct: "A", source: "MDCAT-2018", exp: "Both are semi-autonomous but cannot survive outside the cell." },
+    { q: "The chloroplasts contain:", options: ["Proteins only", "Ribosomes only", "Small circular DNA only", "Proteins, Ribosomes and small circular DNA"], correct: "D", source: "ETEA-2022", exp: "Chloroplasts contain proteins, 70S ribosomes and circular DNA." },
+    { q: "Presence of large central vacuole is the characteristic of:", options: ["Prokaryotes", "Fungi", "Protists", "Plants"], correct: "D", source: "MDCAT-2016", exp: "Large central vacuole is a characteristic feature of plant cells." },
+    { q: "Which of these is solely present in plant cell only?", options: ["Peroxisomes", "Smooth endoplasmic reticulum", "Cytoskeleton", "Central vacuole"], correct: "D", source: "AJK-2019", exp: "Large central vacuole is unique to plant cells." },
+    { q: "The membrane separating the vacuole from cytoplasm is called:", options: ["Cristae", "Tonoplast", "Cisternae", "Vacuolar membrane"], correct: "B", source: "MDCAT-2018, PMC-2020", exp: "Tonoplast is the single membrane that surrounds the vacuole." },
+
+
+
+
+
+    { q: "Which organelle is bounded by two membranes?", options: ["Ribosome", "Lysosome", "Mitochondria", "Nucleolus"], correct: "C", source: "MDCAT-2015", exp: "Mitochondria have double membranes (outer and inner)." },
+    { q: "Functionally, mesosomes can be compared with:", options: ["Ribosomes", "Polysomes", "Mitochondria", "Golgi bodies"], correct: "C", source: "NTS-2018", exp: "Mesosomes in bacteria are involved in cellular respiration, similar to mitochondria." },
+    { q: "Which organelle is required for aerobic respiration?", options: ["Plastids", "Mitochondria", "ER", "Nucleus"], correct: "B", source: "MDCAT-2019", exp: "Mitochondria are the site of aerobic respiration (Krebs cycle and ETC)." },
+    { q: "The finger like infoldings which are formed by inner membrane of mitochondria are called:", options: ["Matrix", "Cristae", "Porins", "Ribosomes"], correct: "B", source: "DUHS-2022", exp: "Cristae increase surface area for ATP production." },
+    { q: "Power house of the cell is:", options: ["Ribosomes", "Endoplasmic reticulum", "Chloroplasts", "Mitochondria"], correct: "D", source: "MDCAT-2017", exp: "Mitochondria produce ATP and are called powerhouse of the cell." },
+    { q: "Ribosomal RNA is synthesized in:", options: ["Nucleolus", "Golgi body", "Peroxisome", "Nucleoplasm"], correct: "A", source: "MDCAT-2019", exp: "Nucleolus is the site of rRNA synthesis." },
+    { q: "The structure present in a eukaryotic cell but absent in prokaryotic cells is:", options: ["Nucleus", "Ribosomes", "DNA", "Cell surface membrane"], correct: "A", source: "MDCAT-2019", exp: "Prokaryotes lack a membrane-bound nucleus; their genetic material lies in nucleoid region." },
+    { q: "The structure which disappears during cell division is:", options: ["Vacuole", "Lysosome", "Nucleolus", "Endoplasmic reticulum"], correct: "C", source: "NUMS-2022", exp: "Nucleolus disappears during prophase and reforms in telophase." },
+    { q: "Except during nuclear division, nucleus has the chromosomes in loosely coiled state known as:", options: ["Genes", "Ribosome", "DNA", "Chromatin"], correct: "D", source: "NUMS-2022", exp: "During interphase, chromosomes exist as loosely coiled chromatin." },
+    { q: "The colloidal mixture of ions, organic and inorganic salts present in the nucleus is called:", options: ["Nuclear membrane", "Nucleolus", "Nucleoplasm", "Chromosome"], correct: "C", source: "ETEA-2022", exp: "Nucleoplasm is the semi-fluid matrix inside the nucleus." },
+    { q: "Peptidoglycan or murein is a special or distinctive feature of cell wall in:", options: ["Algae", "Bacteria", "Fungi", "Plants"], correct: "B", source: "MDCAT-2014", exp: "Bacterial cell walls are characterized by peptidoglycan." },
+    { q: "DNA molecule in prokaryotes is:", options: ["Single, circular, double stranded molecule not bound by membrane", "Double, circular molecule", "Linear, double stranded molecule", "Single, circular, double stranded and membrane bound"], correct: "A", source: "MDCAT-2017", exp: "Prokaryotes have a single circular double-stranded DNA in the nucleoid region." },
+    { q: "Structure formed by invagination of plasma membrane and involved in cell division and DNA replication of prokaryotic cell:", options: ["Lysosome", "Mesosome", "Golgi bodies", "Phragmoplast"], correct: "B", source: "UHS-2022", exp: "Mesosomes are infoldings of plasma membrane in bacteria involved in DNA replication and respiration." },
+    { q: "Which one is common in both prokaryotic and eukaryotic cell?", options: ["Cytoplasmic streaming movement", "Ribosome", "Binary fission", "Nuclear envelope"], correct: "B", source: "UHS-2022", exp: "Ribosomes are present in both cell types." },
+    { q: "Secondary cell wall in plants is present:", options: ["Outer to primary cell wall", "In between two primary cell walls", "Between the primary cell wall and plasma membrane", "Inner to plasma membrane"], correct: "C", source: "NUMS-2023", exp: "Secondary cell wall is deposited between primary wall and plasma membrane." },
+    { q: "What distinguishes prokaryotic cell wall from fungal cell wall?", options: ["Prokaryotic cell wall contains cellulose", "Prokaryotic cell wall contains peptidoglycan", "Prokaryotic cell wall contains cutin", "Prokaryotic cell wall contains silica"], correct: "B", source: "NUMS-2023", exp: "Prokaryotic cell walls contain peptidoglycan; fungal walls contain chitin." },
+    { q: "Which of the following is absent from membrane of prokaryotes?", options: ["Glycolipid", "Cholesterol", "Glycoprotein", "Phospholipid"], correct: "B", source: "MDCAT-2020", exp: "Cholesterol is absent in prokaryotic cell membranes; they regulate fluidity via hopanoids." },
+    { q: "Cell membrane also contain through which movement of substances take place by active and passive transport:", options: ["Lipids", "Corner Proteins", "Charged pores", "Carbohydrates"], correct: "C", source: "NUMS-2023", exp: "The cell membrane contains charged pores (channels, carriers and pumps) that allow movement of substances." },
+    { q: "According to the fluid mosaic model of cell membrane, which zone is embedded inside?", options: ["Hydrophobic", "Hydrophilic", "Globular", "Filamentous"], correct: "A", source: "NUMS-2023", exp: "In the fluid mosaic model, the hydrophobic region of phospholipid tails is embedded inside the membrane." },
+    { q: "Which part of plasma membrane controls the fluidity of the membrane?", options: ["Glycoprotein", "Carrier protein", "Lipid", "Carbohydrates"], correct: "C", source: "SZABMU-2023", exp: "The lipid component, particularly cholesterol, controls the fluidity of the plasma membrane." },
+    { q: "Many enzymes are secreted in inactive form to protect:", options: ["Mitochondria", "Vacuole", "Cell membrane", "Nucleus"], correct: "C", source: "ETEA-2023", exp: "Enzymes are secreted in inactive forms to prevent them from damaging the cell membrane before reaching their target site." },
+    { q: "Where do phospholipids arrange themselves in a cell?", options: ["Inside the nucleus", "Inside the cytoplasm", "Inside the plasma membrane", "Inside the mitochondrial matrix"], correct: "C", source: "ETEA-2023", exp: "Phospholipids arrange themselves in the plasma membrane, forming a bilayer that separates the cell's interior from its external environment." },
+    { q: "An additional enveloping surrounding the cell wall of some bacteria that either prevents the bacteria from being phagocytosed by host cells or helps them to make biofilm, which of the following term used for the covering?", options: ["Capsule", "Slime", "Cellulose", "Spore"], correct: "A", source: "ETEA-2023 Retake", exp: "The capsule is an additional covering around the cell wall of some bacteria that helps prevent phagocytosis and assists in biofilm formation." },
+    { q: "regulates the selective permeability of the plasma membrane, allowing movement of molecules according to the needs of the cells:", options: ["Membrane proteins", "Membrane cholesteroid", "Membrane glycolysis", "Membrane cholesterol"], correct: "A", source: "ETEA-2023 Retake", exp: "Membrane proteins regulate the selective permeability of the plasma membrane, controlling the movement of molecules." },
+    { q: "Peripheral parts of cell are often like a:", options: ["Sol", "Gel", "Colloidal", "True solution"], correct: "B", source: "ETEA-2023", exp: "Peripheral parts of the cell often behave like a gel, with a semi-solid consistency, allowing for structural support and flexibility." },
+		
+		    { q: "The cytoplasm contains:", options: ["Cell capsule only", "Insoluble waste only", "Storage products only", "All A, B and C"], correct: "D", source: "ETEA-2023", exp: "The cytoplasm contains cell organelles, insoluble waste, and storage products, all of which are essential for cellular functions." },
+    { q: "Function of the nucleus is to form:", options: ["Nuclear envelope", "Chromosomes", "tRNA", "Cytoplasm"], correct: "B", source: "NUMS-2023", exp: "The nucleus is responsible for the synthesis of ribosomal RNA (rRNA) and contains chromosomes which carry genetic information." },
+    { q: "Sarcoplasmic reticulum for muscle fibers is mainly responsible for:", options: ["Calcium storage", "Protein synthesis", "Lipid metabolism", "Storing cell wastes"], correct: "A", source: "NUMS-2023", exp: "The sarcoplasmic reticulum in muscle fibers primarily stores calcium ions, which are crucial for muscle contraction." },
+    { q: "Select the one which is not a function of smooth endoplasmic reticulum:", options: ["Metabolism of lipids", "Transmission of impulses", "Transport of materials", "Processing of glycoproteins"], correct: "D", source: "ETEA-2023", exp: "The smooth endoplasmic reticulum (SER) is involved in lipid metabolism, transport of materials, and other processes, but it does not process glycoproteins." },
+    { q: "Lipid synthesis occurs in which one of the following organelles of the cell?", options: ["Ribosomes", "Golgi bodies", "Mitochondria", "Endoplasmic Reticulum"], correct: "D", source: "SZABMU-2023", exp: "Lipid synthesis primarily occurs in the smooth endoplasmic reticulum (SER) of the cell." },
+    { q: "Outer membrane of mitochondria and chloroplast resembles as both are:", options: ["Freely permeable to large molecules", "Freely permeable to small molecules", "Impermeable", "Semipermeable"], correct: "B", source: "SZABMU-2023", exp: "The outer membrane of both mitochondria and chloroplasts is freely permeable to small molecules, allowing their easy passage." },
+    { q: "In mitochondria, ATP synthase is located on its:", options: ["Outer Membrane", "Inter membrane space", "Inner membrane", "Matrix"], correct: "C", source: "NUMS-2023", exp: "ATP synthase is located on the inner membrane of mitochondria, where it synthesizes ATP during cellular respiration." },
+    { q: "The folds of inner mitochondrial membrane of mitochondria are called:", options: ["Cisternae", "Cristae", "Mesosome", "Infolids"], correct: "B", source: "ETEA-2023", exp: "The folds of the inner mitochondrial membrane are called cristae, and they increase the surface area for ATP production." },
+    { q: "Which of the following organelle is regarded as self-replicating organelle?", options: ["Endoplasmic reticulum", "Golgi bodies", "Mitochondria", "Vacuoles"], correct: "C", source: "ETEA-2023", exp: "Mitochondria are considered self-replicating organelles because they contain their own DNA and can reproduce independently within the cell." },
+    { q: "Mitochondria is usually absent in:", options: ["Muscle cells", "Cardiac cells", "Mature RBCs", "WBCs"], correct: "C", source: "ETEA-2023", exp: "Mitochondria are absent in mature red blood cells (RBCs) as they lose their organelles during maturation to maximize space for hemoglobin." },
+    { q: "Proteins and lipids are modified into glycolipids and glycoproteins by which cell organelles?", options: ["Golgi complex", "Rough endoplasmic reticulum", "Smooth endoplasmic reticulum", "Ribosomes and chromosomes"], correct: "A", source: "UHS-2023", exp: "The Golgi complex modifies proteins and lipids into glycolipids and glycoproteins by adding carbohydrate groups to them." },
+    { q: "consists of units called dictyosomes:", options: ["Ribosomes", "Lysosomes", "Glycosomes", "Golgi complex"], correct: "D", source: "ETEA-2023", exp: "The Golgi complex consists of units called dictyosomes, which are stacks of membrane-bound structures responsible for modifying and packaging proteins and lipids in plants." },
+    { q: "Which of the following is not the function of lysosomes?", options: ["Intracellular digestion", "Autophagy", "Autolysis", "Processing of cell secretions"], correct: "D", source: "SZABMU-2023", exp: "Lysosomes are involved in intracellular digestion, autophagy, and autolysis, but they do not process cell secretions, which is a function of the Golgi apparatus." },
+    { q: "are spherical sacs, surrounded by a single membrane and contain hydrolytic enzymes:", options: ["Mitochondria", "Golgi bodies", "Lysosomes", "Chloroplast"], correct: "C", source: "NUMS-2023", exp: "Lysosomes are spherical sacs surrounded by a single membrane that contain hydrolytic enzymes for breaking down waste materials and cellular debris." },
+    { q: "Tay-Sachs's disease particularly results from the malfunctioning of:", options: ["Cell membrane", "Nucleus", "Lysosomes", "Vacuole"], correct: "C", source: "ETEA-2023", exp: "Tay-Sachs disease results from the malfunctioning of lysosomes, due to deficiency of hexosaminidase A, which is responsible for breaking down lipids in the brain." },
+    { q: "Storage diseases are caused by the excessive accumulation of substances within the cell, due to defects (mutations) in one of the enzymes:", options: ["Amylase", "Lysosomal", "Lyase", "Lipase"], correct: "B", source: "ETEA-2023 Retake", exp: "Storage diseases are caused by defects in lysosomal enzymes, leading to the excessive accumulation of substances within the cell." },
+    { q: "Pollination is facilitated by:", options: ["Chloroplast", "Chromoplast", "Leucoplast", "Amyloplast"], correct: "B", source: "NUMS-2023", exp: "Chromoplasts are responsible for the coloration in plants, which attracts pollinators like insects, facilitating the pollination process." },
+    { q: "The process of photophosphorylation takes place in:", options: ["Nucleolus", "Chloroplast", "Nucleus", "Golgi bodies"], correct: "B", source: "ETEA-2023", exp: "Photophosphorylation, the process of ATP production using light energy, occurs in the chloroplasts during photosynthesis." },
+    { q: "Which is the factory for the synthesis of sugar in autotrophic eukaryotes?", options: ["Mitochondria", "Chloroplast", "Ribosome", "Amyloplast"], correct: "B", source: "ETEA-2023 Retake", exp: "Chloroplasts are the site of photosynthesis in autotrophic eukaryotes, where sugars are synthesized using light energy, carbon dioxide, and water." },
+    { q: "The membrane separating the vacuole from cytoplasm is called:", options: ["Cristae", "Cisternae", "Tonoplast", "Vacuolar membrane"], correct: "C", source: "SZABMU-2023", exp: "The membrane separating the vacuole from the cytoplasm is called the tonoplast, which regulates the movement of substances in and out of the vacuole." },
+    { q: "Tonoplast is the membrane separating:", options: ["Vacuole and nucleoplasm", "Cytoplasm and nucleoplasm", "Vacuole and stroma", "Vacuole and cytoplasm"], correct: "D", source: "NUMS-2023", exp: "The tonoplast is the membrane that separates the vacuole from the cytoplasm, regulating the exchange of materials between them." },
+    { q: "Cell wall of prokaryotic cell is composed of:", options: ["Carbohydrates", "Carbohydrates and Proteins", "Proteins", "Proteins and Lipids"], correct: "B", source: "UHS-2023", exp: "The cell wall of prokaryotic cells is primarily composed of carbohydrates and short peptide fragments, with peptidoglycan being the key component in bacteria." },
+    { q: "Cyclosis and amoeboid movements are due to:", options: ["Microtubule", "Cilia", "Microfilaments", "Intermediate filaments"], correct: "C", source: "UHS-2023", exp: "Cyclosis and amoeboid movements are driven by microfilaments, which are part of the cytoskeleton, providing flexibility and enabling movement." },
+    { q: "Each centriole is composed of microtubules:", options: ["Seven triplets", "Eleven triplets", "Nine triplets", "Five triplets"], correct: "C", source: "NUMS-2023", exp: "Each centriole is composed of nine triplets of microtubules arranged in a cylindrical structure." },
+    { q: "Cell death due to tissue damage is called?", options: ["Apoptosis", "Necrosis", "Cancer", "Metastasis"], correct: "B", source: "ETEA-2023 Retake", exp: "Necrosis is the uncontrolled cell death due to tissue damage, often resulting from injury or infection." },
+		
+		
+		    
+		
+		
+		
+	    { q: "Middle lamella is composed of:", options: ["Magnesium + sodium salts + pectin", "Magnesium + potassium salts + pectin", "Magnesium + calcium salts + pectin", "Magnesium + calcium phosphate + pectin"], correct: "C", source: "SZABMU-2024-Reconduct", exp: "The middle lamella, which binds plant cells together, is primarily composed of magnesium and calcium salts along with pectin." },
+    { q: "In which type of cells, cell wall is not present?", options: ["Plant cells", "Fungal cells", "Bacterial cells", "Liver cells"], correct: "D", source: "SZABMU-2024-Reconduct", exp: "Liver cells, being animal cells, do not have a cell wall, unlike plant, fungal, and bacterial cells which possess cell walls for structural support." },
+    { q: "The cells in our body are all genetically identical, apart from the:", options: ["Somatic cells", "Reproductive cells", "Muscle fibers", "White blood cells"], correct: "B", source: "SZABMU-2024-Reconduct", exp: "Reproductive cells are different from all other cells (somatic cells) because they are formed as a result of meiosis." },
+    { q: "Plasma membrane is differentially permeable membrane due to the presence of:", options: ["Carbohydrates", "Lipids", "Proteins", "Vitamins"], correct: "B", source: "KMU-2024", exp: "Plasma membrane is differentially permeable because of lipids in membrane which restrict movement of polar substances while allow passage of non-polar substances." },
+    { q: "Amoeba engulfs liquid food across its membrane by a process:", options: ["Endocytosis", "Exocytosis", "Phagocytosis", "Pinocytosis"], correct: "D", source: "SZABMU-2024", exp: "Amoeba engulfs liquid food through pinocytosis, a form of endocytosis where the cell membrane forms vesicles to absorb extracellular fluids." },
+    { q: "Which function cannot be attributed to plasma membrane lipids?", options: ["Recognition of cells having non-self surface markers", "Maintaining cell membrane flexibility", "Control of metabolic reaction across cell membrane", "Binding ligands for intracellular response"], correct: "C", source: "NUMS-2024", exp: "Control of metabolic reactions across the cell membrane cannot be attributed to plasma membrane lipids, as this function is primarily carried out by proteins." },
+    { q: "Which one is the function of plasma membrane proteins?", options: ["Restrict entry of polar molecules", "Prevention of freezing during cold weather", "Movement of ions in and out of the cell", "Maintenance of membrane flexibility"], correct: "C", source: "NUMS-2024", exp: "The function of plasma membrane proteins is to move ions in and out of the cell by acting as channels or transporters." },
+    { q: "Choose the correct sequence for permeability of molecules across the plasma membrane:", options: ["Sodium - Lipids - Water - Glucose", "Water - Glucose - Lipids - Sodium", "Sodium - Water - Glucose - Lipids", "Lipids - Water - Glucose - Sodium"], correct: "D", source: "SZABMU-2024-Reconduct", exp: "Lipids can easily pass through the lipid bilayer, while water, glucose, and other small polar molecules follow, with sodium having the lowest permeability due to its charged nature." },
+    { q: "The active mass movement of mitochondria in the cytoplasm is due to:", options: ["Cyclosis", "Endoplasmic streaming movements", "Golgi apparatus", "Transfer RNA"], correct: "A", source: "KMU-2024", exp: "The active mass movement of mitochondria in the cytoplasm is due to cyclosis. It involves the flow of cytoplasm, facilitating the movement of organelles within the cell." },
+    { q: "The nucleus takes dyes due to the presence of:", options: ["Chromatin", "Lipid", "Metal ions", "Thylakoids"], correct: "A", source: "UHS-2024", exp: "The nucleus takes dyes due to the presence of chromatin, which is composed of DNA and proteins that bind to stains, allowing the nucleus to absorb dyes." },
+    { q: "Chromosome is typically made up from a combination of:", options: ["DNA and protein", "DNA and RNA", "RNA and lipids", "RNA and proteins"], correct: "A", source: "KMU-2024", exp: "Chromosomes are typically made up of DNA and protein. The DNA is wrapped around histone proteins, forming chromatin that compacts to form chromosomes." },
+    { q: "Where are spindle fibers attached during cell division on a chromosome?", options: ["Centromere", "Histone proteins", "Nucleolus", "Telomere"], correct: "A", source: "KMU-2024", exp: "Spindle fibers attach to the centromere of a chromosome during cell division. This allows the chromatids to be pulled apart during mitosis or meiosis." },
+    { q: "The exchange of materials between nucleus and cytoplasm takes place through:", options: ["Nucleoplasm", "Nuclear pores", "Nucleolus", "Nuclear lamella"], correct: "B", source: "SZABMU-2024", exp: "The exchange of materials between the nucleus and cytoplasm takes place through nuclear pores. These pores regulate the transport of molecules like RNA and proteins." },
+    { q: "Which organelle contributes towards steroid production?", options: ["Endoplasmic reticulum", "Golgi apparatus", "Lysosome", "Ribosomes"], correct: "A", source: "KMU-2024", exp: "The endoplasmic reticulum contributes to steroid production. It contains enzymes that synthesize steroids, particularly in the smooth ER." },
+    { q: "Which of the following is the function of Golgi Complex?", options: ["Intracellular digestion", "Autophagy", "Autolysis", "Processing of cell secretions"], correct: "D", source: "UHS-2024", exp: "The function of the Golgi complex is the processing of cell secretions. It modifies, sorts, and packages proteins and lipids for secretion or delivery to other parts of the cell." },
+   { q: "Follow the route of pepsinogen secreted by zymogen cells:", options: ["RER - Golgi complex - Secretory vesicles", "RER - SER - Golgi complex - Secretory vesicles", "SER - RER - Golgi complex - Secretory vesicles", "Golgi complex - RER - Secretory vesicles"], correct: "A", source: "NUMS-2024", exp: "Pepsinogen is synthesized on ribosomes of the rough endoplasmic reticulum (RER), transported to the Golgi complex for modification and packaging, and then stored in secretory vesicles for release. The smooth ER (SER) is not involved in this pathway." },
+    { q: "Cristae in mitochondria serve as a site for:", options: ["Glycolysis", "Calvin cycle", "Photophosphorylation", "Electron transport chain"], correct: "D", source: "SZABMU-2024-Reconduct", exp: "The cristae in mitochondria serve as a site for the electron transport chain. This is where ATP is generated during cellular respiration." },
+    { q: "Golgi complex is responsible for:", options: ["Processing of cell secretions", "Synthesis of proteins", "Detoxification of alcohol", "All of these"], correct: "A", source: "SZABMU-2024-Reconduct", exp: "The Golgi complex is responsible for the processing of cell secretions. It modifies, sorts, and packages proteins and lipids for secretion or transport within the cell." },
+    { q: "The lysosomes found in eukaryotes contain:", options: ["Hydrolytic enzymes", "Meiotic enzymes", "Oxidative enzymes", "Mitotic enzymes"], correct: "A", source: "KMU-2024", exp: "The lysosomes in eukaryotes contain hydrolytic enzymes. These enzymes break down waste materials and cellular debris through hydrolysis." },
+    { q: "Tay-Sachs's is related to the malfunctioning of which of the following organelle?", options: ["Golgi complex", "Lysosomes", "Endoplasmic reticulum", "Glyoxysomes"], correct: "B", source: "KMU-2024", exp: "Tay-Sachs disease is related to malfunctioning of lysosomes. It occurs due to deficiency in the enzyme needed to break down certain lipids, leading to their accumulation in the brain." },
+    { q: "Which enzyme is missing in the patient of Tay-Sachs's disease?", options: ["Protein digesting enzyme", "Carbohydrate digesting enzyme", "Fatty acid digesting enzyme", "Lipid digesting enzyme"], correct: "D", source: "SZABMU-2024-Reconduct", exp: "The enzyme missing in the patient of Tay-Sachs disease is a lipid-digesting enzyme. Specifically, it is the enzyme hexosaminidase A, which is required to break down certain lipids in the brain." },
+    { q: "Which one of the following describes best the autophagy?", options: ["Decomposition of hydrogen peroxide", "Intracellular food digestion", "Self-eating process", "Disintegration of cell"], correct: "C", source: "SZABMU-2024-Reconduct", exp: "Autophagy is best described as the self-eating process. It involves the degradation and recycling of the cell's own components to maintain cellular homeostasis." },
+    { q: "Chloroplast are membrane bound bodies containing:", options: ["Linear ds-DNA", "Cisternae", "Pigments", "Cristae"], correct: "C", source: "UHS-2024", exp: "Chloroplasts are membrane-bound bodies containing pigment, primarily chlorophyll, which is essential for photosynthesis." },
+    { q: "Which of the following type of plastids is involved in dispersal of seed and pollination?", options: ["Chloroplast", "Chromoplast", "Leucoplast", "Amyloplast"], correct: "B", source: "SZABMU-2024", exp: "Chromoplasts are involved in dispersal of seeds and pollination. They contain pigments like carotenoids that give color to fruits and flowers for pollination and seed dispersal." },
+    { q: "Which cytoplasmic organelles make their own proteins?", options: ["Chromosomes", "Golgi apparatus", "Mitochondria", "Smooth endoplasmic reticulum"], correct: "C", source: "KMU-2024", exp: "Mitochondria make their own proteins. They have their own DNA and ribosomes, allowing them to synthesize proteins essential for their function." },
+    { q: "In the inner membrane of mitochondria which has many folds called cristae, there are granular particles called:", options: ["ATP Synthetase", "Cytochrome c", "Porins", "Ubiquinone"], correct: "A", source: "SZABMU-2024", exp: "In the inner membrane of mitochondria, the granular particles found in the folds called cristae are ATP synthase. These enzymes are responsible for synthesizing ATP during cellular respiration." },
+    { q: "A group of ribosomes attached to mRNA is known as polysome and the attachment is controlled by:", options: ["Na+", "Mg2+", "Ca2+", "K+"], correct: "B", source: "SZABMU-2024-Reconduct", exp: "Magnesium ions help stabilize the interaction between ribosomes and mRNA during protein synthesis." },
+    { q: "The organelles only found at seeding stage in oil seed plants are:", options: ["Peroxisomes", "Glyoxysomes", "Microbodies", "Vacuoles"], correct: "B", source: "UHS-2024", exp: "The organelles found only at the seeding stage in oil seed plants are glyoxysomes. These specialized organelles are involved in conversion of lipids into carbohydrates." },
+    { q: "A lizard detaches its tail when attacked by a predator. This is an example of:", options: ["Autophagy", "Autolysis", "Phagocytosis", "Intracellular digestion"], correct: "B", source: "NUMS-2024", exp: "The tail is detached by the death of the cells through which tail was attached to the lizard. This process of self-digestion is called autolysis." },
+    { q: "Choose the option showing the correct set of characteristics for intermediate filaments: (Table: Diameter, Composition, Function)", options: ["8-10nm, Vimentin, Mechanical support", "0.2-25μm, Vimentin, Mechanical support", "8-10nm, Tubulin, Mechanical support", "7nm, Tubulin, Mechanical support"], correct: "A", source: "NUMS-2024", exp: "The correct set of characteristics for intermediate filaments is 8-10nm diameter, composed of Vimentin (or related proteins), and providing mechanical support. Intermediate filaments are part of the cytoskeleton and provide structural stability." }	
+		
+		
+		
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    ];
+
+    let userSelections = {};
+    let quizSubmitted = false;
+    let submitBtn = null;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        const container = document.getElementById('questionsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        userSelections = {};
+
+        submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.textContent = 'Submit';
+            submitBtn.classList.remove('submitted');
+            submitBtn.style.pointerEvents = 'auto';
+        }
+
+        const resultsDiv = document.getElementById('results');
+        if (resultsDiv) resultsDiv.style.display = 'none';
+
+        // Update total questions count
+        const totalSpan = document.getElementById('totalQuestions');
+        if (totalSpan) totalSpan.textContent = `Total Questions: ${cellMcqs.length}`;
+
+        cellMcqs.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}
+                    <span class="source-badge">${item.source}</span>
+                </div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">${letter}. ${opt}</div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+
+        if (submitBtn) {
+            submitBtn.textContent = 'Submitted';
+            submitBtn.classList.add('submitted');
+            submitBtn.style.pointerEvents = 'none';
+        }
+
+        let score = 0;
+
+        cellMcqs.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) opt.classList.add('correct');
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+
+        const allOptions = document.querySelectorAll('.option');
+        allOptions.forEach(opt => {
+            opt.style.pointerEvents = 'none';
+        });
+
+        const percent = Math.round((score / cellMcqs.length) * 100);
+        const scoreCard = document.getElementById('scoreText');
+        scoreCard.innerHTML = `Score: ${score} / ${cellMcqs.length}  |  ${percent}%<br><span style="font-size: 0.9rem;"></span>`;
+        document.getElementById('results').style.display = 'block';
+
+        setTimeout(() => { document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>

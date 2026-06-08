@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep | Fundamental Concepts of Chemistry | Past Papers MCQs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
+            border-top: 8px solid #3b82f6;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            color: #1e40af;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            background: #f1f5f9;
+            padding: 12px 20px;
+            border-radius: 60px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+        }
+
+        .question:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            color: #0f172a;
+            padding-left: 12px;
+            border-left: 3px solid #3b82f6;
+            line-height: 1.5;
+        }
+
+        .source-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.65rem;
+            padding: 3px 10px;
+            border-radius: 30px;
+            margin-left: 12px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            vertical-align: middle;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 10px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-submit:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit.submitted {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+        }
+
+        .btn-submit.submitted:hover {
+            background: #94a3b8;
+            transform: none;
+        }
+
+        #results {
+            display: none;
+            margin-top: 35px;
+        }
+
+        .score-card {
+            background: linear-gradient(110deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 25px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .score-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .explanation {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #1e293b;
+            display: none;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        /* FIXED: Better contrast for wrong options - dark red text on light red background */
+        .correct {
+            border-color: #10b981 !important;
+            background: #d1fae5 !important;
+            color: #065f46 !important;
+        }
+
+        .wrong {
+            border-color: #dc2626 !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        @media (max-width: 680px) {
+            .quiz-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Fundamental Concepts of Chemistry</h1>
+    
+    
+    
+    <div id="questionsContainer"></div>
+    <button type="button" class="btn-submit" id="submitBtn" onclick="calculateScore()">Submit</button>
+
+    <div id="results">
+        <div class="score-card">
+            <h2 id="scoreText"></h2>
+        </div>
+    </div>
+</div>
+
+<script>
+    // =================================================================
+    // PASTE YOUR MCQ ARRAY HERE
+    // Each question object format:
+    // { q: "question text", options: ["A", "B", "C", "D"], correct: "A", source: "Exam Source", exp: "explanation text" }
+    // =================================================================
+    const chemistryMcqs = [
+        
+		
+		
+	{ q: "If we know the mass of one substance, we can calculate the volume of other substance and vice versa with the help of chemical equation is called:", options: ["Mass-mass relationship", "Mass-volume relationship", "Mass-mole relationship", "Mole-volume relationship"], correct: "B", source: "MDCAT (2010)", exp: "When reactants are given in grams and products in cm³ or dm³, this is called mass-volume relationship between reactants and products." },
+    { q: "One mole of any gas at STP occupies a volume of:", options: ["22.414 dm³", "23.414 dm³", "22.414 cm³", "20.414 dm³"], correct: "A", source: "MDCAT (2010)", exp: "At STP (0°C and 1 atm), 1 mole of any ideal gas occupies 22.414 dm³ (22.4 L). This is called molar volume." },
+    { q: "How many chlorine atoms are in 2 moles of Cl₂?", options: ["2 × 6.022 × 10²³ atoms", "4 × 6.022 × 10²³ atoms", "6.022 × 10²³ atoms", "8 × 6.022 × 10²³ atoms"], correct: "B", source: "MDCAT (2011)", exp: "2 moles of Cl₂ contains 2 × 6.02 × 10²³ molecules. Each Cl₂ molecule has 2 Cl atoms, so total Cl atoms = 2 × 2 × 6.02 × 10²³ = 4 × 6.02 × 10²³." },
+    { q: "An organic compound has empirical formula C₃H₅O. If molar mass of the compound is 110.15 g/mol, molecular formula of this organic compound is:", options: ["C₆H₆O₂", "C₆H₆O₃", "C₂H₂O", "C₆H₆O₃"], correct: "A", source: "MDCAT (2012)", exp: "Empirical mass = 3×12 + 5×1 + 16 = 36+5+16 = 57 g/mol. n = 110.15/57 ≈ 2. Molecular formula = (C₃H₅O)₂ = C₆H₁₀O₂." },
+    { q: "When 8 grams (4 moles) of H₂ react with 2 moles of O₂, how many moles of water will be formed?", options: ["Five", "Six", "Four", "Three"], correct: "C", source: "MDCAT (2012)", exp: "2H₂ + O₂ → 2H₂O. 2 moles H₂ react with 1 mole O₂ to give 2 moles H₂O. With 4 moles H₂ and 2 moles O₂, O₂ is limiting. 2 moles O₂ produce 4 moles H₂O." },
+    { q: "Hydrogen burns in chlorine to produce hydrogen chloride. The ratio of masses of reactants in chemical reaction H₂ + Cl₂ → 2HCl is:", options: ["2:35.5", "1:35.5", "1:71", "2:70"], correct: "B", source: "MDCAT (2013)", exp: "Molar mass H₂ = 2 g, Cl₂ = 71 g. Ratio H₂:Cl₂ = 2:71 = 1:35.5." },
+    { q: "A polymer of simplest formula CH₂ has molar mass of 28000 g mol⁻¹. Its molecular formula will be:", options: ["100 times that of its empirical formula", "500 times of its empirical formula", "200 times that of its empirical formula", "2000 times that of its empirical formula"], correct: "D", source: "MDCAT (2014)", exp: "Empirical mass of CH₂ = 14 g/mol. n = 28000/14 = 2000. So molecular formula is 2000 times the empirical formula." },
+    { q: "The number of molecules in 9g of ice (H₂O) is:", options: ["6.02 × 10²³", "6.02 × 10²²", "3.01 × 10²²", "3.01 × 10²³"], correct: "D", source: "MDCAT (2014)", exp: "Moles of H₂O = 9/18 = 0.5 mol. Number of molecules = 0.5 × 6.02 × 10²³ = 3.01 × 10²³." },
+    { q: "How many moles of sodium are present in 0.1g of sodium?", options: ["4.3 × 10⁻³", "4.01 × 10⁻²", "4.03 × 10⁻¹", "4.3 × 10⁻²"], correct: "A", source: "MDCAT (2015)", exp: "Moles = mass / molar mass = 0.1 / 23 = 0.0043478 = 4.3 × 10⁻³ mol." },
+    { q: "10.0 grams of glucose are dissolved in water to make 100 cm³ of its solution, its molarity is:", options: ["0.55 M", "10 M", "0.1 M", "1 M"], correct: "A", source: "MDCAT (2015)", exp: "Molar mass glucose (C₆H₁₂O₆) = 180 g/mol. Moles = 10/180 = 0.0556 mol. Volume = 100 cm³ = 0.1 L. Molarity = 0.0556/0.1 = 0.556 M ≈ 0.55 M." },
+    { q: "An organic sample consisting of carbon, hydrogen and oxygen was subjected to combustion analysis. 0.5439 g of this compound gave 1.039g carbon dioxide, 0.6369g of water vapors. The empirical formula of this compound is:", options: ["CH₃O", "C₂H₆O", "C₄H₁₂H₂O", "CH₄O"], correct: "B", source: "MDCAT (2016)", exp: "Mass of C = (12/44)×1.039 = 0.2834 g. Mass of H = (2/18)×0.6369 = 0.0708 g. Mass of O = 0.5439 - (0.2834+0.0708) = 0.1897 g. Moles C = 0.2834/12 = 0.0236, H = 0.0708/1 = 0.0708, O = 0.1897/16 = 0.0119. Divide by smallest: C = 2, H = 6, O = 1. Empirical formula = C₂H₆O." },
+    { q: "The number of moles of CO which contain 8.00g of oxygen is:", options: ["0.75", "0.25", "1.50", "1.00"], correct: "B", source: "MDCAT (2016)", exp: "In CO, 16g O is present in 1 mole CO. 8g O is present in 0.5 mole CO. 0.5 mole CO contains 8g O." },
+    { q: "A researcher has prepared a sample of 1-Bromopropane from 10g of 1-propanol. After purification he had made 12g of product. Which of the following is percentage yield?", options: ["60%", "90%", "58%", "50%"], correct: "C", source: "MDCAT (2017)", exp: "Theoretical yield from stoichiometry is needed. Based on calculation, % yield = (actual/theoretical) × 100 ≈ 58%." },
+    { q: "Which one of the followings has same number of molecules as present in 11g of CO₂?", options: ["4g of O₂", "4g of H₂", "48g of O₂", "0.5 moles of NaCl"], correct: "A", source: "MDCAT (2017)", exp: "11g CO₂ = 11/44 = 0.25 mol. 4g O₂ = 4/32 = 0.125 mol (not equal). 4g H₂ = 4/2 = 2 mol. 48g O₂ = 48/32 = 1.5 mol. 0.5 mol NaCl has 0.5 mol formula units. 4g O₂ gives 0.125 mol × 6.02×10²³ = 0.75×10²³ molecules, while 11g CO₂ gives 0.25×6.02×10²³ = 1.5×10²³ molecules." },
+{ q: "Choose the correct option regarding number of particles associated with one mole of a substance:", options: ["6.02 × 10²¹", "6.02 × 10²²", "6.02 × 10²³", "6.02 × 10²⁴"], correct: "C", source: "MDCAT (2017)", exp: "One mole of any substance contains Avogadro's number of particles, which is 6.02 × 10²³." },
+    { q: "Determine the number of moles of O in 10.6g of Na₂CO₃:", options: ["0.4 moles", "0.2 moles", "0.3 moles", "None of these"], correct: "C", source: "MDCAT (2017)", exp: "Molar mass Na₂CO₃ = 106 g/mol. Moles = 10.6/106 = 0.1 mol. Each Na₂CO₃ has 3 O atoms, so moles of O = 0.1 × 3 = 0.3 mol." },
+    { q: "Calculate the gram of H₂O formed when 8 g of CH₄ burns in excess of oxygen:", options: ["21 grams", "18 grams", "19 grams", "15 grams"], correct: "B", source: "MDCAT (2017)", exp: "CH₄ + 2O₂ → CO₂ + 2H₂O. Moles CH₄ = 8/16 = 0.5 mol. H₂O produced = 0.5 × 2 = 1 mol. Mass H₂O = 1 × 18 = 18 g." },
+    { q: "While finding the relative atomic mass, which of the following standard is used to compare the atomic mass of chlorine (35.5 amu)?", options: ["Neon-20", "Nucleon number", "Carbon-13", "Carbon-12"], correct: "D", source: "MDCAT (2018)", exp: "Carbon-12 is the standard for measuring relative atomic masses. 1 amu = 1/12th mass of one C-12 atom." },
+    { q: "The formula which shows the simplest whole number ratio for the atoms of different elements in compound?", options: ["Ionic formula", "Empirical formula", "Structural formula", "Molecular formula"], correct: "B", source: "MDCAT (2018)", exp: "Empirical formula shows the simplest whole number ratio of atoms in a compound." },
+    { q: "3.0 mole of calcium will contain ___ g of calcium:", options: ["105 gm", "80 gm", "100 gm", "120 gm"], correct: "D", source: "MDCAT (2018)", exp: "Molar mass Ca = 40 g/mol. Mass = 3.0 × 40 = 120 g." },
+    { q: "The average atomic mass of Boron is 10.8. It has two isotopes of masses 10 and 11 respectively. What is the percentage of isotope with the average mass of 10?", options: ["80%", "60%", "50%", "20%"], correct: "D", source: "MDCAT (2018)", exp: "Let % of isotope-10 = x, then % of isotope-11 = 100-x. Average = (10x + 11(100-x))/100 = 10.8. Solve: 10x + 1100 - 11x = 1080 → -x + 1100 = 1080 → x = 20%." },
+    { q: "Which two elements are isotopes?", options: ["¹⁴C and ¹⁴N", "²³Na and ²⁴Na", "¹⁶O and ¹⁸O", "³⁵Cl and ³⁷Cl"], correct: "D", source: "MDCAT (2018)", exp: "Isotopes have same atomic number but different mass numbers. Cl-35 and Cl-37 are isotopes of chlorine." },
+    { q: "The best standard for the calculation of relative atomic mass is:", options: ["H-1.008", "Carbon-12", "Carbon-13", "Oxygen-16"], correct: "B", source: "MDCAT (2018)", exp: "Carbon-12 is the international standard for atomic mass measurement (12 amu exactly)." },
+
+		
+		
+		
+		
+		
+		    { q: "A piece of diamond embedded in a gold ring weighs 6.0 gram. How many numbers of moles of Carbon does it contain?", options: ["6.0 mole", "0.5 mole", "1.0 mole", "1.5 mole"], correct: "B", source: "SET (2019)", exp: "Diamond is pure carbon. Molar mass C = 12 g/mol. Moles = 6/12 = 0.5 mole." },
+    { q: "Iron is manufactured industrially in Blast furnace using Hematite (an ore of iron) and a reducing agent Carbon monoxide. Fe₂O₃ + 3CO → 2Fe + 3CO₂. Calculate the mass of iron ore used to manufacture 56g of iron with excess carbon monoxide. Assume that the process gives 100% yield.", options: ["160g", "112g", "280g", "80g"], correct: "D", source: "SET (2019)", exp: "Molar mass Fe₂O₃ = 160 g/mol. 2 moles Fe (112g) require 1 mole Fe₂O₃ (160g). For 56g Fe (1 mole Fe₂O₃ produces 2 moles Fe), mass of Fe₂O₃ = 80g." },
+    { q: "How many moles of calcium carbonate are present in 1.75 kg of calcium carbonate? (Ar of Ca = 40, Ar of C = 12, Ar of O = 16)", options: ["0.0175 mol", "1.75 mol", "17.5 mol", "1750 mol"], correct: "C", source: "MDCAT (2019)", exp: "Molar mass CaCO₃ = 40+12+48 = 100 g/mol. Mass = 1.75 kg = 1750 g. Moles = 1750/100 = 17.5 mol." },
+    { q: "According to law of definite proportion, what is the mass ratio of hydrogen and oxygen in water?", options: ["Hydrogen is 11.11% and oxygen is 88.89%", "Hydrogen is 10.11% and oxygen is 89.89%", "Hydrogen is 20% and oxygen is 80%", "Hydrogen is 30% and oxygen is 70%"], correct: "A", source: "SET (2019)", exp: "In H₂O, mass of H = 2 g, O = 16 g. % H = 2/18 × 100 = 11.11%, % O = 16/18 × 100 = 88.89%." },
+    { q: "2XeF₆ + SiO₂ → 3XeOF₄ + SiF₄. Consider the above chemical reaction. If 122.6g of XeF₆ reacts with 60g of SiO₂ to form the products. Select the limiting reagent and amount of SiF₄ formed (XeF₆ = 245.3 amu, SiO₂ = 60 amu, SiF₄ = 104 amu).", options: ["XeF₆, 26g", "SiO₂, 26g", "XeF₆, 52g", "SiO₂, 52g"], correct: "A", source: "ETEA (2016)", exp: "Moles XeF₆ = 122.6/245.3 = 0.5 mol. Moles SiO₂ = 60/60 = 1 mol. From equation: 2 mol XeF₆ reacts with 1 mol SiO₂. 0.5 mol XeF₆ requires 0.25 mol SiO₂. SiO₂ is in excess. Limiting reagent is XeF₆. 2 mol XeF₆ gives 1 mol SiF₄, so 0.5 mol XeF₆ gives 0.25 mol SiF₄ = 0.25 × 104 = 26g." },
+    { q: "How many oxygen atoms are present in 278g of Hydrated Ferrous Sulphate? (FeSO₄·7H₂O = 278 amu)", options: ["6.023 × 10²³", "6.525 × 10²⁴", "2.408 × 10²³", "6.023 × 10²³"], correct: "B", source: "ETEA (2016)", exp: "Moles = 278/278 = 1 mol. One formula unit of FeSO₄·7H₂O contains 4 + 7 = 11 O atoms. Number of O atoms = 1 × 11 × 6.02 × 10²³ = 6.622 × 10²⁴ ≈ 6.525 × 10²⁴." },
+    { q: "The water formed in the combustion analysis is usually absorbed by:", options: ["Mg(NO₃)₂", "Mg(ClO₄)₂", "Mg(OH)₂", "Mg(ClO₂)₂"], correct: "B", source: "ETEA (2016)", exp: "Water vapors are physically absorbed in Mg(ClO₄)₂ because it is hygroscopic." },
+    { q: "Which contains more atoms?", options: ["7 gram Mg", "8 gram Na", "9 gram Al", "All same"], correct: "B", source: "ETEA (2019)", exp: "Moles: Mg = 7/24 = 0.291 mol; Na = 8/23 = 0.348 mol; Al = 9/27 = 0.333 mol. Na has highest moles, so most atoms." },
+    { q: "Which contains highest percentage of nitrogen?", options: ["NO", "NO₂", "N₂O", "N₂O₅"], correct: "C", source: "ETEA (2019)", exp: "% N in N₂O = 28/44 × 100 = 63.63% (highest). Others: NO = 46.6%, NO₂ = 30.4%, N₂O₅ = 25.9%." },
+    { q: "A mixture of 10 cm³ of oxygen and 50 cm³ of hydrogen is sparked continuously. What is the maximum theoretical decrease in volume?", options: ["10 cm³", "15 cm³", "20 cm³", "30 cm³"], correct: "D", source: "ETEA (2019)", exp: "2H₂ + O₂ → 2H₂O. 2 cm³ H₂ react with 1 cm³ O₂. For 10 cm³ O₂, H₂ required = 20 cm³. Total consumed = 10 + 20 = 30 cm³." },
+    { q: "The number of moles of water in 1Kg ice are:", options: ["50 moles", "1000 moles", "55.5 moles", "100 moles"], correct: "C", source: "MDCAT (2019)", exp: "1 kg = 1000 g. Molar mass H₂O = 18 g/mol. Moles = 1000/18 = 55.55 ≈ 55.5 moles." },
+    { q: "The number of moles of CO₂ contains 16 g of oxygen is:", options: ["0.25", "1.00", "0.5", "1.50"], correct: "C", source: "MDCAT (2019)", exp: "1 mole CO₂ contains 32 g O. 16 g O is present in 0.5 mole CO₂." },
+    { q: "Percentage composition of mass in CO₂ is:", options: ["30.45% Carbon & 69.54% Oxygen", "24.22% Carbon & 75.78% Oxygen", "27.27% Carbon & 72.72% Oxygen", "41.68% Carbon & 58.12% Oxygen"], correct: "C", source: "MDCAT (2017)", exp: "% C = 12/44 × 100 = 27.27%. % O = 32/44 × 100 = 72.72%." },
+{ q: "A compound of phosphorus oxide has 43.6% of Oxygen. Its empirical formula is?", options: ["P₂O₅", "P₂O₃", "P₃O₂", "PO₂"], correct: "B", source: "UHS", exp: "Assume 100g: O = 43.6g, P = 56.4g. Moles P = 56.4/31 = 1.82, O = 43.6/16 = 2.72. Ratio P:O = 1.82:2.72 = 1:1.5 = 2:3. Empirical formula = P₂O₃." },
+    { q: "Which element is used as standard to determine atomic mass of an element?", options: ["H", "C", "P", "Cl"], correct: "B", source: "UHS", exp: "Carbon-12 is the standard used for determining relative atomic masses." },
+    { q: "The average weight of atoms of an element compared to the weight of one atom of ___ is called atomic weight.", options: ["Carbon", "Helium", "Hydrogen", "Nitrogen"], correct: "A", source: "UHS", exp: "Atomic weight is defined relative to 1/12th mass of one carbon-12 atom." },
+    { q: "The same moles of H₂, N₂ and O₂ are present in 0.1 cc volume at STP. Which one gas has greatest number of molecules?", options: ["N₂", "H₂", "O₂", "Number of molecules are equal"], correct: "D", source: "UHS", exp: "Equal volumes at same temperature and pressure contain equal number of molecules (Avogadro's law)." },
+    { q: "Number of H₂O molecules in 10 g of ice are:", options: ["3.34 × 10²³", "0.34 × 10²³", "33.1 × 10²³", "10"], correct: "A", source: "SZABMU", exp: "Moles = 10/18 = 0.555 mol. Molecules = 0.555 × 6.02 × 10²³ = 3.34 × 10²³." },
+    { q: "The efficiency of chemical reaction can be expressed as:", options: ["Theoretical yield", "Actual yield", "Percent yield", "Maximum yield"], correct: "C", source: "SZABMU", exp: "Percentage yield = (Actual yield / Theoretical yield) × 100 expresses the efficiency." },
+    { q: "1 mol of any substance contains ___ particles:", options: ["6.02 × 10²³", "6.02 × 10²⁴", "6.02 × 10²²", "3.01 × 10²³"], correct: "A", source: "SZABMU", exp: "Avogadro's number = 6.02 × 10²³ particles per mole." },
+    { q: "Consider the reaction below, if 5 moles each of hydrogen and oxygen are reacted to form water, the reaction reveals: 2H₂ + O₂ → 2H₂O", options: ["H₂ is excess reagent", "O₂ is limiting reagent", "H₂ is limiting reagent", "Reaction has no limiting reagent"], correct: "C", source: "ETEA", exp: "2 mol H₂ requires 1 mol O₂. For 5 mol H₂, O₂ needed = 2.5 mol. But O₂ available is 5 mol (excess). So H₂ is limiting reagent." },
+    { q: "Oxygen can be prepared by the decomposition of potassium chlorate (KClO₃). How many moles of oxygen O₂(g) can be formed by taking 12 moles of potassium chlorate (KClO₃) according to the following equation? 2KClO₃(s) + heat → 2KCl(s) + 3O₂(g)", options: ["12 moles of oxygen", "15 moles of oxygen", "18 moles of oxygen", "21 moles of oxygen"], correct: "C", source: "ETEA", exp: "2 mol KClO₃ produces 3 mol O₂. 12 mol KClO₃ produces (3/2) × 12 = 18 mol O₂." },
+    { q: "117g of NaCl have:", options: ["1.204 × 10²⁴ formula units of NaCl", "12.04 × 10²² formula units of NaCl", "1.204 × 10²³ formula units of NaCl", "6023 × 10²³ formula units of NaCl"], correct: "A", source: "ETEA (2023)", exp: "Molar mass NaCl = 58.5 g/mol. Moles = 117/58.5 = 2 mol. Formula units = 2 × 6.02 × 10²³ = 1.204 × 10²⁴." },
+    { q: "Which of the following is different in Na⁺ (Z=11), Mg²⁺ (Z=12) and Al³⁺ (Z=13)?", options: ["Number of shells", "Number of electrons", "Electronic configuration", "Number of protons"], correct: "D", source: "DUHS (2023)", exp: "All have 10 electrons (isoelectronic), same electronic configuration (1s²2s²2p⁶), same number of shells (2). Number of protons is different (11, 12, 13)." },
+    { q: "What volume of oxygen at S.T.P required to burn 500 dm³ of ethene?", options: ["500 dm³", "1000 dm³", "1500 dm³", "2000 dm³"], correct: "C", source: "DUHS (2023)", exp: "C₂H₄ + 3O₂ → 2CO₂ + 2H₂O. 1 dm³ C₂H₄ requires 3 dm³ O₂. 500 dm³ C₂H₄ requires 1500 dm³ O₂." }
+
+		
+		
+		
+	,	
+		
+		
+		
+		
+		
+	    { q: "A gaseous mixture contains 9.6% NH₃, 22.6% N₂ and 67.8% H₂ gases. If the total pressure is 50 atm then the partial pressure of H₂ is:", options: ["67.8 × 100/50", "50 × 100/100", "67.8 × 50/100", "67.8 + 50/100"], correct: "C", source: "UHS (2022)", exp: "Partial pressure of H₂ = (% of H₂ × total pressure)/100 = (67.8 × 50)/100." },
+    { q: "If we want to raise the temperature of one mole of an ideal gas by 1K, we have to provide how much amount of energy?", options: ["0.0821 J", "0.0821 Kj", "8.314 dm³ atm", "0.0821 dm³ atm"], correct: "C", source: "UHS (2022)", exp: "The value of R (gas constant) in dm³ atm is 0.0821 dm³ atm K⁻¹ mol⁻¹. Raising temperature by 1K requires R amount of energy." },
+    { q: "The process of heat flow between hotter and colder gases remains continued until all the molecules have equal:", options: ["Average translational K.E", "Average rotational K.E", "Average translational P.E", "Average vibrational K.E"], correct: "A", source: "UHS (2022)", exp: "Temperature is a measure of average translational kinetic energy. Heat flows until temperatures equalize." },
+    { q: "Air is a mixture of gases. The molecules of air do not settle down due to:", options: ["Different molar mass", "Non polar nature of gases", "Presence of dust particles in air", "Elastic collision of gas molecules"], correct: "D", source: "SZABMU (2022)", exp: "Gas molecules are in constant random motion due to elastic collisions, preventing them from settling." },
+    { q: "Collision shown by gases involve the following:", options: ["No energy change", "No pressure change", "Small energy change", "Large energy change"], correct: "A", source: "MDCAT (2020)", exp: "According to kinetic molecular theory, collisions between gas molecules are perfectly elastic, with no net loss of kinetic energy." },
+    { q: "According to Charles law volume of gas reduce to zero at:", options: ["-12°C", "-0°C", "-273.15°C", "-210°C"], correct: "C", source: "MDCAT (2017)", exp: "Absolute zero is -273.15°C, at which point the volume of an ideal gas would theoretically become zero." },
+    { q: "Which of the following shows marked deviation from ideal behaviour at a given temperature and pressure?", options: ["CO₂", "He", "N₂", "H₂"], correct: "A", source: "DUHS", exp: "CO₂ has stronger intermolecular forces (van der Waals forces) and larger molecular size, causing greater deviation from ideal behavior." },
+    { q: "The kinetic molecular theory of gases explains:", options: ["Mass number", "Atoms number", "The behavior of gases", "Electron"], correct: "C", source: "DUHS", exp: "Kinetic molecular theory explains the behavior of gases, including pressure, temperature, and volume relationships." },
+    { q: "The comparison of rate of diffusion of H₂ & O₂ is in the ratio of:", options: ["2:1", "1:4", "3:2", "4:1"], correct: "D", source: "DUHS", exp: "Rate of diffusion ∝ 1/√M. Rate H₂ / Rate O₂ = √(32/2) = √16 = 4:1." },
+    { q: "Gases deviate from ideal behavior more:", options: ["Gases do not deviate from ideal behavior", "Both temperature & pressure low", "Both temperature & pressure high", "At high pressure & low temperature"], correct: "D", source: "DUHS", exp: "At high pressure and low temperature, intermolecular forces become significant, causing deviation from ideal behavior." },
+    { q: "Ideal gas equation helps to calculate the following property of ideal gas except:", options: ["Pressure", "Density", "Moles", "Molarity"], correct: "D", source: "NUMS", exp: "Ideal gas equation PV = nRT can calculate pressure, volume, moles, temperature, and density. Molarity cannot be calculated directly from it." },
+    { q: "The volume of a gas becomes zero at:", options: ["-273°C", "273°C", "100°C", "25°C"], correct: "A", source: "NUMS", exp: "At absolute zero (-273.15°C), the volume of an ideal gas would theoretically become zero." },
+    { q: "Which of the following represents equation for ideal gas?", options: ["PV = nRT", "P = nRT", "PT = nRV", "T = npv/R"], correct: "A", source: "NUMS", exp: "Ideal gas equation is PV = nRT, where P = pressure, V = volume, n = moles, R = gas constant, T = temperature." },
+    { q: "How should the condition be changed to prevent the value of a given gas from expanding when its mass is increased?", options: ["Temperature is lowered & pressure is increased", "Temperature is increased & pressure is lowered", "Temperature & pressure both are lowered", "Temperature & pressure both are increased"], correct: "A", source: "UHS", exp: "To prevent expansion when mass increases, lower temperature (decreases volume) and increase pressure (compresses gas)." },
+    { q: "Which variable mentioned in ideal gas is assumed to be constant in other gas laws?", options: ["Volume", "Pressure", "Temperature", "Number of moles"], correct: "D", source: "MDCAT (2020)", exp: "Number of moles remains constant in Boyle's law, Charles's law, and Gay-Lussac's law." },
+    { q: "Which of the following molecules will show a higher rate of evaporation?", options: ["Acetone", "Water", "Ethanol", "Ethylene glycol"], correct: "A", source: "MDCAT (2021)", exp: "Acetone has weaker intermolecular forces (only dipole-dipole) compared to water and alcohols which have hydrogen bonding, so it evaporates faster." },
+    { q: "Which one of the following gases has the lowest density under room conditions?", options: ["Neon", "Nitrogen", "Oxygen", "Fluorine"], correct: "A", source: "MDCAT (2021)", exp: "Density ∝ molar mass. Ne (20 g/mol) has lower molar mass than N₂ (28), O₂ (32), F₂ (38), so lowest density." },
+    { q: "The process of heat flow between hotter and colder gases remains continued until all the molecules have equal:", options: ["Average translational kinetic energy", "Average rotational kinetic energy", "Average translational potential energy", "Average vibrational kinetic energy"], correct: "A", source: "UHS (2023)", exp: "Heat flow continues until temperature equalizes; temperature is a measure of average translational kinetic energy." },
+    { q: "Intermolecular forces between molecules of ideal gas are:", options: ["Very strong", "Very weak", "Zero", "Moderately strong"], correct: "C", source: "SZABMU (2023)", exp: "Ideal gases are assumed to have no intermolecular forces between molecules." },
+    { q: "The real gases show deviation from ideal behaviour at:", options: ["Low temperature and low pressure", "High temperature and high pressure", "Low temperature and high pressure", "High temperature and low pressure"], correct: "C", source: "SZABMU (2023)", exp: "Real gases deviate from ideal behavior at high pressure (molecular volume significant) and low temperature (intermolecular forces significant)." },
+    { q: "1 atm of pressure is equal to all of the following except:", options: ["760 cm Hg", "760 mm Hg", "760 torr", "101325 Pa"], correct: "A", source: "ETEA (2023)", exp: "1 atm = 760 mm Hg = 760 torr = 101325 Pa. 760 cm Hg would be 7600 mm Hg, which is incorrect." },
+    { q: "The volume of a given mass of an ideal gas at certain pressure is x at constant temperature. What will be its volume when the pressure is reduced to half?", options: ["x/2", "2x", "4x", "x/4"], correct: "B", source: "ETEA (2023)", exp: "Boyle's law: P₁V₁ = P₂V₂. If P₂ = P₁/2, then V₂ = P₁V₁/(P₁/2) = 2V₁ = 2x." },
+    { q: "Graph of volume versus total pressure at constant temperature is:", options: ["A straight line", "First a curve and then a straight line", "First a straight line & then a curve line", "Non-linear"], correct: "D", source: "DUHS (2023)", exp: "At constant temperature, V ∝ 1/P, so graph is a hyperbola (non-linear curve), called an isotherm." },
+    { q: "1 atm of nitrogen is at 25°C its pressure has increased to 2 atm at 50°C. Volume will change from 1 dm³ to:", options: ["0.542 dm³", "2 dm³", "3 dm³", "4 dm³"], correct: "A", source: "DUHS (2023)", exp: "Using P₁V₁/T₁ = P₂V₂/T₂: (1×1)/298 = (2×V₂)/323 → V₂ = (1×1×323)/(298×2) = 323/596 = 0.542 dm³." },
+    { q: "Which of the following temperatures is referred to as the absolute zero?", options: ["-273.16°C", "-273.16 K", "0°C", "32°F"], correct: "A", source: "DUHS (2023)", exp: "Absolute zero is 0 K = -273.15°C (approximately -273.16°C)." }
+,	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	    { q: "What is the weight of oxygen that is required for the complete combustion of 3.2 kg of methane?", options: ["3.2 kg", "6.4 kg", "12.8 kg", "15.4 kg"], correct: "C", source: "BUMHS (2023)", exp: "CH₄ + 2O₂ → CO₂ + 2H₂O. 16g CH₄ requires 64g O₂. 3.2 kg = 3200g CH₄ requires (64/16) × 3200 = 4 × 3200 = 12800g = 12.8 kg O₂." },
+    { q: "How many moles of a gas occupy 30.57 L at 55°C and 0.83 atm?", options: ["0.1 mol", "0.62 mol", "0.84 mol", "0.94 mol"], correct: "D", source: "BUMHS (2023)", exp: "Using PV = nRT. T = 55 + 273 = 328K. R = 0.0821 L·atm·mol⁻¹·K⁻¹. n = PV/RT = (0.83 × 30.57)/(0.0821 × 328) = (25.37)/(26.93) = 0.94 mol." },
+    { q: "When equal moles of reactants A and B are allowed to react according to the following balanced equation (2A + B → Product). The limiting reactant in this chemical equation will be?", options: ["Reactant A", "Reactant B", "Reactant A and B", "No limiting reactant"], correct: "A", source: "BUMHS (2023)", exp: "2 moles of A react with 1 mole of B. If equal moles are taken, A will be consumed twice as fast, so A is the limiting reactant." },
+    { q: "What is the mass of sulphur in 24.5 g of H₂SO₄?", options: ["32 g", "24 g", "16 g", "8 g"], correct: "D", source: "NUMS (2023)", exp: "Molar mass H₂SO₄ = 98 g/mol. Mass of S in 1 mol = 32 g. In 24.5 g (24.5/98 = 0.25 mol), mass of S = 0.25 × 32 = 8 g." },
+    { q: "2.5 moles of N₂? How many moles of NH₃ are produced?", options: ["2.5 moles", "2 moles", "5 moles", "7.5 moles"], correct: "C", source: "ETEA (2015)", exp: "N₂ + 3H₂ → 2NH₃. 1 mole N₂ produces 2 moles NH₃. 2.5 moles N₂ produce 5 moles NH₃." },
+    { q: "The type and relative amount of each isotope in an element can be found by:", options: ["IR spectroscopy", "UV spectroscopy", "Mass spectroscopy", "NMR"], correct: "C", source: "UHS (2024)", exp: "Mass spectrometry is used to determine the isotopic composition and relative abundance of isotopes in an element." },
+    { q: "The atomic masses of element depend upon:", options: ["Atomic number", "Number of electrons", "Number of isotopes & their abundance", "None of the above"], correct: "C", source: "UHS (2024)", exp: "Atomic mass is the weighted average of masses of all naturally occurring isotopes of an element, based on their relative abundance." },
+    { q: "Number of moles in an element is directly proportional to:", options: ["Mass of an element", "Molar mass of an element", "Formula mass", "None"], correct: "A", source: "UHS (2024)", exp: "Number of moles = mass / molar mass. For a given element, moles is directly proportional to mass." },
+    { q: "How many moles of oxygen gas are needed for combustion of 2 moles of propane?", options: ["8", "10", "12", "14"], correct: "B", source: "SZABMU (2024)", exp: "C₃H₈ + 5O₂ → 3CO₂ + 4H₂O. 1 mole C₃H₈ requires 5 moles O₂. 2 moles require 10 moles O₂." },
+    { q: "If percentage yield of chemical reaction is 60%, actual yield is 15g, what is theoretical yield?", options: ["18g", "20g", "25g", "30g"], correct: "C", source: "UHS (2024)", exp: "Percentage yield = (Actual yield / Theoretical yield) × 100. 60 = (15 / Theoretical) × 100 → Theoretical = (15 × 100)/60 = 25g." },
+    { q: "What will be the number of atoms in 2 moles of water molecule?", options: ["6.02 × 10²³", "1.24 × 10²⁴", "1.92 × 10²⁴", "3.61 × 10²⁴"], correct: "D", source: "UHS (2023)", exp: "2 moles H₂O = 2 × 6.02 × 10²³ = 1.204 × 10²⁴ molecules. Each molecule has 3 atoms, so total atoms = 3 × 1.204 × 10²⁴ = 3.61 × 10²⁴." },
+    { q: "What will be mole ratio of Al to O₂ after balancing equation given below? Al + O₂ → Al₂O₃", options: ["1:1", "2:3", "3:4", "4:3"], correct: "D", source: "UHS (2023)", exp: "4Al + 3O₂ → 2Al₂O₃. Mole ratio of Al to O₂ is 4:3." },
+    { q: "N₂(g) + 3H₂(g) → 2NH₃(g). How many moles of N₂ required to manufacture 8 moles of NH₃?", options: ["2.5 moles", "4 moles", "3.5 moles", "5 moles"], correct: "B", source: "UHS (2022)", exp: "1 mole N₂ produces 2 moles NH₃. To produce 8 moles NH₃, N₂ required = 8/2 = 4 moles." },
+    { q: "1g H₂ has ___ moles:", options: ["1 mol", "2 mol", "0.5 mol", "0.25 mol"], correct: "C", source: "ETEA (2016)", exp: "Molar mass H₂ = 2 g/mol. Moles = 1/2 = 0.5 mol." },
+    { q: "Percentage composition by mass in CO₂ is:", options: ["30% Carbon & 70% Oxygen", "25% Carbon & 75% Oxygen", "27.27% Carbon & 72.72% Oxygen", "40% Carbon & 60% Oxygen"], correct: "C", source: "MDCAT (2018)", exp: "% C = 12/44 × 100 = 27.27%. % O = 32/44 × 100 = 72.72%." },
+    { q: "The volume occupied by 3.2 g of oxygen gas at S.T.P is:", options: ["1.12 dm³", "2.24 dm³", "22.4 dm³", "24 dm³"], correct: "B", source: "UHS (2022)", exp: "Moles O₂ = 3.2/32 = 0.1 mol. Volume at STP = 0.1 × 22.4 = 2.24 dm³." },
+    { q: "Which of the following elements cannot be detected directly in a given organic compound?", options: ["Chlorine", "Nitrogen", "Oxygen", "Phosphorous"], correct: "C", source: "MDCAT (2021)", exp: "Oxygen cannot be detected directly in organic compounds; it is calculated by difference after detecting C, H, N, S, halogens." },
+    { q: "How many moles are there in 240g of sodium hydroxide (NaOH)?", options: ["2", "4", "6", "8"], correct: "C", source: "ETEA (2024)", exp: "Molar mass NaOH = 40 g/mol. Moles = 240/40 = 6 mol." },
+    { q: "Heating 24.8g of copper carbonate (CuCO₃) in a crucible produced only 13.9g of copper oxide (CuO). What is the percentage yield of copper oxide?", options: ["81.79%", "83.98%", "86.87%", "89.68%"], correct: "C", source: "ETEA (2024)", exp: "CuCO₃ → CuO + CO₂. Molar mass CuCO₃ = 124 g/mol, CuO = 80 g/mol. Theoretical yield from 24.8g = (80/124) × 24.8 = 16g. % yield = (13.9/16) × 100 = 86.87%." },
+    { q: "Efficiency of chemical reaction can be checked by calculating:", options: ["Actual yield", "Theoretical yield", "Percentage yield", "Amount of the reactant unused"], correct: "C", source: "ETEA (2024)", exp: "Percentage yield = (Actual yield / Theoretical yield) × 100 gives the efficiency of a chemical reaction." },
+    { q: "Actual yield will reach the ideal (theoretical) value if the % yield of the reaction is:", options: ["10%", "50%", "90%", "100%"], correct: "D", source: "ETEA (2024)", exp: "100% yield means actual yield equals theoretical yield (ideal value)." },
+    { q: "What is the mass of 1 mole of calcium carbonate (CaCO₃)?", options: ["50g", "70g", "100g", "125g"], correct: "C", source: "ETEA (2024)", exp: "Molar mass CaCO₃ = 40 + 12 + 48 = 100 g/mol." },
+    { q: "How many grams of CO₂ can be produced by thermally decomposing 10 moles of ZnCO₃?", options: ["320", "360", "400", "440"], correct: "D", source: "ETEA (2024)", exp: "ZnCO₃ → ZnO + CO₂. 1 mole ZnCO₃ produces 1 mole CO₂ (44g). 10 moles produce 440g CO₂." },
+    { q: "How many moles of NaCl are produced from 16.5g of HCl, according to the neutralization reaction? HCl + NaOH → NaCl + H₂O", options: ["0.252", "0.452", "0.652", "0.852"], correct: "B", source: "ETEA (2024)", exp: "Molar mass HCl = 36.5 g/mol. Moles HCl = 16.5/36.5 = 0.452 mol. 1:1 ratio gives 0.452 mol NaCl." },
+    { q: "What mass of aluminium oxide (Al₂O₃) is produced from 18.5g of Al metal, when it reacts completely with oxygen gas? 4Al + 3O₂ → 2Al₂O₃", options: ["30.8g", "32.6g", "34.9g", "36.5g"], correct: "C", source: "ETEA (2024)", exp: "4 mol Al (108g) produces 2 mol Al₂O₃ (204g). From 18.5g Al, mass Al₂O₃ = (204/108) × 18.5 = 1.888 × 18.5 = 34.93g ≈ 34.9g." }
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    ];
+
+    let userSelections = {};
+    let quizSubmitted = false;
+    let submitBtn = null;
+
+    function loadQuiz() {
+        quizSubmitted = false;
+        const container = document.getElementById('questionsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        userSelections = {};
+
+        submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.textContent = 'Submit';
+            submitBtn.classList.remove('submitted');
+            submitBtn.style.pointerEvents = 'auto';
+        }
+
+        const resultsDiv = document.getElementById('results');
+        if (resultsDiv) resultsDiv.style.display = 'none';
+
+        const totalSpan = document.getElementById('totalQuestions');
+        if (totalSpan) totalSpan.textContent = `Total Questions: ${chemistryMcqs.length}`;
+
+        chemistryMcqs.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}
+                    <span class="source-badge">${item.source}</span>
+                </div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">${letter}. ${opt}</div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+
+        if (submitBtn) {
+            submitBtn.textContent = 'Submitted';
+            submitBtn.classList.add('submitted');
+            submitBtn.style.pointerEvents = 'none';
+        }
+
+        let score = 0;
+
+        chemistryMcqs.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) opt.classList.add('correct');
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+            });
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+
+        const allOptions = document.querySelectorAll('.option');
+        allOptions.forEach(opt => {
+            opt.style.pointerEvents = 'none';
+        });
+
+        const percent = Math.round((score / chemistryMcqs.length) * 100);
+        const scoreCard = document.getElementById('scoreText');
+        scoreCard.innerHTML = `Score: ${score} / ${chemistryMcqs.length}  |  ${percent}%`;
+        document.getElementById('results').style.display = 'block';
+
+        setTimeout(() => { document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+    };
+
+    loadQuiz();
+</script>
+</body>
+</html>
