@@ -467,6 +467,16 @@
             border-radius: 20px;
         }
 
+        .available-tag {
+            font-size: 12px;
+            color: #059669;
+            margin-top: 6px;
+            font-weight: 600;
+            background: #d1fae5;
+            padding: 4px 14px;
+            border-radius: 20px;
+        }
+
         @media (min-width: 768px) {
             .main-sections {
                 grid-template-columns: 1fr 1fr;
@@ -529,15 +539,30 @@
                     <div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-book-open"></i></div>
                     <h4>Chapter-wise MCQs</h4>
                 </div>
-                <div class="sub-card" onclick="showSundayTestSeries()">
+                <div class="sub-card" onclick="nav('nestedSundayTests')">
                     <div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-calendar-week"></i></div>
                     <h4>Sunday Test Series</h4>
-                    <span class="coming-soon-tag">Starting 28 June</span>
+                   
                 </div>
             </div>
             <div class="back-link" onclick="nav('mainHome')"><i class="fas fa-arrow-left"></i> Back to Home</div>
         </div>
 
+        <!-- ==================== SUNDAY TEST SERIES SECTION ==================== -->
+        <div id="nestedSundayTests" class="nested-section">
+            <h3 style="margin-bottom: 20px; text-align: center;">Sunday Test Series</h3>
+            <div class="card-grid">
+                <div class="sub-card" onclick="window.location.href='June 28.html'">
+                    <div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-calendar-day"></i></div>
+                    <h4>Sunday Test 1 · 28 June</h4>
+                    
+                </div>
+                <!-- Add more Sunday tests here as they become available -->
+            </div>
+            <div class="back-link" onclick="nav('nestedMDCAT')">Back to MDCAT</div>
+        </div>
+
+        <!-- ==================== CHAPTER WISE SECTION ==================== -->
         <div id="nestedChapterWise" class="nested-section">
             <div class="card-grid">
                 <div class="sub-card" onclick="nav('nestedBiology')"><div class="main-icon" style="width:60px; height:60px; font-size: 1.8rem;"><i class="fas fa-dna"></i></div><h4>Biology</h4></div>
@@ -660,30 +685,12 @@
         { email: "dr.yaseen4003@gmail.com", password: "Yaseen123", role: "full" },
         { email: "palawan123@gmail.com", password: "Palawan123", role: "full" },
         { email: "fatmazahoor62@gmail.com", password: "Aiman123", role: "limited" },
-		{ email: "rmomina2013@gmail.com", password: "Momina123", role: "limited" },
-		{ email: "ramilarajesh0@gmail.com", password: "Tania123", role: "limited" }
+        { email: "rmomina2013@gmail.com", password: "Momina123", role: "limited" },
+        { email: "ramilarajesh0@gmail.com", password: "Tania123", role: "limited" }
     ];
     
     let currentUserRole = null;
     let currentUserEmail = null;
-
-    function showSundayTestSeries() {
-        const modal = document.createElement('div');
-        modal.className = 'coming-soon-modal';
-        modal.innerHTML = `
-            <div class="coming-soon-content">
-                <i class="fas fa-calendar-week"></i>
-                <h3>Sunday Test Series</h3>
-                <div class="date-badge">📅 Starting from <strong>28th June 2026</strong></div>
-                <p>Get ready for weekly Sunday tests to boost your MDCAT preparation!</p>
-                <button onclick="this.closest('.coming-soon-modal').remove()">Got it</button>
-            </div>
-        `;
-        document.body.appendChild(modal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) modal.remove();
-        });
-    }
 
     function showComingSoon() {
         const modal = document.createElement('div');
@@ -798,7 +805,6 @@
     window.handleMDCATClick = handleMDCATClick;
     window.handleMedicalClick = handleMedicalClick;
     window.showComingSoon = showComingSoon;
-    window.showSundayTestSeries = showSundayTestSeries;
     
     checkLoginStatus();
     
