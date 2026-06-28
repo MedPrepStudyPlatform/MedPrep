@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPrep | Sunday Test Series</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            padding: 30px 20px;
+            line-height: 1.55;
+        }
+
+        .quiz-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 42px;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
+            border-top: 8px solid #3b82f6;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            background: #f1f5f9;
+            padding: 12px 20px;
+            border-radius: 60px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .stats-bar.scrolled {
+            background: #ffffff;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e2e8f0;
+        }
+
+        .timer {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e40af;
+            background: #eff6ff;
+            padding: 8px 24px;
+            border-radius: 30px;
+            border: 2px solid #93c5fd;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 1px;
+            min-width: 120px;
+            text-align: center;
+        }
+
+              .timer.warning {
+            color: #dc2626;
+            border-color: #ef4444;
+            background: #fee2e2;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+               .timer.stopped {
+            color: #475569;
+            border-color: #94a3b8;
+            background: #f1f5f9;
+            animation: none;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .question {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            background: #ffffff;
+            transition: box-shadow 0.2s;
+        }
+
+        .question:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .q-text {
+            font-weight: 700;
+            font-size: 1.02rem;
+            margin-bottom: 14px;
+            color: #0f172a;
+            padding-left: 12px;
+            border-left: 3px solid #3b82f6;
+            line-height: 1.55;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 10px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .option:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            transform: translateX(3px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-submit:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit.submitted {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+        }
+
+        .btn-submit.submitted:hover {
+            background: #94a3b8;
+            transform: none;
+        }
+
+        #results {
+            display: none;
+            margin-top: 35px;
+        }
+
+        .score-card {
+            background: linear-gradient(110deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 25px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .score-card h2 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .explanation {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #475569;
+            display: none;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 14px;
+        }
+
+        /* Correct answer - Green rectangle with white text */
+        .correct {
+            background: #059669 !important;
+            color: white !important;
+            border-color: #047857 !important;
+            border-width: 2.5px !important;
+            box-shadow: 0 0 0 2px #6ee7b7 !important;
+        }
+
+        /* Wrong answer - Red rectangle with white text */
+        .wrong {
+            background: #dc2626 !important;
+            color: white !important;
+            border-color: #b91c1c !important;
+            border-width: 2.5px !important;
+            box-shadow: 0 0 0 2px #fca5a5 !important;
+        }
+
+        /* Selected correct - Same as correct but with extra glow */
+        .correct.selected {
+            background: #059669 !important;
+            color: white !important;
+            border-color: #047857 !important;
+            box-shadow: 0 0 0 3px #34d399 !important;
+        }
+
+        /* Selected wrong - Same as wrong but with extra glow */
+        .wrong.selected {
+            background: #dc2626 !important;
+            color: white !important;
+            border-color: #b91c1c !important;
+            box-shadow: 0 0 0 3px #f87171 !important;
+        }
+
+        .time-up-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .time-up-overlay.show {
+            display: flex;
+        }
+
+        .time-up-box {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .time-up-box h2 {
+            color: #dc2626;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .time-up-box p {
+            color: #475569;
+            font-size: 1.1rem;
+        }
+
+        /* Hide questions and submit button when time expires */
+        .questions-hidden .question {
+            display: none !important;
+        }
+
+        .questions-hidden .btn-submit {
+            display: none !important;
+        }
+
+        @media (max-width: 680px) {
+            .quiz-container { padding: 20px; }
+            .stats-bar {
+                padding: 10px 15px;
+                top: 5px;
+            }
+            .timer {
+                font-size: 1rem;
+                padding: 6px 16px;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Sunday Test 1 · 28 June</h1>
+    <div class="stats-bar" id="statsBar">
+        <span class="timer" id="timerDisplay">03:00:00</span>
+    </div>
+    
+    <div id="questionsContainer"></div>
+    <button type="button" class="btn-submit" id="submitBtn" onclick="calculateScore()">Submit</button>
+
+    <div id="results">
+        <div class="score-card">
+            <h2 id="scoreText"></h2>
+        </div>
+    </div>
+</div>
+
+<!-- Time Up Overlay -->
+<div class="time-up-overlay" id="timeUpOverlay">
+    <div class="time-up-box">
+        <h2>Time's Up!</h2>
+        <p>Your answers have been automatically submitted.</p>
+    </div>
+</div>
+
+<script>
+    // ==================== QUESTIONS ARRAY ====================
+    const allMcqs = [
+        
+		
+		
+		 {
+        q: "The endomembrane system includes various organelles that work together to modify, package, and transport proteins and lipids. Which organelle is NOT considered part of the endomembrane system?",
+        options: ["Endoplasmic reticulum", "Golgi apparatus", "Lysosomes", "Mitochondria"],
+        exp: "Mitochondria are not part of the endomembrane system as they have their own DNA and double membrane. The endomembrane system includes the nuclear envelope, ER, Golgi, lysosomes, vesicles, and plasma membrane.",
+        correct: "D"
+    },
+    {
+        q: "Ribosomes are essential for protein synthesis and can be found in two distinct locations within eukaryotic cells. What is the primary functional difference between free and bound ribosomes?",
+        options: ["Free ribosomes synthesize proteins for export, bound ribosomes synthesize proteins for cellular use", "Free ribosomes synthesize cytosolic proteins, bound ribosomes synthesize proteins for membranes or secretion", "Free ribosomes are smaller than bound ribosomes", "Free ribosomes synthesize lipids, bound ribosomes synthesize proteins"],
+        exp: "Free ribosomes float in the cytosol and synthesize proteins that remain in the cytosol. Bound ribosomes are attached to the rough ER and synthesize proteins destined for insertion into membranes or secretion outside the cell.",
+        correct: "B"
+    },
+    {
+        q: "The cytoskeleton provides structural support and facilitates intracellular transport through its three main filament types. Which cytoskeletal element is responsible for the movement of chromosomes during cell division?",
+        options: ["Microfilaments", "Intermediate filaments", "Microtubules", "Actin filaments"],
+        exp: "Microtubules form the spindle apparatus that separates chromosomes during mitosis and meiosis. They are composed of tubulin dimers and are essential for chromosome movement.",
+        correct: "C"
+    },
+    {
+        q: "A key distinction between prokaryotic and eukaryotic cells lies in their genetic material organization. Which of the following correctly describes the location and nature of genetic material in prokaryotes?",
+        options: ["Linear DNA enclosed in a nucleus", "Circular DNA in a nucleoid region without nuclear membrane", "Linear DNA in mitochondria", "Circular DNA enclosed in a nuclear envelope"],
+        exp: "Prokaryotes lack a true nucleus; their circular DNA is concentrated in the nucleoid region without a surrounding membrane. Eukaryotes have linear DNA enclosed within a nuclear envelope.",
+        correct: "B"
+    },
+    {
+        q: "The fluid mosaic model describes the plasma membrane as a dynamic structure with various components. Which component is primarily responsible for the selective permeability of the membrane to small nonpolar molecules?",
+        options: ["Phospholipid bilayer", "Cholesterol molecules", "Integral proteins", "Peripheral proteins"],
+        exp: "The phospholipid bilayer's hydrophobic interior allows small nonpolar molecules like O2 and CO2 to pass through easily. The hydrophilic heads restrict polar molecules, while proteins facilitate specific transport.",
+        correct: "A"
+    },
+    {
+        q: "Lysosomes are specialized organelles containing hydrolytic enzymes that function optimally at acidic pH. What would happen if the proton pump in the lysosomal membrane failed to maintain an acidic lumen?",
+        options: ["The lysosome would become alkaline and denature its enzymes", "The hydrolytic enzymes would lose their activity and digestive function would cease", "The lysosome would fuse with the plasma membrane", "The lysosome would produce more enzymes to compensate"],
+        exp: "Lysosomal enzymes require an acidic pH (≈5) to function properly. Without the proton pump maintaining this acidic environment, the enzymes become inactive and the lysosome loses its ability to digest cellular materials.",
+        correct: "B"
+    },
+    {
+        q: "Active transport mechanisms are essential for maintaining concentration gradients across the plasma membrane. Which of the following statements distinguishes primary active transport from secondary active transport?",
+        options: ["Primary uses ATP directly, secondary uses ATP indirectly through ion gradients", "Primary moves ions, secondary moves only molecules", "Primary is faster than secondary", "Primary requires carrier proteins, secondary does not"],
+        exp: "Primary active transport directly uses ATP hydrolysis to move molecules against gradients (e.g., Na+/K+ pump). Secondary active transport uses the energy from an existing ion gradient to drive transport of other molecules.",
+        correct: "A"
+    },
+    {
+        q: "The nuclear envelope has specialized structures that regulate the movement of molecules between the nucleus and cytoplasm. What is the maximum size of molecules that can freely diffuse through nuclear pores?",
+        options: ["Up to 40 kDa", "Up to 60 kDa", "Up to 100 kDa", "No size limit for diffusion"],
+        exp: "Small molecules and proteins up to about 40 kDa can freely diffuse through nuclear pores. Larger molecules require active transport with nuclear localization signals for entry into the nucleus.",
+        correct: "A"
+    },
+    {
+        q: "Peroxisomes are organelles that carry out oxidation reactions that produce hydrogen peroxide as a byproduct. Which enzyme is found within peroxisomes to immediately break down toxic H2O2?",
+        options: ["Peroxidase", "Catalase", "Oxidase", "Hydrolase"],
+        exp: "Catalase is the enzyme that rapidly converts hydrogen peroxide (H2O2) into water and oxygen. This prevents the accumulation of toxic reactive oxygen species within the peroxisome.",
+        correct: "B"
+    },
+    {
+        q: "The chloroplast has a complex internal structure optimized for capturing light energy and converting it to chemical energy. What is the name of the interconnected membranous sacs within the chloroplast that contain chlorophyll?",
+        options: ["Cristae", "Thylakoids", "Stroma", "Granules"],
+        exp: "Thylakoids are the membrane-bound sacs in chloroplasts that contain chlorophyll and other photosynthetic pigments. Thylakoids stack to form grana and are the site of light-dependent reactions.",
+        correct: "B"
+    },
+    {
+        q: "Carbohydrates serve multiple functions in living organisms beyond energy storage. Which polysaccharide has a structural role in plant cell walls but cannot be digested by most animals?",
+        options: ["Starch", "Glycogen", "Cellulose", "Chitin"],
+        exp: "Cellulose is a linear polymer of β-glucose linked by β-1,4-glycosidic bonds. Humans lack the enzyme cellulase to break these bonds, making cellulose indigestible. It provides structural support to plant cells.",
+        correct: "C"
+    },
+    {
+        q: "Lipids include a diverse group of hydrophobic molecules that differ from other biological macromolecules. Which property makes lipids distinct from carbohydrates, proteins, and nucleic acids?",
+        options: ["They contain nitrogen", "They are insoluble in water", "They are always solid at room temperature", "They have a high oxygen content"],
+        exp: "Lipids are hydrophobic and insoluble in water due to their predominantly hydrocarbon nature. Unlike carbohydrates and proteins, they are not polymers and are mainly nonpolar compounds.",
+        correct: "B"
+    },
+    {
+        q: "The primary structure of a protein is determined by the sequence of amino acids. What type of mutation would cause a change in the primary structure without affecting the protein's overall function?",
+        options: ["Nonsense mutation", "Silent mutation", "Frameshift mutation", "Missense mutation"],
+        exp: "A silent mutation changes the DNA sequence but does not alter the amino acid sequence due to the redundancy of the genetic code. The primary structure remains unchanged, thus the protein function is unaffected.",
+        correct: "B"
+    },
+    {
+        q: "Enzymes can be regulated through various mechanisms, including allosteric regulation and covalent modification. What effect does a competitive inhibitor have on the Vmax and Km of an enzyme?",
+        options: ["Vmax decreases, Km increases", "Vmax unchanged, Km increases", "Vmax decreases, Km unchanged", "Vmax unchanged, Km decreases"],
+        exp: "A competitive inhibitor binds to the active site, increasing the apparent Km (lower affinity) but Vmax remains unchanged because higher substrate concentration can overcome inhibition. The inhibitor is structurally similar to the substrate.",
+        correct: "B"
+    },
+    {
+        q: "ATP is often called the energy currency of the cell, but its function extends beyond energy transfer. Which of the following is NOT a function of ATP in the cell?",
+        options: ["Energy storage in high-energy phosphate bonds", "Hydrolysis to drive endergonic reactions", "Direct protein synthesis as a substrate", "Synthesis of nucleic acids as a nucleotide precursor"],
+        exp: "ATP provides energy through hydrolysis, is a substrate for kinases, and serves as a building block for RNA synthesis. However, ATP is not directly used as a building block for proteins; amino acids are linked via peptide bonds.",
+        correct: "C"
+    },
+    {
+        q: "Saturated and unsaturated fatty acids differ in their chemical structure and physical properties. Why do unsaturated fatty acids typically have lower melting points than saturated fatty acids?",
+        options: ["They have more hydrogen atoms", "They have one or more double bonds causing kinks", "They are shorter chain length", "They have higher molecular weight"],
+        exp: "Unsaturated fatty acids contain one or more double bonds that create bends or kinks in the hydrocarbon chain. These kinks prevent tight packing between molecules, reducing intermolecular forces and lowering the melting point.",
+        correct: "B"
+    },
+    {
+        q: "Nucleotides are the building blocks of nucleic acids and have several key components. Which nucleotide is unique to RNA and is not found in DNA?",
+        options: ["Adenosine monophosphate", "Guanosine monophosphate", "Uridine monophosphate", "Cytidine monophosphate"],
+        exp: "Uridine monophosphate (UMP) is found exclusively in RNA. DNA uses thymine (thymidine monophosphate) instead of uracil. This difference helps distinguish RNA from DNA and is crucial for transcription and translation.",
+        correct: "C"
+    },
+    {
+        q: "The quaternary structure of a protein refers to the arrangement of multiple polypeptide chains. Which of the following proteins exhibits quaternary structure due to its four subunits?",
+        options: ["Myoglobin", "Hemoglobin", "Insulin", "Collagen"],
+        exp: "Hemoglobin has a quaternary structure consisting of four polypeptide chains (two alpha and two beta subunits). Myoglobin is a monomer, insulin has two chains but is not considered true quaternary structure, and collagen is a triple helix.",
+        correct: "B"
+    },
+    {
+        q: "Peptide bonds are formed between amino acids through a dehydration synthesis reaction. What happens during the formation of a peptide bond?",
+        options: ["A water molecule is added to the reaction", "A water molecule is removed and the carboxyl group of one amino acid reacts with the amino group of another", "A water molecule is removed and the amino group of one amino acid reacts with the amino group of another", "The carboxyl groups of two amino acids react"],
+        exp: "During peptide bond formation, the carboxyl group (-COOH) of one amino acid reacts with the amino group (-NH2) of another. A water molecule is removed (dehydration) and a covalent bond is formed.",
+        correct: "B"
+    },
+    {
+        q: "Hydrophobic interactions play a crucial role in protein folding and stability. Which type of amino acid would you expect to find in the interior of a water-soluble globular protein?",
+        options: ["Polar charged amino acids", "Hydrophilic amino acids", "Nonpolar hydrophobic amino acids", "All types of amino acids equally distributed"],
+        exp: "Nonpolar hydrophobic amino acids (like leucine, isoleucine, valine) are found in the protein interior, away from water. This hydrophobic core helps maintain the protein's three-dimensional structure through hydrophobic interactions.",
+        correct: "C"
+    },
+    {
+        q: "Enzymes lower the activation energy of reactions, allowing them to proceed faster at physiological temperatures. Which of the following mechanisms does NOT contribute to enzyme catalysis?",
+        options: ["Stabilization of the transition state", "Proximity and orientation of substrates", "Formation of covalent enzyme-substrate intermediates", "Increasing the temperature of the reaction"],
+        exp: "Enzymes do not increase reaction temperature; they work at physiological temperatures. Their catalytic power comes from transition state stabilization, substrate orientation, and in some cases, covalent intermediates.",
+        correct: "D"
+    },
+    {
+        q: "Allosteric regulation allows enzymes to be modulated by molecules that bind at sites other than the active site. How does a negative allosteric modulator affect enzyme activity?",
+        options: ["It increases substrate binding", "It decreases the enzyme's catalytic activity by causing conformational change", "It directly competes with the substrate for the active site", "It increases the enzyme's affinity for substrate"],
+        exp: "Negative allosteric modulators bind to the allosteric site, inducing a conformational change that reduces the enzyme's activity. This is a form of regulation that allows cells to control enzyme activity rapidly.",
+        correct: "B"
+    },
+    {
+        q: "The Michaelis-Menten equation describes the relationship between substrate concentration and reaction velocity. What is the significance of the Michaelis constant (Km) in enzyme kinetics?",
+        options: ["Km is the substrate concentration at which reaction velocity reaches Vmax", "Km is the substrate concentration at which reaction velocity is half of Vmax", "Km indicates the maximum velocity of the enzyme", "Km is independent of enzyme concentration"],
+        exp: "Km is the substrate concentration at which the reaction velocity is half of Vmax. It is a measure of the enzyme's affinity for its substrate; a lower Km indicates higher affinity. Km is inversely proportional to substrate binding strength.",
+        correct: "B"
+    },
+    {
+        q: "Temperature affects enzyme activity in a complex manner, with both positive and negative effects. Why does enzyme activity typically decrease at temperatures above the optimum?",
+        options: ["The enzyme becomes more active", "The enzyme undergoes denaturation", "The substrate concentration decreases", "The pH changes"],
+        exp: "At high temperatures, enzymes denature due to disruption of non-covalent bonds (hydrogen bonds, hydrophobic interactions). This leads to loss of the enzyme's three-dimensional structure and catalytic activity.",
+        correct: "B"
+    },
+    {
+        q: "Zymogens are inactive precursors of enzymes that require proteolytic cleavage to become active. Which of the following is an example of a zymogen that is activated during digestion?",
+        options: ["Trypsinogen", "Aminoacyl-tRNA synthetase", "DNA polymerase", "RNA polymerase"],
+        exp: "Trypsinogen is an inactive zymogen secreted by the pancreas. It is activated to trypsin by enterokinase in the small intestine, which cleaves a peptide fragment to reveal the active site. This prevents auto-digestion of pancreatic tissue.",
+        correct: "A"
+    },
+	   
+	   
+	   
+	   
+	       {
+        q: "The Golgi apparatus is responsible for modifying, sorting, and packaging proteins for secretion or delivery to other organelles. Which of the following modifications commonly occurs in the Golgi apparatus?",
+        options: ["Phosphorylation of amino acids", "Addition of oligosaccharide chains to proteins", "Removal of signal peptides", "Formation of disulfide bonds"],
+        exp: "The Golgi apparatus adds and modifies oligosaccharide chains on proteins through glycosylation. This process is crucial for proper protein folding, stability, and cellular recognition.",
+        correct: "B"
+    },
+    {
+        q: "Mitochondria have a unique double membrane structure that creates distinct compartments essential for ATP production. Where does the electron transport chain specifically occur within the mitochondria?",
+        options: ["Outer mitochondrial membrane", "Intermembrane space", "Inner mitochondrial membrane", "Mitochondrial matrix"],
+        exp: "The electron transport chain is embedded in the inner mitochondrial membrane. This location allows for the establishment of a proton gradient across the membrane, which drives ATP synthesis through oxidative phosphorylation.",
+        correct: "C"
+    },
+    {
+        q: "The smooth endoplasmic reticulum differs from rough ER in both structure and function. Which of the following is a primary function of the smooth ER in liver cells?",
+        options: ["Protein synthesis", "Detoxification of drugs and alcohol", "Calcium storage in muscle cells", "Lipid synthesis"],
+        exp: "The smooth ER in liver cells contains enzymes that detoxify drugs, alcohol, and other harmful substances. This detoxification function is particularly important in hepatocytes for metabolizing toxins.",
+        correct: "B"
+    },
+    {
+        q: "Cilia and flagella are motile structures found on certain eukaryotic cells. What is the common structural arrangement of microtubules found in both cilia and flagella?",
+        options: ["9+0 arrangement", "9+2 arrangement", "9+4 arrangement", "13+2 arrangement"],
+        exp: "Cilia and flagella have a 9+2 arrangement of microtubules, consisting of 9 doublet microtubules surrounding 2 central singlet microtubules. This structure is called the axoneme and is essential for motility.",
+        correct: "B"
+    },
+    {
+        q: "The nucleolus is a prominent structure within the nucleus that is visible during interphase. What is the primary function of the nucleolus in eukaryotic cells?",
+        options: ["DNA replication", "mRNA processing", "Ribosomal RNA synthesis and ribosome subunit assembly", "Protein modification"],
+        exp: "The nucleolus is the site of ribosomal RNA (rRNA) synthesis and the initial assembly of ribosomal subunits. It is not membrane-bound and disappears during cell division when the nucleus breaks down.",
+        correct: "C"
+    },
+    {
+        q: "Vacuoles serve various functions depending on the cell type and organism. How do contractile vacuoles help freshwater protists survive in their hypotonic environment?",
+        options: ["They store nutrients", "They expel excess water that enters the cell by osmosis", "They store waste products", "They help in digestion"],
+        exp: "Contractile vacuoles collect and expel excess water that continuously enters the cell by osmosis in hypotonic environments. This prevents the protist from swelling and bursting, maintaining osmotic balance.",
+        correct: "B"
+    },
+    {
+        q: "Prokaryotic cells have a cell wall that provides structural support and protection. What is the primary component of the cell wall in most bacteria, and how is it structurally different from the eukaryotic plant cell wall?",
+        options: ["Cellulose; it is less rigid", "Peptidoglycan; it has a unique cross-linked structure", "Chitin; it is more flexible", "Lipopolysaccharide; it has no structural function"],
+        exp: "Bacterial cell walls are composed of peptidoglycan, a polymer of alternating N-acetylglucosamine and N-acetylmuramic acid cross-linked by peptide chains. This structure is distinct from the cellulose found in plant cell walls.",
+        correct: "B"
+    },
+    {
+        q: "Glycosidic bonds link monosaccharides together to form disaccharides and polysaccharides. What type of glycosidic bond is found in lactose, and what two monosaccharides does it contain?",
+        options: ["α-1,4-glycosidic bond; glucose and glucose", "β-1,4-glycosidic bond; glucose and galactose", "α-1,4-glycosidic bond; glucose and fructose", "β-1,4-glycosidic bond; glucose and fructose"],
+        exp: "Lactose contains a β-1,4-glycosidic bond linking glucose and galactose. This bond is broken by the enzyme lactase, which is present in the small intestine of most mammals.",
+        correct: "B"
+    },
+    {
+        q: "Glycoproteins are proteins that have carbohydrate chains covalently attached to them. What is the primary function of the carbohydrate portion of glycoproteins found on the cell surface?",
+        options: ["Energy storage", "Cell recognition and signaling", "Enzyme catalysis", "Transport of molecules"],
+        exp: "The carbohydrate portions of glycoproteins on the cell surface serve as recognition markers for cell-cell interactions, immune responses, and signaling. These glycans are crucial for cellular communication.",
+        correct: "B"
+    },
+    {
+        q: "The induced fit model explains how enzymes achieve substrate specificity and catalytic efficiency. What structural change occurs when a substrate binds to the enzyme according to this model?",
+        options: ["The substrate changes its conformation to fit the enzyme", "The enzyme changes its conformation to fit the substrate", "Both enzyme and substrate remain rigid", "The enzyme releases allosteric regulators"],
+        exp: "According to the induced fit model, the enzyme's active site undergoes a conformational change upon substrate binding, inducing a perfect fit. This dynamic interaction enhances catalysis and allows for substrate specificity.",
+        correct: "B"
+    },
+    {
+        q: "Feedback inhibition is a common regulatory mechanism in metabolic pathways. How does the end product of a pathway typically inhibit the first enzyme in the same pathway?",
+        options: ["Competitive inhibition at the active site", "Allosteric inhibition by binding to an allosteric site", "Covalent modification", "Degradation of the enzyme"],
+        exp: "In feedback inhibition, the end product binds to an allosteric site on the first enzyme of the pathway. This causes a conformational change that reduces enzyme activity, preventing overproduction of the end product.",
+        correct: "B"
+    },
+    {
+        q: "Enzyme cofactors are non-protein molecules that assist enzymes in catalysis. What is the primary difference between an inorganic cofactor and an organic coenzyme?",
+        options: ["Cofactors are proteins, coenzymes are not", "Cofactors are metal ions, coenzymes are organic molecules", "Cofactors bind covalently, coenzymes do not", "Cofactors are found only in prokaryotes"],
+        exp: "Cofactors are typically metal ions (e.g., Mg2+, Zn2+, Fe2+) that bind to enzymes to facilitate catalysis. Coenzymes are organic molecules (e.g., NAD+, FAD, vitamins) that act as carriers of electrons or functional groups.",
+        correct: "B"
+    },
+    {
+        q: "Simple diffusion and facilitated diffusion are both forms of passive transport across membranes. What distinguishes facilitated diffusion from simple diffusion?",
+        options: ["Facilitated diffusion requires ATP", "Facilitated diffusion uses transport proteins but moves molecules down their concentration gradient", "Facilitated diffusion moves molecules against their concentration gradient", "Facilitated diffusion is faster than simple diffusion"],
+        exp: "Facilitated diffusion uses membrane proteins (channels or carriers) to transport molecules down their concentration gradient without ATP. Simple diffusion occurs directly through the lipid bilayer without protein assistance.",
+        correct: "B"
+    },
+    {
+        q: "Osmosis is a specialized form of diffusion that involves the movement of water across a selectively permeable membrane. What determines the direction of water movement during osmosis?",
+        options: ["The total solute concentration on both sides", "The concentration of water on both sides", "The temperature on both sides", "The pressure on both sides"],
+        exp: "Osmosis occurs from a region of higher water concentration (lower solute concentration) to a region of lower water concentration (higher solute concentration) across a semipermeable membrane. The water potential gradient drives this movement.",
+        correct: "B"
+    },
+    {
+        q: "Steroids are a class of lipids characterized by their four-ring structure. Which of the following is NOT a function of steroids in living organisms?",
+        options: ["Component of cell membranes", "Precursor for hormones", "Energy storage molecules", "Signaling molecules"],
+        exp: "Steroids serve as membrane components (cholesterol), hormone precursors (cortisol, testosterone), and signaling molecules. They are not primarily used for energy storage, which is the function of triglycerides.",
+        correct: "C"
+    },
+    {
+        q: "The tertiary structure of a protein describes its overall three-dimensional shape. Which type of interaction is primarily responsible for stabilizing the tertiary structure of a protein?",
+        options: ["Hydrogen bonds only", "Disulfide bonds", "Hydrophobic interactions", "Ionic bonds"],
+        exp: "Hydrophobic interactions between nonpolar amino acid side chains are the dominant force driving protein folding and maintaining tertiary structure. These interactions create a hydrophobic core that stabilizes the protein's globular shape.",
+        correct: "C"
+    },
+    {
+        q: "Nucleic acids store and transmit genetic information through the sequence of their bases. What is the complementary base pairing rule for RNA molecules during transcription?",
+        options: ["A-T, G-C", "A-U, G-C", "A-G, T-C", "A-C, G-U"],
+        exp: "During transcription, RNA polymerase synthesizes RNA complementary to the DNA template. The base pairing rules are A-U (adenine with uracil) and G-C (guanine with cytosine), since uracil replaces thymine in RNA.",
+        correct: "B"
+    },
+    {
+        q: "The ATP molecule contains three phosphate groups linked by high-energy bonds. What is the precise location of the terminal phosphate bond that is hydrolyzed during energy release?",
+        options: ["Between adenine and ribose", "Between the first and second phosphate", "Between the second and third phosphate", "Between the first phosphate and ribose"],
+        exp: "The high-energy bond between the second and third phosphate groups (the terminal phosphate bond) is hydrolyzed during ATP breakdown. This releases energy for cellular work and produces ADP and inorganic phosphate.",
+        correct: "C"
+    },
+    {
+        q: "Prokaryotic cells lack membrane-bound organelles, yet they perform all necessary life functions. How do prokaryotes compensate for the absence of mitochondria to generate ATP?",
+        options: ["They use chloroplasts for ATP production", "They carry out glycolysis and oxidative phosphorylation on the plasma membrane", "They do not require ATP", "They rely entirely on substrate-level phosphorylation"],
+        exp: "Prokaryotes generate ATP through glycolysis in the cytosol and oxidative phosphorylation using electron transport chains located in the plasma membrane (not inner mitochondrial membrane). This allows them to efficiently produce energy without mitochondria.",
+        correct: "B"
+    },
+    {
+        q: "Cholesterol is an essential component of animal cell membranes. How does cholesterol specifically affect membrane fluidity at both high and low temperatures?",
+        options: ["It always decreases fluidity", "It always increases fluidity", "It increases fluidity at low temperatures and decreases it at high temperatures", "It has no effect on fluidity"],
+        exp: "Cholesterol acts as a buffer for membrane fluidity. At high temperatures, it restricts phospholipid movement, reducing fluidity. At low temperatures, it prevents phospholipids from packing too tightly, maintaining fluidity.",
+        correct: "C"
+    },
+    {
+        q: "The specificity of an enzyme is determined by the precise shape and chemical properties of its active site. Which of the following statements best describes the lock and key model of enzyme-substrate interaction?",
+        options: ["The enzyme changes shape to accommodate the substrate", "The substrate changes shape to fit the enzyme", "The enzyme and substrate have complementary rigid shapes that fit perfectly", "The enzyme and substrate form covalent bonds"],
+        exp: "The lock and key model proposes that the enzyme's active site has a rigid, pre-formed shape that exactly complements the substrate. This model explains enzyme specificity but does not account for conformational changes seen in the induced fit model.",
+        correct: "C"
+    },
+    {
+        q: "The proton gradient established across the inner mitochondrial membrane powers ATP synthesis. Which enzyme complex directly uses this gradient to synthesize ATP from ADP and inorganic phosphate?",
+        options: ["NADH dehydrogenase", "Cytochrome c oxidase", "ATP synthase", "Succinate dehydrogenase"],
+        exp: "ATP synthase is the enzyme complex that couples the flow of protons down their electrochemical gradient to ATP synthesis. This process of oxidative phosphorylation is the major source of ATP in aerobic organisms.",
+        correct: "C"
+    },
+    {
+        q: "Membrane proteins serve various functions including transport, signaling, and cell adhesion. Which type of membrane protein spans the entire lipid bilayer with hydrophobic regions in the middle?",
+        options: ["Peripheral proteins", "Lipid-anchored proteins", "Integral transmembrane proteins", "Glycoproteins"],
+        exp: "Integral transmembrane proteins span the entire lipid bilayer with hydrophobic regions that interact with the hydrophobic core of the membrane. They typically have alpha-helical segments that traverse the membrane.",
+        correct: "C"
+    },
+    {
+        q: "The structure of DNA is stabilized by hydrogen bonds between complementary base pairs. Which base pair is held together by three hydrogen bonds, making it stronger than the two-hydrogen-bond pairing?",
+        options: ["A-T", "G-C", "A-U", "G-T"],
+        exp: "The guanine-cytosine (G-C) base pair is held together by three hydrogen bonds, compared to the two hydrogen bonds found in the adenine-thymine (A-T) pairing. This makes G-C rich regions more stable.",
+        correct: "B"
+    },
+    {
+        q: "Enzymes typically operate at specific pH optima that reflect their cellular environment. What is the primary reason pepsin, a stomach enzyme, has a low pH optimum around 2?",
+        options: ["It requires acidic conditions for substrate binding", "It is stable only at low pH", "It must function in the highly acidic environment of the stomach", "It contains metal ions that require acidic conditions"],
+        exp: "Pepsin has evolved to function optimally at pH 2 because this matches the acidic environment of the stomach created by hydrochloric acid. The enzyme's active site contains amino acids that are correctly protonated only under these conditions.",
+        correct: "C"
+    },
+	
+	    {
+        q: "The sodium-potassium pump is an essential active transport mechanism in animal cells. How many sodium ions are pumped out and potassium ions pumped in for each ATP molecule hydrolyzed?",
+        options: ["2 Na+ out, 2 K+ in", "3 Na+ out, 2 K+ in", "2 Na+ out, 3 K+ in", "3 Na+ out, 3 K+ in"],
+        exp: "The Na+/K+ pump transports 3 sodium ions out of the cell and 2 potassium ions into the cell per ATP hydrolyzed. This creates an electrochemical gradient essential for nerve impulse transmission and secondary active transport.",
+        correct: "B"
+    },
+    {
+        q: "Endocytosis is a process by which cells ingest extracellular material. Which form of endocytosis is specifically characterized by the uptake of large particles or whole cells?",
+        options: ["Pinocytosis", "Phagocytosis", "Receptor-mediated endocytosis", "Exocytosis"],
+        exp: "Phagocytosis involves the engulfment of large particles such as bacteria, cellular debris, or other cells. The plasma membrane forms pseudopodia around the particle, ultimately enclosing it in a phagosome for digestion.",
+        correct: "B"
+    },
+    {
+        q: "The endomembrane system compartments are interconnected through vesicular transport. Which organelle serves as the main sorting and packaging station for proteins destined for various cellular locations?",
+        options: ["Rough ER", "Smooth ER", "Golgi apparatus", "Lysosomes"],
+        exp: "The Golgi apparatus receives proteins from the ER and modifies, sorts, and packages them for delivery to their final destinations including the plasma membrane, lysosomes, or secretion outside the cell.",
+        correct: "C"
+    },
+    {
+        q: "The cell cycle consists of interphase and mitotic phase. What critical event occurs during the S phase of interphase that ensures genetic continuity?",
+        options: ["Cell growth", "DNA replication", "Chromosome condensation", "Spindle formation"],
+        exp: "The S phase (synthesis phase) of interphase is when DNA replication occurs. Each chromosome is duplicated to form sister chromatids, ensuring that daughter cells receive identical genetic material during division.",
+        correct: "B"
+    },
+    {
+        q: "Apoptosis is programmed cell death that plays a crucial role in development and tissue homeostasis. What characteristic morphological changes are observed in cells undergoing apoptosis?",
+        options: ["Cell swelling and membrane rupture", "Nuclear fragmentation, cell shrinkage, and formation of apoptotic bodies", "Organelle swelling and loss of membrane integrity", "Uncontrolled cell division"],
+        exp: "Apoptotic cells undergo characteristic changes including cell shrinkage, chromatin condensation, nuclear fragmentation, and membrane blebbing to form apoptotic bodies. These are eventually phagocytosed without causing inflammation.",
+        correct: "B"
+    },
+    {
+        q: "The fluidity of the cell membrane is affected by the presence of unsaturated fatty acids in phospholipids. How does the presence of a cis double bond in a fatty acid tail affect membrane fluidity?",
+        options: ["Decreases fluidity by making the membrane more rigid", "Increases fluidity by creating kinks that prevent tight packing", "Has no effect on membrane fluidity", "Decreases fluidity by increasing hydrophobic interactions"],
+        exp: "A cis double bond in a fatty acid tail creates a kink that prevents the fatty acid chains from packing tightly together. This increases membrane fluidity, making it more flexible and permeable.",
+        correct: "B"
+    },
+    {
+        q: "Cellular respiration involves the breakdown of glucose in a series of metabolic pathways. In which cellular compartment does the Krebs cycle occur in eukaryotic cells?",
+        options: ["Cytoplasm", "Inner mitochondrial membrane", "Mitochondrial matrix", "Outer mitochondrial membrane"],
+        exp: "The Krebs cycle (citric acid cycle) occurs in the mitochondrial matrix of eukaryotic cells. It is the second stage of aerobic respiration, producing NADH, FADH2, and ATP that drive the electron transport chain.",
+        correct: "C"
+    },
+    {
+        q: "The extracellular matrix provides structural and biochemical support to surrounding cells. Which protein is the most abundant component of the extracellular matrix in animal tissues?",
+        options: ["Elastin", "Collagen", "Fibronectin", "Laminin"],
+        exp: "Collagen is the most abundant protein in the extracellular matrix of animal tissues. It forms strong, flexible fibers that provide structural support, tensile strength, and scaffolding for cell attachment.",
+        correct: "B"
+    },
+    {
+        q: "Transmembrane proteins traverse the lipid bilayer multiple times in some cases. Which amino acid properties allow transmembrane domains to interact favorably with the hydrophobic interior of the membrane?",
+        options: ["Polar and charged amino acids", "Nonpolar hydrophobic amino acids", "Hydrophilic amino acids", "Aromatic amino acids only"],
+        exp: "Transmembrane domains consist mainly of nonpolar hydrophobic amino acids (like leucine, isoleucine, valine) that interact favorably with the hydrophobic fatty acid tails of the membrane. This prevents the protein from being repelled by the lipid bilayer.",
+        correct: "B"
+    },
+    {
+        q: "Diffusion of molecules across a membrane can be influenced by several factors. Which of the following increases the rate of simple diffusion across a membrane?",
+        options: ["Decrease in concentration gradient", "Increase in membrane thickness", "Decrease in molecular size", "Decrease in temperature"],
+        exp: "Smaller molecules diffuse faster across membranes due to less steric hindrance and faster movement. The rate is also increased by a steeper concentration gradient, higher temperature, and thinner membrane.",
+        correct: "C"
+    },
+    {
+        q: "The Calvin cycle is the light-independent stage of photosynthesis that fixes carbon dioxide. Which enzyme catalyzes the first step of the Calvin cycle by attaching CO2 to ribulose-1,5-bisphosphate?",
+        options: ["Carbonic anhydrase", "Rubisco", "Phosphoglycerate kinase", "Dehydrogenase"],
+        exp: "Rubisco (ribulose-1,5-bisphosphate carboxylase/oxygenase) catalyzes the addition of CO2 to ribulose-1,5-bisphosphate, producing two molecules of 3-phosphoglycerate. This is the first and rate-limiting step of the Calvin cycle.",
+        correct: "B"
+    },
+    {
+        q: "The endoplasmic reticulum plays a crucial role in protein quality control. What is the function of the unfolded protein response (UPR) when misfolded proteins accumulate in the ER lumen?",
+        options: ["It degrades the entire ER", "It increases the production of ER chaperones and slows down global protein synthesis", "It causes immediate cell death", "It transports misfolded proteins to the Golgi for repair"],
+        exp: "The unfolded protein response reduces the load on the ER by slowing protein translation and upregulating genes that increase ER chaperones to aid protein folding. If the response fails, apoptosis may be triggered to eliminate the cell.",
+        correct: "B"
+    },
+    {
+        q: "Phospholipids spontaneously form bilayers in aqueous solutions due to their amphipathic nature. What drives the self-assembly of phospholipids into bilayers?",
+        options: ["Covalent bonding between head groups", "Hydrophobic effect that excludes water from the tail region", "Ionic interactions between adjacent phospholipids", "Hydrogen bonding between phosphate groups"],
+        exp: "The hydrophobic effect drives phospholipid self-assembly. Water molecules form a cage around the hydrophobic tails, but this is energetically unfavorable. The tails aggregate together to minimize contact with water, forming the lipid bilayer.",
+        correct: "B"
+    },
+    {
+        q: "The plant cell wall provides structural support and protection. What is the primary function of the middle lamella between adjacent plant cell walls?",
+        options: ["Provides additional structural support", "Acts as a barrier to pathogens", "Cements adjacent cells together", "Allows for cell-to-cell communication"],
+        exp: "The middle lamella is composed mainly of pectin and serves as a cementing layer that holds adjacent plant cells together. It is the first layer formed during cell division and provides structural continuity.",
+        correct: "C"
+    },
+    {
+        q: "Intracellular transport of vesicles uses motor proteins that move along cytoskeletal tracks. Which motor protein moves toward the plus end of microtubules during vesicle transport?",
+        options: ["Dynein", "Myosin", "Kinesin", "Actin"],
+        exp: "Kinesin moves toward the plus end of microtubules, transporting cargo from the center of the cell to the periphery. Dynein moves toward the minus end, carrying cargo toward the cell body or nucleus.",
+        correct: "C"
+    },
+    {
+        q: "The cell membrane maintains electrical potential differences through selective ion permeability. What is the approximate resting membrane potential of a typical neuron?",
+        options: ["+70 mV", "-70 mV", "+30 mV", "-30 mV"],
+        exp: "The resting membrane potential of a typical neuron is approximately -70 mV, with the inside of the cell being negative relative to the outside. This potential is maintained by the unequal distribution of ions, mainly Na+ and K+, across the membrane.",
+        correct: "B"
+    },
+    {
+        q: "Enzyme kinetics can be affected by various types of inhibitors. What distinguishes an uncompetitive inhibitor from a competitive inhibitor in terms of binding behavior?",
+        options: ["Uncompetitive inhibitors bind to the enzyme-substrate complex, reducing both Vmax and Km", "Uncompetitive inhibitors bind to the active site, increasing Vmax", "Uncompetitive inhibitors bind to allosteric sites only", "Uncompetitive inhibitors are irreversible"],
+        exp: "Uncompetitive inhibitors bind only to the enzyme-substrate complex, not to the free enzyme. This reduces both Vmax (due to decreased productive enzyme) and Km (because binding stabilizes the ES complex), unlike competitive inhibitors.",
+        correct: "A"
+    },
+    {
+        q: "The active site of an enzyme contains amino acid residues that participate in catalysis. What is the term for a group of enzymes that require a non-protein component (cofactor or coenzyme) for catalytic activity?",
+        options: ["Apoenzymes", "Holoenzymes", "Isoenzymes", "Zymogens"],
+        exp: "A holoenzyme is the complete, catalytically active enzyme consisting of the apoenzyme (protein portion) and its required cofactor or coenzyme. The apoenzyme alone is inactive and requires the cofactor for function.",
+        correct: "B"
+    },
+    {
+        q: "Enzyme regulation through covalent modification involves the reversible attachment of chemical groups. Which of the following modifications typically activates enzymes by adding a phosphate group?",
+        options: ["Acetylation", "Methylation", "Phosphorylation", "Glycosylation"],
+        exp: "Phosphorylation involves the addition of a phosphate group to amino acid residues (usually serine, threonine, or tyrosine) by protein kinases. This often activates enzymes by inducing conformational changes that enhance catalytic activity.",
+        correct: "C"
+    },
+    {
+        q: "Proteins can lose their native conformation and biological activity through denaturation. Which of the following agents would NOT typically denature a protein?",
+        options: ["High temperature", "Extreme pH changes", "Addition of an enzyme substrate", "Detergents"],
+        exp: "Enzyme substrates bind specifically to the active site without causing denaturation. High temperature, extreme pH, and detergents disrupt non-covalent interactions and hydrogen bonds, leading to protein unfolding and loss of function.",
+        correct: "C"
+    },
+    {
+        q: "The isoelectric point of an amino acid is the pH at which it has no net charge. What is the isoelectric point (pI) of glycine, the simplest amino acid with pKa1 = 2.34 and pKa2 = 9.60?",
+        options: ["2.34", "9.60", "5.97", "7.00"],
+        exp: "The isoelectric point of an amino acid is calculated as the average of its pKa values: pI = (pKa1 + pKa2)/2 = (2.34 + 9.60)/2 = 5.97. At this pH, glycine exists predominantly as a zwitterion with no net charge.",
+        correct: "C"
+    },
+    {
+        q: "The cell cycle is regulated by checkpoints that ensure proper progression. Which checkpoint ensures that DNA replication is complete and all chromosomes are properly attached to spindle fibers before mitosis proceeds?",
+        options: ["G1/S checkpoint", "G2/M checkpoint", "Metaphase checkpoint", "S phase checkpoint"],
+        exp: "The metaphase checkpoint (also called the spindle assembly checkpoint) ensures that all chromosomes are correctly attached to spindle microtubules before anaphase begins. This prevents chromosome mis-segregation and aneuploidy.",
+        correct: "C"
+    },
+    {
+        q: "Prokaryotic cells reproduce by binary fission, a form of asexual reproduction. What is the key difference between binary fission and mitosis in eukaryotic cells?",
+        options: ["Binary fission produces 4 daughter cells, mitosis produces 2", "Binary fission does not involve DNA replication", "Binary fission lacks the formation of a mitotic spindle and nuclear envelope breakdown", "Binary fission produces genetically diverse daughter cells"],
+        exp: "Binary fission in prokaryotes differs from mitosis in that it lacks a mitotic spindle, nuclear envelope, and the complex chromosome condensation seen in eukaryotes. The DNA replicates and segregates through direct attachment to the cell membrane.",
+        correct: "C"
+    },
+    {
+        q: "Cell junctions allow for communication and adhesion between neighboring cells. Which type of cell junction forms a watertight seal between epithelial cells, preventing leakage of extracellular fluid?",
+        options: ["Desmosomes", "Gap junctions", "Tight junctions", "Plasmodesmata"],
+        exp: "Tight junctions form a continuous seal around epithelial cells, preventing the passage of molecules between them. They are essential for maintaining the barrier function of epithelial tissues, such as in the intestine and blood-brain barrier.",
+        correct: "C"
+    },
+    {
+        q: "The electron transport chain in mitochondria involves the transfer of electrons through protein complexes. Which is the final electron acceptor at the end of the electron transport chain in aerobic respiration?",
+        options: ["NAD+", "Oxygen", "Cytochrome c", "Ubiquinone"],
+        exp: "Oxygen serves as the final electron acceptor in the electron transport chain, combining with electrons and protons to form water. This maintains the flow of electrons through the chain and allows continued ATP production.",
+        correct: "B"
+    },
+	
+	    {
+        q: "The chloroplast and mitochondria both contain their own DNA and ribosomes, supporting the endosymbiotic theory. What additional evidence supports that these organelles evolved from free-living prokaryotes?",
+        options: ["They have circular DNA and divide by binary fission", "They have linear DNA and divide by mitosis", "They contain histones like eukaryotic cells", "They have 80S ribosomes like prokaryotes"],
+        exp: "Both mitochondria and chloroplasts contain circular DNA, divide by binary fission, and have 70S ribosomes (like bacteria). These characteristics provide strong evidence for the endosymbiotic theory, which proposes they evolved from engulfed prokaryotes.",
+        correct: "A"
+    },
+    {
+        q: "The signal recognition particle (SRP) is essential for targeting proteins to the ER. What specific sequence does the SRP recognize on newly synthesized polypeptides to direct them to the rough ER?",
+        options: ["Nuclear localization signal", "Signal peptide (N-terminal sequence)", "KDEL retrieval sequence", "Transmembrane domain"],
+        exp: "The SRP recognizes an N-terminal signal peptide (typically 15-30 amino acids) on newly synthesized proteins. This signal peptide directs the ribosome to the rough ER membrane, where the SRP binds to the SRP receptor for co-translational import.",
+        correct: "B"
+    },
+    {
+        q: "The plant cell wall is composed of several polysaccharides that provide structural integrity. Which component of the plant cell wall is cross-linked to form a strong network that resists tensile forces?",
+        options: ["Pectin", "Hemicellulose", "Cellulose microfibrils", "Lignin"],
+        exp: "Cellulose microfibrils form strong, crystalline structures that provide tensile strength to the plant cell wall. These microfibrils are embedded in a matrix of hemicellulose and pectin, with lignin providing additional rigidity in secondary walls.",
+        correct: "C"
+    },
+    {
+        q: "Peripheral proteins are loosely associated with the cell membrane surface. What mechanism allows peripheral proteins to attach to the membrane without spanning the lipid bilayer?",
+        options: ["They have hydrophobic transmembrane domains", "They interact with integral proteins or polar head groups through non-covalent bonds", "They are covalently attached to lipids", "They are embedded within the hydrophobic core"],
+        exp: "Peripheral proteins bind to the membrane surface through non-covalent interactions with integral membrane proteins or with the hydrophilic head groups of phospholipids. They do not penetrate the hydrophobic core of the lipid bilayer.",
+        correct: "B"
+    },
+    {
+        q: "The kinase cascade is a common signaling mechanism that amplifies cellular responses. How does a phosphorylation cascade achieve signal amplification in cells?",
+        options: ["Each phosphorylated protein activates multiple downstream targets", "It prevents signal termination", "It increases the concentration of signaling molecules", "It directly affects gene expression"],
+        exp: "In a phosphorylation cascade, each activated kinase can phosphorylate multiple copies of the next kinase in the pathway. This creates an amplification effect where a single signal can trigger the activation of thousands of target proteins.",
+        correct: "A"
+    },
+    {
+        q: "Cell senescence is a state of permanent cell cycle arrest that prevents damaged cells from dividing. Which cellular structure progressively shortens with each cell division and ultimately triggers senescence when critically short?",
+        options: ["Mitochondria", "Telomeres", "Centrosomes", "Nucleoli"],
+        exp: "Telomeres, the protective caps at chromosome ends, shorten with each cell division due to the end-replication problem. When telomeres become critically short, DNA damage response pathways are activated, leading to cell cycle arrest and senescence.",
+        correct: "B"
+    },
+	    {
+        q: "The mass of one mole of a substance in grams is equal to its molar mass. What is the mass of 3 moles of carbon dioxide (CO₂) if the atomic masses of C and O are 12 and 16 respectively?",
+        options: ["66 g", "132 g", "44 g", "88 g"],
+        exp: "The molar mass of CO₂ is 12 + 2(16) = 44 g/mol. For 3 moles, the mass is 3 × 44 = 132 g. This concept is fundamental for stoichiometric calculations.",
+        correct: "A"
+    },
+    {
+        q: "The empirical formula represents the simplest whole-number ratio of atoms in a compound. A compound contains 40% carbon, 6.67% hydrogen, and 53.33% oxygen by mass. What is its empirical formula?",
+        options: ["CH₂O", "C₂H₄O₂", "CHO", "C₃H₆O₃"],
+        exp: "Converting percentages to moles: C = 40/12 = 3.33, H = 6.67/1 = 6.67, O = 53.33/16 = 3.33. Dividing by the smallest (3.33) gives CH₂O. This is the simplest ratio.",
+        correct: "D"
+    },
+    {
+        q: "The limiting reactant determines the maximum amount of product that can be formed in a chemical reaction. If 10 g of H₂ reacts with 80 g of O₂ to form water, which reactant is limiting?",
+        options: ["H₂", "O₂", "Both are limiting", "Neither is limiting"],
+        exp: "Moles of H₂ = 10/2 = 5 mol, O₂ = 80/32 = 2.5 mol. The balanced equation 2H₂ + O₂ → 2H₂O requires 2 mol H₂ for 1 mol O₂. With 2.5 mol O₂, we need 5 mol H₂, which is exactly available. Both are perfectly consumed and neither is limiting.",
+        correct: "D"
+    },
+    {
+        q: "The concept of percentage yield compares the actual yield to the theoretical yield of a reaction. If the theoretical yield of a reaction is 50 g but only 40 g is obtained, what is the percentage yield?",
+        options: ["80%", "90%", "70%", "85%"],
+        exp: "Percentage yield = (actual yield / theoretical yield) × 100 = (40/50) × 100 = 80%. This calculation is crucial for evaluating the efficiency of chemical reactions.",
+        correct: "A"
+    },
+    {
+        q: "Molarity is a concentration unit that expresses the number of moles of solute per liter of solution. What is the molarity of a solution containing 20 g of NaOH dissolved in enough water to make 500 mL of solution?",
+        options: ["1.0 M", "2.0 M", "0.5 M", "1.5 M"],
+        exp: "Moles of NaOH = 20/40 = 0.5 mol. Volume = 500 mL = 0.5 L. Molarity = 0.5/0.5 = 1.0 M. This is a standard concentration calculation used in solution chemistry.",
+        correct: "D"
+    },
+    {
+        q: "The mole fraction is the ratio of moles of one component to the total moles in a mixture. In a solution containing 2 moles of ethanol and 3 moles of water, what is the mole fraction of ethanol?",
+        options: ["0.6", "0.4", "0.5", "0.3"],
+        exp: "Total moles = 2 + 3 = 5. Mole fraction of ethanol = 2/5 = 0.4. This concept is important in colligative properties of solutions.",
+        correct: "D"
+    },
+    {
+        q: "The quantum numbers describe the state of electrons in an atom. Which quantum number determines the shape of an orbital?",
+        options: ["Principal (n)", "Azimuthal (l)", "Magnetic (m)", "Spin (s)"],
+        exp: "The azimuthal quantum number (l) determines the shape of an orbital. For s, p, d, and f orbitals, l = 0, 1, 2, and 3 respectively, giving spherical, dumbbell, cloverleaf, and complex shapes.",
+        correct: "D"
+    },
+    {
+        q: "The electronic configuration of chromium is anomalous due to the stability of half-filled orbitals. What is the actual electronic configuration of chromium (Cr, atomic number 24)?",
+        options: ["[Ar] 3d⁵ 4s¹", "[Ar] 3d⁴ 4s²", "[Ar] 3d⁶ 4s⁰", "[Ar] 3d⁵ 4s²"],
+        exp: "Chromium has the configuration [Ar] 3d⁵ 4s¹ due to the extra stability of a half-filled d-subshell. This exception to the Aufbau principle occurs because the exchange energy is maximized in the d⁵ configuration.",
+        correct: "A"
+    },
+    {
+        q: "The Heisenberg Uncertainty Principle states that it is impossible to know both the exact position and exact momentum of an electron simultaneously. Which equation correctly represents this principle?",
+        options: ["Δx·Δp ≥ h/4π", "Δx·Δp ≤ h/4π", "ΔE·Δt ≥ h/4π", "Δv·Δx = h"],
+        exp: "Heisenberg's uncertainty principle states Δx·Δp ≥ h/4π, where Δx is uncertainty in position and Δp is uncertainty in momentum. This principle is fundamental to quantum mechanics and has profound implications for electron behavior.",
+        correct: "C"
+    },
+    {
+        q: "The Bohr model describes electrons in discrete energy levels around the nucleus. What is the energy of an electron in the n = 4 energy level of hydrogen, given that E₁ = -13.6 eV?",
+        options: ["-0.85 eV", "-3.4 eV", "-1.51 eV", "-0.54 eV"],
+        exp: "Using Eₙ = -13.6/n² eV, for n = 4, E = -13.6/16 = -0.85 eV. This shows that energy levels become closer together at higher n values, eventually approaching zero at the ionization limit.",
+        correct: "C"
+    },
+    {
+        q: "The de Broglie wavelength demonstrates the wave-particle duality of matter. An electron accelerated through a potential difference of 100 V has what approximate de Broglie wavelength?",
+        options: ["0.123 nm", "1.23 nm", "12.3 nm", "0.0123 nm"],
+        exp: "Using λ = 12.3/√V Å, for V = 100 V, λ = 12.3/10 = 1.23 Å = 0.123 nm. This equation is derived from the de Broglie relationship λ = h/p, where p is the momentum of the electron.",
+        correct: "D"
+    },
+    {
+        q: "The Pauli Exclusion Principle governs the arrangement of electrons in an atom. Which statement correctly describes this principle?",
+        options: ["No two electrons can have the same set of four quantum numbers", "Electrons fill orbitals in order of increasing energy", "Electrons occupy orbitals singly before pairing", "The spin quantum number can only be +½"],
+        exp: "The Pauli Exclusion Principle states that no two electrons in an atom can have the same set of four quantum numbers (n, l, m, s). This means an orbital can hold at most two electrons with opposite spins.",
+        correct: "D"
+    },
+    {
+        q: "Isotopes are atoms of the same element with different numbers of neutrons. How many protons, neutrons, and electrons are present in a neutral atom of carbon-14 (¹⁴C)?",
+        options: ["6 protons, 8 neutrons, 6 electrons", "6 protons, 6 neutrons, 6 electrons", "8 protons, 6 neutrons, 8 electrons", "14 protons, 0 neutrons, 14 electrons"],
+        exp: "Carbon always has 6 protons (atomic number 6). Mass number 14 means neutrons = 14 - 6 = 8. A neutral atom has equal protons and electrons: 6 electrons. This isotopic concept is essential for understanding nuclear chemistry.",
+        correct: "D"
+    },
+    {
+    q: "The Rydberg formula calculates wavelengths of spectral lines in hydrogen. Which series results from electron transitions falling to the n = 1 ground state?",
+    options: ["Lyman series", "Balmer series", "Paschen series", "Brackett series"],
+    exp: "The Lyman series corresponds to transitions from n ≥ 2 to n = 1, producing ultraviolet radiation...",
+    correct: "A"
+},
+    {
+        q: "Hund's Rule explains how electrons fill degenerate orbitals within a subshell. What is the correct application of Hund's Rule?",
+        options: ["Electrons occupy orbitals singly with parallel spins before pairing", "Electrons pair up before occupying empty orbitals", "Electrons fill orbitals from lowest to highest energy", "Electrons can only have opposite spins"],
+        exp: "Hund's Rule states that electrons will occupy each orbital singly with parallel spins before any orbital receives a second electron. This maximizes total spin and reduces electron-electron repulsion, increasing stability.",
+        correct: "A"
+    },
+    {
+        q: "The orbital angular momentum of an electron depends on the azimuthal quantum number (l). What is the magnitude of angular momentum for an electron in a p-orbital (l = 1)?",
+        options: ["0", "1 (h/2π)", "√2 (h/2π)", "√6 (h/2π)"],
+        exp: "Angular momentum = √[l(l+1)] (h/2π). For l = 1, L = √[1(1+1)] = √2 (h/2π). This quantized angular momentum is a key feature of quantum mechanics and distinguishes different orbital types.",
+        correct: "C"
+    },
+    {
+        q: "The principal quantum number (n) indicates the main energy level of an electron. What is the maximum number of electrons that can be accommodated in the n = 3 energy shell?",
+        options: ["8", "18", "32", "12"],
+        exp: "Maximum electrons = 2n² = 2 × 9 = 18 electrons (3s² 3p⁶ 3d¹⁰). The n = 3 shell contains s, p, and d subshells, making it capable of holding more electrons than lower shells.",
+        correct: "C"
+    },
+    {
+        q: "The Aufbau Principle states that electrons occupy the lowest available energy orbitals first. What is the correct order of orbital filling after the 4s subshell is filled?",
+        options: ["3d, 4p, 5s", "4p, 5s, 4d", "3d, 4p, 5s", "5s, 4d, 4p"],
+        exp: "The order follows the (n + l) rule: 3d (n + l = 5) fills after 4s (n + l = 4) and before 4p (n + l = 5). This is because the 3d orbital has slightly lower energy than 4p despite having a lower principal quantum number.",
+        correct: "A"
+    },
+    {
+        q: "The magnetic quantum number (m) describes the orientation of an orbital in space. How many possible values of m are there for an electron in an f-orbital (l = 3)?",
+        options: ["3", "5", "7", "9"],
+        exp: "The magnetic quantum number can have integer values from -l to +l, including zero. For l = 3, m = -3, -2, -1, 0, +1, +2, +3 → 7 possible values, corresponding to 7 f-orbitals.",
+        correct: "C"
+    },
+    {
+        q: "Ionization energy increases across a period from left to right in the periodic table. Which element among the third period elements has the highest first ionization energy?",
+        options: ["Na", "Cl", "Ar", "P"],
+        exp: "Argon (Ar) has the highest ionization energy in period 3 because it has a complete octet (3s² 3p⁶) and the highest effective nuclear charge. The noble gases generally have the highest ionization energies in their periods.",
+        correct: "D"
+    },
+    {
+        q: "The maximum number of electrons that can occupy a d-subshell is 10. How many total nodes (both radial and angular) does a 3d orbital have?",
+        options: ["0", "1", "2", "3"],
+        exp: "Total nodes = n - 1 = 3 - 1 = 2 nodes. For 3d, angular nodes = l = 2, radial nodes = n - l - 1 = 3 - 2 - 1 = 0. Therefore, total nodes = 2, both angular in nature.",
+        correct: "D"
+    },
+    {
+        q: "The ideal gas equation relates pressure, volume, temperature, and moles of a gas. What is the volume occupied by 2 moles of an ideal gas at STP (Standard Temperature and Pressure)?",
+        options: ["44.8 L", "22.4 L", "67.2 L", "11.2 L"],
+        exp: "At STP (0°C and 1 atm), one mole of any ideal gas occupies 22.4 L. For 2 moles, the volume is 2 × 22.4 = 44.8 L. This is known as the molar volume of an ideal gas at STP.",
+        correct: "A"
+    },
+    {
+        q: "The van der Waals equation corrects the ideal gas law for real gas behavior. Which factor does the 'a' constant account for in the van der Waals equation?",
+        options: ["Intermolecular attractive forces", "Molecular volume of gas particles", "Kinetic energy of gas molecules", "Velocity of gas molecules"],
+        exp: "The 'a' constant in the van der Waals equation corrects for intermolecular attractive forces. It accounts for the reduced pressure due to these forces, which cause gas molecules to exert less pressure on the container walls than predicted by ideal behavior.",
+        correct: "A"
+    },
+    {
+        q: "Graham's Law of Diffusion states that the rate of diffusion of a gas is inversely proportional to the square root of its molar mass. If gas A diffuses twice as fast as gas B, what is the ratio of their molar masses?",
+        options: ["1:4", "4:1", "1:2", "2:1"],
+        exp: "According to Graham's Law, r₁/r₂ = √(M₂/M₁). If r₁/r₂ = 2, then √(M₂/M₁) = 2, so M₂/M₁ = 4. Therefore, gas B has 4 times the molar mass of gas A, giving a ratio of 1:4.",
+        correct: "A"
+    },
+    {
+        q: "Dalton's Law of Partial Pressures states that the total pressure of a gas mixture equals the sum of individual partial pressures. In a mixture containing 2 atm of N₂ and 3 atm of O₂, what is the total pressure?",
+        options: ["5 atm", "6 atm", "3 atm", "2 atm"],
+        exp: "Total pressure = P(N₂) + P(O₂) = 2 + 3 = 5 atm. Dalton's Law is based on the principle that gases in a mixture behave independently, each exerting its own pressure regardless of the other gases present.",
+        correct: "A"
+    },
+	
+	    {
+        q: "The kinetic molecular theory explains the behavior of gases based on molecular motion. According to this theory, what happens to the pressure exerted by a gas when the temperature is doubled at constant volume?",
+        options: ["Pressure doubles", "Pressure halves", "Pressure quadruples", "Pressure remains same"],
+        exp: "According to the kinetic molecular theory, pressure is directly proportional to temperature at constant volume (P ∝ T). Doubling the temperature doubles the average kinetic energy and thus doubles the pressure, as the molecules collide with the walls more forcefully and frequently.",
+        correct: "A"
+    },
+    {
+        q: "The rate of effusion of a gas is inversely proportional to the square root of its density. If gas X has twice the density of gas Y, what is the ratio of their effusion rates (X:Y)?",
+        options: ["1:√2", "√2:1", "1:2", "2:1"],
+        exp: "According to Graham's Law, r ∝ 1/√d. If density of X is twice that of Y (dX = 2dY), then rX/rY = √(dY/dX) = √(1/2) = 1/√2. Therefore, the ratio is 1:√2, meaning gas Y effuses faster.",
+        correct: "A"
+    },
+    {
+        q: "The compressibility factor (Z) for a real gas is defined as PV/RT. For an ideal gas, Z = 1. What does Z < 1 indicate about the behavior of a real gas?",
+        options: ["Attractive forces dominate, gas is more compressible", "Repulsive forces dominate, gas is less compressible", "Gas behaves ideally", "Gas is at high temperature"],
+        exp: "Z < 1 indicates that attractive forces between gas molecules dominate, making the gas more compressible than an ideal gas at the same conditions. This occurs because the molecules are attracted to each other, reducing the pressure exerted on the container walls.",
+        correct: "A"
+    },
+    {
+        q: "The root mean square (RMS) velocity of gas molecules is directly related to temperature and inversely related to molar mass. Which gas at the same temperature would have the highest RMS velocity?",
+        options: ["Hydrogen (H₂)", "Oxygen (O₂)", "Nitrogen (N₂)", "Carbon dioxide (CO₂)"],
+        exp: "RMS velocity ∝ √(T/M). At the same temperature, the gas with the smallest molar mass has the highest RMS velocity. Hydrogen (M = 2 g/mol) is the lightest gas and thus has the highest RMS velocity among the given options.",
+        correct: "A"
+    },
+    {
+        q: "The critical temperature of a gas is the temperature above which it cannot be liquefied, regardless of pressure. Which gas would have the highest critical temperature due to strong intermolecular forces?",
+        options: ["Ammonia (NH₃)", "Hydrogen (H₂)", "Helium (He)", "Nitrogen (N₂)"],
+        exp: "Ammonia has strong hydrogen bonding, which creates powerful intermolecular attractions. These strong forces allow ammonia to be liquefied at higher temperatures, giving it the highest critical temperature among common gases. H₂ and He have very weak forces and low critical temperatures.",
+        correct: "A"
+    },
+    {
+        q: "The Bohr model successfully explained the line spectrum of hydrogen but failed for multi-electron atoms. What was the primary reason for this failure?",
+        options: ["It ignored electron-electron repulsions", "It assumed circular orbits only", "It used classical mechanics", "It didn't account for nuclear mass"],
+        exp: "The Bohr model failed for multi-electron atoms because it did not account for electron-electron repulsions between multiple electrons. These interactions significantly affect the energy levels in atoms with more than one electron, which the model could not explain.",
+        correct: "D"
+    },
+    {
+        q: "The Aufbau principle is based on the (n + l) rule for determining orbital filling order. Which orbital fills after 5s according to the (n + l) rule?",
+        options: ["4d", "5p", "4f", "5d"],
+        exp: "The (n + l) rule states that orbitals with lower (n + l) value fill first. For 5s, n + l = 5 + 0 = 5. The 4d orbital has n + l = 4 + 2 = 6, and 5p has 5 + 1 = 6. Since 4d has lower n value, it fills before 5p, making 4d the next orbital after 5s.",
+        correct: "D"
+    },
+    {
+        q: "The azimuthal quantum number (l) determines the shape of orbitals. Which set of quantum numbers is not allowed for an electron in an atom?",
+        options: ["n = 2, l = 2", "n = 3, l = 2", "n = 4, l = 0", "n = 5, l = 3"],
+        exp: "For n = 2, the allowed values of l are 0 and 1 only (since l = 0 to n-1). l = 2 corresponds to d-orbitals, which do not exist in the n = 2 shell. This set violates the quantum number rules and is therefore not allowed.",
+        correct: "A"
+    },
+    {
+        q: "The spin quantum number (s) describes the intrinsic angular momentum of an electron. Which of the following is true about the spin quantum number for two electrons in the same orbital?",
+        options: ["They must have opposite spins (+½ and -½)", "They must have same spins (+½ and +½)", "They can have any spin combination", "Spin is not quantized"],
+        exp: "According to the Pauli Exclusion Principle, two electrons in the same orbital must have opposite spins. This means one electron has spin +½ (spin up) and the other has spin -½ (spin down), allowing them to share the same spatial orbital.",
+        correct: "C"
+    },
+    {
+        q: "The wavelength of light emitted during an electronic transition in hydrogen is inversely proportional to the energy difference between levels. Which transition would emit the highest energy photon?",
+        options: ["n = 4 to n = 1", "n = 3 to n = 1", "n = 4 to n = 2", "n = 3 to n = 2"],
+        exp: "The highest energy photon is emitted when the electron falls from the highest energy level to the lowest energy level. The n = 4 to n = 1 transition has the largest energy difference (ΔE = E₄ - E₁ = -0.85 - (-13.6) = 12.75 eV), producing the highest energy photon.",
+        correct: "C"
+    },
+    {
+        q: "The wavefunction (ψ) for an electron in an atom describes its quantum state. What is the physical significance of ψ² in quantum mechanics?",
+        options: ["Probability density of finding the electron", "Energy of the electron", "Momentum of the electron", "Orbital shape"],
+        exp: "ψ² represents the probability density, which gives the probability of finding the electron in a specific region of space. According to the Born interpretation, the electron is not a particle at a fixed position but exists as a probability cloud described by ψ².",
+        correct: "C"
+    },
+    {
+        q: "The energy of an electron in hydrogen is quantized and depends only on the principal quantum number (n). What is the ionization energy of hydrogen from the n = 2 excited state?",
+        options: ["3.4 eV", "10.2 eV", "13.6 eV", "1.51 eV"],
+        exp: "Ionization energy is the energy required to remove the electron from a given energy level to n = ∞ (0 eV). From n = 2, E₂ = -13.6/4 = -3.4 eV. The ionization energy = 0 - (-3.4) = 3.4 eV. This is much less than the ground state ionization energy of 13.6 eV.",
+        correct: "D"
+    },
+    {
+        q: "The quantum mechanical model describes orbitals as regions of high probability density. What is the significance of nodes in atomic orbitals?",
+        options: ["Regions of zero probability density", "Regions of maximum electron density", "Points of highest energy", "Orbital boundaries"],
+        exp: "Nodes are regions in an orbital where the probability of finding the electron is exactly zero (ψ² = 0). Radial nodes are spherical surfaces where the wavefunction changes sign, while angular nodes are planes or surfaces where the angular wavefunction is zero.",
+        correct: "D"
+    },
+    {
+        q: "The electron affinity of an element is the energy released when an electron is added to a neutral atom. Which element among the following would have the most negative electron affinity?",
+        options: ["Chlorine (Cl)", "Sodium (Na)", "Helium (He)", "Magnesium (Mg)"],
+        exp: "Chlorine has the most negative electron affinity among these elements because gaining one electron completes its octet, forming a stable Cl⁻ ion. The noble gas helium has a positive electron affinity, while metals like Na and Mg have low electron affinities.",
+        correct: "C"
+    },
+    {
+        q: "The first ionization energy generally decreases down a group in the periodic table. Which factor primarily explains this trend?",
+        options: ["Increased atomic size and shielding effect", "Increased nuclear charge", "Higher electronegativity", "Complete octet configuration"],
+        exp: "Going down a group, atomic size increases and shielding by inner electrons becomes more significant. The outermost electron is farther from the nucleus and experiences less effective nuclear charge, making it easier to remove. This results in lower ionization energies.",
+        correct: "D"
+    },
+    {
+        q: "The shape of the p-orbitals is described as dumbbell-shaped. How many p-orbitals exist in each p-subshell, and what are their orientations?",
+        options: ["Three: px, py, and pz", "Two: px and py", "Five: dxy, dxz, dyz", "One: pz only"],
+        exp: "Each p-subshell contains three p-orbitals oriented along the x, y, and z axes (px, py, pz). These orbitals are mutually perpendicular and have a dumbbell shape with a nodal plane between the two lobes where the probability density is zero.",
+        correct: "C"
+    },
+    {
+        q: "The concept of effective nuclear charge (Z_eff) explains the attraction between valence electrons and the nucleus. Which factor contributes to a higher Z_eff for electrons in the same period?",
+        options: ["Increasing nuclear charge with similar shielding", "Decreasing nuclear charge", "Increasing atomic radius", "Decreased electron shielding"],
+        exp: "As we move across a period, the nuclear charge increases by one proton each step while electron shielding remains relatively constant. This means electrons experience greater attraction to the nucleus, resulting in higher Z_eff and increased ionization energies.",
+        correct: "A"
+    },
+    {
+        q: "The photoelectric effect demonstrates the particle nature of light. Which property of incident light determines the kinetic energy of ejected electrons?",
+        options: ["Frequency of light", "Intensity of light", "Wavelength of light", "Speed of light"],
+        exp: "The kinetic energy of ejected electrons depends on the frequency of incident light, as given by the equation KE = hν - φ, where φ is the work function. Higher frequency means higher photon energy and thus higher kinetic energy for emitted electrons. Intensity only affects the number of electrons emitted.",
+        correct: "A"
+    },
+    {
+        q: "The wave-particle duality of electrons is demonstrated by electron diffraction experiments. Which equation relates the wavelength of an electron to its momentum?",
+        options: ["λ = h/p", "λ = p/h", "λ = h/√(2mE)", "λ = E/h"],
+        exp: "The de Broglie equation λ = h/p relates the wavelength of a particle to its momentum. Here, h is Planck's constant and p is the momentum (mv). This equation shows that all matter, including electrons, has wave-like properties, a fundamental concept in quantum mechanics.",
+        correct: "D"
+    },
+    {
+        q: "The concept of hybridization explains molecular geometry in covalent molecules. What is the geometry of a molecule with sp³ hybridization and no lone pairs on the central atom?",
+        options: ["Tetrahedral", "Trigonal planar", "Linear", "Octahedral"],
+        exp: "sp³ hybridization involves one s and three p orbitals, resulting in four hybrid orbitals arranged in a tetrahedral geometry with bond angles of 109.5°. This occurs when the central atom has four electron pairs arranged around it, as seen in CH₄ and NH₄⁺.",
+        correct: "D"
+    }
+,
+
+    {
+        q: "Two vectors A and B have magnitudes of 3 units and 4 units respectively. If the angle between them is 90°, what is the magnitude of their resultant vector?",
+        options: ["5 units", "7 units", "12 units", "1 unit"],
+        exp: "When two vectors are perpendicular (angle = 90°), the magnitude of the resultant is calculated using the Pythagorean theorem: R = √(A² + B²) = √(9 + 16) = √25 = 5 units. This is a fundamental concept in vector addition.",
+        correct: "A"
+    },
+    {
+        q: "A force of 10 N is applied at an angle of 60° above the horizontal. What are the horizontal and vertical components of this force?",
+        options: ["5 N and 8.66 N", "8.66 N and 5 N", "10 N and 0 N", "7.07 N and 7.07 N"],
+        exp: "The horizontal component is Fx = F cos θ = 10 cos 60° = 10 × 0.5 = 5 N. The vertical component is Fy = F sin θ = 10 sin 60° = 10 × 0.866 = 8.66 N. Component resolution is essential for analyzing forces at angles.",
+        correct: "D"
+    },
+    {
+        q: "The dot product of two vectors A and B is defined as A·B = AB cos θ. If A and B are perpendicular, what is their dot product?",
+        options: ["0", "AB", "AB/2", "√(AB)"],
+        exp: "When two vectors are perpendicular, θ = 90° and cos 90° = 0. Therefore, A·B = AB(0) = 0. This means perpendicular vectors have a zero dot product, which is a key property used in determining orthogonality.",
+        correct: "D"
+    },
+    {
+        q: "A car moving at 20 m/s comes to a stop in 5 seconds. What is the average acceleration of the car during braking?",
+        options: ["-4 m/s²", "4 m/s²", "-5 m/s²", "5 m/s²"],
+        exp: "Using the formula a = (v_f - v_i)/t, where v_f = 0, v_i = 20 m/s, and t = 5 s. a = (0 - 20)/5 = -4 m/s². The negative sign indicates deceleration or retardation. This is a direct application of the acceleration formula.",
+        correct: "A"
+    },
+    {
+        q: "A ball is thrown vertically upward with an initial velocity of 30 m/s. Assuming g = 10 m/s², what is the maximum height reached by the ball?",
+        options: ["45 m", "90 m", "30 m", "15 m"],
+        exp: "At maximum height, the final velocity v_f = 0. Using v_f² = v_i² - 2gh, we get 0 = (30)² - 2(10)h, so h = 900/20 = 45 m. This is a standard kinematic equation for projectile motion.",
+        correct: "D"
+    },
+    {
+        q: "Two forces of 6 N and 8 N are acting on a body at right angles to each other. What is the magnitude of the resultant force?",
+        options: ["10 N", "14 N", "2 N", "48 N"],
+        exp: "Since the forces are perpendicular, the resultant magnitude is R = √(6² + 8²) = √(36 + 64) = √100 = 10 N. This is another application of the Pythagorean theorem for vector addition.",
+        correct: "A"
+    },
+    {
+        q: "A body of mass 5 kg is moving with a velocity of 10 m/s. A constant force of 20 N is applied in the direction of motion for 4 seconds. What is the final velocity of the body?",
+        options: ["26 m/s", "18 m/s", "30 m/s", "14 m/s"],
+        exp: "Using F = ma, a = F/m = 20/5 = 4 m/s². Then using v_f = v_i + at, v_f = 10 + (4)(4) = 10 + 16 = 26 m/s. This combines Newton's second law with kinematic equations.",
+        correct: "D"
+    },
+    {
+        q: "A stone is dropped from a height of 80 m. Assuming g = 10 m/s², how long will it take to reach the ground?",
+        options: ["4 s", "8 s", "2 s", "16 s"],
+        exp: "Using s = ½gt², where s = 80 m, g = 10 m/s². 80 = ½(10)t² → 80 = 5t² → t² = 16 → t = 4 s. This is the free-fall equation for an object dropped from rest.",
+        correct: "A"
+    },
+    {
+        q: "A projectile is launched with an initial speed of 50 m/s at an angle of 30° above the horizontal. What is the time of flight of the projectile? (g = 10 m/s²)",
+        options: ["5 s", "10 s", "2.5 s", "7.5 s"],
+        exp: "The time of flight for a projectile is T = 2u sinθ/g = 2(50)(0.5)/10 = 50/10 = 5 s. This formula assumes launch and landing at the same height, which is a key concept in projectile motion.",
+        correct: "D"
+    },
+    {
+        q: "A body of mass 2 kg is moving with a velocity of 5 m/s. A force is applied that increases its velocity to 15 m/s over a distance of 10 m. What is the work done by the force?",
+        options: ["200 J", "100 J", "300 J", "400 J"],
+        exp: "Work done = change in kinetic energy = ½m(v_f² - v_i²) = ½(2)(225 - 25) = (1)(200) = 200 J. This is the work-energy theorem, which states that work done equals the change in kinetic energy.",
+        correct: "A"
+    },
+    {
+        q: "A body of mass 10 kg is lifted vertically through a height of 5 m. What is the work done against gravity? (g = 10 m/s²)",
+        options: ["500 J", "50 J", "100 J", "200 J"],
+        exp: "Work done against gravity = mgh = 10 × 10 × 5 = 500 J. This is the work required to lift an object against the gravitational force. The work done is stored as gravitational potential energy in the body.",
+        correct: "D"
+    },
+    {
+        q: "A spring with a spring constant of 100 N/m is stretched by 0.2 m. What is the elastic potential energy stored in the spring?",
+        options: ["2 J", "10 J", "20 J", "4 J"],
+        exp: "The elastic potential energy = ½kx² = ½(100)(0.2)² = 50 × 0.04 = 2 J. This formula represents the energy stored in a stretched or compressed spring, which is proportional to the square of the displacement.",
+        correct: "A"
+    },
+    {
+        q: "A body of mass 2 kg is moving with a speed of 8 m/s. What is its kinetic energy?",
+        options: ["64 J", "32 J", "16 J", "128 J"],
+        exp: "Kinetic energy = ½mv² = ½(2)(8)² = (1)(64) = 64 J. This is the energy possessed by a moving body due to its motion. Kinetic energy depends on both mass and the square of velocity.",
+        correct: "D"
+    },
+    {
+        q: "A body is in equilibrium when the net force acting on it is zero. A 5 kg body is suspended by a rope. What is the tension in the rope? (g = 10 m/s²)",
+        options: ["50 N", "25 N", "10 N", "100 N"],
+        exp: "For equilibrium, the tension T must equal the weight of the body. T = mg = 5 × 10 = 50 N. This is an application of Newton's first law, where the net force is zero and the body is either at rest or moving with constant velocity.",
+        correct: "D"
+    },
+    {
+        q: "The cross product of two vectors A and B is A × B = AB sin θ. If A and B are parallel, what is their cross product?",
+        options: ["0", "AB", "AB/2", "√(AB)"],
+        exp: "When two vectors are parallel, θ = 0° and sin 0° = 0. Therefore, A × B = AB(0) = 0. This means parallel vectors have a zero cross product, which is an important property used in physics to determine when vectors are parallel.",
+        correct: "D"
+    },
+    {
+        q: "A 1200 kg car accelerates from rest to 20 m/s over a distance of 100 m. What is the average force exerted by the engine?",
+        options: ["2400 N", "1200 N", "4800 N", "600 N"],
+        exp: "First find acceleration using v² = u² + 2as → 400 = 0 + 2a(100) → a = 2 m/s². Then using F = ma = 1200 × 2 = 2400 N. This problem combines kinematic equations with Newton's second law.",
+        correct: "A"
+    },
+    {
+        q: "What is the torque produced by a force of 8 N applied perpendicular to a wrench of length 0.5 m?",
+        options: ["4 N·m", "16 N·m", "2 N·m", "8 N·m"],
+        exp: "Torque = Force × Perpendicular distance = 8 × 0.5 = 4 N·m. Torque is the rotational effect of a force and is maximum when the force is applied perpendicular to the lever arm.",
+        correct: "D"
+    },
+    {
+        q: "What is the moment of inertia of a solid sphere of mass 2 kg and radius 0.1 m about its central axis? (I = 2/5 MR²)",
+        options: ["0.004 kg·m²", "0.008 kg·m²", "0.01 kg·m²", "0.02 kg·m²"],
+        exp: "I = 2/5 MR² = 2/5 × 2 × (0.1)² = 0.4 × 0.01 = 0.004 kg·m². Moment of inertia is the rotational equivalent of mass and depends on both the mass and its distribution about the axis of rotation.",
+        correct: "A"
+    },
+    {
+        q: "A body rotating with angular velocity ω has kinetic energy given by K = ½Iω². If the angular velocity is doubled, what happens to the rotational kinetic energy?",
+        options: ["Quadruples", "Doubles", "Halves", "Remains same"],
+        exp: "Rotational kinetic energy = ½Iω². If ω is doubled to 2ω, K' = ½I(2ω)² = ½I(4ω²) = 4(½Iω²) = 4K. Thus, the kinetic energy quadruples. This is similar to translational kinetic energy being proportional to v².",
+        correct: "A"
+    },
+    {
+        q: "What is the work done in lifting a mass of 20 kg to a height of 10 m? (g = 10 m/s²)",
+        options: ["2000 J", "200 J", "1000 J", "4000 J"],
+        exp: "Work = mgh = 20 × 10 × 10 = 2000 J. This work is stored as gravitational potential energy of the object. The work done depends on the force required (mg) and the vertical displacement (h).",
+        correct: "A"
+    },
+    {
+        q: "A body is thrown vertically upward with velocity v. What is the maximum height reached? (g = 10 m/s²)",
+        options: ["v²/2g", "v²/g", "v/g", "2v²/g"],
+        exp: "Using v_f² = v_i² - 2gh, at maximum height v_f = 0. 0 = v² - 2gh → h = v²/2g. This is a standard formula for maximum height in vertical projectile motion.",
+        correct: "A"
+    },
+    {
+        q: "What is the torque produced by a force of 15 N applied at an angle of 60° to a lever arm of length 0.4 m?",
+        options: ["3 N·m", "6 N·m", "5.2 N·m", "2.6 N·m"],
+        exp: "Torque = F × r × sin θ = 15 × 0.4 × sin 60° = 15 × 0.4 × 0.866 = 5.196 ≈ 5.2 N·m. Only the perpendicular component of force produces torque, which is why the sine function is used.",
+        correct: "D"
+    },
+    {
+        q: "A force of 50 N is applied horizontally to push a 10 kg block across a rough surface with coefficient of friction 0.3. What is the acceleration of the block? (g = 10 m/s²)",
+        options: ["2 m/s²", "4 m/s²", "5 m/s²", "1 m/s²"],
+        exp: "Frictional force = μmg = 0.3 × 10 × 10 = 30 N. Net force = Applied force - Friction = 50 - 30 = 20 N. Using F = ma, a = 20/10 = 2 m/s². Friction opposes motion and reduces the net force on the block.",
+        correct: "A"
+    },
+    {
+        q: "A body of mass 4 kg is moving with a velocity of 6 m/s. What is its momentum?",
+        options: ["24 kg·m/s", "12 kg·m/s", "48 kg·m/s", "6 kg·m/s"],
+        exp: "Momentum = mass × velocity = 4 × 6 = 24 kg·m/s. Momentum is a vector quantity that depends on both the mass and velocity of the body. It is conserved in isolated systems.",
+        correct: "A"
+    },
+    {
+        q: "What is the work done by gravity when a body of mass 5 kg falls freely through a height of 20 m? (g = 10 m/s²)",
+        options: ["1000 J", "500 J", "200 J", "100 J"],
+        exp: "Work done by gravity = mgh = 5 × 10 × 20 = 1000 J. As gravity does positive work on the falling body, its kinetic energy increases, while its potential energy decreases by the same amount.",
+        correct: "A"
+    },
+    {
+        q: "What is the power of a machine that does 2000 J of work in 4 seconds?",
+        options: ["500 W", "800 W", "200 W", "1000 W"],
+        exp: "Power = Work/Time = 2000/4 = 500 W. Power is the rate at which work is done. A watt is defined as one joule per second.",
+        correct: "A"
+    },
+    {
+        q: "A 1000 kg elevator ascends at a constant speed of 2 m/s. What is the power exerted by the motor? (g = 10 m/s²)",
+        options: ["20000 W", "40000 W", "5000 W", "10000 W"],
+        exp: "Force required = mg = 1000 × 10 = 10000 N. Power = Fv = 10000 × 2 = 20000 W. Since the elevator moves at constant speed, the motor exerts a force equal to the weight of the elevator.",
+        correct: "D"
+    },
+    {
+        q: "The displacement-time graph of a moving particle is a straight line passing through the origin. What does this indicate about the motion of the particle?",
+        options: ["Uniform velocity", "Uniform acceleration", "At rest", "Non-uniform motion"],
+        exp: "A straight line passing through the origin on a displacement-time graph indicates uniform velocity. The slope of the line (which is constant) represents the velocity, meaning the particle covers equal distances in equal time intervals.",
+        correct: "D"
+    },
+    {
+        q: "The velocity-time graph of a moving particle is a horizontal straight line. What does this indicate about the motion of the particle?",
+        options: ["Uniform velocity", "Uniform acceleration", "Deceleration", "At rest"],
+        exp: "A horizontal straight line on a velocity-time graph indicates uniform velocity because the velocity remains constant over time. The acceleration is zero in this case, as there is no change in velocity.",
+        correct: "D"
+    },
+    {
+        q: "A body of mass 10 kg is moving with a speed of 5 m/s. A force of 30 N is applied opposite to the direction of motion for 2 seconds. What is the final speed of the body?",
+        options: ["1 m/s", "6 m/s", "11 m/s", "10 m/s"],
+        exp: "Acceleration = F/m = 30/10 = 3 m/s² (deceleration). v_f = v_i - at = 5 - (3)(2) = 5 - 6 = -1 m/s. The negative sign indicates the body has reversed direction. The speed is 1 m/s in the opposite direction.",
+        correct: "D"
+    },
+    {
+        q: "What is the resultant of two vectors of magnitudes 12 N and 16 N acting at right angles to each other?",
+        options: ["20 N", "28 N", "4 N", "192 N"],
+        exp: "For perpendicular vectors, R = √(A² + B²) = √(144 + 256) = √400 = 20 N. This is a classic vector addition problem using the Pythagorean theorem.",
+        correct: "A"
+    },
+    {
+        q: "What is the resultant of two vectors of magnitudes 8 N and 6 N acting in the same direction?",
+        options: ["14 N", "2 N", "10 N", "48 N"],
+        exp: "When vectors act in the same direction, the resultant is simply the sum of their magnitudes: R = 8 + 6 = 14 N. This is the simplest case of vector addition.",
+        correct: "A"
+    },
+    {
+        q: "A body moves from rest with uniform acceleration of 2 m/s² for 10 seconds. What distance does it cover during the 10th second?",
+        options: ["19 m", "20 m", "21 m", "18 m"],
+        exp: "Distance covered in the nth second is given by S_n = u + a(n - 1/2). For n = 10, u = 0, a = 2 m/s², S_10 = 0 + 2(9.5) = 19 m. This formula gives the distance traveled in a specific second during uniformly accelerated motion.",
+        correct: "D"
+    },
+    {
+        q: "A force of 40 N acts on a body for 0.5 seconds. What is the impulse imparted to the body?",
+        options: ["20 N·s", "80 N·s", "2 N·s", "8 N·s"],
+        exp: "Impulse = Force × Time = 40 × 0.5 = 20 N·s. Impulse is equal to the change in momentum of the body and is measured in newton-seconds.",
+        correct: "D"
+    },
+    {
+        q: "What is the gravitational potential energy of a 2 kg mass at a height of 3 m? (g = 10 m/s²)",
+        options: ["60 J", "30 J", "120 J", "15 J"],
+        exp: "Gravitational potential energy = mgh = 2 × 10 × 3 = 60 J. Potential energy is the energy possessed by a body due to its position in a gravitational field.",
+        correct: "D"
+    },
+    {
+        q: "A body slides down a frictionless inclined plane of height h. What is its speed at the bottom of the incline?",
+        options: ["√(2gh)", "√(gh)", "2gh", "gh"],
+        exp: "Using conservation of energy, mgh = ½mv² → v = √(2gh). The speed at the bottom depends only on the height of the incline and is independent of the mass of the body or the angle of the incline.",
+        correct: "A"
+    }
+,
+
+	   
+	   
+	   
+	       {
+        q: "Subject-verb agreement requires that singular subjects take singular verbs and plural subjects take plural verbs. Which sentence demonstrates correct subject-verb agreement?",
+        options: ["The list of items are on the table.", "The list of items is on the table.", "The list of items were on the table.", "The list of items have been on the table."],
+        exp: "The subject of the sentence is 'list,' which is singular, not 'items.' The verb must agree with the singular subject, so 'is' is correct. Phrases between the subject and verb do not affect agreement.",
+        correct: "B"
+    },
+    {
+        q: "Indefinite pronouns like 'everyone,' 'someone,' and 'nobody' are always singular and require singular verbs. Which sentence correctly follows this rule?",
+        options: ["Everyone in the class have completed the assignment.", "Everyone in the class has completed the assignment.", "Everyone in the class were completing the assignment.", "Everyone in the class are completing the assignment."],
+        exp: "The indefinite pronoun 'everyone' is singular despite referring to a group. It requires the singular verb 'has.' This is a common error on standardized tests like MDCAT.",
+        correct: "B"
+    },
+    {
+        q: "When two subjects are joined by 'or' or 'nor,' the verb agrees with the subject closer to it. Which sentence follows this rule of proximity?",
+        options: ["Neither the teacher nor the students is in the classroom.", "Neither the teacher nor the students are in the classroom.", "Neither the students nor the teacher are in the classroom.", "Neither the teacher nor the students was in the classroom."],
+        exp: "With 'neither/nor,' the verb agrees with the closer subject. In option B, 'students' is plural and is closer to the verb, so 'are' is correct. This is the proximity rule for subject-verb agreement.",
+        correct: "B"
+    },
+    {
+        q: "Collective nouns such as 'team,' 'committee,' and 'family' take singular verbs when acting as a unit. Which sentence correctly uses a collective noun with a singular verb?",
+        options: ["The team are playing well today.", "The team is playing well today.", "The team were playing well today.", "The team have been playing well today."],
+        exp: "When a collective noun acts as a single unit, it takes a singular verb. 'The team is' treats the team as one entity. If the team members were acting individually, a plural verb would be appropriate.",
+        correct: "B"
+    },
+    {
+        q: "The present perfect tense is used to describe actions that started in the past and continue to the present or have present relevance. Which sentence correctly uses the present perfect tense?",
+        options: ["I have lived in this city for five years.", "I live in this city for five years.", "I am living in this city for five years.", "I lived in this city for five years."],
+        exp: "The present perfect 'have lived' indicates an action that began in the past and continues to the present. It is often used with 'for' and 'since' to express duration.",
+        correct: "A"
+    },
+    {
+        q: "The past perfect tense is used to describe an action that was completed before another past action. Which sentence correctly uses the past perfect tense?",
+        options: ["I had finished my homework before my friend arrived.", "I have finished my homework before my friend arrived.", "I finished my homework before my friend arrived.", "I was finishing my homework before my friend arrived."],
+        exp: "The past perfect 'had finished' indicates that the homework was completed before the friend arrived. It shows the sequence of two past events clearly.",
+        correct: "A"
+    },
+    {
+        q: "The future perfect tense describes an action that will be completed before a specific future time. Which sentence correctly uses the future perfect tense?",
+        options: ["I will have completed the project by tomorrow.", "I will complete the project by tomorrow.", "I have completed the project by tomorrow.", "I am completing the project by tomorrow."],
+        exp: "The future perfect 'will have completed' indicates that the action will be finished before a specific future time (tomorrow). It emphasizes completion by a deadline.",
+        correct: "A"
+    },
+    {
+        q: "The simple past tense is used to describe completed actions in the past. Which sentence correctly uses the simple past tense?",
+        options: ["She has visited Paris last year.", "She visited Paris last year.", "She is visiting Paris last year.", "She had visited Paris last year."],
+        exp: "The simple past 'visited' is used for actions that were completed at a specific time in the past (last year). The present perfect 'has visited' cannot be used with specific past time expressions.",
+        correct: "B"
+    },
+    {
+        q: "When the subject is an indefinite pronoun like 'each,' it is always singular and requires a singular verb. Which sentence correctly uses 'each' with a singular verb?",
+        options: ["Each of the students are responsible for their work.", "Each of the students is responsible for their work.", "Each of the students were responsible for their work.", "Each of the students have been responsible for their work."],
+        exp: "'Each' is always singular, even when followed by a plural noun phrase. It requires a singular verb like 'is.' This is a common error on standardized tests.",
+        correct: "B"
+    },
+    {
+        q: "The present continuous tense describes actions happening at the moment of speaking. Which sentence correctly uses the present continuous tense?",
+        options: ["I am studying for my exam right now.", "I study for my exam right now.", "I have studied for my exam right now.", "I studied for my exam right now."],
+        exp: "The present continuous 'am studying' indicates an action that is in progress at the present moment. It is formed with 'am/is/are + present participle (-ing).'",
+        correct: "A"
+    },
+    {
+        q: "The simple present tense is used for habits, general truths, and facts. Which sentence correctly uses the simple present tense for a general truth?",
+        options: ["The sun rises in the east.", "The sun rose in the east.", "The sun is rising in the east.", "The sun has risen in the east."],
+        exp: "The simple present 'rises' is used for universal truths and facts that do not change. This is the most appropriate tense for expressing scientific or general truths.",
+        correct: "A"
+    },
+    {
+        q: "When a subject is a singular noun ending in 's' (like 'mathematics' or 'news'), it still takes a singular verb. Which sentence correctly follows this rule?",
+        options: ["Mathematics are my favorite subject.", "Mathematics is my favorite subject.", "Mathematics were my favorite subject.", "Mathematics have been my favorite subject."],
+        exp: "Some singular nouns ending in 's' (like mathematics, physics, news, economics) are singular and take singular verbs. 'Mathematics is' is correct.",
+        correct: "B"
+    },
+    {
+        q: "The present perfect continuous tense emphasizes the duration of an action that started in the past and continues to the present. Which sentence correctly uses this tense?",
+        options: ["I have been waiting for you since morning.", "I have waited for you since morning.", "I am waiting for you since morning.", "I was waiting for you since morning."],
+        exp: "The present perfect continuous 'have been waiting' emphasizes the duration of an action that started in the past and continues to the present. It is often used with 'for' and 'since.'",
+        correct: "A"
+    },
+    {
+        q: "The past continuous tense describes an ongoing action that was interrupted by another past action. Which sentence correctly uses the past continuous tense?",
+        options: ["I was watching TV when the phone rang.", "I watched TV when the phone rang.", "I have watched TV when the phone rang.", "I had watched TV when the phone rang."],
+        exp: "The past continuous 'was watching' indicates an action that was in progress when another action (the phone rang) interrupted it. It emphasizes the ongoing nature of the first action.",
+        correct: "A"
+    },
+    {
+        q: "Subjects joined by 'and' are plural and take plural verbs. Which sentence correctly applies this rule?",
+        options: ["Bread and butter are my favorite breakfast.", "Bread and butter is my favorite breakfast.", "Bread and butter was my favorite breakfast.", "Bread and butter has been my favorite breakfast."],
+        exp: "When two subjects are joined by 'and,' they form a compound subject that is plural, requiring a plural verb like 'are.' This applies even when the two items are commonly considered together.",
+        correct: "A"
+    },
+    {
+        q: "Titles of books, movies, and works of art are always singular and take singular verbs. Which sentence correctly follows this rule?",
+        options: ["The Chronicles of Narnia are a famous book series.", "The Chronicles of Narnia is a famous book series.", "The Chronicles of Narnia were a famous book series.", "The Chronicles of Narnia have been a famous book series."],
+        exp: "Even though the title contains a plural noun ('Chronicles'), the title as a single work is singular and takes a singular verb like 'is.'",
+        correct: "B"
+    },
+    {
+        q: "When using 'either/or' or 'neither/nor,' the verb agrees with the closer subject. Which sentence correctly demonstrates this rule?",
+        options: ["Either the students or the teacher are responsible for the mess.", "Either the teacher or the students is responsible for the mess.", "Either the teacher or the students are responsible for the mess.", "Either the students or the teacher is responsible for the mess."],
+        exp: "With 'either/or,' the verb agrees with the closer subject. In option C, 'students' is closer and plural, so 'are' is correct. If 'teacher' were closer, 'is' would be used.",
+        correct: "C"
+    },
+    {
+        q: "The future continuous tense describes actions that will be in progress at a specific future time. Which sentence correctly uses the future continuous tense?",
+        options: ["I will be studying at 8 PM tonight.", "I will study at 8 PM tonight.", "I am studying at 8 PM tonight.", "I have studied at 8 PM tonight."],
+        exp: "The future continuous 'will be studying' indicates an action that will be ongoing at a specific future time. It emphasizes the duration or continuation of the action in the future.",
+        correct: "A"
+    }
+
+	   
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    ];
+
+    // ==================== STICKY TIMER SCROLL EFFECT ====================
+    window.addEventListener('scroll', function() {
+        const statsBar = document.getElementById('statsBar');
+        if (window.scrollY > 50) {
+            statsBar.classList.add('scrolled');
+        } else {
+            statsBar.classList.remove('scrolled');
+        }
+    });
+
+    // ==================== TIMER ====================
+    let totalSeconds = 180 * 60; // 180 minutes
+    let timerInterval = null;
+    let timerExpired = false;
+    let userSelections = {};
+    let quizSubmitted = false;
+    let submitBtn = null;
+
+    function formatTime(seconds) {
+        const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+        const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+        const s = String(seconds % 60).padStart(2, '0');
+        return `${h}:${m}:${s}`;
+    }
+
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+        const timerEl = document.getElementById('timerDisplay');
+        if (timerEl) {
+            timerEl.classList.add('stopped');
+        }
+    }
+
+    function updateTimer() {
+        const timerEl = document.getElementById('timerDisplay');
+        if (!timerEl) return;
+        timerEl.textContent = formatTime(totalSeconds);
+
+        if (totalSeconds <= 300 && !quizSubmitted) {
+            timerEl.classList.add('warning');
+        } else {
+            timerEl.classList.remove('warning');
+        }
+
+        if (totalSeconds <= 0) {
+            stopTimer();
+            timerExpired = true;
+            document.getElementById('timeUpOverlay').classList.add('show');
+            document.querySelector('.quiz-container').classList.add('questions-hidden');
+            if (!quizSubmitted) {
+                calculateScore();
+            }
+        }
+    }
+
+    function startTimer() {
+        updateTimer();
+        timerInterval = setInterval(() => {
+            totalSeconds--;
+            updateTimer();
+        }, 1000);
+    }
+
+    // ==================== QUIZ FUNCTIONS ====================
+    function loadQuiz() {
+        quizSubmitted = false;
+        const container = document.getElementById('questionsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        userSelections = {};
+        
+        submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.textContent = 'Submit';
+            submitBtn.classList.remove('submitted');
+            submitBtn.style.pointerEvents = 'auto';
+        }
+        
+        const resultsDiv = document.getElementById('results');
+        if (resultsDiv) resultsDiv.style.display = 'none';
+        
+        allMcqs.forEach((item, idx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.setAttribute('data-qidx', idx);
+            qDiv.innerHTML = `
+                <div class="q-text">${idx + 1}. ${item.q}</div>
+                <div class="options">
+                    ${item.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65 + optIdx);
+                        return `<div class="option" data-letter="${letter}" onclick="selectOption(this, ${idx}, '${letter}')">${letter}. ${opt}</div>`;
+                    }).join('')}
+                </div>
+                <div class="explanation" id="exp-${idx}"><strong>Explanation:</strong> ${item.exp}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    window.selectOption = function(el, qIndex, val) {
+        if (quizSubmitted) return;
+        const parentOptions = el.parentElement;
+        Array.from(parentOptions.children).forEach(child => child.classList.remove('selected'));
+        el.classList.add('selected');
+        userSelections[qIndex] = val;
+    };
+
+    window.calculateScore = function() {
+        if (quizSubmitted) return;
+        quizSubmitted = true;
+        
+        // Stop the timer when submitted
+        stopTimer();
+        
+        if (submitBtn) {
+            submitBtn.textContent = 'Submitted';
+            submitBtn.classList.add('submitted');
+            submitBtn.style.pointerEvents = 'none';
+        }
+        
+        let score = 0;
+        
+        allMcqs.forEach((data, idx) => {
+            const expDiv = document.getElementById(`exp-${idx}`);
+            if (expDiv) expDiv.style.display = 'block';
+            const questionDiv = document.querySelector(`.question[data-qidx="${idx}"]`);
+            if (!questionDiv) return;
+            const allOpts = questionDiv.querySelectorAll('.option');
+            const correctLetter = data.correct;
+            allOpts.forEach(opt => {
+                const letter = opt.getAttribute('data-letter');
+                if (letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter !== correctLetter) {
+                    opt.classList.add('wrong');
+                }
+                if (userSelections[idx] && userSelections[idx] === letter && letter === correctLetter) {
+                    opt.classList.add('correct');
+                }
+            });
+            if (userSelections[idx] && userSelections[idx] === data.correct) {
+                score++;
+            }
+        });
+        
+        const allOptions = document.querySelectorAll('.option');
+        allOptions.forEach(opt => {
+            opt.style.pointerEvents = 'none';
+        });
+        
+        const percent = Math.round((score / allMcqs.length) * 100);
+        document.getElementById('scoreText').innerHTML = `Score: ${score} / ${allMcqs.length}  |  ${percent}%`;
+        document.getElementById('results').style.display = 'block';
+        
+        setTimeout(() => { document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+    };
+
+    // ==================== INITIALIZE ====================
+    loadQuiz();
+    startTimer();
+</script>
+</body>
+</html>
